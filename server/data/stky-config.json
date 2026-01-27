@@ -1,0 +1,443 @@
+{
+  "paths": {
+    "close_call": {
+      "id": "close_call",
+      "label": "Close call shook us",
+      "description": "Examine one hazard in depth",
+      "questions": 6,
+      "time": "90 sec",
+      "flow": "single_hazard"
+    },
+    "audit": {
+      "id": "audit",
+      "label": "Audit coming",
+      "description": "Full program review",
+      "questions": 35,
+      "time": "5 min",
+      "flow": "all_hazards"
+    },
+    "new_project": {
+      "id": "new_project",
+      "label": "New project starting",
+      "description": "Pre-project risk snapshot",
+      "questions": 20,
+      "time": "3 min",
+      "flow": "top_hazards"
+    },
+    "new_role": {
+      "id": "new_role",
+      "label": "Took over safety, need a read",
+      "description": "Baseline maturity assessment",
+      "questions": 35,
+      "time": "5 min",
+      "flow": "all_hazards"
+    },
+    "leadership": {
+      "id": "leadership",
+      "label": "Leadership asking questions I can't answer",
+      "description": "Exec-ready summary",
+      "questions": 20,
+      "time": "3 min",
+      "flow": "top_hazards"
+    },
+    "gut": {
+      "id": "gut",
+      "label": "Gut says something's off",
+      "description": "Find the blind spot",
+      "questions": 35,
+      "time": "5 min",
+      "flow": "all_hazards"
+    }
+  },
+
+  "context": [
+    {
+      "id": "industry",
+      "question": "Industry",
+      "options": [
+        { "value": "semiconductor", "label": "Semiconductor" },
+        { "value": "datacenter", "label": "Data Center" },
+        { "value": "construction", "label": "Construction" },
+        { "value": "manufacturing", "label": "Manufacturing" },
+        { "value": "oil_gas", "label": "Oil & Gas" },
+        { "value": "utilities", "label": "Utilities" }
+      ]
+    },
+    {
+      "id": "phase",
+      "question": "Project phase",
+      "options": [
+        { "value": "greenfield", "label": "Greenfield" },
+        { "value": "expansion", "label": "Expansion" },
+        { "value": "retrofit", "label": "Retrofit" },
+        { "value": "steady_state", "label": "Steady-State Operations" }
+      ]
+    },
+    {
+      "id": "workforce",
+      "question": "Workforce mix",
+      "options": [
+        { "value": "employees", "label": "75%+ employees" },
+        { "value": "contractors", "label": "75%+ contractors" },
+        { "value": "mixed", "label": "Mixed" }
+      ]
+    },
+    {
+      "id": "regulatory",
+      "question": "Primary regulatory frame",
+      "options": [
+        { "value": "1910", "label": "1910 General Industry" },
+        { "value": "1926", "label": "1926 Construction" },
+        { "value": "both", "label": "Both" }
+      ]
+    },
+    {
+      "id": "ownership",
+      "question": "Who owns site safety?",
+      "options": [
+        { "value": "dedicated_ehs", "label": "Dedicated EHS" },
+        { "value": "ops_leader", "label": "Operations leader" },
+        { "value": "shared", "label": "Shared" },
+        { "value": "unclear", "label": "Unclear" }
+      ]
+    }
+  ],
+
+  "hazards": {
+    "hazardous_energy": {
+      "id": "hazardous_energy",
+      "name": "Hazardous Energy (LOTO)",
+      "questions": [
+        {
+          "id": "he_1",
+          "question": "How is \"zero energy\" verified before work?",
+          "options": [
+            { "value": "try_test", "label": "Try/test required", "score": 100 },
+            { "value": "visual", "label": "Visual only", "score": 40 },
+            { "value": "judgment", "label": "Worker judgment", "score": 10 }
+          ]
+        },
+        {
+          "id": "he_2",
+          "question": "Does LOTO apply to ALL energy types?",
+          "options": [
+            { "value": "all", "label": "All (electrical, pneumatic, hydraulic, gravity, thermal)", "score": 100 },
+            { "value": "electrical", "label": "Electrical only", "score": 30 },
+            { "value": "varies", "label": "Varies by task", "score": 50 }
+          ]
+        },
+        {
+          "id": "he_3",
+          "question": "Who can authorize LOTO bypass or deviation?",
+          "options": [
+            { "value": "no_one", "label": "No one — never allowed", "score": 100 },
+            { "value": "documented", "label": "Documented approval chain", "score": 70 },
+            { "value": "supervisor", "label": "Supervisor discretion", "score": 20 }
+          ]
+        },
+        {
+          "id": "he_4",
+          "question": "Are contractors on YOUR site-specific LOTO?",
+          "options": [
+            { "value": "trained_verified", "label": "Trained + verified", "score": 100 },
+            { "value": "trained", "label": "Trained only", "score": 60 },
+            { "value": "own", "label": "Use their own program", "score": 30 },
+            { "value": "unclear", "label": "Unclear", "score": 10 }
+          ]
+        },
+        {
+          "id": "he_5",
+          "question": "Last third-party LOTO audit?",
+          "options": [
+            { "value": "under_1", "label": "Within 1 year", "score": 100 },
+            { "value": "1_3", "label": "1-3 years", "score": 70 },
+            { "value": "over_3", "label": "Over 3 years", "score": 40 },
+            { "value": "never", "label": "Never", "score": 10 }
+          ]
+        }
+      ]
+    },
+
+    "falls": {
+      "id": "falls",
+      "name": "Falls (Working at Heights)",
+      "questions": [
+        {
+          "id": "fa_1",
+          "question": "What triggers fall protection?",
+          "options": [
+            { "value": "both", "label": "Height threshold + task-based risk assessment", "score": 100 },
+            { "value": "height", "label": "Height threshold only", "score": 60 },
+            { "value": "task", "label": "Task-based only", "score": 70 }
+          ]
+        },
+        {
+          "id": "fa_2",
+          "question": "Control philosophy",
+          "options": [
+            { "value": "hierarchy", "label": "Eliminate → Guardrail → PPE last", "score": 100 },
+            { "value": "ppe_first", "label": "PPE-first", "score": 20 },
+            { "value": "task_dependent", "label": "Task-dependent", "score": 50 }
+          ]
+        },
+        {
+          "id": "fa_3",
+          "question": "Who authorizes anchor points?",
+          "options": [
+            { "value": "engineered", "label": "Engineered + inspected only", "score": 100 },
+            { "value": "competent", "label": "Competent person", "score": 70 },
+            { "value": "worker", "label": "Worker selects", "score": 10 }
+          ]
+        },
+        {
+          "id": "fa_4",
+          "question": "Rescue capability",
+          "options": [
+            { "value": "team_tested", "label": "On-site team + drill tested", "score": 100 },
+            { "value": "equipment", "label": "Equipment in place, untested", "score": 40 },
+            { "value": "911", "label": "Call 911", "score": 10 }
+          ]
+        },
+        {
+          "id": "fa_5",
+          "question": "Leading edge work",
+          "options": [
+            { "value": "separate", "label": "Separate procedure + permit", "score": 100 },
+            { "value": "same", "label": "Same as general fall protection", "score": 50 },
+            { "value": "not_addressed", "label": "Not addressed", "score": 10 }
+          ]
+        }
+      ]
+    },
+
+    "electrical": {
+      "id": "electrical",
+      "name": "Electrical",
+      "questions": [
+        {
+          "id": "el_1",
+          "question": "Arc flash study status",
+          "options": [
+            { "value": "current", "label": "Current (within 5 years)", "score": 100 },
+            { "value": "outdated", "label": "Outdated", "score": 40 },
+            { "value": "none", "label": "None", "score": 10 },
+            { "value": "unknown", "label": "Unknown", "score": 5 }
+          ]
+        },
+        {
+          "id": "el_2",
+          "question": "How is \"dead\" verified?",
+          "options": [
+            { "value": "test", "label": "Test for absence of voltage required", "score": 100 },
+            { "value": "lockout", "label": "Lockout assumed sufficient", "score": 30 },
+            { "value": "visual", "label": "Visual", "score": 10 }
+          ]
+        },
+        {
+          "id": "el_3",
+          "question": "Who can authorize energized work?",
+          "options": [
+            { "value": "no_one", "label": "No one — always de-energize", "score": 100 },
+            { "value": "engineering", "label": "Engineering approval required", "score": 70 },
+            { "value": "supervisor", "label": "Supervisor", "score": 20 }
+          ]
+        },
+        {
+          "id": "el_4",
+          "question": "Approach boundaries established for",
+          "options": [
+            { "value": "all", "label": "All panel work", "score": 100 },
+            { "value": "high", "label": "Only known high-energy", "score": 50 },
+            { "value": "none", "label": "Not established", "score": 10 }
+          ]
+        },
+        {
+          "id": "el_5",
+          "question": "PPE selected by",
+          "options": [
+            { "value": "calculation", "label": "Incident energy calculation", "score": 100 },
+            { "value": "category", "label": "General category", "score": 50 },
+            { "value": "judgment", "label": "Supervisor judgment", "score": 10 }
+          ]
+        }
+      ]
+    },
+
+    "confined_space": {
+      "id": "confined_space",
+      "name": "Confined Space",
+      "questions": [
+        {
+          "id": "cs_1",
+          "question": "Space classification",
+          "options": [
+            { "value": "tiered", "label": "Risk-tiered (permit vs non-permit)", "score": 100 },
+            { "value": "all_same", "label": "All treated same", "score": 50 },
+            { "value": "not_classified", "label": "Not classified", "score": 10 }
+          ]
+        },
+        {
+          "id": "cs_2",
+          "question": "Atmospheric monitoring",
+          "options": [
+            { "value": "continuous", "label": "Continuous during entry", "score": 100 },
+            { "value": "pre_entry", "label": "Pre-entry only", "score": 40 },
+            { "value": "judgment", "label": "Entrant judgment", "score": 10 }
+          ]
+        },
+        {
+          "id": "cs_3",
+          "question": "What triggers entry termination?",
+          "options": [
+            { "value": "alarm", "label": "Any alarm + documented threshold", "score": 100 },
+            { "value": "attendant", "label": "Attendant judgment", "score": 40 },
+            { "value": "none", "label": "No defined trigger", "score": 10 }
+          ]
+        },
+        {
+          "id": "cs_4",
+          "question": "Rescue method",
+          "options": [
+            { "value": "retrieval_team", "label": "Retrieval system + on-site team", "score": 100 },
+            { "value": "team_only", "label": "On-site team only", "score": 60 },
+            { "value": "external", "label": "External rescue (911)", "score": 10 }
+          ]
+        },
+        {
+          "id": "cs_5",
+          "question": "Non-permit space re-evaluation",
+          "options": [
+            { "value": "periodic", "label": "Periodic + documented", "score": 100 },
+            { "value": "conditions", "label": "When conditions change", "score": 60 },
+            { "value": "never", "label": "Never", "score": 10 }
+          ]
+        }
+      ]
+    },
+
+    "caught_in": {
+      "id": "caught_in",
+      "name": "Caught-In/Between",
+      "questions": [
+        {
+          "id": "ci_1",
+          "question": "Machine hazard inventory",
+          "options": [
+            { "value": "complete", "label": "Complete + current", "score": 100 },
+            { "value": "outdated", "label": "Exists but outdated", "score": 50 },
+            { "value": "none", "label": "None", "score": 10 }
+          ]
+        },
+        {
+          "id": "ci_2",
+          "question": "Guard removal",
+          "options": [
+            { "value": "permit", "label": "Permit + lockout required", "score": 100 },
+            { "value": "supervisor", "label": "Supervisor approval", "score": 50 },
+            { "value": "none", "label": "No protocol", "score": 10 }
+          ]
+        },
+        {
+          "id": "ci_3",
+          "question": "Interlock bypass",
+          "options": [
+            { "value": "prevented", "label": "Physically prevented", "score": 100 },
+            { "value": "logged", "label": "Logged + time-limited", "score": 70 },
+            { "value": "available", "label": "Available when needed", "score": 10 }
+          ]
+        },
+        {
+          "id": "ci_4",
+          "question": "Who verifies guards post-maintenance?",
+          "options": [
+            { "value": "independent", "label": "Independent check required", "score": 100 },
+            { "value": "self", "label": "Maintenance self-verify", "score": 40 },
+            { "value": "none", "label": "No verification", "score": 10 }
+          ]
+        },
+        {
+          "id": "ci_5",
+          "question": "Pinch point training",
+          "options": [
+            { "value": "task_specific", "label": "Task-specific + hands-on", "score": 100 },
+            { "value": "general", "label": "General awareness", "score": 50 },
+            { "value": "hire_only", "label": "At hire only", "score": 20 }
+          ]
+        }
+      ]
+    },
+
+    "chemical": {
+      "id": "chemical",
+      "name": "Chemical",
+      "questions": [
+        {
+          "id": "ch_1",
+          "question": "Can workers name top 3 lethal chemicals on site?",
+          "options": [
+            { "value": "tested", "label": "Yes — tested", "score": 100 },
+            { "value": "probably", "label": "Probably", "score": 60 },
+            { "value": "unlikely", "label": "Unlikely", "score": 20 },
+            { "value": "unknown", "label": "Unknown", "score": 10 }
+          ]
+        },
+        {
+          "id": "ch_2",
+          "question": "Exposure monitoring",
+          "options": [
+            { "value": "routine", "label": "Routine + documented", "score": 100 },
+            { "value": "event", "label": "Event-triggered", "score": 50 },
+            { "value": "none", "label": "None", "score": 10 }
+          ]
+        },
+        {
+          "id": "ch_3",
+          "question": "PPE changes when task changes?",
+          "options": [
+            { "value": "reassessment", "label": "Formal reassessment", "score": 100 },
+            { "value": "judgment", "label": "Worker judgment", "score": 40 },
+            { "value": "same", "label": "Same PPE all tasks", "score": 10 }
+          ]
+        },
+        {
+          "id": "ch_4",
+          "question": "Emergency response",
+          "options": [
+            { "value": "team_drilled", "label": "On-site team + drilled", "score": 100 },
+            { "value": "team_not_drilled", "label": "Trained responders, not drilled", "score": 50 },
+            { "value": "external", "label": "External only", "score": 10 }
+          ]
+        },
+        {
+          "id": "ch_5",
+          "question": "High-hazard chemical authorization",
+          "options": [
+            { "value": "permit", "label": "Permit required", "score": 100 },
+            { "value": "supervisor", "label": "Supervisor approval", "score": 50 },
+            { "value": "none", "label": "No restriction", "score": 10 }
+          ]
+        }
+      ]
+    }
+  },
+
+  "industryHazards": {
+    "semiconductor": ["hazardous_energy", "chemical", "electrical", "confined_space", "caught_in"],
+    "datacenter": ["electrical", "confined_space", "hazardous_energy", "falls", "chemical"],
+    "construction": ["falls", "hazardous_energy", "caught_in", "electrical", "confined_space"],
+    "manufacturing": ["caught_in", "hazardous_energy", "chemical", "electrical", "confined_space"],
+    "oil_gas": ["confined_space", "chemical", "hazardous_energy", "electrical", "falls"],
+    "utilities": ["electrical", "falls", "confined_space", "hazardous_energy", "caught_in"]
+  },
+
+  "industryTopHazards": {
+    "semiconductor": ["hazardous_energy", "chemical", "electrical"],
+    "datacenter": ["electrical", "confined_space", "hazardous_energy"],
+    "construction": ["falls", "hazardous_energy", "caught_in"],
+    "manufacturing": ["caught_in", "hazardous_energy", "chemical"],
+    "oil_gas": ["confined_space", "chemical", "hazardous_energy"],
+    "utilities": ["electrical", "falls", "confined_space"]
+  },
+
+  "webhook": "https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/4781670c-aa84-46f0-8dfc-f9d4f11d4a4c"
+}

@@ -1,0 +1,84 @@
+{
+  "scenarios": [
+    {
+      "id": 1,
+      "description": "Forklift clips empty pallet. No injury. Driver didn't see pedestrian who stepped back just in time.",
+      "isPSIF": true,
+      "precursor": "mobile_equipment",
+      "blindSpot": "Line of Fire",
+      "explanation": "2,400 lb load. Pedestrian in path 3 seconds prior. Energy + exposure = P-SIF.",
+      "missRate": 82
+    },
+    {
+      "id": 2,
+      "description": "Worker trips over extension cord, catches themselves on railing. No injury.",
+      "isPSIF": false,
+      "precursor": null,
+      "blindSpot": null,
+      "explanation": "Low energy event. Trip hazard, not SIF potential. Standard near-miss.",
+      "missRate": 15
+    },
+    {
+      "id": 3,
+      "description": "Breaker thought to be off was actually on. Worker noticed tingling, stopped work.",
+      "isPSIF": true,
+      "precursor": "electrical",
+      "blindSpot": "Energy Isolation",
+      "explanation": "Contact with energized equipment. Outcome was luck, not control. P-SIF.",
+      "missRate": 71
+    },
+    {
+      "id": 4,
+      "description": "Scaffold plank shifted during use. Worker felt it move, stepped to stable section.",
+      "isPSIF": true,
+      "precursor": "falls",
+      "blindSpot": "Working at Heights",
+      "explanation": "6+ feet elevation. Plank failure = fall potential. P-SIF.",
+      "missRate": 65
+    },
+    {
+      "id": 5,
+      "description": "Chemical splash on floor during transfer. Cleaned up immediately. No contact.",
+      "isPSIF": false,
+      "precursor": null,
+      "blindSpot": null,
+      "explanation": "Contained spill, no exposure pathway. Housekeeping issue, not P-SIF.",
+      "missRate": 22
+    },
+    {
+      "id": 6,
+      "description": "Worker entered confined space before air monitoring complete. Atmosphere was safe.",
+      "isPSIF": true,
+      "precursor": "confined_space",
+      "blindSpot": "Confined Space",
+      "explanation": "Safe outcome was luck. No verification = P-SIF. Every time.",
+      "missRate": 58
+    },
+    {
+      "id": 7,
+      "description": "Load shifted during crane lift. Rigger was outside swing radius.",
+      "isPSIF": true,
+      "precursor": "lifting",
+      "blindSpot": "Lifting & Rigging",
+      "explanation": "Load control failure. Rigger position was coincidence, not control. P-SIF.",
+      "missRate": 74
+    },
+    {
+      "id": 8,
+      "description": "Worker bumped head on low beam. Minor bruise.",
+      "isPSIF": false,
+      "precursor": null,
+      "blindSpot": null,
+      "explanation": "Low energy. Fixed object, low speed. Not P-SIF.",
+      "missRate": 12
+    }
+  ],
+  "blindSpotStats": {
+    "semiconductor": { "Energy Isolation": 34, "Line of Fire": 22, "Confined Space": 18 },
+    "construction": { "Working at Heights": 38, "Line of Fire": 24, "Energy Isolation": 15 },
+    "manufacturing": { "Energy Isolation": 31, "Line of Fire": 26, "Caught-In/Between": 19 },
+    "datacenter": { "Energy Isolation": 36, "Electrical": 28, "Confined Space": 14 },
+    "oil_gas": { "Confined Space": 29, "Energy Isolation": 27, "Line of Fire": 21 },
+    "utilities": { "Energy Isolation": 33, "Working at Heights": 25, "Line of Fire": 18 }
+  }
+}

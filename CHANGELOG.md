@@ -1,0 +1,132 @@
+# CHANGELOG
+
+All notable changes documented per CYA protocol.
+
+---
+
+## [2026-01-24] Strategic Update Implementation
+
+### Phase 1: DC Campaign ✅
+| File | Action | Description |
+|------|--------|-------------|
+| `docs/DC-Safety-Checklist.md` | CREATE | 20-point DC safety checklist content |
+| `public/data-centers.html` | CREATE | Landing page with lead capture form |
+| `public/index.html` | UPDATE | Added DC section, navigation link |
+
+### Phase 2: Tool Enhancement ✅
+| File | Action | Description |
+|------|--------|-------------|
+| `server/lib/citationEngine.js` | CREATE | Regulatory citation lookup engine |
+| `server/data/osha-citations.json` | CREATE | Citation database (OSHA, NFPA, ANSI) |
+
+### Phase 3: Subscription Infrastructure ✅
+| File | Action | Description |
+|------|--------|-------------|
+| `database/migrations/users.sql` | CREATE | Users & subscriptions schema |
+| `server/routes/auth.js` | CREATE | User registration, login, logout, session |
+| `server/routes/billing.js` | CREATE | Stripe checkout, webhook, subscription mgmt |
+| `public/js/auth.js` | CREATE | Frontend auth module |
+| `database/db.js` | UPDATE | Added users/user_sessions tables |
+| `server/index.js` | UPDATE | Added auth/billing route handlers |
+
+### Phase 4: SME Agents ✅
+| File | Action | Description |
+|------|--------|-------------|
+| `server/agents/navigator.js` | CREATE | Query routing to specialists |
+| `server/agents/falls-specialist.js` | CREATE | Falls protection SME agent |
+| `server/agents/electrical-specialist.js` | CREATE | Electrical/arc flash SME agent |
+| `server/agents/dc-specialist.js` | CREATE | Data center safety SME agent |
+| `server/agents/general-specialist.js` | CREATE | General compliance SME agent |
+| `server/data/agent-prompts/falls-specialist.md` | CREATE | Falls agent system prompt |
+| `server/data/agent-prompts/electrical-specialist.md` | CREATE | Electrical agent system prompt |
+| `server/data/agent-prompts/dc-specialist.md` | CREATE | DC agent system prompt |
+| `server/data/agent-prompts/general-specialist.md` | CREATE | General agent system prompt |
+
+### Phase 6: QA Fixes (Partial) ✅
+| File | Change | Description |
+|------|--------|-------------|
+| `server/routes/admin.js` | SECURITY | Removed default admin key fallback |
+| `server/index.js` | SECURITY | Added CORS configuration for production |
+| `server/index.js` | SECURITY | Added 10kb request body size limit |
+| `server/index.js` | RELIABILITY | Added 10s timeout to webhook calls |
+
+---
+
+## [2026-01-25] Tool Corrections
+
+### Correction: Tool Structure Per Plan
+**Active Tools (FREE):**
+- STKY Assessment
+- P-SIF Scorecard
+
+**Future Tools (Coming Soon):**
+- P-SIF Classification
+- Metrics Analyzer (NOT on plan)
+
+| File | Action | Description |
+|------|--------|-------------|
+| `public/tools/index.html` | UPDATE | Removed auth gate, show only 2 active tools + 1 coming soon |
+| `public/tools/stky-assessment.html` | UPDATE | Removed auth redirect, removed Ask SME button |
+| `public/tools/sif-scorecard.html` | UPDATE | Removed auth redirect, removed Ask SME button |
+| `public/tools/sif-filter.html` | UPDATE | Redirect to tools page (Coming Soon) |
+| `public/tools/metrics-analyzer.html` | UPDATE | Redirect to tools page (Coming Soon) |
+| `public/tools/dashboard.html` | REWRITE | Simple email lookup only, no auth/subscription features |
+
+### Citation Engine Integration ✅
+| File | Action | Description |
+|------|--------|-------------|
+| `server/routes/stky.js` | UPDATE | Import citationEngine, add citations to assess response |
+| `server/routes/sif.js` | UPDATE | Import citationEngine, add citations to assess response |
+| `public/tools/stky-assessment.html` | UPDATE | Add citations container and render logic |
+| `public/tools/sif-scorecard.html` | UPDATE | Add citations container and render logic |
+
+### Agent Audit + API Integration ✅
+**Audit Findings:**
+| File | Status | Notes |
+|------|--------|-------|
+| `server/agents/navigator.js` | ✅ Good | Query router with keyword classification |
+| `server/agents/falls-specialist.js` | ✅ Good | Full Claude integration, citation engine |
+| `server/agents/electrical-specialist.js` | ✅ Good | NFPA 70E/LOTO expertise |
+| `server/agents/dc-specialist.js` | ✅ Good | Data center construction focus |
+| `server/agents/general-specialist.js` | ✅ Good | Fallback for unmatched domains |
+| `server/data/agent-prompts/*.md` | ✅ Good | PhD-level prompts with response format |
+
+**Integration Added:**
+| File | Action | Description |
+|------|--------|-------------|
+| `server/routes/agents.js` | CREATE | API endpoints for agent queries |
+| `server/index.js` | UPDATE | Import and mount agent routes |
+
+**New API Endpoints:**
+- GET /api/agents/specialists - List available SME agents
+- POST /api/agents/query - Auto-routed query to best specialist
+- POST /api/agents/specialist/:id - Direct query to specific agent
+- GET /api/agents/classify - Classify query domain without processing
+
+---
+
+## Revert Instructions
+
+To revert all changes from this session, use git:
+```bash
+git checkout -- .
+git clean -fd
+```
+
+Note: Database changes (if any) would need separate rollback.
+
+---
+
+## Next Steps
+
+1. Phase 3: Subscription Infrastructure
+   - `server/routes/auth.js` - User authentication
+   - `server/routes/billing.js` - Stripe integration
+   - `database/migrations/users.sql` - User/subscription tables
+   - `public/js/auth.js` - Frontend auth
+   - Results expiration logic (7-day for free)
+   - Premium AEGIS routing
+
+2. Phase 5: Data Integration (awaiting user sample docs)
+
+3. Remaining QA fixes from QA-ISSUES.md

@@ -1,0 +1,32 @@
+{
+  "name": "seg-website",
+  "version": "3.0.0",
+  "description": "Safety Excellence Group - Assessment Tools & AEGIS Chatbot Platform",
+  "private": true,
+  "scripts": {
+    "start": "cd server && npm start",
+    "dev": "cd server && npm run dev",
+    "install:root": "npm install",
+    "install:server": "cd server && npm install",
+    "setup": "npm install && cd server && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/safety-excellence-group/seg-website.git"
+  },
+  "keywords": [
+    "safety",
+    "assessment",
+    "EHS",
+    "chatbot",
+    "tools"
+  ],
+  "author": "Safety Excellence Group",
+  "license": "PROPRIETARY",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7"
+  }
+}

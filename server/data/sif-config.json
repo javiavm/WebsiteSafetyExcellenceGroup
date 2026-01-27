@@ -1,0 +1,423 @@
+{
+  "paths": {
+    "close_call": {
+      "id": "close_call",
+      "label": "Had a close call, was it a P-SIF?",
+      "description": "Classify a single event",
+      "questions": 5,
+      "time": "60 sec",
+      "flow": "single_event"
+    },
+    "log_review": {
+      "id": "log_review",
+      "label": "Near-miss log growing, which ones matter?",
+      "description": "Learn to filter P-SIFs",
+      "questions": 15,
+      "time": "2 min",
+      "flow": "classification"
+    },
+    "building_program": {
+      "id": "building_program",
+      "label": "Building a SIF prevention program",
+      "description": "Precursor baseline",
+      "questions": 25,
+      "time": "4 min",
+      "flow": "full_precursors"
+    },
+    "leadership": {
+      "id": "leadership",
+      "label": "Leadership wants SIF metrics",
+      "description": "Exec-ready framing",
+      "questions": 15,
+      "time": "2 min",
+      "flow": "classification"
+    },
+    "predict": {
+      "id": "predict",
+      "label": "We react, want to predict",
+      "description": "Leading indicator focus",
+      "questions": 25,
+      "time": "4 min",
+      "flow": "full_precursors"
+    }
+  },
+
+  "context": [
+    {
+      "id": "industry",
+      "question": "Industry",
+      "options": [
+        { "value": "semiconductor", "label": "Semiconductor" },
+        { "value": "datacenter", "label": "Data Center" },
+        { "value": "construction", "label": "Construction" },
+        { "value": "manufacturing", "label": "Manufacturing" },
+        { "value": "oil_gas", "label": "Oil & Gas" },
+        { "value": "utilities", "label": "Utilities" }
+      ]
+    },
+    {
+      "id": "near_miss_volume",
+      "question": "Annual near-miss reports (estimate)",
+      "options": [
+        { "value": "under_50", "label": "Under 50" },
+        { "value": "50_200", "label": "50-200" },
+        { "value": "200_500", "label": "200-500" },
+        { "value": "over_500", "label": "Over 500" }
+      ]
+    },
+    {
+      "id": "classification_method",
+      "question": "How do you classify near-misses today?",
+      "options": [
+        { "value": "energy", "label": "Energy-based (SIF potential)" },
+        { "value": "severity", "label": "Severity-based (what could have happened)" },
+        { "value": "gut", "label": "Gut feel" },
+        { "value": "none", "label": "We don't classify" }
+      ]
+    },
+    {
+      "id": "reviewer",
+      "question": "Who reviews near-misses?",
+      "options": [
+        { "value": "committee", "label": "Safety committee" },
+        { "value": "ehs", "label": "EHS" },
+        { "value": "supervisor", "label": "Supervisor" },
+        { "value": "no_one", "label": "No one consistently" }
+      ]
+    }
+  ],
+
+  "precursors": {
+    "line_of_fire": {
+      "id": "line_of_fire",
+      "name": "Line of Fire",
+      "weight": 12,
+      "questions": [
+        {
+          "id": "lof_1",
+          "question": "Exclusion zones defined before energy release?",
+          "options": [
+            { "value": "always", "label": "Always — verified", "score": 100 },
+            { "value": "usually", "label": "Usually", "score": 60 },
+            { "value": "rarely", "label": "Rarely", "score": 20 }
+          ]
+        },
+        {
+          "id": "lof_2",
+          "question": "Workers positioned by",
+          "options": [
+            { "value": "procedure", "label": "Procedure", "score": 100 },
+            { "value": "habit", "label": "Habit", "score": 30 },
+            { "value": "convenience", "label": "Convenience", "score": 10 }
+          ]
+        },
+        {
+          "id": "lof_3",
+          "question": "Who can enter an active energy zone?",
+          "options": [
+            { "value": "no_one", "label": "No one — physically prevented", "score": 100 },
+            { "value": "authorized", "label": "Authorized personnel", "score": 60 },
+            { "value": "anyone", "label": "Anyone aware of hazard", "score": 20 }
+          ]
+        }
+      ]
+    },
+
+    "mobile_equipment": {
+      "id": "mobile_equipment",
+      "name": "Mobile Equipment",
+      "weight": 10,
+      "questions": [
+        {
+          "id": "me_1",
+          "question": "Pedestrian/equipment separation",
+          "options": [
+            { "value": "physical", "label": "Physical barriers", "score": 100 },
+            { "value": "procedural", "label": "Procedural only", "score": 40 },
+            { "value": "none", "label": "Not separated", "score": 10 }
+          ]
+        },
+        {
+          "id": "me_2",
+          "question": "Spotter required when?",
+          "options": [
+            { "value": "always", "label": "Always for reverse/blind spots", "score": 100 },
+            { "value": "sometimes", "label": "High-traffic areas only", "score": 50 },
+            { "value": "never", "label": "Not required", "score": 10 }
+          ]
+        },
+        {
+          "id": "me_3",
+          "question": "Blind spot technology",
+          "options": [
+            { "value": "cameras_alarms", "label": "Cameras + alarms", "score": 100 },
+            { "value": "alarms", "label": "Alarms only", "score": 50 },
+            { "value": "none", "label": "None", "score": 20 }
+          ]
+        }
+      ]
+    },
+
+    "lifting": {
+      "id": "lifting",
+      "name": "Lifting & Rigging",
+      "weight": 8,
+      "questions": [
+        {
+          "id": "li_1",
+          "question": "Lift plan required at what threshold?",
+          "options": [
+            { "value": "all", "label": "All lifts documented", "score": 100 },
+            { "value": "critical", "label": "Critical lifts only", "score": 60 },
+            { "value": "none", "label": "No threshold defined", "score": 10 }
+          ]
+        },
+        {
+          "id": "li_2",
+          "question": "Who determines \"critical lift\"?",
+          "options": [
+            { "value": "engineering", "label": "Engineering criteria", "score": 100 },
+            { "value": "competent", "label": "Competent person", "score": 70 },
+            { "value": "operator", "label": "Operator", "score": 20 }
+          ]
+        },
+        {
+          "id": "li_3",
+          "question": "Load chart verification",
+          "options": [
+            { "value": "independent", "label": "Independent check", "score": 100 },
+            { "value": "operator", "label": "Operator self-verify", "score": 40 },
+            { "value": "none", "label": "Not verified", "score": 10 }
+          ]
+        }
+      ]
+    },
+
+    "excavation": {
+      "id": "excavation",
+      "name": "Excavation",
+      "weight": 6,
+      "questions": [
+        {
+          "id": "ex_1",
+          "question": "Competent person on every dig?",
+          "options": [
+            { "value": "always", "label": "Always — documented", "score": 100 },
+            { "value": "usually", "label": "Usually", "score": 50 },
+            { "value": "not_defined", "label": "Not defined", "score": 10 }
+          ]
+        },
+        {
+          "id": "ex_2",
+          "question": "Utility locate verification",
+          "options": [
+            { "value": "pothole", "label": "Pothole/hand dig required", "score": 100 },
+            { "value": "marks", "label": "Rely on locate marks", "score": 40 },
+            { "value": "assumed", "label": "Assumed from prints", "score": 10 }
+          ]
+        },
+        {
+          "id": "ex_3",
+          "question": "Entry protocol begins at",
+          "options": [
+            { "value": "4ft", "label": "4 feet", "score": 100 },
+            { "value": "5ft", "label": "5 feet", "score": 80 },
+            { "value": "varies", "label": "Varies", "score": 40 }
+          ]
+        }
+      ]
+    },
+
+    "hot_work": {
+      "id": "hot_work",
+      "name": "Hot Work",
+      "weight": 6,
+      "questions": [
+        {
+          "id": "hw_1",
+          "question": "Permit scope",
+          "options": [
+            { "value": "all", "label": "All hot work, all areas", "score": 100 },
+            { "value": "non_designated", "label": "Non-designated areas only", "score": 50 },
+            { "value": "none", "label": "No permit system", "score": 10 }
+          ]
+        },
+        {
+          "id": "hw_2",
+          "question": "Fire watch duration post-work",
+          "options": [
+            { "value": "60_min", "label": "60+ minutes", "score": 100 },
+            { "value": "30_min", "label": "30 minutes", "score": 70 },
+            { "value": "none", "label": "No fire watch", "score": 10 }
+          ]
+        },
+        {
+          "id": "hw_3",
+          "question": "Who authorizes hot work in non-designated areas?",
+          "options": [
+            { "value": "ehs", "label": "EHS approval required", "score": 100 },
+            { "value": "supervisor", "label": "Supervisor", "score": 50 },
+            { "value": "worker", "label": "Worker discretion", "score": 10 }
+          ]
+        }
+      ]
+    },
+
+    "structural": {
+      "id": "structural",
+      "name": "Structural Integrity",
+      "weight": 5,
+      "questions": [
+        {
+          "id": "st_1",
+          "question": "Load limits posted + enforced?",
+          "options": [
+            { "value": "both", "label": "Posted + enforced", "score": 100 },
+            { "value": "posted", "label": "Posted only", "score": 40 },
+            { "value": "neither", "label": "Neither", "score": 10 }
+          ]
+        },
+        {
+          "id": "st_2",
+          "question": "Structural inspection frequency",
+          "options": [
+            { "value": "scheduled", "label": "Scheduled + documented", "score": 100 },
+            { "value": "annual", "label": "Annual", "score": 60 },
+            { "value": "none", "label": "None", "score": 10 }
+          ]
+        },
+        {
+          "id": "st_3",
+          "question": "Temporary load authorization",
+          "options": [
+            { "value": "engineering", "label": "Engineering approval", "score": 100 },
+            { "value": "supervisor", "label": "Supervisor", "score": 40 },
+            { "value": "none", "label": "No authorization needed", "score": 10 }
+          ]
+        }
+      ]
+    },
+
+    "fatigue": {
+      "id": "fatigue",
+      "name": "Fatigue & Impairment",
+      "weight": 5,
+      "questions": [
+        {
+          "id": "ft_1",
+          "question": "Hours tracked?",
+          "options": [
+            { "value": "system", "label": "Automated system", "score": 100 },
+            { "value": "manual", "label": "Manual tracking", "score": 60 },
+            { "value": "none", "label": "Not tracked", "score": 10 }
+          ]
+        },
+        {
+          "id": "ft_2",
+          "question": "Fitness for duty program",
+          "options": [
+            { "value": "comprehensive", "label": "Comprehensive (fatigue + substances)", "score": 100 },
+            { "value": "substances", "label": "Substances only", "score": 50 },
+            { "value": "none", "label": "None", "score": 10 }
+          ]
+        },
+        {
+          "id": "ft_3",
+          "question": "Who can stop work for fatigue?",
+          "options": [
+            { "value": "anyone", "label": "Anyone — no questions", "score": 100 },
+            { "value": "supervisor", "label": "Supervisor approval needed", "score": 40 },
+            { "value": "no_one", "label": "Not addressed", "score": 10 }
+          ]
+        }
+      ]
+    },
+
+    "communication": {
+      "id": "communication",
+      "name": "Communication",
+      "weight": 4,
+      "questions": [
+        {
+          "id": "co_1",
+          "question": "Shift handoff",
+          "options": [
+            { "value": "documented", "label": "Documented + face-to-face", "score": 100 },
+            { "value": "verbal", "label": "Verbal only", "score": 40 },
+            { "value": "none", "label": "No formal handoff", "score": 10 }
+          ]
+        },
+        {
+          "id": "co_2",
+          "question": "Multi-crew coordination",
+          "options": [
+            { "value": "permit", "label": "Permit/SIMOPS system", "score": 100 },
+            { "value": "radio", "label": "Radio communication", "score": 60 },
+            { "value": "assumed", "label": "Assumed awareness", "score": 10 }
+          ]
+        },
+        {
+          "id": "co_3",
+          "question": "Stop work authority clear to all?",
+          "options": [
+            { "value": "trained", "label": "Trained + exercised", "score": 100 },
+            { "value": "policy", "label": "Policy exists", "score": 50 },
+            { "value": "unclear", "label": "Unclear", "score": 10 }
+          ]
+        }
+      ]
+    }
+  },
+
+  "stkyOverlap": ["hazardous_energy", "falls", "electrical", "confined_space", "chemical", "caught_in"],
+
+  "scenarios": [
+    {
+      "id": 1,
+      "description": "Worker noticed hydraulic hose bulging during pre-operation check. Equipment taken out of service.",
+      "isPSIF": true,
+      "explanation": "Hydraulic line failure releases energy capable of causing amputation or fatality. Worker proximity during failure would be within the energy path.",
+      "missRate": 67,
+      "blindSpot": "Stored Energy Recognition"
+    },
+    {
+      "id": 2,
+      "description": "Employee tripped over extension cord in office hallway. No injury.",
+      "isPSIF": false,
+      "explanation": "While trips can lead to injury, office hallway environment lacks the elevated energy sources that characterize P-SIF events.",
+      "missRate": 12,
+      "blindSpot": null
+    },
+    {
+      "id": 3,
+      "description": "Forklift backed into empty pallet rack. Minor damage to rack.",
+      "isPSIF": true,
+      "explanation": "Mobile equipment + structural impact. Different timing could mean worker in collapse zone. Rack failure potential meets SIF threshold.",
+      "missRate": 54,
+      "blindSpot": "Mobile Equipment Interactions"
+    },
+    {
+      "id": 4,
+      "description": "Scaffold plank found cracked during morning inspection. Replaced before use.",
+      "isPSIF": true,
+      "explanation": "Fall from height energy exceeds SIF threshold. Only timing prevented exposure — the hazard existed and worker would have been in energy path.",
+      "missRate": 41,
+      "blindSpot": "Fall Protection Systems"
+    },
+    {
+      "id": 5,
+      "description": "Contractor observed welding without fire watch in non-designated area.",
+      "isPSIF": true,
+      "explanation": "Fire/explosion potential in uncontrolled environment. Control was behavior-dependent (violated). Energy threshold exceeded.",
+      "missRate": 38,
+      "blindSpot": "Hot Work Controls"
+    }
+  ],
+
+  "webhooks": {
+    "free": "https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/bc3371cc-84f6-474e-8d88-a4455cc0b9bc",
+    "paid": "https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/ad3d5210-a42a-4d55-a467-ceb8ec5ff2f0"
+  },
+
+  "filterPrompt": "You are a P-SIF classifier. Nothing else.\n\nUser pastes a near-miss or incident description.\n\nFIRST: Check for PII (names, companies, locations, specific dates). If found:\n- Respond: \"Remove identifying details and paste again. I only need the event.\"\n- Do not process.\n\nIF CLEAN, evaluate three criteria:\n\n1. ENERGY: Did it exceed the SIF threshold?\n   - Falls >6ft\n   - Loads >50lbs moving/falling\n   - Vehicles >5mph\n   - Voltage >50V\n   - Pressure release\n   - Chemical IDLH potential\n\n2. EXPOSURE: Was a person in the energy path within 5 seconds or 5 feet?\n\n3. CONTROL: Did the control rely on human behavior rather than engineering?\n\nRESPOND:\n\n**P-SIF: YES** or **P-SIF: NO**\n\nEnergy: [finding]\nExposure: [Yes/No — why]\nControl: [Engineering or Behavior-dependent]\n\n[One sentence guidance]\n\nKeep response under 75 words. No preamble."
+}

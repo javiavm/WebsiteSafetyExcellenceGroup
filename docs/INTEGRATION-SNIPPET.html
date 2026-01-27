@@ -1,0 +1,70 @@
+<!-- 
+    ========================================
+    AEGIS CHATBOT INTEGRATION SNIPPET
+    ========================================
+    
+    Add this code to your existing SEG website.
+    
+    Option 1: Add to <head> section
+    ===============================
+-->
+
+<!-- AEGIS Chatbot Styles - Add to <head> -->
+<link rel="stylesheet" href="css/aegis-chatbot.css">
+
+<!--
+    Option 2: Add before closing </body> tag
+    ========================================
+-->
+
+<!-- AEGIS Chatbot Script - Add before </body> -->
+<script src="js/aegis-chatbot.js"></script>
+
+<!--
+    ========================================
+    ALTERNATIVE: Inline Everything (No External Files)
+    ========================================
+    
+    If you want to embed everything directly without 
+    external CSS/JS files, use this all-in-one snippet.
+    
+    Just paste the entire block below before </body>
+-->
+
+<!-- AEGIS Chatbot - All-in-One Embed -->
+<style>
+/* AEGIS Chatbot Styles - Minified */
+:root{--aegis-blue:#132544;--aegis-yellow:#FFCF00;--aegis-dark-grey:#333;--aegis-grey:#BABABA;--aegis-light-grey:#F4F4F4;--aegis-white:#fff;--aegis-success:#22c55e;--aegis-shadow:0 10px 40px rgba(19,37,68,.2);--aegis-shadow-lg:0 20px 60px rgba(19,37,68,.25)}.aegis-widget{position:fixed;bottom:24px;right:24px;z-index:9999;font-family:'Poppins',-apple-system,BlinkMacSystemFont,sans-serif}.aegis-trigger{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--aegis-blue) 0%,#1a3158 100%);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--aegis-shadow);transition:all .3s ease;position:relative}.aegis-trigger:hover{transform:scale(1.05);box-shadow:var(--aegis-shadow-lg)}.aegis-trigger svg{width:28px;height:28px;fill:var(--aegis-yellow);transition:transform .3s ease}.aegis-trigger:hover svg{transform:scale(1.1)}.aegis-trigger .close-icon{display:none}.aegis-widget.open .aegis-trigger .chat-icon{display:none}.aegis-widget.open .aegis-trigger .close-icon{display:block;fill:var(--aegis-white)}.aegis-tooltip{position:absolute;right:76px;top:50%;transform:translateY(-50%);background:var(--aegis-blue);color:var(--aegis-white);padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .3s ease;box-shadow:var(--aegis-shadow)}.aegis-tooltip::after{content:'';position:absolute;right:-6px;top:50%;transform:translateY(-50%);border:6px solid transparent;border-left-color:var(--aegis-blue)}.aegis-widget:not(.open):hover .aegis-tooltip{opacity:1}.aegis-badge{position:absolute;top:-4px;right:-4px;width:20px;height:20px;background:var(--aegis-yellow);color:var(--aegis-blue);border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;animation:pulse 2s infinite}@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}.aegis-chat{position:fixed;bottom:100px;right:24px;width:400px;height:600px;max-height:calc(100vh - 140px);background:var(--aegis-white);border-radius:16px;box-shadow:var(--aegis-shadow-lg);display:flex;flex-direction:column;overflow:hidden;opacity:0;visibility:hidden;transform:translateY(20px) scale(.95);transition:all .3s ease;z-index:9998}.aegis-widget.open .aegis-chat{opacity:1;visibility:visible;transform:translateY(0) scale(1)}@media(max-width:480px){.aegis-chat{width:calc(100vw - 24px);right:12px;bottom:88px;height:calc(100vh - 120px);max-height:none;border-radius:16px 16px 0 0}.aegis-widget{right:16px;bottom:16px}}.aegis-header{background:linear-gradient(135deg,var(--aegis-blue) 0%,#1a3158 100%);color:var(--aegis-white);padding:16px 20px;display:flex;align-items:center;gap:12px}.aegis-avatar{width:44px;height:44px;background:var(--aegis-yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}.aegis-avatar svg{width:24px;height:24px;fill:var(--aegis-blue)}.aegis-header-info{flex:1}.aegis-header-info h4{font-size:16px;font-weight:600;margin:0;color:var(--aegis-white)}.aegis-header-info p{font-size:12px;margin:2px 0 0;opacity:.85}.aegis-status{display:flex;align-items:center;gap:6px;font-size:12px}.aegis-status::before{content:'';width:8px;height:8px;background:var(--aegis-success);border-radius:50%;animation:pulse 2s infinite}.aegis-disclaimer{background:var(--aegis-light-grey);padding:16px 20px;border-bottom:1px solid #e5e7eb}.aegis-disclaimer-content{font-size:11px;color:var(--aegis-dark-grey);line-height:1.5}.aegis-disclaimer-content strong{color:var(--aegis-blue);display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:12px}.aegis-disclaimer-content ul{margin:8px 0;padding-left:16px}.aegis-disclaimer-content li{margin:2px 0}.aegis-disclaimer-btn{background:var(--aegis-blue);color:var(--aegis-white);border:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;margin-top:10px;transition:background .2s ease}.aegis-disclaimer-btn:hover{background:#1a3158}.aegis-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;background:var(--aegis-white)}.aegis-messages::-webkit-scrollbar{width:6px}.aegis-messages::-webkit-scrollbar-track{background:transparent}.aegis-messages::-webkit-scrollbar-thumb{background:var(--aegis-grey);border-radius:3px}.aegis-message{display:flex;gap:10px;max-width:90%;animation:slideIn .3s ease}@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.aegis-message.bot{align-self:flex-start}.aegis-message.user{align-self:flex-end;flex-direction:row-reverse}.aegis-message .avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}.aegis-message.bot .avatar{background:var(--aegis-blue)}.aegis-message.bot .avatar svg{width:16px;height:16px;fill:var(--aegis-yellow)}.aegis-message.user .avatar{background:var(--aegis-light-grey)}.aegis-message.user .avatar svg{width:16px;height:16px;fill:var(--aegis-dark-grey)}.aegis-message .bubble{padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.5}.aegis-message.bot .bubble{background:var(--aegis-light-grey);color:var(--aegis-dark-grey);border-bottom-left-radius:4px}.aegis-message.user .bubble{background:var(--aegis-blue);color:var(--aegis-white);border-bottom-right-radius:4px}.aegis-typing{display:flex;gap:4px;padding:12px 16px;background:var(--aegis-light-grey);border-radius:16px;border-bottom-left-radius:4px;width:fit-content}.aegis-typing span{width:8px;height:8px;background:var(--aegis-grey);border-radius:50%;animation:typing 1.4s infinite}.aegis-typing span:nth-child(2){animation-delay:.2s}.aegis-typing span:nth-child(3){animation-delay:.4s}@keyframes typing{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}.aegis-quick-replies{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 16px}.aegis-quick-btn{background:var(--aegis-white);border:1px solid var(--aegis-blue);color:var(--aegis-blue);padding:8px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s ease}.aegis-quick-btn:hover{background:var(--aegis-blue);color:var(--aegis-white)}.aegis-input-area{padding:16px 20px;border-top:1px solid #e5e7eb;background:var(--aegis-white)}.aegis-input-wrapper{display:flex;gap:10px;align-items:flex-end}.aegis-input{flex:1;border:1px solid #e5e7eb;border-radius:24px;padding:12px 18px;font-size:14px;font-family:inherit;resize:none;max-height:120px;outline:none;transition:border-color .2s ease}.aegis-input:focus{border-color:var(--aegis-blue)}.aegis-input::placeholder{color:var(--aegis-grey)}.aegis-send-btn{width:44px;height:44px;border-radius:50%;background:var(--aegis-blue);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s ease;flex-shrink:0}.aegis-send-btn:hover:not(:disabled){background:#1a3158;transform:scale(1.05)}.aegis-send-btn:disabled{opacity:.5;cursor:not-allowed}.aegis-send-btn svg{width:20px;height:20px;fill:var(--aegis-white)}.aegis-lead-form{padding:20px;background:var(--aegis-light-grey);border-radius:12px;margin:10px 20px}.aegis-lead-form h5{font-size:14px;font-weight:600;color:var(--aegis-blue);margin:0 0 12px}.aegis-lead-form input{width:100%;padding:10px 14px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:10px;outline:none;transition:border-color .2s ease}.aegis-lead-form input:focus{border-color:var(--aegis-blue)}.aegis-lead-form button{width:100%;background:var(--aegis-yellow);color:var(--aegis-blue);border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s ease}.aegis-lead-form button:hover{background:#e6bb00}.aegis-footer{text-align:center;padding:8px;font-size:11px;color:var(--aegis-grey);border-top:1px solid #e5e7eb}.aegis-footer a{color:var(--aegis-blue);text-decoration:none;font-weight:500}.aegis-footer a:hover{text-decoration:underline}
+</style>
+
+<script>
+/* AEGIS Chatbot - Configuration */
+const AEGIS_CONFIG = {
+    apiUrl: 'http://localhost:3001/api', // CHANGE THIS to your production server URL
+    botName: 'AEGIS',
+    botTagline: 'AI Safety Assistant',
+    welcomeMessage: "Hi! 👋 I'm AEGIS, SEG's AI safety assistant. I can answer questions about OSHA regulations, SEMI S2 compliance, our services, or connect you with our team.\n\nHow can I help you today?",
+    quickReplies: ["What services do you offer?", "Tell me about SEMI S2", "I need safety staffing", "Request a proposal"]
+};
+</script>
+<script src="js/aegis-chatbot.js"></script>
+
+<!--
+    ========================================
+    REPLACING THE PLACEHOLDER
+    ========================================
+    
+    In your existing HTML, find this function:
+    
+    function openAegisChat() {
+        alert('AEGIS AI Chat would open here...');
+    }
+    
+    Replace it with:
+    
+    function openAegisChat() {
+        AEGIS.toggle();
+    }
+    
+    This will make the existing floating button work with the new chatbot.
+-->

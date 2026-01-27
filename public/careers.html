@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers | Join Our Network | Safety Excellence Group</title>
+    <meta name="description" content="Join Our Network. We're building a team of safety professionals who reject average and are motivated to become the best in their field.">
+    <link rel="canonical" href="https://safety-excellence.com/careers.html">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://safety-excellence.com/careers.html">
+    <meta property="og:title" content="Careers | Join Our Network | Safety Excellence Group">
+    <meta property="og:description" content="Join Our Network. We're building a team of safety professionals who reject average and are motivated to become the best in their field.">
+    <meta property="og:image" content="https://safety-excellence.com/images/SEG Original Logo.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Careers | Join Our Network">
+    <meta name="twitter:description" content="Join Our Network. Safety professionals who reject average.">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "JobPosting",
+        "title": "Safety Professional - Multiple Levels",
+        "description": "Join Our Network as a safety professional. Roles available from Safety Technician to Safety Director across semiconductor, data center, construction, and manufacturing industries.",
+        "hiringOrganization": {
+            "@type": "Organization",
+            "name": "Safety Excellence Group",
+            "sameAs": "https://safety-excellence.com",
+            "logo": "https://safety-excellence.com/images/SEG Original Logo.png"
+        },
+        "employmentType": ["FULL_TIME", "CONTRACTOR", "TEMPORARY"],
+        "jobLocationType": "TELECOMMUTE",
+        "applicantLocationRequirements": {
+            "@type": "Country",
+            "name": "United States"
+        }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/SEG Favicon Original.png">
+    <link rel="stylesheet" href="css/aegis-chatbot.css">
+
+    <style>
+        :root {
+            --SEG-yellow: #FFCF00;
+            --SEG-blue: #132544;
+            --SEG-dark-grey: #333333;
+            --SEG-grey: #BABABA;
+            --SEG-grey-2: #DDDDDD;
+            --SEG-light-grey: #F4F4F4;
+            --white: #ffffff;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --shadow-md: 0 4px 6px rgba(19, 37, 68, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--SEG-dark-grey);
+            line-height: 1.6;
+            background: var(--white);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--SEG-blue);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .page-header {
+            background: var(--SEG-blue);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .page-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .back-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--SEG-yellow);
+        }
+
+        /* Hero Section */
+        .careers-hero {
+            background: linear-gradient(135deg, var(--SEG-blue) 0%, #1a3a5c 100%);
+            color: var(--white);
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .careers-hero h1 {
+            color: var(--white);
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .careers-hero .overline {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--SEG-yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .careers-hero p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .careers-content {
+            padding: 5rem 0;
+        }
+
+        .careers-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        /* Benefits */
+        .benefits-section h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .candidate-benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .candidate-benefit {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--SEG-light-grey);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .candidate-benefit::before {
+            content: '\2713';
+            color: var(--SEG-yellow);
+            font-weight: 700;
+        }
+
+        /* Roles */
+        .roles-card {
+            background: var(--SEG-blue);
+            border-radius: 12px;
+            padding: 2.5rem;
+            color: var(--white);
+        }
+
+        .roles-card h3 {
+            color: var(--SEG-yellow);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .tier-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .tier-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border-left: 3px solid var(--SEG-yellow);
+        }
+
+        .tier-item span:first-child {
+            font-weight: 600;
+        }
+
+        .tier-item span:last-child {
+            font-size: 0.85rem;
+            color: var(--SEG-grey);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--SEG-yellow);
+            color: var(--SEG-blue);
+            border-color: var(--SEG-yellow);
+        }
+
+        .btn-primary:hover {
+            background: #e6bb00;
+            border-color: #e6bb00;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(19, 37, 68, 0.85);
+            backdrop-filter: blur(4px);
+            z-index: 1001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 12px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.4s ease;
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-header {
+            padding: 1.75rem 2rem;
+            border-bottom: 1px solid var(--SEG-grey-2);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .modal-header h3 { font-size: 1.35rem; }
+        .modal-header p {
+            color: var(--SEG-dark-grey);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+            opacity: 0.7;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--SEG-grey);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover { color: var(--SEG-dark-grey); }
+
+        .modal-body { padding: 1.75rem 2rem 2rem; }
+
+        .form-section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--SEG-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--SEG-yellow);
+        }
+
+        .form-group { margin-bottom: 1.25rem; }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+            color: var(--SEG-dark-grey);
+        }
+
+        .form-group label .required { color: var(--danger); }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--SEG-grey-2);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+            outline: none;
+            background: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus { border-color: var(--SEG-yellow); }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--SEG-light-grey);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .checkbox-item:hover { background: var(--SEG-grey-2); }
+        .checkbox-item input { width: auto; margin: 0; }
+
+        .behavioral-question {
+            margin-bottom: 1.5rem;
+            padding: 1.25rem;
+            background: var(--SEG-light-grey);
+            border-radius: 8px;
+        }
+
+        .behavioral-question p {
+            font-weight: 600;
+            color: var(--SEG-blue);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .radio-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: var(--white);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .radio-option:hover { background: var(--SEG-grey-2); }
+        .radio-option.selected {
+            border-color: var(--SEG-yellow);
+            background: rgba(255, 207, 0, 0.1);
+        }
+
+        .radio-option input { display: none; }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            border: 2px dashed var(--SEG-grey-2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .file-upload:hover { border-color: var(--SEG-yellow); background: var(--SEG-light-grey); }
+        .file-upload input { display: none; }
+        .file-upload-icon svg { width: 40px; height: 40px; stroke: var(--SEG-grey); margin-bottom: 0.5rem; }
+        .file-upload span { color: var(--SEG-blue); font-weight: 600; }
+
+        .form-submit { margin-top: 1.5rem; text-align: center; }
+        .form-submit .btn { width: 100%; }
+
+        /* Footer */
+        .page-footer {
+            background: var(--SEG-blue);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .page-footer p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .careers-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .careers-content {
+                padding: 3rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="page-header">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="images/SEG Original Logo.png" alt="Safety Excellence Group">
+            </a>
+            <a href="/" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="careers-hero">
+        <div class="container">
+            <span class="overline">Safety Professionals</span>
+            <h1>Join Our Network</h1>
+            <p>We're building a team of safety professionals who reject average, put in the work, and are motivated to become the best in their field. If that's you, we want to talk.</p>
+            <a href="#" class="btn btn-primary" onclick="openModal('candidateModal', event)">Apply to Join Our Team</a>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="careers-content">
+        <div class="container">
+            <div class="careers-grid">
+                <div class="benefits-section">
+                    <h2>Why Join Us?</h2>
+                    <p style="margin-bottom: 1.5rem;">We connect top safety professionals with high-impact projects at leading companies in semiconductor, data centers, construction, and manufacturing.</p>
+
+                    <div class="candidate-benefits">
+                        <span class="candidate-benefit">Rapid Matching</span>
+                        <span class="candidate-benefit">Top-Tier Projects</span>
+                        <span class="candidate-benefit">Competitive Rates</span>
+                        <span class="candidate-benefit">Growth Opportunities</span>
+                    </div>
+
+                    <a href="#" class="btn btn-primary" onclick="openModal('candidateModal', event)">Apply Now</a>
+                </div>
+
+                <div class="roles-card">
+                    <h3>Roles We Place</h3>
+                    <div class="tier-list">
+                        <div class="tier-item">
+                            <span>Director / Corporate</span>
+                            <span>15+ years exp</span>
+                        </div>
+                        <div class="tier-item">
+                            <span>Safety Manager</span>
+                            <span>8+ years exp</span>
+                        </div>
+                        <div class="tier-item">
+                            <span>Safety Lead</span>
+                            <span>5+ years exp</span>
+                        </div>
+                        <div class="tier-item">
+                            <span>Safety Coordinator</span>
+                            <span>2-5 years exp</span>
+                        </div>
+                        <div class="tier-item">
+                            <span>Safety Technician</span>
+                            <span>0-2 years exp</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <div class="container">
+            <p>&copy; 2026 Safety Excellence Group. All rights reserved. Powered by AEGIS AI</p>
+        </div>
+    </footer>
+
+    <!-- Candidate Modal -->
+    <div class="modal-overlay" id="candidateModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h3>Join Our Network</h3>
+                    <p>Apply to join our team of safety professionals</p>
+                </div>
+                <button class="modal-close" onclick="closeModal('candidateModal')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="event.preventDefault(); submitCandidateForm();">
+
+                    <h5 class="form-section-title">Contact Information</h5>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cand-name">Full Name <span class="required">*</span></label>
+                            <input type="text" id="cand-name" name="full_name" required placeholder="Your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="cand-phone">Phone <span class="required">*</span></label>
+                            <input type="tel" id="cand-phone" name="phone" required placeholder="(555) 123-4567">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cand-email">Email <span class="required">*</span></label>
+                            <input type="email" id="cand-email" name="email" required placeholder="you@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="cand-location">Location <span class="required">*</span></label>
+                            <input type="text" id="cand-location" name="location" required placeholder="City, State">
+                        </div>
+                    </div>
+
+                    <h5 class="form-section-title">Qualifications</h5>
+                    <div class="form-group">
+                        <label>Certifications (select all that apply) <span class="required">*</span></label>
+                        <div class="checkbox-group" data-group="certifications">
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="osha30"> OSHA 30</label>
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="osha510"> OSHA 510</label>
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="osha500"> OSHA 500</label>
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="csp"> CSP</label>
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="asp"> ASP</label>
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="gsp"> GSP</label>
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="chst"> CHST</label>
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="ohst"> OHST</label>
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="semis2"> SEMI S2/S8</label>
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="nfpa70e"> NFPA 70E</label>
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="firstaid"> First Aid/CPR</label>
+                            <label class="checkbox-item"><input type="checkbox" name="certifications" value="other"> Other BCSP</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cand-experience">Years of Experience <span class="required">*</span></label>
+                            <select id="cand-experience" name="years_experience" required>
+                                <option value="">Select experience</option>
+                                <option value="0-2">0-2 years</option>
+                                <option value="2-5">2-5 years</option>
+                                <option value="5-8">5-8 years</option>
+                                <option value="8-15">8-15 years</option>
+                                <option value="15+">15+ years</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cand-role">Role Level Sought <span class="required">*</span></label>
+                            <select id="cand-role" name="role_level" required>
+                                <option value="">Select role level</option>
+                                <option value="technician">Safety Technician</option>
+                                <option value="coordinator">Safety Coordinator</option>
+                                <option value="specialist">Safety Specialist</option>
+                                <option value="lead">Safety Lead</option>
+                                <option value="manager">Safety Manager</option>
+                                <option value="director">Safety Director</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Industry Experience (select all that apply) <span class="required">*</span></label>
+                        <div class="checkbox-group" data-group="industries">
+                            <label class="checkbox-item"><input type="checkbox" name="industries" value="semiconductor"> Semiconductor</label>
+                            <label class="checkbox-item"><input type="checkbox" name="industries" value="datacenter"> Data Center</label>
+                            <label class="checkbox-item"><input type="checkbox" name="industries" value="construction"> Construction</label>
+                            <label class="checkbox-item"><input type="checkbox" name="industries" value="manufacturing"> Manufacturing</label>
+                            <label class="checkbox-item"><input type="checkbox" name="industries" value="oil-gas"> Oil & Gas</label>
+                            <label class="checkbox-item"><input type="checkbox" name="industries" value="other"> Other</label>
+                        </div>
+                    </div>
+
+                    <h5 class="form-section-title">Availability</h5>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cand-start">When Can You Start? <span class="required">*</span></label>
+                            <select id="cand-start" name="start_date" required>
+                                <option value="">Select availability</option>
+                                <option value="immediate">Immediate</option>
+                                <option value="2weeks">Within 2 weeks</option>
+                                <option value="30days">Within 30 days</option>
+                                <option value="exploring">Just exploring</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cand-worktype">Work Type Preference <span class="required">*</span></label>
+                            <select id="cand-worktype" name="work_type" required>
+                                <option value="">Select preference</option>
+                                <option value="longterm">Long-term</option>
+                                <option value="shortterm">Short-term</option>
+                                <option value="project">Project-based</option>
+                                <option value="temptohire">Temp-to-hire</option>
+                                <option value="open">Open to all</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cand-shift">Shift Availability <span class="required">*</span></label>
+                            <select id="cand-shift" name="shift_availability" required>
+                                <option value="">Select shift preference</option>
+                                <option value="days">Days only</option>
+                                <option value="nights">Nights only</option>
+                                <option value="both">Days & Nights</option>
+                                <option value="rotating">Rotating shifts OK</option>
+                                <option value="flexible">Flexible / Any</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cand-travel">Willing to Travel / Relocate?</label>
+                            <select id="cand-travel" name="travel_relocate">
+                                <option value="">Select</option>
+                                <option value="local">Local only (no travel)</option>
+                                <option value="regional">Regional travel OK</option>
+                                <option value="national">National travel OK</option>
+                                <option value="relocate">Open to relocation</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h5 class="form-section-title">A Few Quick Questions</h5>
+
+                    <div class="behavioral-question">
+                        <p>1. A task falls outside your job description but needs to get done. You:</p>
+                        <div class="radio-options">
+                            <label class="radio-option"><input type="radio" name="q1" value="4" required><span>Do it without being asked</span></label>
+                            <label class="radio-option"><input type="radio" name="q1" value="3"><span>Do it if asked</span></label>
+                            <label class="radio-option"><input type="radio" name="q1" value="2"><span>Suggest someone else handle it</span></label>
+                            <label class="radio-option"><input type="radio" name="q1" value="1"><span>Explain why it's not your responsibility</span></label>
+                        </div>
+                    </div>
+
+                    <div class="behavioral-question">
+                        <p>2. You've been with a company for 6 months. A competitor offers 10% more pay. You:</p>
+                        <div class="radio-options">
+                            <label class="radio-option"><input type="radio" name="q2" value="1" required><span>Take the offer</span></label>
+                            <label class="radio-option"><input type="radio" name="q2" value="2"><span>Use it to negotiate a raise</span></label>
+                            <label class="radio-option"><input type="radio" name="q2" value="3"><span>Weigh growth, team, and your commitment before deciding</span></label>
+                            <label class="radio-option"><input type="radio" name="q2" value="4"><span>Decline -- you made a commitment</span></label>
+                        </div>
+                    </div>
+
+                    <div class="behavioral-question">
+                        <p>3. A supervisor asks you to skip a safety step to meet a deadline. You:</p>
+                        <div class="radio-options">
+                            <label class="radio-option"><input type="radio" name="q3" value="4" required><span>Refuse and document the request</span></label>
+                            <label class="radio-option"><input type="radio" name="q3" value="2"><span>Push back but comply if pressed</span></label>
+                            <label class="radio-option"><input type="radio" name="q3" value="1"><span>Follow the supervisor's lead</span></label>
+                            <label class="radio-option"><input type="radio" name="q3" value="3"><span>Complete it but report afterward</span></label>
+                        </div>
+                    </div>
+
+                    <h5 class="form-section-title">Resume</h5>
+                    <div class="form-group">
+                        <label class="file-upload">
+                            <input type="file" accept=".pdf,.doc,.docx">
+                            <div class="file-upload-icon">
+                                <svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                            </div>
+                            <p><span>Click to upload</span> or drag and drop</p>
+                            <p style="font-size: 0.8rem; color: var(--SEG-grey);">PDF, DOC, DOCX (max 5MB)</p>
+                        </label>
+                    </div>
+
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary">Submit Application</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+
+        function openModal(modalId, event) {
+            if (event) event.preventDefault();
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Close modal on escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Radio option styling
+        document.querySelectorAll('.radio-option input').forEach(radio => {
+            radio.addEventListener('change', function() {
+                this.closest('.radio-options').querySelectorAll('.radio-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.closest('.radio-option').classList.add('selected');
+            });
+        });
+
+        async function submitCandidateForm() {
+            const form = document.querySelector('#candidateModal form');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+
+            // Get certifications using name attribute
+            const certifications = Array.from(form.querySelectorAll('input[name="certifications"]:checked'))
+                .map(cb => cb.value).join(', ');
+
+            // Get industry experience using name attribute
+            const industries = Array.from(form.querySelectorAll('input[name="industries"]:checked'))
+                .map(cb => cb.value).join(', ');
+
+            // Get behavioral question answers
+            const q1 = form.querySelector('input[name="q1"]:checked')?.value || '';
+            const q2 = form.querySelector('input[name="q2"]:checked')?.value || '';
+            const q3 = form.querySelector('input[name="q3"]:checked')?.value || '';
+
+            // Get form values using name attributes (robust)
+            const data = {
+                "form_type": "join_seg_network",
+                "full_name": form.querySelector('[name="full_name"]').value,
+                "phone": form.querySelector('[name="phone"]').value,
+                "email": form.querySelector('[name="email"]').value,
+                "location": form.querySelector('[name="location"]').value,
+                "certifications": certifications,
+                "years_experience": form.querySelector('[name="years_experience"]').value,
+                "role_level": form.querySelector('[name="role_level"]').value,
+                "industry_experience": industries,
+                "start_date": form.querySelector('[name="start_date"]').value,
+                "work_type": form.querySelector('[name="work_type"]').value,
+                "shift_availability": form.querySelector('[name="shift_availability"]').value,
+                "travel_relocate": form.querySelector('[name="travel_relocate"]')?.value || '',
+                "q1_answer": q1,
+                "q2_answer": q2,
+                "q3_answer": q3
+            };
+
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/forms/candidate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                submitBtn.textContent = 'Application Submitted!';
+                submitBtn.style.background = 'var(--success)';
+
+                setTimeout(() => {
+                    closeModal('candidateModal');
+                    form.reset();
+                    submitBtn.textContent = originalText;
+                    submitBtn.style.background = '';
+                    submitBtn.disabled = false;
+                }, 2000);
+
+            } catch (error) {
+                submitBtn.textContent = 'Error - Try Again';
+                submitBtn.style.background = 'var(--danger)';
+                submitBtn.disabled = false;
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.style.background = '';
+                }, 3000);
+            }
+        }
+    </script>
+
+    <!-- AEGIS Chatbot -->
+    <script src="js/aegis-chatbot.js"></script>
+</body>
+</html>

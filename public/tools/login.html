@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | Safety Excellence Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tools-v3.css">
+    <style>
+        .auth-container { max-width:400px; margin:0 auto; padding:48px 24px; }
+        .auth-header { text-align:center; margin-bottom:32px; }
+        .auth-header h1 { color:var(--blue); margin-bottom:8px; }
+        .auth-card { background:var(--white); border-radius:var(--radius); padding:32px; box-shadow:var(--shadow); }
+        .form-group { margin-bottom:20px; }
+        .form-group label { display:block; margin-bottom:6px; font-weight:500; color:var(--text); }
+        .form-group input { width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:1rem; }
+        .form-group input:focus { outline:none; border-color:var(--yellow); }
+        .btn-submit { width:100%; padding:14px; background:var(--blue); color:var(--white); border:none; border-radius:var(--radius-sm); font-size:1rem; font-weight:600; cursor:pointer; transition:background 0.2s; }
+        .btn-submit:hover { background:#0f1d36; }
+        .btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
+        .auth-footer { text-align:center; margin-top:24px; font-size:0.9rem; color:var(--text-light); }
+        .auth-footer a { color:var(--blue); text-decoration:none; }
+        .auth-footer a:hover { text-decoration:underline; }
+        .error-msg { background:var(--danger-light); color:var(--danger); padding:12px; border-radius:var(--radius-sm); margin-bottom:20px; font-size:0.9rem; display:none; }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <a href="/tools/" style="color:var(--text-light);text-decoration:none;font-size:0.9rem">← Back to Tools</a>
+            <h1 style="margin-top:24px">Welcome Back</h1>
+            <p style="color:var(--text-light)">Log in to access your assessments</p>
+        </div>
+
+        <div class="auth-card">
+            <div class="error-msg" id="error-msg"></div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-submit" id="submit-btn">Log In</button>
+            </form>
+        </div>
+
+        <div class="auth-footer">
+            <p>Don't have an account? <a href="/tools/signup.html?plan=pro">Start free trial</a></p>
+            <p style="margin-top:12px"><a href="/tools/dashboard.html">Look up results by email instead</a></p>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script>
+        // Redirect if already logged in
+        if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
+            window.location.href = '/tools/dashboard.html';
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btn = document.getElementById('submit-btn');
+            const errorMsg = document.getElementById('error-msg');
+
+            btn.disabled = true;
+            btn.textContent = 'Logging in...';
+            errorMsg.style.display = 'none';
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const result = await Auth.login(email, password);
+
+                if (result.success) {
+                    // Redirect to dashboard or intended page
+                    const params = new URLSearchParams(window.location.search);
+                    const redirect = params.get('redirect') || '/tools/dashboard.html';
+                    window.location.href = redirect;
+                } else {
+                    errorMsg.textContent = result.error || 'Invalid email or password';
+                    errorMsg.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = 'Log In';
+                }
+            } catch (err) {
+                errorMsg.textContent = 'Something went wrong. Please try again.';
+                errorMsg.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Log In';
+            }
+        });
+    </script>
+</body>
+</html>

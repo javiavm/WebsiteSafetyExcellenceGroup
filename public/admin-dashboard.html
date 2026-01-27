@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG Admin Dashboard</title>
+    <style>
+        :root { --seg-yellow: #FFCF00; --seg-blue: #132544; --seg-dark: #333; --seg-grey: #BABABA; --seg-light: #F4F4F4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--seg-light); color: var(--seg-dark); }
+        .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--seg-blue); }
+        .login-box { background: white; padding: 2.5rem; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; }
+        .login-box h1 { color: var(--seg-blue); margin-bottom: 0.5rem; }
+        .login-box p { color: var(--seg-grey); margin-bottom: 1.5rem; }
+        .login-box input { width: 100%; padding: 0.875rem; border: 2px solid #ddd; border-radius: 6px; margin-bottom: 1rem; font-size: 1rem; }
+        .login-box input:focus { outline: none; border-color: var(--seg-yellow); }
+        .login-box button { width: 100%; padding: 0.875rem; background: var(--seg-yellow); color: var(--seg-blue); border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+        .login-box button:hover { background: #e6bb00; }
+        .login-error { color: #dc2626; margin-top: 1rem; display: none; }
+        .dashboard { display: none; }
+        .dashboard.active { display: block; }
+        .login-screen.hidden { display: none; }
+        header { background: var(--seg-blue); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 1.25rem; }
+        .logout-btn { background: transparent; border: 1px solid var(--seg-yellow); color: var(--seg-yellow); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
+        .logout-btn:hover { background: var(--seg-yellow); color: var(--seg-blue); }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: white; padding: 1.25rem; border-radius: 8px; border-left: 4px solid var(--seg-yellow); }
+        .stat-card h3 { color: var(--seg-grey); font-size: 0.8rem; margin-bottom: 0.5rem; }
+        .stat-card .number { font-size: 2rem; font-weight: 700; color: var(--seg-blue); }
+        .section { background: white; border-radius: 8px; margin-bottom: 2rem; }
+        .section-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--seg-light); display: flex; justify-content: space-between; align-items: center; }
+        .section-header h2 { font-size: 1.1rem; color: var(--seg-blue); }
+        .export-btn { background: var(--seg-blue); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .export-btn:hover { background: #0d1a30; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--seg-light); font-size: 0.9rem; }
+        th { background: var(--seg-light); font-weight: 600; font-size: 0.8rem; }
+        tr:hover { background: #f8fafc; }
+        .badge { display: inline-block; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+        .badge.hot { background: #fee2e2; color: #dc2626; }
+        .badge.warm { background: #fef3c7; color: #d97706; }
+        .badge.nurture { background: #d1fae5; color: #059669; }
+        .badge.a { background: #dbeafe; color: #2563eb; }
+        .badge.b { background: #fef3c7; color: #d97706; }
+        .badge.c { background: #fee2e2; color: #dc2626; }
+        .loading { text-align: center; padding: 2rem; color: var(--seg-grey); }
+        .error { color: #dc2626; padding: 1rem; text-align: center; }
+        .action-btn { background: var(--seg-yellow); border: none; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; color: var(--seg-blue); font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <h1>SEG Admin</h1>
+            <p>Enter admin key to continue</p>
+            <input type="password" id="adminKey" placeholder="Admin Key" onkeypress="if(event.key==='Enter')login()">
+            <button onclick="login()">Login</button>
+            <p class="login-error" id="loginError"></p>
+        </div>
+    </div>
+
+    <div class="dashboard" id="dashboard">
+        <header>
+            <h1>SEG Admin Dashboard</h1>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </header>
+
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card"><h3>Total Requests</h3><div class="number" id="statTotal">-</div></div>
+                <div class="stat-card"><h3>Hot Leads</h3><div class="number" id="statHot">-</div></div>
+                <div class="stat-card"><h3>Warm</h3><div class="number" id="statWarm">-</div></div>
+                <div class="stat-card"><h3>Candidates</h3><div class="number" id="statCandidates">-</div></div>
+                <div class="stat-card"><h3>A-Rated</h3><div class="number" id="statARated">-</div></div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2>Client Requests</h2>
+                    <button class="export-btn" onclick="exportClients()">Export Excel</button>
+                </div>
+                <div id="clientsTable"><div class="loading">Loading...</div></div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2>Candidates</h2>
+                    <button class="export-btn" onclick="exportCandidates()">Export Excel</button>
+                </div>
+                <div id="candidatesTable"><div class="loading">Loading...</div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3001';
+        let adminKey = '';
+
+        async function login() {
+            adminKey = document.getElementById('adminKey').value.trim();
+            if (!adminKey) { showLoginError('Please enter admin key'); return; }
+
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/auth-check`, { headers: { 'x-admin-key': adminKey } });
+                if (res.ok) {
+                    document.getElementById('loginScreen').classList.add('hidden');
+                    document.getElementById('dashboard').classList.add('active');
+                    sessionStorage.setItem('seg-admin-key', adminKey);
+                    loadDashboard();
+                } else {
+                    showLoginError('Invalid admin key');
+                }
+            } catch (e) {
+                showLoginError('Cannot connect to server');
+            }
+        }
+
+        function logout() {
+            adminKey = '';
+            sessionStorage.removeItem('seg-admin-key');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('dashboard').classList.remove('active');
+        }
+
+        function showLoginError(msg) {
+            const err = document.getElementById('loginError');
+            err.textContent = msg;
+            err.style.display = 'block';
+        }
+
+        window.onload = function() {
+            const savedKey = sessionStorage.getItem('seg-admin-key');
+            if (savedKey) {
+                adminKey = savedKey;
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.add('active');
+                loadDashboard();
+            }
+        };
+
+        async function loadDashboard() {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/dashboard`, { headers: { 'x-admin-key': adminKey } });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('statTotal').textContent = data.stats.clients.total;
+                    document.getElementById('statHot').textContent = data.stats.clients.hot;
+                    document.getElementById('statWarm').textContent = data.stats.clients.warm;
+                    document.getElementById('statCandidates').textContent = data.stats.candidates.total;
+                    document.getElementById('statARated').textContent = data.stats.candidates.aRated;
+                }
+            } catch (e) { console.error('Stats error:', e); }
+
+            await loadClients();
+            await loadCandidates();
+        }
+
+        async function loadClients() {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/clients`, { headers: { 'x-admin-key': adminKey } });
+                const data = await res.json();
+                if (data.success) {
+                    const html = data.clients.length === 0 ? '<div class="loading">No clients yet</div>' : `<table>
+                        <thead><tr><th>Date</th><th>Company</th><th>Contact</th><th>Industry</th><th>Score</th><th>Actions</th></tr></thead>
+                        <tbody>${data.clients.map(c => `<tr>
+                            <td>${new Date(c.created_at).toLocaleDateString()}</td>
+                            <td><strong>${c.company_name || '-'}</strong></td>
+                            <td>${c.full_name || '-'}<br><small>${c.email || ''}</small></td>
+                            <td>${c.industry || '-'}</td>
+                            <td><strong>${c.lead_score || '-'}</strong> <span class="badge ${(c.lead_classification || '').toLowerCase()}">${c.lead_classification || '-'}</span></td>
+                            <td><button class="action-btn" onclick="viewMatches(${c.id})">View Matches</button></td>
+                        </tr>`).join('')}</tbody>
+                    </table>`;
+                    document.getElementById('clientsTable').innerHTML = html;
+                }
+            } catch (e) { document.getElementById('clientsTable').innerHTML = '<div class="error">Error loading</div>'; }
+        }
+
+        async function loadCandidates() {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/candidates`, { headers: { 'x-admin-key': adminKey } });
+                const data = await res.json();
+                if (data.success) {
+                    const html = data.candidates.length === 0 ? '<div class="loading">No candidates yet</div>' : `<table>
+                        <thead><tr><th>Date</th><th>Name</th><th>Location</th><th>Experience</th><th>Score</th><th>Rating</th></tr></thead>
+                        <tbody>${data.candidates.map(c => `<tr>
+                            <td>${new Date(c.created_at).toLocaleDateString()}</td>
+                            <td><strong>${c.full_name || '-'}</strong><br><small>${c.email || ''}</small></td>
+                            <td>${c.location || '-'}</td>
+                            <td>${c.years_experience || '-'}</td>
+                            <td><strong>${c.total_score || '-'}</strong></td>
+                            <td><span class="badge ${(c.fit_rating || '').charAt(0).toLowerCase()}">${c.fit_rating || '-'}</span></td>
+                        </tr>`).join('')}</tbody>
+                    </table>`;
+                    document.getElementById('candidatesTable').innerHTML = html;
+                }
+            } catch (e) { document.getElementById('candidatesTable').innerHTML = '<div class="error">Error loading</div>'; }
+        }
+
+        async function viewMatches(clientId) {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/matches/${clientId}`, { headers: { 'x-admin-key': adminKey } });
+                const data = await res.json();
+                if (data.success) {
+                    const matchList = data.matches.length === 0 ? 'No matches found' : data.matches.slice(0, 5).map(m =>
+                        `${m.candidate?.full_name} (Score: ${m.matchScore}, ${m.matchGrade})`
+                    ).join('\n');
+                    alert(`Top Matches for Client #${clientId}:\n\n${matchList}`);
+                }
+            } catch (e) { alert('Error loading matches'); }
+        }
+
+        async function exportClients() {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/export/clients`, { headers: { 'x-admin-key': adminKey } });
+                const blob = await res.blob();
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'SEG_Clients.xlsx';
+                link.click();
+            } catch (e) { alert('Export failed'); }
+        }
+
+        async function exportCandidates() {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/export/candidates`, { headers: { 'x-admin-key': adminKey } });
+                const blob = await res.blob();
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'SEG_Candidates.xlsx';
+                link.click();
+            } catch (e) { alert('Export failed'); }
+        }
+    </script>
+</body>
+</html>

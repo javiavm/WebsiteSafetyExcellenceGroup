@@ -1,0 +1,1168 @@
+/**
+ * AEGIS Chatbot Styles
+ * Safety Excellence Group
+ *
+ * World-Class UI - Professional & Refined
+ *
+ * Brand Colors:
+ * - Primary Navy: #132544
+ * - Primary Gold: #FFCF00
+ */
+
+/* ========================================
+   CSS VARIABLES & FOUNDATIONS
+   ======================================== */
+:root {
+    --aegis-navy: #132544;
+    --aegis-navy-light: #1a3158;
+    --aegis-navy-dark: #0d1a2d;
+    --aegis-gold: #FFCF00;
+    --aegis-gold-light: #FFD633;
+    --aegis-gold-dark: #E6BA00;
+    --aegis-dark: #1a1a2e;
+    --aegis-grey-900: #212529;
+    --aegis-grey-700: #495057;
+    --aegis-grey-500: #6c757d;
+    --aegis-grey-300: #dee2e6;
+    --aegis-grey-100: #f8f9fa;
+    --aegis-white: #ffffff;
+    --aegis-success: #10b981;
+    --aegis-error: #ef4444;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(19, 37, 68, 0.05);
+    --shadow-md: 0 4px 12px rgba(19, 37, 68, 0.1);
+    --shadow-lg: 0 12px 40px rgba(19, 37, 68, 0.15);
+    --shadow-xl: 0 20px 60px rgba(19, 37, 68, 0.2);
+    --shadow-glow: 0 0 40px rgba(255, 207, 0, 0.3);
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+}
+
+/* ========================================
+   FLOATING WIDGET CONTAINER
+   ======================================== */
+.aegis-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   TRIGGER BUTTON - Premium Feel
+   ======================================== */
+.aegis-trigger {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg), 0 0 0 0 rgba(255, 207, 0, 0.4);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.aegis-trigger::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.aegis-trigger:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-xl), 0 0 0 4px rgba(255, 207, 0, 0.2);
+}
+
+.aegis-trigger:hover::before {
+    opacity: 1;
+}
+
+.aegis-trigger:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.aegis-trigger svg {
+    width: 28px;
+    height: 28px;
+    fill: var(--aegis-gold);
+    transition: all var(--transition-base);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.aegis-trigger img.chat-icon {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    transition: all var(--transition-base);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.aegis-trigger .close-icon {
+    display: none;
+    stroke: var(--aegis-white);
+    fill: none;
+}
+
+.aegis-widget.open .aegis-trigger {
+    background: linear-gradient(135deg, var(--aegis-grey-700) 0%, var(--aegis-grey-900) 100%);
+}
+
+.aegis-widget.open .aegis-trigger .chat-icon {
+    display: none;
+}
+
+.aegis-widget.open .aegis-trigger .close-icon {
+    display: block;
+}
+
+/* Tooltip */
+.aegis-tooltip {
+    position: absolute;
+    right: 76px;
+    top: 50%;
+    transform: translateY(-50%) translateX(8px);
+    background: var(--aegis-navy);
+    color: var(--aegis-white);
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-lg);
+    letter-spacing: -0.01em;
+}
+
+.aegis-tooltip::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-left-color: var(--aegis-navy);
+}
+
+.aegis-widget:not(.open):hover .aegis-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* Notification Badge */
+.aegis-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(135deg, var(--aegis-gold) 0%, var(--aegis-gold-dark) 100%);
+    color: var(--aegis-navy);
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(255, 207, 0, 0.4);
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(255, 207, 0, 0.4); }
+    50% { transform: scale(1.1); box-shadow: 0 4px 16px rgba(255, 207, 0, 0.6); }
+}
+
+/* ========================================
+   CHAT WINDOW - Elevated Design
+   ======================================== */
+.aegis-chat {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    width: 400px;
+    height: 680px;
+    max-height: calc(100vh - 120px);
+    background: var(--aegis-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    transition: all var(--transition-slow);
+    z-index: 9998;
+    border: 1px solid rgba(19, 37, 68, 0.08);
+}
+
+.aegis-widget.open .aegis-chat {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+    .aegis-chat {
+        width: calc(100vw - 16px);
+        height: calc(100vh - 100px);
+        max-height: none;
+        right: 8px;
+        bottom: 84px;
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+
+    .aegis-widget {
+        right: 16px;
+        bottom: 16px;
+    }
+
+    .aegis-trigger {
+        width: 56px;
+        height: 56px;
+    }
+}
+
+/* ========================================
+   CHAT HEADER - Sleek & Professional
+   ======================================== */
+.aegis-header {
+    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
+    color: var(--aegis-white);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+.aegis-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 207, 0, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.aegis-avatar {
+    width: 46px;
+    height: 46px;
+    background: linear-gradient(135deg, var(--aegis-gold) 0%, var(--aegis-gold-dark) 100%);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(255, 207, 0, 0.3);
+    position: relative;
+}
+
+.aegis-avatar svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--aegis-navy);
+    fill: none;
+    stroke-width: 2.5;
+}
+
+.aegis-header-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.aegis-header-info h4 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--aegis-white);
+    letter-spacing: -0.02em;
+}
+
+.aegis-header-info p {
+    font-size: 12px;
+    margin: 3px 0 0 0;
+    opacity: 0.8;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+
+.aegis-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--aegis-success);
+    background: rgba(16, 185, 129, 0.15);
+    padding: 5px 10px;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.aegis-status::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: var(--aegis-success);
+    border-radius: var(--radius-full);
+    animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.9); }
+}
+
+/* ========================================
+   WELCOME SCREEN - Impact & Elegance
+   ======================================== */
+.aegis-welcome {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, var(--aegis-navy) 0%, var(--aegis-navy-dark) 50%, var(--aegis-navy) 100%);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.aegis-welcome::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(255, 207, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(255, 207, 0, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.aegis-welcome::after {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 207, 0, 0.1) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.aegis-welcome-card {
+    background: var(--aegis-white);
+    border-radius: var(--radius-xl);
+    padding: 40px 32px;
+    text-align: center;
+    box-shadow: var(--shadow-xl), var(--shadow-glow);
+    max-width: 320px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    animation: welcomeCardEnter 0.6s var(--transition-bounce);
+}
+
+@keyframes welcomeCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.aegis-welcome-text {
+    margin-bottom: 32px;
+}
+
+.aegis-welcome-line1 {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--aegis-navy);
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+}
+
+.aegis-welcome-line2 {
+    display: block;
+    font-size: 22px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--aegis-gold) 0%, var(--aegis-gold-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.08em;
+    text-shadow: 0 2px 20px rgba(255, 207, 0, 0.3);
+}
+
+.aegis-welcome-btn {
+    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
+    color: var(--aegis-white);
+    border: none;
+    padding: 16px 40px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    width: 100%;
+    letter-spacing: 0.02em;
+    position: relative;
+    overflow: hidden;
+}
+
+.aegis-welcome-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.aegis-welcome-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.aegis-welcome-btn:hover::before {
+    opacity: 1;
+}
+
+.aegis-welcome-btn:active {
+    transform: translateY(0);
+}
+
+/* ========================================
+   DISCLAIMER - Clean & Trustworthy
+   ======================================== */
+.aegis-disclaimer {
+    background: linear-gradient(180deg, var(--aegis-grey-100) 0%, var(--aegis-white) 100%);
+    padding: 20px;
+    border-bottom: 2px solid var(--aegis-gold);
+    animation: disclaimerEnter 0.4s ease-out;
+}
+
+@keyframes disclaimerEnter {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.aegis-disclaimer-content {
+    font-size: 12px;
+    color: var(--aegis-grey-700);
+    line-height: 1.6;
+}
+
+.aegis-disclaimer-content strong {
+    color: var(--aegis-navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.aegis-disclaimer-content strong svg {
+    flex-shrink: 0;
+}
+
+.aegis-disclaimer-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
+    color: var(--aegis-white);
+    border: none;
+    padding: 14px 20px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    letter-spacing: 0.01em;
+}
+
+.aegis-disclaimer-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.aegis-disclaimer-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ========================================
+   MESSAGES AREA - Refined Conversation
+   ======================================== */
+.aegis-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: linear-gradient(180deg, var(--aegis-grey-100) 0%, var(--aegis-white) 100%);
+    scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+.aegis-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.aegis-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.aegis-messages::-webkit-scrollbar-thumb {
+    background: var(--aegis-grey-300);
+    border-radius: var(--radius-full);
+}
+
+.aegis-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--aegis-grey-500);
+}
+
+/* Message Bubbles */
+.aegis-message {
+    display: flex;
+    gap: 12px;
+    max-width: 88%;
+    animation: messageEnter 0.4s var(--transition-bounce);
+}
+
+@keyframes messageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.aegis-message.bot {
+    align-self: flex-start;
+}
+
+.aegis-message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.aegis-message .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+}
+
+.aegis-message:hover .avatar {
+    transform: scale(1.05);
+}
+
+.aegis-message.bot .avatar {
+    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
+    box-shadow: var(--shadow-sm);
+}
+
+.aegis-message.bot .avatar svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--aegis-gold);
+    fill: none;
+    stroke-width: 2;
+}
+
+.aegis-message.user .avatar {
+    background: linear-gradient(135deg, var(--aegis-grey-100) 0%, var(--aegis-grey-300) 100%);
+}
+
+.aegis-message.user .avatar svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--aegis-grey-700);
+    fill: none;
+    stroke-width: 2;
+}
+
+.aegis-message .bubble {
+    padding: 14px 18px;
+    border-radius: var(--radius-lg);
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    position: relative;
+}
+
+.aegis-message.bot .bubble {
+    background: var(--aegis-white);
+    color: var(--aegis-grey-900);
+    border-bottom-left-radius: 4px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(19, 37, 68, 0.06);
+}
+
+.aegis-message.user .bubble {
+    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
+    color: var(--aegis-white);
+    border-bottom-right-radius: 4px;
+    box-shadow: var(--shadow-md);
+}
+
+/* Typing Indicator */
+.aegis-typing {
+    display: flex;
+    gap: 5px;
+    padding: 16px 20px;
+    background: var(--aegis-white);
+    border-radius: var(--radius-lg);
+    border-bottom-left-radius: 4px;
+    width: fit-content;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(19, 37, 68, 0.06);
+}
+
+.aegis-typing span {
+    width: 8px;
+    height: 8px;
+    background: var(--aegis-grey-300);
+    border-radius: var(--radius-full);
+    animation: typingDot 1.4s ease-in-out infinite;
+}
+
+.aegis-typing span:nth-child(2) { animation-delay: 0.15s; }
+.aegis-typing span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes typingDot {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        background: var(--aegis-grey-300);
+    }
+    30% {
+        transform: translateY(-6px);
+        background: var(--aegis-navy);
+    }
+}
+
+/* ========================================
+   QUICK REPLIES - Polished Actions
+   ======================================== */
+.aegis-quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 20px 20px 20px;
+    animation: quickRepliesEnter 0.4s ease-out 0.2s both;
+}
+
+@keyframes quickRepliesEnter {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.aegis-quick-btn {
+    background: var(--aegis-white);
+    border: 1.5px solid var(--aegis-navy);
+    color: var(--aegis-navy);
+    padding: 10px 16px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    letter-spacing: -0.01em;
+}
+
+.aegis-quick-btn:hover {
+    background: var(--aegis-navy);
+    color: var(--aegis-white);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.aegis-quick-btn:active {
+    transform: translateY(0);
+}
+
+/* ========================================
+   INPUT AREA - Premium Input Experience
+   ======================================== */
+.aegis-input-area {
+    padding: 16px 20px 20px;
+    background: var(--aegis-white);
+    border-top: 1px solid var(--aegis-grey-300);
+}
+
+.aegis-input-wrapper {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    background: var(--aegis-grey-100);
+    border-radius: var(--radius-lg);
+    padding: 6px 6px 6px 16px;
+    transition: all var(--transition-fast);
+    border: 2px solid transparent;
+}
+
+.aegis-input-wrapper:focus-within {
+    background: var(--aegis-white);
+    border-color: var(--aegis-navy);
+    box-shadow: 0 0 0 4px rgba(19, 37, 68, 0.08);
+}
+
+.aegis-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px 0;
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    max-height: 120px;
+    outline: none;
+    color: var(--aegis-grey-900);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+}
+
+.aegis-input::placeholder {
+    color: var(--aegis-grey-500);
+}
+
+.aegis-send-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.aegis-send-btn:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+
+.aegis-send-btn:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.aegis-send-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.aegis-send-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--aegis-white);
+    fill: none;
+    stroke-width: 2;
+}
+
+/* ========================================
+   QUALIFICATION FORM - Professional Forms
+   ======================================== */
+.aegis-qual-form {
+    padding: 24px;
+    background: linear-gradient(180deg, var(--aegis-grey-100) 0%, var(--aegis-white) 100%);
+    border-radius: var(--radius-lg);
+    margin: 8px 0;
+    border: 1px solid rgba(19, 37, 68, 0.08);
+    animation: formEnter 0.4s ease-out;
+}
+
+@keyframes formEnter {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.aegis-qual-form h5 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--aegis-navy);
+    margin: 0 0 4px 0;
+    letter-spacing: -0.02em;
+}
+
+.aegis-form-group {
+    margin-bottom: 16px;
+}
+
+.aegis-form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--aegis-grey-700);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.aegis-form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--aegis-grey-300);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--aegis-white);
+    cursor: pointer;
+    outline: none;
+    transition: all var(--transition-fast);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23495057' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    color: var(--aegis-grey-900);
+}
+
+.aegis-form-group select:focus {
+    border-color: var(--aegis-navy);
+    box-shadow: 0 0 0 4px rgba(19, 37, 68, 0.08);
+}
+
+.aegis-qual-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--aegis-grey-300);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--aegis-white);
+    outline: none;
+    transition: all var(--transition-fast);
+    color: var(--aegis-grey-900);
+}
+
+.aegis-qual-input:focus {
+    border-color: var(--aegis-navy);
+    box-shadow: 0 0 0 4px rgba(19, 37, 68, 0.08);
+}
+
+.aegis-qual-input::placeholder {
+    color: var(--aegis-grey-500);
+}
+
+.aegis-qual-submit {
+    width: 100%;
+    background: linear-gradient(135deg, var(--aegis-gold) 0%, var(--aegis-gold-dark) 100%);
+    color: var(--aegis-navy);
+    border: none;
+    padding: 14px 20px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    margin-top: 8px;
+    letter-spacing: 0.01em;
+}
+
+.aegis-qual-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md), var(--shadow-glow);
+}
+
+.aegis-qual-submit:active {
+    transform: translateY(0);
+}
+
+/* ========================================
+   LEAD FORM - Trust Building
+   ======================================== */
+.aegis-lead-form {
+    padding: 24px;
+    background: linear-gradient(180deg, var(--aegis-grey-100) 0%, var(--aegis-white) 100%);
+    border-radius: var(--radius-lg);
+    margin: 10px 20px;
+    border: 1px solid rgba(19, 37, 68, 0.08);
+    animation: formEnter 0.4s ease-out;
+}
+
+.aegis-lead-form h5 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--aegis-navy);
+    margin: 0 0 16px 0;
+    letter-spacing: -0.02em;
+}
+
+.aegis-lead-form input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--aegis-grey-300);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-family: inherit;
+    margin-bottom: 12px;
+    outline: none;
+    transition: all var(--transition-fast);
+    color: var(--aegis-grey-900);
+}
+
+.aegis-lead-form input:focus {
+    border-color: var(--aegis-navy);
+    box-shadow: 0 0 0 4px rgba(19, 37, 68, 0.08);
+}
+
+.aegis-lead-form input::placeholder {
+    color: var(--aegis-grey-500);
+}
+
+.aegis-lead-form button {
+    width: 100%;
+    background: linear-gradient(135deg, var(--aegis-gold) 0%, var(--aegis-gold-dark) 100%);
+    color: var(--aegis-navy);
+    border: none;
+    padding: 14px 20px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    letter-spacing: 0.01em;
+}
+
+.aegis-lead-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md), var(--shadow-glow);
+}
+
+/* ========================================
+   CALENDAR MODAL - Seamless Booking
+   ======================================== */
+.aegis-calendar-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.aegis-calendar-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(13, 26, 45, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.aegis-calendar-modal-content {
+    position: relative;
+    width: 94%;
+    max-width: 600px;
+    height: 90vh;
+    max-height: 800px;
+    background: var(--aegis-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalSlideUp 0.4s var(--transition-bounce);
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.aegis-calendar-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
+    color: var(--aegis-white);
+}
+
+.aegis-calendar-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.aegis-calendar-modal-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aegis-calendar-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.aegis-calendar-modal-close svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--aegis-white);
+}
+
+.aegis-calendar-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.aegis-calendar-modal-body iframe {
+    display: block;
+    min-height: 700px;
+}
+
+/* Mobile Calendar Modal */
+@media (max-width: 480px) {
+    .aegis-calendar-modal-content {
+        width: 100%;
+        height: 100%;
+        max-height: none;
+        border-radius: 0;
+    }
+
+    .aegis-calendar-modal-header {
+        padding: 16px 20px;
+    }
+}
+
+/* ========================================
+   FOOTER - Subtle Branding
+   ======================================== */
+.aegis-footer {
+    text-align: center;
+    padding: 12px 20px;
+    font-size: 11px;
+    color: var(--aegis-grey-500);
+    background: var(--aegis-white);
+    border-top: 1px solid var(--aegis-grey-300);
+    letter-spacing: 0.01em;
+}
+
+.aegis-footer a {
+    color: var(--aegis-navy);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--transition-fast);
+}
+
+.aegis-footer a:hover {
+    color: var(--aegis-gold-dark);
+}
+
+/* ========================================
+   UTILITIES & ENHANCEMENTS
+   ======================================== */
+
+/* Focus visible for accessibility */
+*:focus-visible {
+    outline: 2px solid var(--aegis-gold);
+    outline-offset: 2px;
+}
+
+/* Selection styling */
+::selection {
+    background: var(--aegis-gold);
+    color: var(--aegis-navy);
+}
+
+/* Smooth scrolling for the whole widget */
+.aegis-widget * {
+    scroll-behavior: smooth;
+}
+
+/* Link styling in messages */
+.aegis-message .bubble a {
+    color: var(--aegis-gold-dark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.aegis-message.user .bubble a {
+    color: var(--aegis-gold-light);
+}
+
+/* Strong text in messages */
+.aegis-message .bubble strong {
+    font-weight: 600;
+    color: var(--aegis-navy);
+}
+
+.aegis-message.user .bubble strong {
+    color: var(--aegis-white);
+}

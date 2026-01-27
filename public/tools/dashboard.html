@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Results | Safety Excellence Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tools-v3.css">
+    <style>
+        .dashboard-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; }
+        .dashboard-header h1 { font-size:1.5rem; color:var(--blue); }
+        .back-link { color:var(--text-light); text-decoration:none; font-size:0.9rem; }
+        .back-link:hover { color:var(--blue); }
+        .tier-banner { background:var(--white); border-radius:var(--radius); padding:16px 20px; box-shadow:var(--shadow); margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; }
+        .tier-info { display:flex; align-items:center; gap:12px; }
+        .tier-badge { padding:6px 14px; border-radius:20px; font-size:0.8rem; font-weight:600; }
+        .tier-free { background:#f3f4f6; color:#6b7280; }
+        .tier-pro { background:var(--yellow); color:var(--blue); }
+        .tier-premium { background:var(--blue); color:var(--white); }
+        .tier-banner .upgrade-btn { padding:8px 16px; background:var(--yellow); color:var(--blue); border:none; border-radius:var(--radius-sm); font-size:0.85rem; font-weight:600; cursor:pointer; text-decoration:none; }
+        .tier-banner .upgrade-btn:hover { background:#e6ba00; }
+        .user-menu { display:flex; align-items:center; gap:12px; }
+        .user-name { font-size:0.9rem; color:var(--text); }
+        .logout-btn { color:var(--text-light); font-size:0.85rem; cursor:pointer; background:none; border:none; }
+        .logout-btn:hover { color:var(--danger); }
+        .lookup-form { background:var(--white); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); margin-bottom:32px; }
+        .lookup-form input { width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:1rem; margin-bottom:12px; }
+        .lookup-form input:focus { outline:none; border-color:var(--yellow); }
+        .score-summary { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:32px; }
+        .score-card { background:var(--white); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); text-align:center; }
+        .score-card h3 { font-size:0.9rem; color:var(--text-light); margin-bottom:8px; }
+        .score-card .score { font-size:2rem; font-weight:700; color:var(--blue); }
+        .score-card .rating { font-size:0.85rem; padding:4px 12px; border-radius:4px; display:inline-block; margin-top:8px; }
+        .score-card.empty { opacity:0.5; }
+        .score-card.empty .score { font-size:1rem; color:var(--text-light); }
+        .assessment-list { margin-bottom:32px; }
+        .assessment-item { background:var(--white); border-radius:var(--radius); padding:16px 20px; box-shadow:var(--shadow); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
+        .assessment-item .info h4 { font-size:1rem; color:var(--blue); margin-bottom:4px; }
+        .assessment-item .info p { font-size:0.85rem; color:var(--text-light); }
+        .tools-section { background:var(--white); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); }
+        .tools-section h3 { font-size:1rem; color:var(--blue); margin-bottom:16px; }
+        .tool-links { display:flex; flex-direction:column; gap:12px; }
+        .tool-link { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--bg); border-radius:var(--radius-sm); text-decoration:none; color:var(--text); }
+        .tool-link:hover { background:var(--border); }
+        .tool-link span { color:var(--text-light); font-size:0.85rem; }
+        .empty-state { text-align:center; padding:48px 24px; color:var(--text-light); }
+        .empty-state h3 { color:var(--blue); margin-bottom:8px; }
+        .hidden { display:none; }
+        .upgrade-cta { background:linear-gradient(135deg,var(--blue),#1e3a5f); border-radius:var(--radius); padding:24px; color:var(--white); margin-bottom:32px; }
+        .upgrade-cta h3 { margin-bottom:8px; }
+        .upgrade-cta p { opacity:0.9; margin-bottom:16px; font-size:0.95rem; }
+        .upgrade-cta .btn { background:var(--yellow); color:var(--blue); }
+    </style>
+</head>
+<body>
+    <div class="tool-container" style="max-width:640px">
+        <div class="dashboard-header">
+            <h1>My Results</h1>
+            <div class="user-menu" id="user-menu" style="display:none">
+                <span class="user-name" id="user-name"></span>
+                <button class="logout-btn" onclick="logout()">Log out</button>
+            </div>
+            <a href="/tools/" class="back-link" id="back-link">All Tools</a>
+        </div>
+
+        <!-- Tier Banner (for logged-in users) -->
+        <div id="tier-banner" class="tier-banner hidden">
+            <div class="tier-info">
+                <span class="tier-badge" id="tier-badge">FREE</span>
+                <span id="tier-text">Basic access</span>
+            </div>
+            <a href="/tools/signup.html?plan=pro" class="upgrade-btn" id="upgrade-btn">Upgrade to Pro</a>
+        </div>
+
+        <!-- Lookup Form (for guests) -->
+        <div id="lookup-section" class="lookup-form">
+            <h3 style="margin-bottom:16px;color:var(--blue)">View Your Assessments</h3>
+            <input type="email" id="email-input" placeholder="Enter your email address">
+            <button class="btn" onclick="lookupByEmail()" style="width:100%">Find My Results</button>
+            <p style="margin-top:12px;font-size:0.85rem;color:var(--text-light);text-align:center">
+                Enter the email you used during assessment
+            </p>
+            <div style="text-align:center;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+                <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:12px">Have an account?</p>
+                <a href="/tools/login.html" class="btn" style="display:inline-block">Log In</a>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div id="dashboard-content" class="hidden">
+            <!-- Upgrade CTA (for free users) -->
+            <div id="upgrade-cta" class="upgrade-cta hidden">
+                <h3>Unlock More with Pro</h3>
+                <p>Get unlimited assessments, permanent history, and industry benchmarking.</p>
+                <a href="/tools/signup.html?plan=pro" class="btn">Start 7-Day Free Trial</a>
+            </div>
+
+            <div class="score-summary">
+                <div class="score-card" id="stky-card">
+                    <h3>STKY Score</h3>
+                    <div class="score" id="stky-score">--</div>
+                    <div class="rating" id="stky-rating"></div>
+                </div>
+                <div class="score-card" id="sif-card">
+                    <h3>SIF Score</h3>
+                    <div class="score" id="sif-score">--</div>
+                    <div class="rating" id="sif-rating"></div>
+                </div>
+            </div>
+
+            <div class="assessment-list" id="assessment-list">
+                <h3 style="margin-bottom:16px;color:var(--blue)">Your Assessments</h3>
+            </div>
+
+            <div class="tools-section">
+                <h3>Take Another Assessment</h3>
+                <div class="tool-links">
+                    <a href="/tools/stky-assessment.html" class="tool-link">
+                        STKY Assessment
+                        <span>Update your baseline</span>
+                    </a>
+                    <a href="/tools/sif-scorecard.html" class="tool-link">
+                        P-SIF Scorecard
+                        <span>Test your recognition</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden empty-state">
+            <h3>No Assessments Found</h3>
+            <p>We couldn't find any assessments for this email.</p>
+            <a href="/tools/" class="btn" style="margin-top:16px;display:inline-block">Take an Assessment</a>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script>
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const sessionId = params.get('session');
+            const email = params.get('email');
+
+            // Check if logged in
+            if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
+                currentUser = await Auth.refreshUser();
+                if (currentUser) {
+                    showLoggedInState();
+                    loadDashboard({ email: currentUser.email });
+                    return;
+                }
+            }
+
+            // Guest flow
+            if (sessionId) {
+                loadDashboard({ session_id: sessionId });
+            } else if (email) {
+                document.getElementById('email-input').value = email;
+                lookupByEmail();
+            }
+        });
+
+        function showLoggedInState() {
+            document.getElementById('user-menu').style.display = 'flex';
+            document.getElementById('back-link').style.display = 'none';
+            document.getElementById('user-name').textContent = currentUser.name || currentUser.email;
+
+            const tierBanner = document.getElementById('tier-banner');
+            const tierBadge = document.getElementById('tier-badge');
+            const tierText = document.getElementById('tier-text');
+            const upgradeBtn = document.getElementById('upgrade-btn');
+
+            tierBanner.classList.remove('hidden');
+
+            if (currentUser.tier === 'premium') {
+                tierBadge.textContent = 'PREMIUM';
+                tierBadge.className = 'tier-badge tier-premium';
+                tierText.textContent = 'Full access + Fractional Director';
+                upgradeBtn.style.display = 'none';
+            } else if (currentUser.tier === 'pro') {
+                tierBadge.textContent = 'PRO';
+                tierBadge.className = 'tier-badge tier-pro';
+                tierText.textContent = 'Unlimited assessments';
+                upgradeBtn.textContent = 'Upgrade to Premium';
+                upgradeBtn.href = '/contact?source=premium-tier';
+            } else {
+                tierBadge.textContent = 'FREE';
+                tierBadge.className = 'tier-badge tier-free';
+                tierText.textContent = 'Basic access';
+                upgradeBtn.textContent = 'Upgrade to Pro';
+                upgradeBtn.href = '/tools/signup.html?plan=pro';
+            }
+
+            document.getElementById('lookup-section').classList.add('hidden');
+        }
+
+        async function logout() {
+            if (typeof Auth !== 'undefined') {
+                await Auth.logout();
+            }
+            window.location.reload();
+        }
+
+        async function lookupByEmail() {
+            const email = document.getElementById('email-input').value.trim();
+            if (!email) return;
+
+            try {
+                const res = await fetch(`/api/dashboard/lookup?email=${encodeURIComponent(email)}`);
+                const data = await res.json();
+                if (data.found) {
+                    loadDashboard({ email });
+                } else {
+                    showEmptyState();
+                }
+            } catch (e) {
+                console.error('Lookup failed:', e);
+            }
+        }
+
+        async function loadDashboard(params) {
+            try {
+                const query = params.email
+                    ? `email=${encodeURIComponent(params.email)}`
+                    : `session_id=${encodeURIComponent(params.session_id)}`;
+
+                const res = await fetch(`/api/dashboard?${query}`);
+                const data = await res.json();
+
+                if (!data.success || data.assessments.length === 0) {
+                    showEmptyState();
+                    return;
+                }
+
+                updateScoreCard('stky', data.summary.stky_score, data.summary.stky_completed);
+                updateScoreCard('sif', data.summary.sif_score, data.summary.sif_completed);
+
+                const listEl = document.getElementById('assessment-list');
+                let html = '<h3 style="margin-bottom:16px;color:var(--blue)">Your Assessments</h3>';
+
+                data.assessments.forEach(a => {
+                    const tool = a.tool.toUpperCase();
+                    const score = a.scores?.overall?.score || '--';
+                    const rating = a.scores?.overall?.rating?.label || '';
+                    const date = new Date(a.created_at).toLocaleDateString();
+
+                    html += `
+                        <div class="assessment-item">
+                            <div class="info">
+                                <h4>${tool} Assessment</h4>
+                                <p>Score: ${score} (${rating}) - ${date}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                listEl.innerHTML = html;
+
+                document.getElementById('lookup-section').classList.add('hidden');
+                document.getElementById('dashboard-content').classList.remove('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+
+                // Show upgrade CTA for free/guest users
+                if (!currentUser || currentUser.tier === 'free') {
+                    document.getElementById('upgrade-cta').classList.remove('hidden');
+                }
+
+            } catch (e) {
+                console.error('Load failed:', e);
+            }
+        }
+
+        function updateScoreCard(type, score, completed) {
+            const card = document.getElementById(`${type}-card`);
+            const scoreEl = document.getElementById(`${type}-score`);
+            const ratingEl = document.getElementById(`${type}-rating`);
+
+            if (completed && score !== null) {
+                scoreEl.textContent = score;
+                const rating = getRating(score);
+                ratingEl.textContent = rating.label;
+                ratingEl.style.background = rating.color + '20';
+                ratingEl.style.color = rating.color;
+                card.classList.remove('empty');
+            } else {
+                scoreEl.textContent = 'Not taken';
+                ratingEl.textContent = '';
+                card.classList.add('empty');
+            }
+        }
+
+        function getRating(score) {
+            if (score >= 85) return { label: 'Controlled', color: '#22C55E' };
+            if (score >= 70) return { label: 'Managed', color: '#FFCF00' };
+            if (score >= 50) return { label: 'Developing', color: '#F97316' };
+            return { label: 'Exposed', color: '#EF4444' };
+        }
+
+        function showEmptyState() {
+            document.getElementById('lookup-section').classList.add('hidden');
+            document.getElementById('dashboard-content').classList.add('hidden');
+            document.getElementById('empty-state').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

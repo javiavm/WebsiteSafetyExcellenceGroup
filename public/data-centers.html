@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO META TAGS -->
+    <title>Data Center Safety Consulting | Arc Flash & NFPA 70E Experts | Safety Excellence Group</title>
+    <meta name="description" content="Data center construction safety at hyperscale speed. Arc flash protection, NFPA 70E compliance, LOTO programs. BCSP-Certified specialists with 17+ years experience.">
+    <meta name="keywords" content="data center safety, arc flash protection, NFPA 70E compliance, data center construction safety, hyperscale safety, electrical safety, LOTO, data center EHS">
+    <meta name="author" content="Safety Excellence Group">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://safety-excellence.com/data-centers.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://safety-excellence.com/data-centers.html">
+    <meta property="og:title" content="Data Center Safety Consulting | Safety Excellence Group">
+    <meta property="og:description" content="Safety at hyperscale speed. Arc flash protection, NFPA 70E, and precision safety for data center construction.">
+    <meta property="og:image" content="https://safety-excellence.com/images/og-datacenter.jpg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/SEG Favicon Original.png">
+
+    <!-- AEGIS Chatbot Styles -->
+    <link rel="stylesheet" href="css/aegis-chatbot.css">
+
+    <style>
+        :root {
+            --SEG-yellow: #FFCF00;
+            --SEG-blue: #132544;
+            --SEG-dark-grey: #333333;
+            --SEG-grey: #BABABA;
+            --SEG-grey-2: #DDDDDD;
+            --SEG-light-grey: #F4F4F4;
+            --white: #ffffff;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow-sm: 0 1px 2px rgba(19, 37, 68, 0.05);
+            --shadow-md: 0 4px 6px rgba(19, 37, 68, 0.1);
+            --shadow-lg: 0 10px 25px rgba(19, 37, 68, 0.15);
+            --shadow-xl: 0 20px 50px rgba(19, 37, 68, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--SEG-dark-grey);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: var(--white);
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--SEG-yellow);
+            outline-offset: 2px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--SEG-blue);
+        }
+
+        h1 {
+            font-size: clamp(2.25rem, 5vw, 3.25rem);
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+        }
+
+        h3 {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--SEG-yellow);
+            color: var(--SEG-blue);
+            border-color: var(--SEG-yellow);
+        }
+
+        .btn-primary:hover {
+            background: #e6bb00;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border-color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--SEG-blue);
+        }
+
+        .btn-dark {
+            background: var(--SEG-blue);
+            color: var(--white);
+            border-color: var(--SEG-blue);
+        }
+
+        .btn-dark:hover {
+            background: #0d1a30;
+            transform: translateY(-2px);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--SEG-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--SEG-yellow);
+        }
+
+        .nav-cta .btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: var(--SEG-blue);
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255, 207, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 59, 48, 0.08) 0%, transparent 40%);
+        }
+
+        .hero-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            color: var(--white);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .hero-badge span {
+            color: #ff6b6b;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .hero h1 {
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 .highlight {
+            color: var(--SEG-yellow);
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--SEG-grey);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--SEG-yellow);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--SEG-grey);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Risk Card */
+        .risk-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .risk-card h3 {
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .risk-card h3 svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--danger);
+        }
+
+        .risk-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .risk-item:last-child {
+            border-bottom: none;
+        }
+
+        .risk-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(239, 68, 68, 0.15);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .risk-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--danger);
+        }
+
+        .risk-content h4 {
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .risk-content p {
+            color: var(--SEG-grey);
+            font-size: 0.875rem;
+        }
+
+        /* Pain Section */
+        .pain-section {
+            padding: 6rem 0;
+            background: var(--white);
+        }
+
+        .pain-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .pain-header .overline {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--danger);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .pain-header h2 {
+            margin-bottom: 1rem;
+        }
+
+        .pain-header p {
+            color: var(--SEG-grey);
+            font-size: 1.125rem;
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .pain-card {
+            background: var(--SEG-light-grey);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .pain-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pain-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .pain-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--danger);
+        }
+
+        .pain-card h3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .pain-card p {
+            color: var(--SEG-grey);
+            font-size: 0.9375rem;
+        }
+
+        /* Solution Section */
+        .solution-section {
+            padding: 6rem 0;
+            background: var(--SEG-blue);
+        }
+
+        .solution-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .solution-header .overline {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--SEG-yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .solution-header h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .solution-header p {
+            color: var(--SEG-grey);
+            font-size: 1.125rem;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .solution-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .solution-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .solution-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--SEG-yellow);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .solution-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--SEG-blue);
+        }
+
+        .solution-card h3 {
+            color: var(--white);
+            margin-bottom: 0.75rem;
+        }
+
+        .solution-card p {
+            color: var(--SEG-grey);
+            font-size: 0.9375rem;
+            margin-bottom: 1rem;
+        }
+
+        .solution-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .solution-card li {
+            color: var(--SEG-grey-2);
+            font-size: 0.875rem;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .solution-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--SEG-yellow);
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 0;
+            background: var(--white);
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, var(--SEG-blue) 0%, #1a3158 100%);
+            border-radius: 24px;
+            padding: 4rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .cta-content h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            color: var(--SEG-grey);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-content .btn-primary {
+            font-size: 1.125rem;
+            padding: 1.25rem 2.5rem;
+        }
+
+        /* Lead Capture Form */
+        .lead-form {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .lead-form h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .lead-form .form-subtitle {
+            color: var(--SEG-grey);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--SEG-dark-grey);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--SEG-grey-2);
+            border-radius: 8px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--SEG-yellow);
+        }
+
+        .lead-form .btn {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .form-note {
+            font-size: 0.75rem;
+            color: var(--SEG-grey);
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        /* Social Proof */
+        .proof-section {
+            padding: 4rem 0;
+            background: var(--SEG-light-grey);
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .proof-item {
+            padding: 1rem;
+        }
+
+        .proof-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--SEG-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .proof-label {
+            font-size: 0.875rem;
+            color: var(--SEG-grey);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--SEG-blue);
+            color: var(--white);
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo img {
+            height: 36px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--SEG-grey);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--SEG-yellow);
+        }
+
+        .footer-copy {
+            color: var(--SEG-grey);
+            font-size: 0.8125rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .risk-card {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .cta-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .lead-form {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links,
+            .nav-cta {
+                display: none;
+            }
+
+            .pain-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .proof-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cta-card {
+                padding: 2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .hero-cta .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="/" class="logo">
+                <img src="images/SEG Original Logo.png" alt="Safety Excellence Group">
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="/#industries">Industries</a></li>
+                <li><a href="/#services">Services</a></li>
+                <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                <li><a href="/tools/">Tools</a></li>
+            </ul>
+
+            <div class="nav-cta">
+                <a href="/#contact" class="btn btn-primary">Get a Proposal</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">
+                        <span class="pulse"></span>
+                        <span>High-Risk Construction Environment</span>
+                    </div>
+                    <h1>Safety at <span class="highlight">Hyperscale Speed</span></h1>
+                    <p class="hero-subtitle">
+                        Your timeline doesn't pause for incidents. From groundbreaking through commissioning, we embed safety programs that protect your schedule—and your people.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-value">63%</div>
+                            <div class="stat-label">DC fatalities are electrical</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">$1.2M</div>
+                            <div class="stat-label">Avg. serious injury cost</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">17+</div>
+                            <div class="stat-label">Years experience</div>
+                        </div>
+                    </div>
+                    <div class="hero-cta">
+                        <a href="#checklist" class="btn btn-primary">Download DC Safety Checklist</a>
+                        <a href="#contact" class="btn btn-secondary">Talk to an Expert</a>
+                    </div>
+                </div>
+
+                <div class="risk-card">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2zm0 4l7.5 13h-15L12 6zm-1 4v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>
+                        What's at Stake
+                    </h3>
+                    <div class="risk-item">
+                        <div class="risk-icon">
+                            <svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>
+                        </div>
+                        <div class="risk-content">
+                            <h4>Arc Flash Events</h4>
+                            <p>Up to 40 cal/cm² incident energy in DC environments. Fatal without proper PPE.</p>
+                        </div>
+                    </div>
+                    <div class="risk-item">
+                        <div class="risk-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        </div>
+                        <div class="risk-content">
+                            <h4>Schedule Delays</h4>
+                            <p>Single serious incident: 6+ month project delay, OSHA investigation.</p>
+                        </div>
+                    </div>
+                    <div class="risk-item">
+                        <div class="risk-icon">
+                            <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+                        </div>
+                        <div class="risk-content">
+                            <h4>Financial Exposure</h4>
+                            <p>Workers' comp, OSHA fines, contractor penalties, litigation costs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Section -->
+    <section class="pain-section">
+        <div class="container">
+            <div class="pain-header">
+                <div class="overline">The Stakes</div>
+                <h2>Data Center Construction Runs on Schedule. Safety Incidents Stop It.</h2>
+                <p>Per industry data, DC project delays cost up to $14M/month for 60MW facilities. Every safety incident triggers mandatory OSHA investigation and work stoppage. The math is simple: proactive safety protects your timeline.</p>
+            </div>
+            <div class="pain-grid">
+                <div class="pain-card">
+                    <div class="pain-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8 0-1.85.63-3.55 1.69-4.9L16.9 18.31C15.55 19.37 13.85 20 12 20zm6.31-3.1L7.1 5.69C8.45 4.63 10.15 4 12 4c4.42 0 8 3.58 8 8 0 1.85-.63 3.55-1.69 4.9z"/></svg>
+                    </div>
+                    <h3>30,000+ Arc Flash Incidents/Year</h3>
+                    <p>NFPA data shows 400 electrical fatalities annually. Fatal burns occur at distances over 10 feet. NFPA 70E compliance isn't optional—it's survival.</p>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">
+                        <svg viewBox="0 0 24 24"><path d="M11 15h2v2h-2v-2zm0-8h2v6h-2V7zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
+                    </div>
+                    <h3>Fall Protection: #1 Citation—12 Years Running</h3>
+                    <p>OSHA cited fall protection violations 6,750 times in FY2024. Penalties reach $161,323 per willful violation. Elevated work in data centers demands precision programs.</p>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    </div>
+                    <h3>79% of Outages: Untested Components</h3>
+                    <p>Uptime Institute research shows most failures involve components that passed individual tests but failed at integration. Commissioning-phase safety is where projects are won or lost.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section">
+        <div class="container">
+            <div class="solution-header">
+                <div class="overline">What Sets Us Apart</div>
+                <h2>Precision Safety for Data Centers</h2>
+                <p>BCSP-Certified professionals backed by AI-powered intelligence, with performance accountability built in from day one.</p>
+            </div>
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9 7H7v2h2V7zm0 4H7v2h2v-2zm0 4H7v2h2v-2zm8-8h-6v6h6V7zm-2 4h-2V9h2v2zm2 4h-6v2h6v-2z"/></svg>
+                    </div>
+                    <h3>AEGIS AI-Powered Intelligence</h3>
+                    <p>Our proprietary AI platform provides predictive hazard identification specific to data center environments.</p>
+                    <ul>
+                        <li>Real-time risk assessment</li>
+                        <li>Arc flash exposure tracking</li>
+                        <li>Contractor performance monitoring</li>
+                        <li>Automated compliance verification</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>
+                    </div>
+                    <h3>HECA: High Energy Control Assessment</h3>
+                    <p>Our specialized arc flash and electrical safety assessment for data center construction.</p>
+                    <ul>
+                        <li>NFPA 70E compliance verification</li>
+                        <li>Incident energy calculations</li>
+                        <li>PPE category mapping</li>
+                        <li>LOTO procedure validation</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                    </div>
+                    <h3>Performance Verification</h3>
+                    <p>Continuous monitoring ensures your safety team meets project-specific KPIs from day one through commissioning.</p>
+                    <ul>
+                        <li>30-day performance benchmarks</li>
+                        <li>Competency verification scoring</li>
+                        <li>Rapid staffing adjustments if needed</li>
+                        <li>No disruption to your timeline</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <svg viewBox="0 0 24 24"><path d="M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z"/></svg>
+                    </div>
+                    <h3>Certified DC Specialists</h3>
+                    <p>BCSP-Certified professionals with specific data center construction experience.</p>
+                    <ul>
+                        <li>NFPA 70E qualified</li>
+                        <li>Critical infrastructure trained</li>
+                        <li>Background verified</li>
+                        <li>References from similar projects</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="proof-section">
+        <div class="container">
+            <div class="proof-grid">
+                <div class="proof-item">
+                    <div class="proof-value">17+</div>
+                    <div class="proof-label">Years Experience</div>
+                </div>
+                <div class="proof-item">
+                    <div class="proof-value">50+</div>
+                    <div class="proof-label">Advanced Facility Projects</div>
+                </div>
+                <div class="proof-item">
+                    <div class="proof-value">5</div>
+                    <div class="proof-label">Continents Served</div>
+                </div>
+                <div class="proof-item">
+                    <div class="proof-value">48hr</div>
+                    <div class="proof-label">Proposal Turnaround</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="checklist">
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-content">
+                    <h2>Get the 20-Point DC Safety Checklist</h2>
+                    <p>Our comprehensive checklist covers NFPA 70E compliance, arc flash programs, LOTO requirements, and critical infrastructure protocols. PhD-level research distilled into 20 actionable verification points.</p>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
+                        <li style="color: var(--SEG-grey); padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--SEG-yellow);">✓</span> Electrical safety program verification
+                        </li>
+                        <li style="color: var(--SEG-grey); padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--SEG-yellow);">✓</span> Fall protection for cable tray work
+                        </li>
+                        <li style="color: var(--SEG-grey); padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--SEG-yellow);">✓</span> Contractor pre-qualification standards
+                        </li>
+                        <li style="color: var(--SEG-grey); padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--SEG-yellow);">✓</span> Emergency response readiness
+                        </li>
+                    </ul>
+                </div>
+                <div class="lead-form" id="contact">
+                    <h3>Download Free Checklist</h3>
+                    <p class="form-subtitle">Get instant access to our 20-point safety verification guide.</p>
+                    <form id="dcLeadForm" onsubmit="handleDCFormSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required placeholder="John Smith">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Work Email</label>
+                            <input type="email" id="email" name="email" required placeholder="john@company.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company</label>
+                            <input type="text" id="company" name="company" required placeholder="Your Company">
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Your Role</label>
+                            <select id="role" name="role" required>
+                                <option value="">Select your role</option>
+                                <option value="owner-rep">Owner's Representative</option>
+                                <option value="gc-safety">GC Safety Director</option>
+                                <option value="project-manager">Project Manager</option>
+                                <option value="ehs-manager">EHS Manager</option>
+                                <option value="contractor">Subcontractor</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Download Checklist</button>
+                    </form>
+                    <p class="form-note">We respect your privacy. Unsubscribe anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="/" class="footer-logo">
+                    <img src="images/SEG Original Logo.png" alt="Safety Excellence Group">
+                </a>
+                <div class="footer-links">
+                    <a href="/">Home</a>
+                    <a href="/tools/">Tools</a>
+                    <a href="/why-seg.html">Why S.E.G.</a>
+                    <a href="/careers.html">Careers</a>
+                </div>
+                <div class="footer-copy">
+                    &copy; 2026 Safety Excellence Group. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- DC CHECKLIST MODAL -->
+    <div class="modal-overlay" id="dcChecklistModal" role="dialog" aria-modal="true">
+        <div class="modal" style="max-width: 700px;">
+            <div class="modal-header">
+                <div>
+                    <h3 id="dcModalTitle">DC Safety Checklist</h3>
+                    <p id="dc-subtitle">20-Point Assessment with ROI Analysis</p>
+                </div>
+                <button class="modal-close" onclick="closeDCModal()" aria-label="Close modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Progress Bar -->
+                <div class="dc-progress">
+                    <div class="dc-progress-bar">
+                        <div class="dc-progress-fill" id="dcProgressFill" style="width: 0%"></div>
+                    </div>
+                    <div class="dc-progress-text" id="dcProgressText">Step 1 of 9</div>
+                </div>
+
+                <!-- Step 0: Disclaimer -->
+                <div class="dc-step active" id="dcStep0">
+                    <div class="disclaimer-box">
+                        <div class="disclaimer-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FFCF00" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                        </div>
+                        <h4>Important Disclaimer</h4>
+                        <div class="disclaimer-content">
+                            <p>This DC Safety Checklist is provided for <strong>educational and informational purposes only</strong>.</p>
+                            <p><strong>This tool does NOT constitute:</strong></p>
+                            <ul>
+                                <li>A professional safety audit or compliance assessment</li>
+                                <li>Legal, regulatory, or professional advice</li>
+                                <li>Certification of OSHA, NFPA, or any standard compliance</li>
+                            </ul>
+                            <p><strong>No liability.</strong> Safety Excellence Group assumes no responsibility for outcomes resulting from use of this tool.</p>
+                        </div>
+                        <label class="disclaimer-accept">
+                            <input type="checkbox" id="dcDisclaimerAccept" required>
+                            <span>I understand and agree to this disclaimer</span>
+                        </label>
+                    </div>
+                    <div class="step-navigation">
+                        <div></div>
+                        <button type="button" class="btn btn-primary" onclick="dcAcceptDisclaimer()">I Agree — Continue →</button>
+                    </div>
+                </div>
+
+                <!-- Step 1: Project Context -->
+                <div class="dc-step" id="dcStep1">
+                    <div class="section-badge">Project Context</div>
+                    <h4>Tell us about your project</h4>
+                    <p class="step-desc">This helps us calculate accurate ROI numbers.</p>
+
+                    <div class="dc-slider-group">
+                        <label>Workers on site (average)</label>
+                        <input type="range" id="dcWorkers" min="25" max="500" value="150" oninput="updateDCWorkerDisplay()">
+                        <div class="slider-value" id="dcWorkersDisplay">150 workers</div>
+                    </div>
+                    <div class="dc-slider-group">
+                        <label>Monthly project burn rate</label>
+                        <input type="range" id="dcBurnRate" min="500000" max="10000000" step="500000" value="2000000" oninput="updateDCBurnDisplay()">
+                        <div class="slider-value" id="dcBurnDisplay">$2.0M / month</div>
+                    </div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn btn-outline" onclick="dcPrevStep()">← Back</button>
+                        <button type="button" class="btn btn-primary" onclick="dcNextStep()">Continue →</button>
+                    </div>
+                </div>
+
+                <!-- Steps 2-8: Questions by Section -->
+                <div class="dc-step" id="dcStep2">
+                    <div class="section-badge">Section 1 of 7</div>
+                    <h4>Electrical Safety Program</h4>
+                    <p class="step-desc">NFPA 70E Requirements</p>
+                    <div class="dc-questions" id="dcQuestions1"></div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn btn-outline" onclick="dcPrevStep()">← Back</button>
+                        <button type="button" class="btn btn-primary" onclick="dcNextStep()">Continue →</button>
+                    </div>
+                </div>
+
+                <div class="dc-step" id="dcStep3">
+                    <div class="section-badge">Section 2 of 7</div>
+                    <h4>Lockout/Tagout Program</h4>
+                    <p class="step-desc">OSHA 1910.147 Requirements</p>
+                    <div class="dc-questions" id="dcQuestions2"></div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn btn-outline" onclick="dcPrevStep()">← Back</button>
+                        <button type="button" class="btn btn-primary" onclick="dcNextStep()">Continue →</button>
+                    </div>
+                </div>
+
+                <div class="dc-step" id="dcStep4">
+                    <div class="section-badge">Section 3 of 7</div>
+                    <h4>Fall Protection</h4>
+                    <p class="step-desc">OSHA 1926 Subpart M Requirements</p>
+                    <div class="dc-questions" id="dcQuestions3"></div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn btn-outline" onclick="dcPrevStep()">← Back</button>
+                        <button type="button" class="btn btn-primary" onclick="dcNextStep()">Continue →</button>
+                    </div>
+                </div>
+
+                <div class="dc-step" id="dcStep5">
+                    <div class="section-badge">Section 4 of 7</div>
+                    <h4>Hot Work Controls</h4>
+                    <p class="step-desc">NFPA 51B Requirements</p>
+                    <div class="dc-questions" id="dcQuestions4"></div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn btn-outline" onclick="dcPrevStep()">← Back</button>
+                        <button type="button" class="btn btn-primary" onclick="dcNextStep()">Continue →</button>
+                    </div>
+                </div>
+
+                <div class="dc-step" id="dcStep6">
+                    <div class="section-badge">Section 5 of 7</div>
+                    <h4>Contractor Safety Management</h4>
+                    <p class="step-desc">OSHA 1926.16 Requirements</p>
+                    <div class="dc-questions" id="dcQuestions5"></div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn btn-outline" onclick="dcPrevStep()">← Back</button>
+                        <button type="button" class="btn btn-primary" onclick="dcNextStep()">Continue →</button>
+                    </div>
+                </div>
+
+                <div class="dc-step" id="dcStep7">
+                    <div class="section-badge">Section 6 of 7</div>
+                    <h4>Emergency Response</h4>
+                    <p class="step-desc">OSHA 1926.35 Requirements</p>
+                    <div class="dc-questions" id="dcQuestions6"></div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn btn-outline" onclick="dcPrevStep()">← Back</button>
+                        <button type="button" class="btn btn-primary" onclick="dcNextStep()">Continue →</button>
+                    </div>
+                </div>
+
+                <div class="dc-step" id="dcStep8">
+                    <div class="section-badge">Section 7 of 7</div>
+                    <h4>Documentation & Verification</h4>
+                    <p class="step-desc">Multiple Standards</p>
+                    <div class="dc-questions" id="dcQuestions7"></div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn btn-outline" onclick="dcPrevStep()">← Back</button>
+                        <button type="button" class="btn btn-primary" onclick="dcCalculateResults()">See My Results →</button>
+                    </div>
+                </div>
+
+                <!-- Step 9: Results -->
+                <div class="dc-step" id="dcStep9">
+                    <div class="dc-results">
+                        <div class="dc-score-display" id="dcScoreDisplay"></div>
+                        <div class="dc-roi-display" id="dcROIDisplay"></div>
+                        <div class="dc-gaps-display" id="dcGapsDisplay"></div>
+                        <div class="dc-methodology" id="dcMethodology"></div>
+
+                        <div class="dc-actions">
+                            <button class="btn btn-outline" onclick="printDCReport()">Print Report</button>
+                            <button class="btn btn-primary" onclick="openBookingModal()">Book Discovery Call →</button>
+                        </div>
+
+                        <div class="dc-disclaimer-footer">
+                            Data sources: OSHA, NFPA 70E, BLS, NIOSH, Uptime Institute. This assessment provides general guidance—consult qualified professionals before implementation.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* DC Checklist Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(19, 37, 68, 0.85);
+            z-index: 10000;
+            overflow-y: auto;
+            padding: 2rem;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--white);
+            border-radius: 16px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--SEG-grey-2);
+        }
+        .modal-header h3 { margin-bottom: 0.25rem; }
+        .modal-header p { color: var(--SEG-grey); font-size: 0.875rem; margin: 0; }
+        .modal-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--SEG-grey);
+        }
+        .modal-close:hover { color: var(--SEG-blue); }
+        .modal-body { padding: 2rem; }
+
+        /* Progress */
+        .dc-progress { margin-bottom: 2rem; }
+        .dc-progress-bar {
+            height: 4px;
+            background: var(--SEG-grey-2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .dc-progress-fill {
+            height: 100%;
+            background: var(--SEG-yellow);
+            transition: width 0.3s ease;
+        }
+        .dc-progress-text {
+            text-align: center;
+            font-size: 0.8125rem;
+            color: var(--SEG-grey);
+            margin-top: 0.5rem;
+        }
+
+        /* Steps */
+        .dc-step { display: none; animation: fadeIn 0.3s ease; }
+        .dc-step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-badge {
+            display: inline-block;
+            background: var(--SEG-light-grey);
+            color: var(--SEG-blue);
+            padding: 0.375rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        .dc-step h4 { margin-bottom: 0.5rem; }
+        .step-desc { color: var(--SEG-grey); font-size: 0.9375rem; margin-bottom: 1.5rem; }
+
+        /* Disclaimer */
+        .disclaimer-box { background: var(--SEG-light-grey); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .disclaimer-icon { text-align: center; margin-bottom: 1rem; }
+        .disclaimer-box h4 { text-align: center; margin-bottom: 1rem; }
+        .disclaimer-content { font-size: 0.875rem; color: var(--SEG-dark-grey); }
+        .disclaimer-content p { margin-bottom: 0.75rem; }
+        .disclaimer-content ul { margin: 0.5rem 0 0.75rem 1.5rem; }
+        .disclaimer-content li { margin-bottom: 0.25rem; }
+        .disclaimer-accept {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+        .disclaimer-accept input { width: 18px; height: 18px; }
+
+        /* Sliders */
+        .dc-slider-group { margin-bottom: 1.5rem; }
+        .dc-slider-group label { display: block; font-size: 0.9375rem; margin-bottom: 0.5rem; }
+        .dc-slider-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--SEG-grey-2);
+            -webkit-appearance: none;
+        }
+        .dc-slider-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--SEG-yellow);
+            cursor: pointer;
+        }
+        .slider-value {
+            text-align: center;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--SEG-blue);
+            margin-top: 0.5rem;
+        }
+
+        /* Questions */
+        .dc-question {
+            background: var(--SEG-light-grey);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .dc-question-text { font-size: 0.9375rem; margin-bottom: 0.75rem; }
+        .dc-question-ref { font-size: 0.75rem; color: var(--SEG-grey); margin-bottom: 0.5rem; }
+        .dc-options { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .dc-option {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--SEG-grey-2);
+            border-radius: 6px;
+            background: var(--white);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        .dc-option:hover { border-color: var(--SEG-yellow); }
+        .dc-option.selected { border-color: var(--SEG-yellow); background: rgba(255, 207, 0, 0.1); }
+
+        /* Navigation */
+        .step-navigation { display: flex; justify-content: space-between; margin-top: 2rem; }
+
+        /* Results */
+        .dc-score-display {
+            text-align: center;
+            padding: 2rem;
+            background: var(--SEG-light-grey);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .dc-score-value { font-size: 4rem; font-weight: 700; color: var(--SEG-blue); line-height: 1; }
+        .dc-score-label { color: var(--SEG-grey); margin-top: 0.5rem; }
+        .dc-score-rating {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        .rating-controlled { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
+        .rating-managed { background: rgba(255, 207, 0, 0.2); color: #a16207; }
+        .rating-developing { background: rgba(249, 115, 22, 0.15); color: #ea580c; }
+        .rating-exposed { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
+
+        .dc-roi-display {
+            background: var(--SEG-blue);
+            color: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .dc-roi-value { font-size: 3rem; font-weight: 700; color: var(--SEG-yellow); }
+        .dc-roi-label { opacity: 0.8; margin-top: 0.25rem; }
+        .dc-roi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; text-align: left; }
+        .dc-roi-item { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; }
+        .dc-roi-item-value { font-size: 1.25rem; font-weight: 600; }
+        .dc-roi-item-value.risk { color: #fca5a5; }
+        .dc-roi-item-value.save { color: #86efac; }
+        .dc-roi-item-label { font-size: 0.75rem; opacity: 0.7; }
+
+        .dc-gaps-display { margin-bottom: 1.5rem; }
+        .dc-gaps-display h4 { margin-bottom: 1rem; }
+        .dc-gap-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: var(--SEG-light-grey);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+        .dc-gap-badge {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+        .dc-gap-badge.critical { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
+        .dc-gap-badge.notable { background: rgba(249, 115, 22, 0.15); color: #ea580c; }
+
+        .dc-methodology {
+            background: var(--SEG-light-grey);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            color: var(--SEG-grey);
+            margin-bottom: 1.5rem;
+        }
+        .dc-methodology strong { color: var(--SEG-dark-grey); display: block; margin-bottom: 0.5rem; }
+
+        .dc-actions { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        .dc-actions .btn { flex: 1; }
+        .dc-disclaimer-footer { font-size: 0.75rem; color: var(--SEG-grey); text-align: center; font-style: italic; }
+
+        @media (max-width: 600px) {
+            .modal-overlay { padding: 1rem; }
+            .modal-body { padding: 1.5rem; }
+            .dc-roi-grid { grid-template-columns: 1fr; }
+            .dc-actions { flex-direction: column; }
+        }
+    </style>
+
+    <!-- AEGIS Chatbot -->
+    <script src="js/aegis-chatbot.js"></script>
+
+    <script>
+        // DC Checklist Data (embedded for speed)
+        const DC_QUESTIONS = [
+            { id: 1, section: 1, text: "Has an arc flash risk assessment been performed by a qualified engineer?", ref: "NFPA 70E §130.5", cost: 1400000, weight: 1.5 },
+            { id: 2, section: 1, text: "Is an EEWP required for energized work >50V?", ref: "NFPA 70E §130.2", cost: 1200000, weight: 1.3 },
+            { id: 3, section: 1, text: "Is arc-rated PPE available (Cat 1-4) with current inspection logs?", ref: "NFPA 70E §130.5", cost: 850000, weight: 1.4 },
+            { id: 4, section: 1, text: "Are all electrical workers documented as qualified with equipment-specific training?", ref: "NFPA 70E §100", cost: 750000, weight: 1.2 },
+            { id: 5, section: 2, text: "Are there written LOTO procedures for each equipment type including UPS/ATS?", ref: "OSHA 1910.147(c)(4)", cost: 1100000, weight: 1.4 },
+            { id: 6, section: 2, text: "Is there a group lockout procedure for multi-worker tasks?", ref: "OSHA 1910.147(f)(3)", cost: 950000, weight: 1.2 },
+            { id: 7, section: 2, text: "Are LOTO procedures inspected annually by someone other than the user?", ref: "OSHA 1910.147(c)(6)", cost: 650000, weight: 1.0 },
+            { id: 8, section: 3, text: "Is there a specific fall protection plan for overhead cable tray work?", ref: "OSHA 1926.502", cost: 780000, weight: 1.3 },
+            { id: 9, section: 3, text: "Are fiberglass ladders required near electrical equipment?", ref: "OSHA 1926.1053", cost: 420000, weight: 1.1 },
+            { id: 10, section: 3, text: "Are all raised floor openings covered, secured, and marked?", ref: "OSHA 1926.502(i)", cost: 380000, weight: 1.0 },
+            { id: 11, section: 4, text: "Are hot work permits required with fire watch within 20 feet?", ref: "NFPA 51B", cost: 2500000, weight: 1.5 },
+            { id: 12, section: 4, text: "Are fire detection systems maintained with impairment notification?", ref: "NFPA 75/76", cost: 3500000, weight: 1.4 },
+            { id: 13, section: 5, text: "Is EMR verification (<1.0) and NFPA 70E training required for contractors?", ref: "Best Practice", cost: 890000, weight: 1.2 },
+            { id: 14, section: 5, text: "Are daily coordination meetings held with all contractors?", ref: "OSHA 1926.16", cost: 520000, weight: 1.1 },
+            { id: 15, section: 5, text: "Are multi-employer duties documented with stop-work authority?", ref: "OSHA Policy", cost: 450000, weight: 1.0 },
+            { id: 16, section: 6, text: "Is there a written EAP addressing electrical emergencies?", ref: "OSHA 1926.35", cost: 680000, weight: 1.2 },
+            { id: 17, section: 6, text: "Are rescue hooks, AEDs, and trained personnel near high-voltage areas?", ref: "NFPA 70E §110.2", cost: 1400000, weight: 1.3 },
+            { id: 18, section: 6, text: "Is battery spill containment in place with response kits and eye wash?", ref: "OSHA 1926.441", cost: 320000, weight: 1.1 },
+            { id: 19, section: 7, text: "Are all training, inspection, and permit records current?", ref: "Multiple", cost: 125000, weight: 0.8 },
+            { id: 20, section: 7, text: "Is there a systematic pre-energization checklist with IR scanning?", ref: "NFPA 70E", cost: 1800000, weight: 1.5 }
+        ];
+
+        // State
+        let dcCurrentStep = 0;
+        let dcAnswers = {};
+        let dcProjectInfo = { workers: 150, burnRate: 2000000 };
+
+        // Open/Close Modal
+        function openDCModal() {
+            document.getElementById('dcChecklistModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+            dcCurrentStep = 0;
+            dcAnswers = {};
+            showDCStep(0);
+            renderDCQuestions();
+        }
+        function closeDCModal() {
+            document.getElementById('dcChecklistModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        // Steps
+        function showDCStep(step) {
+            document.querySelectorAll('.dc-step').forEach(s => s.classList.remove('active'));
+            document.getElementById('dcStep' + step).classList.add('active');
+            const totalSteps = 10;
+            const progress = (step / (totalSteps - 1)) * 100;
+            document.getElementById('dcProgressFill').style.width = progress + '%';
+            document.getElementById('dcProgressText').textContent = step === 0 ? 'Disclaimer' : step === 9 ? 'Results' : `Step ${step} of 8`;
+        }
+        function dcAcceptDisclaimer() {
+            if (!document.getElementById('dcDisclaimerAccept').checked) {
+                alert('Please accept the disclaimer to continue.');
+                return;
+            }
+            dcCurrentStep = 1;
+            showDCStep(1);
+        }
+        function dcNextStep() {
+            dcCurrentStep++;
+            showDCStep(dcCurrentStep);
+        }
+        function dcPrevStep() {
+            dcCurrentStep--;
+            showDCStep(dcCurrentStep);
+        }
+
+        // Sliders
+        function updateDCWorkerDisplay() {
+            const val = document.getElementById('dcWorkers').value;
+            dcProjectInfo.workers = parseInt(val);
+            document.getElementById('dcWorkersDisplay').textContent = val + ' workers';
+        }
+        function updateDCBurnDisplay() {
+            const val = document.getElementById('dcBurnRate').value;
+            dcProjectInfo.burnRate = parseInt(val);
+            document.getElementById('dcBurnDisplay').textContent = '$' + (val / 1000000).toFixed(1) + 'M / month';
+        }
+
+        // Render Questions
+        function renderDCQuestions() {
+            for (let section = 1; section <= 7; section++) {
+                const container = document.getElementById('dcQuestions' + section);
+                const sectionQs = DC_QUESTIONS.filter(q => q.section === section);
+                container.innerHTML = sectionQs.map(q => `
+                    <div class="dc-question">
+                        <div class="dc-question-ref">${q.ref}</div>
+                        <div class="dc-question-text">${q.text}</div>
+                        <div class="dc-options">
+                            <div class="dc-option" data-qid="${q.id}" data-value="yes" onclick="selectDCAnswer(${q.id}, 'yes', this)">Yes</div>
+                            <div class="dc-option" data-qid="${q.id}" data-value="partial" onclick="selectDCAnswer(${q.id}, 'partial', this)">Partial</div>
+                            <div class="dc-option" data-qid="${q.id}" data-value="no" onclick="selectDCAnswer(${q.id}, 'no', this)">No</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        function selectDCAnswer(qid, value, el) {
+            dcAnswers[qid] = value;
+            el.parentElement.querySelectorAll('.dc-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        // Calculate Results
+        function dcCalculateResults() {
+            // Validate all answered
+            if (Object.keys(dcAnswers).length < 20) {
+                alert('Please answer all questions before viewing results.');
+                return;
+            }
+
+            let totalScore = 0;
+            let totalRiskExposure = 0;
+            const gaps = [];
+
+            DC_QUESTIONS.forEach(q => {
+                const answer = dcAnswers[q.id];
+                const score = answer === 'yes' ? 1 : answer === 'partial' ? 0.5 : 0;
+                totalScore += score;
+
+                if (score < 1) {
+                    const risk = (1 - score) * q.cost * q.weight;
+                    totalRiskExposure += risk;
+                    gaps.push({ text: q.text.substring(0, 50) + '...', severity: score === 0 ? 'critical' : 'notable', risk });
+                }
+            });
+
+            // Sort gaps by risk
+            gaps.sort((a, b) => b.risk - a.risk);
+
+            // Rating
+            let rating, ratingClass;
+            if (totalScore >= 18) { rating = 'Controlled'; ratingClass = 'rating-controlled'; }
+            else if (totalScore >= 14) { rating = 'Managed'; ratingClass = 'rating-managed'; }
+            else if (totalScore >= 10) { rating = 'Developing'; ratingClass = 'rating-developing'; }
+            else { rating = 'Exposed'; ratingClass = 'rating-exposed'; }
+
+            // ROI Calculation (real numbers)
+            const criticalGaps = gaps.filter(g => g.severity === 'critical').length;
+            const notableGaps = gaps.filter(g => g.severity === 'notable').length;
+            const baseRate = 0.034; // TRIR baseline
+            const adjRate = baseRate * (1 + criticalGaps * 0.15);
+            const incidentProb = Math.min(adjRate * dcProjectInfo.workers, 0.95);
+            const avgCost = totalRiskExposure / Math.max(gaps.length, 1);
+            const expectedLoss = incidentProb * avgCost;
+            const delayCost = criticalGaps > 3 ? 0.25 * 2 * dcProjectInfo.burnRate : criticalGaps > 0 ? 0.1 * dcProjectInfo.burnRate : 0;
+            const citationCost = criticalGaps * 15625 * 0.3;
+            const totalExposure = expectedLoss + delayCost + citationCost;
+
+            // SEG Engagement Cost ($90/hr, minimum $40K/3mo engagement)
+            const SEG_RATE = 90; // $/hr
+            const MIN_ENGAGEMENT = 40000; // $40K minimum
+            // Engagement scope based on gaps:
+            // 0-5 gaps: 3 month assessment + targeted support = ~450 hrs = $40.5K
+            // 6-10 gaps: 4 month comprehensive = ~600 hrs = $54K
+            // 11+ gaps: 6 month program rebuild = ~900 hrs = $81K
+            let engagementHours, engagementMonths, engagementDesc;
+            if (gaps.length === 0) {
+                engagementHours = 80; // Verification audit only
+                engagementMonths = 0.5;
+                engagementDesc = 'Verification Audit';
+            } else if (gaps.length <= 5) {
+                engagementHours = 450;
+                engagementMonths = 3;
+                engagementDesc = '3-Month Assessment & Support';
+            } else if (gaps.length <= 10) {
+                engagementHours = 600;
+                engagementMonths = 4;
+                engagementDesc = '4-Month Comprehensive Program';
+            } else {
+                engagementHours = 900;
+                engagementMonths = 6;
+                engagementDesc = '6-Month Program Rebuild';
+            }
+            const segCost = Math.max(engagementHours * SEG_RATE, MIN_ENGAGEMENT);
+            const riskReduction = totalExposure * 0.85;
+            const roiMultiple = segCost > 0 ? Math.round(riskReduction / segCost) : 0;
+
+            // PERFECT SCORE HANDLING - suspicious, push to audit
+            if (totalScore === 20) {
+                document.getElementById('dcScoreDisplay').innerHTML = `
+                    <div class="dc-score-value" style="color: #22c55e;">20</div>
+                    <div class="dc-score-label">Perfect Score</div>
+                    <div class="dc-score-rating rating-controlled">Controlled</div>
+                `;
+                document.getElementById('dcROIDisplay').innerHTML = `
+                    <div style="text-align: center; padding: 1.5rem;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎯</div>
+                        <h4 style="color: var(--SEG-yellow); margin-bottom: 0.75rem;">Perfect Score? That's Exactly When to Verify.</h4>
+                        <p style="opacity: 0.9; font-size: 0.9375rem; margin-bottom: 1rem;">
+                            Per Uptime Institute research, <strong>79% of data center outages</strong> involved components that weren't directly tested during commissioning. Self-assessments measure intent—not implementation.
+                        </p>
+                        <p style="opacity: 0.8; font-size: 0.875rem;">
+                            BCSP-Certified auditors catch what checklists can't: field deviations, undocumented changes, and training gaps that only surface under independent review.
+                        </p>
+                    </div>
+                `;
+                document.getElementById('dcGapsDisplay').innerHTML = `
+                    <div style="background: var(--SEG-light-grey); padding: 1.25rem; border-radius: 8px; text-align: center;">
+                        <h4 style="margin-bottom: 0.5rem;">Independent Verification Audit</h4>
+                        <p style="color: var(--SEG-grey); font-size: 0.875rem;">
+                            On-site verification by BCSP-Certified professionals.<br>
+                            Benchmarked against OSHA, NFPA 70E, and industry standards.
+                        </p>
+                    </div>
+                `;
+                document.getElementById('dcMethodology').innerHTML = `
+                    <strong>Why Verify a Perfect Score?</strong>
+                    Per OSHA fatality data, 43% of construction electrocutions occur in workplaces that believed they were compliant. The gap between documentation and field reality is where incidents happen.
+                `;
+                // Update CTA for perfect score
+                document.querySelector('.dc-actions').innerHTML = `
+                    <button class="btn btn-outline" onclick="printDCReport()">Print Report</button>
+                    <button class="btn btn-primary" onclick="openBookingModal()">Request Audit Quote →</button>
+                `;
+            } else {
+                // Normal results display
+                document.getElementById('dcScoreDisplay').innerHTML = `
+                    <div class="dc-score-value">${totalScore}</div>
+                    <div class="dc-score-label">out of 20 points</div>
+                    <div class="dc-score-rating ${ratingClass}">${rating}</div>
+                `;
+
+                document.getElementById('dcROIDisplay').innerHTML = `
+                    <div class="dc-roi-value">${roiMultiple}x</div>
+                    <div class="dc-roi-label">Return on Proactive Intervention</div>
+                    <div class="dc-roi-grid">
+                        <div class="dc-roi-item">
+                            <div class="dc-roi-item-value risk">$${(totalExposure / 1000000).toFixed(2)}M</div>
+                            <div class="dc-roi-item-label">Annual Exposure</div>
+                        </div>
+                        <div class="dc-roi-item">
+                            <div class="dc-roi-item-value save">$${(riskReduction / 1000000).toFixed(2)}M</div>
+                            <div class="dc-roi-item-label">Recoverable Value</div>
+                        </div>
+                        <div class="dc-roi-item">
+                            <div class="dc-roi-item-value">$${(segCost / 1000).toFixed(0)}K</div>
+                            <div class="dc-roi-item-label">Intervention Cost</div>
+                        </div>
+                        <div class="dc-roi-item">
+                            <div class="dc-roi-item-value save">$${((riskReduction - segCost) / 1000000).toFixed(2)}M</div>
+                            <div class="dc-roi-item-label">Net Position</div>
+                        </div>
+                    </div>
+                    ${criticalGaps > 3 ? `<div style="background: #fee2e2; color: #dc2626; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.8125rem; margin-top: 1rem; text-align: center;"><strong>Elevated Risk Profile:</strong> ${criticalGaps} critical gaps correlates with 2-3x incident probability (BLS construction data)</div>` : ''}
+                `;
+
+                document.getElementById('dcGapsDisplay').innerHTML = gaps.length > 0 ? `
+                    <h4>Priority Gaps (${criticalGaps} critical, ${notableGaps} notable)</h4>
+                    ${gaps.slice(0, 5).map(g => `
+                        <div class="dc-gap-item">
+                            <span>${g.text}</span>
+                            <span class="dc-gap-badge ${g.severity}">${g.severity}</span>
+                        </div>
+                    `).join('')}
+                    ${gaps.length > 5 ? `<p style="font-size: 0.8125rem; color: var(--SEG-grey); margin-top: 0.75rem;">+ ${gaps.length - 5} more gaps in full report</p>` : ''}
+                    <div style="background: #fef3c7; border-left: 3px solid #f59e0b; padding: 0.75rem; margin-top: 1rem; font-size: 0.8125rem;">
+                        <strong>Why This Matters Now:</strong> Per OSHA, fall protection and electrical safety remain the #1 and #4 most cited standards in construction—12 years running. Each gap identified increases inspection risk.
+                    </div>
+                ` : '<p style="color: var(--success); text-align: center;">No gaps identified.</p>';
+
+                document.getElementById('dcMethodology').innerHTML = `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.8125rem;">
+                        <div>
+                            <strong>ROI Methodology</strong><br>
+                            OSHA Safety Pays estimator, BLS injury cost data, NIOSH electrical safety research.
+                        </div>
+                        <div>
+                            <strong>Risk Context (NFPA/OSHA)</strong><br>
+                            30,000+ arc flash incidents/year. 400 fatalities. Fatal burns at 10+ ft distance.
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Store results for print
+            window.dcResults = {
+                totalScore, gaps, rating, ratingClass, totalExposure, riskReduction, segCost, roiMultiple,
+                engagementHours, engagementMonths, engagementDesc, criticalGaps, notableGaps
+            };
+
+            dcCurrentStep = 9;
+            showDCStep(9);
+        }
+
+        // Print Report - generates filled-out PDF checklist
+        function printDCReport() {
+            const r = window.dcResults;
+            if (!r) { alert('Please complete the assessment first.'); return; }
+
+            const sections = [
+                { name: 'Electrical Safety Program', standard: 'NFPA 70E', ids: [1,2,3,4] },
+                { name: 'Lockout/Tagout Program', standard: 'OSHA 1910.147', ids: [5,6,7] },
+                { name: 'Fall Protection', standard: 'OSHA 1926 Subpart M', ids: [8,9,10] },
+                { name: 'Hot Work Controls', standard: 'NFPA 51B', ids: [11,12] },
+                { name: 'Contractor Safety Management', standard: 'OSHA 1926.16', ids: [13,14,15] },
+                { name: 'Emergency Response', standard: 'OSHA 1926.35', ids: [16,17,18] },
+                { name: 'Documentation & Verification', standard: 'Multiple Standards', ids: [19,20] }
+            ];
+
+            const getCheck = (qid) => {
+                const ans = dcAnswers[qid];
+                if (ans === 'yes') return '✓';
+                if (ans === 'partial') return '◐';
+                return '☐';
+            };
+            const getCheckColor = (qid) => {
+                const ans = dcAnswers[qid];
+                if (ans === 'yes') return '#22c55e';
+                if (ans === 'partial') return '#f59e0b';
+                return '#ef4444';
+            };
+
+            let sectionsHTML = '';
+            sections.forEach((sec, idx) => {
+                const secScore = sec.ids.reduce((sum, id) => sum + (dcAnswers[id] === 'yes' ? 1 : dcAnswers[id] === 'partial' ? 0.5 : 0), 0);
+                sectionsHTML += `
+                    <div class="section">
+                        <div class="section-header">${sec.name} <span style="float:right;font-weight:400;font-size:9pt;">${sec.standard} | Score: ${secScore}/${sec.ids.length}</span></div>
+                        ${sec.ids.map(id => {
+                            const q = DC_QUESTIONS.find(x => x.id === id);
+                            return `
+                                <div class="checklist-item">
+                                    <div class="item-number">${id}</div>
+                                    <div class="item-content">
+                                        <div class="item-title">${q.text}</div>
+                                        <div class="item-standard">${q.ref}</div>
+                                        <div class="item-answer" style="color:${getCheckColor(id)};font-weight:600;font-size:10pt;margin-top:4px;">
+                                            ${getCheck(id)} ${dcAnswers[id] === 'yes' ? 'Compliant' : dcAnswers[id] === 'partial' ? 'Partial' : 'Gap Identified'}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            });
+
+            const ratingColors = {
+                'rating-controlled': { bg: '#dcfce7', color: '#166534' },
+                'rating-managed': { bg: '#fef9c3', color: '#854d0e' },
+                'rating-developing': { bg: '#ffedd5', color: '#c2410c' },
+                'rating-exposed': { bg: '#fee2e2', color: '#dc2626' }
+            };
+            const rc = ratingColors[r.ratingClass] || ratingColors['rating-exposed'];
+
+            const printHTML = `<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<title>DC Safety Checklist Results | Safety Excellence Group</title>
+<style>
+@page { size: letter; margin: 0.6in; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', -apple-system, sans-serif; font-size: 9pt; line-height: 1.4; color: #333; }
+.print-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.75rem; border-bottom: 3px solid #FFCF00; margin-bottom: 1rem; }
+.print-header h1 { color: #132544; font-size: 16pt; font-weight: 700; }
+.print-header .logo-text { color: #132544; font-weight: 700; font-size: 9pt; text-align: right; }
+.results-banner { display: flex; gap: 1rem; margin-bottom: 1rem; }
+.score-box { flex: 1; background: ${rc.bg}; padding: 1rem; border-radius: 8px; text-align: center; }
+.score-value { font-size: 28pt; font-weight: 700; color: ${rc.color}; line-height: 1; }
+.score-label { font-size: 8pt; color: #666; margin-top: 2px; }
+.score-rating { display: inline-block; padding: 4px 12px; border-radius: 12px; font-weight: 600; font-size: 9pt; margin-top: 6px; background: ${rc.color}; color: white; }
+.roi-box { flex: 1; background: #132544; color: white; padding: 1rem; border-radius: 8px; text-align: center; }
+.roi-value { font-size: 28pt; font-weight: 700; color: #FFCF00; line-height: 1; }
+.roi-label { font-size: 8pt; opacity: 0.8; margin-top: 2px; }
+.roi-detail { font-size: 8pt; margin-top: 8px; opacity: 0.9; }
+.urgency-box { background: #dc2626; color: white; padding: 6px 10px; font-size: 7pt; margin-top: 6px; border-radius: 4px; }
+.section { margin-bottom: 1rem; page-break-inside: avoid; }
+.section-header { background: #132544; color: white; padding: 6px 10px; font-weight: 600; font-size: 10pt; border-radius: 4px; margin-bottom: 6px; }
+.checklist-item { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px solid #eee; }
+.checklist-item:last-child { border-bottom: none; }
+.item-number { width: 20px; height: 20px; background: #FFCF00; color: #132544; font-weight: 700; font-size: 8pt; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.item-content { flex: 1; }
+.item-title { font-weight: 600; color: #132544; font-size: 9pt; }
+.item-standard { font-size: 7pt; color: #888; }
+.cta-box { background: #132544; color: white; padding: 1rem; border-radius: 8px; text-align: center; margin-top: 1rem; page-break-inside: avoid; }
+.cta-box h3 { color: #FFCF00; font-size: 11pt; margin-bottom: 4px; }
+.cta-box p { font-size: 8pt; opacity: 0.85; }
+.footer { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #ddd; font-size: 7pt; color: #888; display: flex; justify-content: space-between; }
+.disclaimer { font-size: 6.5pt; color: #aaa; font-style: italic; margin-top: 0.5rem; }
+</style>
+</head><body>
+<div class="print-header">
+    <div>
+        <h1>DC Safety Checklist Results</h1>
+        <div style="color:#666;font-size:9pt;">20-Point Assessment | ${new Date().toLocaleDateString()}</div>
+    </div>
+    <div class="logo-text">Safety Excellence Group<br><span style="font-weight:400;font-size:7pt;">safety-excellence.com</span></div>
+</div>
+
+<div class="results-banner">
+    <div class="score-box">
+        <div class="score-value">${r.totalScore}</div>
+        <div class="score-label">out of 20 points</div>
+        <div class="score-rating">${r.rating}</div>
+    </div>
+    <div class="roi-box">
+        <div class="roi-value">${r.roiMultiple}x</div>
+        <div class="roi-label">Return on Proactive Intervention</div>
+        <div class="roi-detail">
+            Annual Exposure: $${(r.totalExposure/1000000).toFixed(2)}M | Recoverable: $${(r.riskReduction/1000000).toFixed(2)}M
+        </div>
+        ${r.criticalGaps > 3 ? '<div class="urgency-box">⚠ High gap count correlates with elevated incident probability (BLS data)</div>' : ''}
+    </div>
+</div>
+
+<div style="background:#f8f9fa;padding:8px 12px;border-radius:6px;margin-bottom:1rem;font-size:8pt;">
+    <span><strong>Gaps Identified:</strong> ${r.criticalGaps} critical, ${r.notableGaps} partial</span>
+    <span style="float:right;"><strong>Sources:</strong> OSHA Safety Pays | BLS Injury Data | NFPA 70E | NIOSH</span>
+</div>
+<div style="background:#fef3c7;border-left:3px solid #f59e0b;padding:8px 12px;margin-bottom:1rem;font-size:7.5pt;">
+    <strong>Schedule Risk:</strong> Safety incidents trigger mandatory OSHA investigation (1904.39). Data center construction delays cost up to $14M/month for 60MW facilities per industry analysts.
+</div>
+
+${sectionsHTML}
+
+<div class="cta-box">
+    <h3>${r.totalScore === 20 ? 'Perfect Score? Verify Before You Certify.' : 'Every Day These Gaps Stay Open Increases Your Exposure'}</h3>
+    <p>${r.totalScore === 20
+        ? 'Per Uptime Institute, 79% of outages involve untested components. Independent verification catches what self-assessments miss.<br>safety-excellence.com'
+        : `OSHA penalties up to $161,323 per willful violation. DC project delays cost up to $14M/month (industry data).<br>BCSP-Certified specialists: safety-excellence.com`}</p>
+</div>
+
+<div style="background:#fff8e6;padding:10px 12px;border-radius:6px;margin-top:0.75rem;font-size:7.5pt;page-break-inside:avoid;">
+    <strong>Industry Context (NFPA/OSHA/BLS):</strong> 30,000+ arc flash incidents annually | 400 electrical fatalities/year | 43% of construction electrocutions occur in "compliant" workplaces | Fall protection cited 6,750 times in FY2024
+</div>
+
+<div class="footer">
+    <span>Safety Excellence Group | BCSP-Certified Professionals | safety-excellence.com</span>
+    <span>Generated ${new Date().toLocaleString()}</span>
+</div>
+<div class="disclaimer">
+    This assessment provides general guidance based on OSHA, NFPA, and industry standards. It does not constitute site-specific consulting or legal advice.
+    All statistics sourced from: OSHA (osha.gov), NFPA 70E, BLS Census of Fatal Occupational Injuries, NIOSH, and Uptime Institute.
+    Verify all requirements against current applicable regulations before implementation.
+</div>
+</body></html>`;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printHTML);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => printWindow.print(), 250);
+        }
+
+        // DC Lead Form Submission
+        async function handleDCFormSubmit(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            const formData = {
+                name: form.name.value,
+                email: form.email.value,
+                company: form.company.value,
+                role: form.role.value,
+                source: 'dc-checklist',
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // Send to GHL webhook for DC leads
+                const webhookUrl = 'https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/4781670c-aa84-46f0-8dfc-f9d4f11d4a4c';
+
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ...formData,
+                        form_type: 'dc_checklist_download',
+                        lead_source: 'Data Center Landing Page'
+                    })
+                });
+
+                // Show success and redirect to PDF
+                submitBtn.textContent = 'Success!';
+                submitBtn.style.background = '#22c55e';
+
+                // Show success and open assessment modal
+                setTimeout(() => {
+                    form.innerHTML = `
+                        <div style="text-align: center; padding: 2rem 0;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
+                            <h3 style="margin-bottom: 0.5rem;">You're In!</h3>
+                            <p style="color: var(--SEG-grey);">Take the interactive assessment to get your personalized score and ROI analysis.</p>
+                            <p style="margin-top: 1rem;">
+                                <button onclick="openDCModal()" class="btn btn-primary" style="padding: 0.75rem 1.5rem; margin-bottom: 0.75rem;">Start Assessment →</button>
+                            </p>
+                            <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+                                <a href="/files/DC-Safety-Checklist.html" target="_blank" style="color: var(--SEG-grey);">Or download static checklist</a>
+                            </p>
+                        </div>
+                    `;
+                }, 500);
+
+            } catch (error) {
+                console.error('Form submission error:', error);
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+                alert('Something went wrong. Please try again.');
+            }
+        }
+
+        // Booking Modal Functions
+        function openBookingModal() {
+            document.getElementById('bookingModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    </script>
+
+    <!-- Booking Modal -->
+    <div class="modal-overlay" id="bookingModal" onclick="if(event.target === this) closeBookingModal()">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header">
+                <div>
+                    <h3>Book a Discovery Call</h3>
+                    <p>Schedule 15 minutes to discuss your safety needs</p>
+                </div>
+                <button class="modal-close" onclick="closeBookingModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" style="min-height: 600px; padding: 0;">
+                <iframe
+                    src="https://api.leadconnectorhq.com/widget/booking/56IkA4NNqXU4MQAnpmAh"
+                    style="width: 100%; height: 550px; border: none; overflow: hidden;"
+                    scrolling="no">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

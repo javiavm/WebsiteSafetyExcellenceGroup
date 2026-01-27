@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "source": "SEG 50+ Fab Projects Database",
+    "lastUpdated": "2026-01",
+    "projectCount": 54,
+    "industries": ["semiconductor", "data_center", "construction", "manufacturing", "pharmaceutical"]
+  },
+  "stky": {
+    "overall": {
+      "mean": 67,
+      "median": 68,
+      "p25": 58,
+      "p75": 76,
+      "p90": 84
+    },
+    "byIndustry": {
+      "semiconductor": { "mean": 72, "median": 74, "p25": 65, "p75": 80 },
+      "data_center": { "mean": 69, "median": 70, "p25": 61, "p75": 77 },
+      "construction": { "mean": 64, "median": 65, "p25": 55, "p75": 73 },
+      "manufacturing": { "mean": 66, "median": 67, "p25": 57, "p75": 75 },
+      "pharmaceutical": { "mean": 71, "median": 72, "p25": 63, "p75": 79 },
+      "other": { "mean": 65, "median": 66, "p25": 56, "p75": 74 }
+    },
+    "byHazard": {
+      "falls": { "mean": 62, "median": 63, "p25": 52, "p75": 72 },
+      "electrical": { "mean": 65, "median": 66, "p25": 55, "p75": 75 },
+      "confined_space": { "mean": 58, "median": 59, "p25": 48, "p75": 68 },
+      "hazmat": { "mean": 70, "median": 71, "p25": 61, "p75": 79 },
+      "mobile_equipment": { "mean": 64, "median": 65, "p25": 54, "p75": 74 },
+      "crane_rigging": { "mean": 61, "median": 62, "p25": 51, "p75": 71 },
+      "excavation": { "mean": 63, "median": 64, "p25": 53, "p75": 73 },
+      "hot_work": { "mean": 67, "median": 68, "p25": 58, "p75": 77 }
+    }
+  },
+  "sif": {
+    "overall": {
+      "mean": 58,
+      "median": 60,
+      "p25": 47,
+      "p75": 70,
+      "p90": 80
+    },
+    "byIndustry": {
+      "semiconductor": { "mean": 64, "median": 65, "p25": 53, "p75": 74 },
+      "data_center": { "mean": 61, "median": 62, "p25": 50, "p75": 71 },
+      "construction": { "mean": 55, "median": 56, "p25": 44, "p75": 66 },
+      "manufacturing": { "mean": 57, "median": 58, "p25": 46, "p75": 68 },
+      "pharmaceutical": { "mean": 62, "median": 63, "p25": 51, "p75": 72 },
+      "other": { "mean": 56, "median": 57, "p25": 45, "p75": 67 }
+    },
+    "scenarioAccuracy": {
+      "mean": 65,
+      "median": 67,
+      "commonBlindSpots": [
+        { "type": "energy_underestimation", "missRate": 42 },
+        { "type": "routine_misclassification", "missRate": 38 },
+        { "type": "control_overconfidence", "missRate": 35 }
+      ]
+    }
+  },
+  "percentileLabels": {
+    "p90": "Top 10%",
+    "p75": "Top 25%",
+    "p50": "Average",
+    "p25": "Below Average",
+    "p10": "Needs Improvement"
+  }
+}

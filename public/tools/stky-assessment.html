@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STKY Hazard Assessment | Safety Excellence Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tools-v3.css">
+</head>
+<body>
+    <div class="tool-container">
+        <!-- Progress -->
+        <div class="progress-container" id="progress-container">
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+        </div>
+
+        <!-- Step 1: Path Selection -->
+        <div id="step-path" class="step active">
+            <div class="tool-header">
+                <h1>STKY Assessment</h1>
+                <p class="subtitle">Hazard control maturity in 5 minutes</p>
+            </div>
+
+            <div class="question-label">What brought you here?</div>
+            <div class="path-grid" id="path-grid"></div>
+        </div>
+
+        <!-- Step 2: Context Questions -->
+        <div id="step-context" class="step">
+            <div class="question-label" id="context-label">Context</div>
+            <div class="question-text" id="context-question"></div>
+            <div class="option-grid" id="context-options"></div>
+        </div>
+
+        <!-- Step 3: Hazard Assessment -->
+        <div id="step-hazards" class="step">
+            <div class="hazard-progress" id="hazard-progress"></div>
+            <div class="question-label" id="hazard-label"></div>
+            <div class="question-text" id="hazard-question"></div>
+            <div class="option-grid" id="hazard-options"></div>
+        </div>
+
+        <!-- Step 4: Results -->
+        <div id="step-results" class="step">
+            <div class="tool-header">
+                <h1>Assessment Complete</h1>
+            </div>
+
+            <div id="score-container"></div>
+
+            <div class="mt-24">
+                <h3 style="color:var(--blue);margin-bottom:16px">Identified Gaps</h3>
+                <div id="gaps-container"></div>
+            </div>
+
+            <div id="citations-container" class="mt-24" style="display:none">
+                <h3 style="color:var(--blue);margin-bottom:16px">Regulatory References</h3>
+                <div id="citations-list"></div>
+            </div>
+
+            <div class="disclaimer">
+                This assessment provides general guidance only. It does not constitute professional safety consulting or site-specific advice. Verify all findings against applicable requirements.
+            </div>
+
+            <button class="btn btn-primary btn-full mt-24" onclick="showEmailStep()">
+                Get Full Breakdown
+            </button>
+        </div>
+
+        <!-- Step 5: Email Capture -->
+        <div id="step-email" class="step">
+            <div class="tool-header">
+                <h1>Get Your Full Report</h1>
+                <p class="subtitle">Detailed breakdown with recommendations</p>
+            </div>
+
+            <form id="email-form" class="mt-24">
+                <div class="form-group">
+                    <label for="user-name">Name</label>
+                    <input type="text" id="user-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-email">Work Email</label>
+                    <input type="email" id="user-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-company">Company (optional)</label>
+                    <input type="text" id="user-company" name="company">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    Send Report
+                </button>
+            </form>
+        </div>
+
+        <!-- Step 6: Confirmation -->
+        <div id="step-confirm" class="step">
+            <div class="tool-header" style="margin-bottom:32px">
+                <h1>Report Sent</h1>
+                <p class="subtitle">Check your inbox for the full breakdown</p>
+            </div>
+
+            <div class="card" style="text-align:center;padding:32px">
+                <div style="font-size:3rem;font-weight:800;color:var(--blue)" id="final-score">0</div>
+                <div style="color:var(--text-light)">Overall Score</div>
+                <div class="rating-badge mt-16" id="final-rating">Managed</div>
+            </div>
+
+            <div class="cta-box mt-32">
+                <h3>Ready for Continuous Monitoring?</h3>
+                <p>AEGIS AI tracks hazard exposures across your operation in real-time.</p>
+                <a href="/contact?source=stky" class="btn">Schedule a Consultation</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/tool-engine.js"></script>
+    <script>
+    // State
+    let config = null;
+    let selectedPath = null;
+    let contextResponses = {};
+    let hazardResponses = {};
+    let currentContextIndex = 0;
+    let currentHazardIndex = 0;
+    let currentQuestionIndex = 0;
+    let hazardsToAssess = [];
+    let results = null;
+    let citations = [];
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadConfig();
+        ToolEngine.initSteps(['step-path', 'step-context', 'step-hazards', 'step-results', 'step-email', 'step-confirm']);
+        document.getElementById('email-form').addEventListener('submit', submitEmail);
+    });
+
+    // Load config from API
+    async function loadConfig() {
+        try {
+            const res = await ToolEngine.getJSON('/api/stky/config');
+            config = res;
+            renderPaths();
+        } catch (e) {
+            console.error('Failed to load config:', e);
+        }
+    }
+
+    // Render path selection
+    function renderPaths() {
+        const container = document.getElementById('path-grid');
+        container.innerHTML = Object.values(config.paths).map(path => `
+            <div class="path-card" data-path="${path.id}">
+                <div class="path-label">${path.label}</div>
+                <div class="path-desc">${path.description}</div>
+                <div class="path-meta">
+                    <span>${path.questions} questions</span>
+                    <span>${path.time}</span>
+                </div>
+            </div>
+        `).join('');
+
+        container.querySelectorAll('.path-card').forEach(card => {
+            card.addEventListener('click', () => selectPath(card.dataset.path));
+        });
+    }
+
+    // Select path
+    async function selectPath(pathId) {
+        selectedPath = pathId;
+        document.querySelectorAll('.path-card').forEach(c => c.classList.remove('selected'));
+        document.querySelector(`[data-path="${pathId}"]`).classList.add('selected');
+
+        // Initialize session
+        await ToolEngine.postJSON('/api/stky/session', { sessionId: ToolEngine.getSessionId() });
+
+        await ToolEngine.delay(300);
+        currentContextIndex = 0;
+        renderContextQuestion();
+        ToolEngine.showStep('step-context');
+    }
+
+    // Render context question
+    function renderContextQuestion() {
+        if (currentContextIndex >= config.context.length) {
+            startHazardAssessment();
+            return;
+        }
+
+        const q = config.context[currentContextIndex];
+        document.getElementById('context-label').textContent = `Question ${currentContextIndex + 1} of ${config.context.length}`;
+        document.getElementById('context-question').textContent = q.question;
+
+        const container = document.getElementById('context-options');
+        container.innerHTML = q.options.map(opt => `
+            <div class="option-card" data-value="${opt.value}">
+                <div class="option-label">${opt.label}</div>
+            </div>
+        `).join('');
+
+        container.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', () => answerContext(q.id, card.dataset.value));
+        });
+    }
+
+    // Answer context question
+    async function answerContext(questionId, value) {
+        contextResponses[questionId] = value;
+
+        document.querySelectorAll('#context-options .option-card').forEach(c => c.classList.remove('selected'));
+        document.querySelector(`#context-options [data-value="${value}"]`).classList.add('selected');
+
+        await ToolEngine.delay(300);
+        currentContextIndex++;
+        renderContextQuestion();
+    }
+
+    // Start hazard assessment
+    async function startHazardAssessment() {
+        // Get hazards based on path and industry
+        const industry = contextResponses.industry || 'construction';
+        const res = await ToolEngine.getJSON(`/api/stky/hazards/${selectedPath}/${industry}`);
+        hazardsToAssess = res.hazards;
+        hazardResponses = { hazards: {} };
+
+        currentHazardIndex = 0;
+        currentQuestionIndex = 0;
+        renderHazardQuestion();
+        ToolEngine.showStep('step-hazards');
+    }
+
+    // Render hazard question
+    function renderHazardQuestion() {
+        if (currentHazardIndex >= hazardsToAssess.length) {
+            submitAssessment();
+            return;
+        }
+
+        const hazard = hazardsToAssess[currentHazardIndex];
+        if (currentQuestionIndex >= hazard.questions.length) {
+            currentHazardIndex++;
+            currentQuestionIndex = 0;
+            renderHazardQuestion();
+            return;
+        }
+
+        const q = hazard.questions[currentQuestionIndex];
+
+        // Calculate overall progress
+        let totalQuestions = hazardsToAssess.reduce((sum, h) => sum + h.questions.length, 0);
+        let answered = 0;
+        for (let i = 0; i < currentHazardIndex; i++) {
+            answered += hazardsToAssess[i].questions.length;
+        }
+        answered += currentQuestionIndex;
+
+        document.getElementById('hazard-progress').innerHTML = `
+            <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:8px">
+                ${answered + 1} of ${totalQuestions}
+            </div>
+            <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden">
+                <div style="height:100%;width:${((answered + 1) / totalQuestions) * 100}%;background:var(--yellow);transition:width 0.3s"></div>
+            </div>
+        `;
+
+        document.getElementById('hazard-label').textContent = hazard.name;
+        document.getElementById('hazard-question').textContent = q.question;
+
+        const container = document.getElementById('hazard-options');
+        container.innerHTML = q.options.map(opt => `
+            <div class="option-card" data-value="${opt.value}">
+                <div class="option-label">${opt.label}</div>
+            </div>
+        `).join('');
+
+        container.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', () => answerHazard(hazard.id, q.id, card.dataset.value));
+        });
+    }
+
+    // Answer hazard question
+    async function answerHazard(hazardId, questionId, value) {
+        if (!hazardResponses.hazards[hazardId]) {
+            hazardResponses.hazards[hazardId] = {};
+        }
+        hazardResponses.hazards[hazardId][questionId] = value;
+
+        document.querySelectorAll('#hazard-options .option-card').forEach(c => c.classList.remove('selected'));
+        document.querySelector(`#hazard-options [data-value="${value}"]`).classList.add('selected');
+
+        await ToolEngine.delay(300);
+        currentQuestionIndex++;
+        renderHazardQuestion();
+    }
+
+    // Submit assessment
+    async function submitAssessment() {
+        try {
+            const res = await ToolEngine.postJSON('/api/stky/assess', {
+                sessionId: ToolEngine.getSessionId(),
+                path: selectedPath,
+                context: contextResponses,
+                responses: hazardResponses
+            });
+
+            results = res.results;
+            citations = res.citations || [];
+            renderResults();
+            ToolEngine.showStep('step-results');
+        } catch (e) {
+            console.error('Assessment failed:', e);
+            alert('Assessment failed. Please try again.');
+        }
+    }
+
+    // Render results
+    function renderResults() {
+        ToolEngine.renderScore(results.overall.score, 'score-container');
+        ToolEngine.renderGaps(results.gaps.slice(0, 5), 'gaps-container');
+
+        // Render citations if available
+        if (citations.length > 0) {
+            const container = document.getElementById('citations-container');
+            const list = document.getElementById('citations-list');
+            list.innerHTML = citations.map(c => `
+                <div class="card" style="margin-bottom:12px;padding:16px">
+                    <strong style="color:var(--blue)">${c.primaryCitation.reference}</strong>
+                    <p style="margin:8px 0 4px;font-size:0.9rem">${c.primaryCitation.title}</p>
+                    <p style="font-size:0.85rem;color:var(--text-light)">${c.actionStatement}</p>
+                </div>
+            `).join('');
+            container.style.display = 'block';
+        }
+    }
+
+    // Show email step
+    function showEmailStep() {
+        ToolEngine.showStep('step-email');
+    }
+
+    // Submit email
+    async function submitEmail(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('user-name').value;
+        const email = document.getElementById('user-email').value;
+        const company = document.getElementById('user-company').value;
+
+        try {
+            await ToolEngine.postJSON('/api/stky/capture', {
+                sessionId: ToolEngine.getSessionId(),
+                email,
+                name,
+                company
+            });
+
+            document.getElementById('final-score').textContent = results.overall.score;
+            const rating = ToolEngine.getRating(results.overall.score);
+            document.getElementById('final-rating').textContent = rating.label;
+            document.getElementById('final-rating').className = `rating-badge ${rating.class}`;
+
+            ToolEngine.showStep('step-confirm');
+        } catch (e) {
+            console.error('Email capture failed:', e);
+            alert('Failed to send report. Please try again.');
+        }
+    }
+
+    </script>
+</body>
+</html>

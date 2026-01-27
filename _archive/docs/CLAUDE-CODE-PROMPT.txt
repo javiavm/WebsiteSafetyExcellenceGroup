@@ -1,0 +1,37 @@
+# Paste this into Claude Code
+
+```
+I'm building the AEGIS AI chatbot for Safety Excellence Group. The project is at:
+C:\Users\AlexGomez\OneDrive - Safety Excellence Group\Desktop\seg-website
+
+FIRST: Create a backup of all current files before making any changes:
+- Copy the entire seg-website folder to seg-website-BACKUP
+- Or at minimum, copy js/aegis-chatbot.js, css/aegis-chatbot.css, and server/index.js to a backup folder
+
+Key files:
+- js/aegis-chatbot.js (frontend widget)
+- css/aegis-chatbot.css (styling)
+- server/index.js (Node.js backend with Claude API)
+
+Read the task file at: AEGIS-CHATBOT-TASKS.md (in the project root)
+
+Start with the HIGH priority items in order:
+
+1. TASK 0: Add a welcome screen before the disclaimer with ONE centered card:
+   "S.E.G. HI + AEGIS AI = SAFE • FAST • PRECISE"
+   - "SAFE • FAST • PRECISE" should be in gold (#FFCF00)
+   - "Start Chat" button below leads to disclaimer
+   
+2. TASK 2: Fix the calendar - make it open in a modal overlay instead of embedded in chat
+
+3. TASK 3: Expand the system prompt to cover more safety standards (29 CFR 1910, 1926, NFPA 70, NFPA 70E, ANSI Z88.2, ANSI Z136.1, ANSI Z49.1, ASME B30, 10 CFR 851 for DOE, Cal-OSHA, ACGIH TLVs)
+
+Rules:
+- Keep bot responses SHORT (1-3 sentences max)
+- Always push toward booking discovery calls
+- Never give direct compliance advice - cite standards instead
+- Test that server runs without errors after changes
+- Brand colors: Navy (#132544), Gold (#FFCF00)
+
+Start by creating the backup, then read the current files, then implement Task 0 first.
+```

@@ -1,0 +1,20 @@
+WEBHOOK: stky_assessment
+FIELDS: email,name,company,industry,stky_score,stky_rating,exposures
+FILE: server/routes/stky.js
+PLACEHOLDER: STKY_WEBHOOK_PLACEHOLDER
+---
+WEBHOOK: sif_scorecard
+FIELDS: email,name,company,industry,sif_score,sif_rating,precursors
+FILE: server/routes/sif.js
+PLACEHOLDER: SIF_WEBHOOK_PLACEHOLDER
+---
+WEBHOOK: consultant_verifier
+FIELDS: email,name,company,consultant_name,verification_score,verification_rating
+FILE: server/routes/verifier.js
+PLACEHOLDER: VERIFIER_WEBHOOK_PLACEHOLDER
+---
+WEBHOOK: metrics_analyzer
+FIELDS: email,name,company,metrics_score,metrics_rating,issues
+FILE: server/routes/metrics.js
+PLACEHOLDER: METRICS_WEBHOOK_PLACEHOLDER
+---

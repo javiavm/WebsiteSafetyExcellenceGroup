@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20-Point Data Center Safety Checklist | Safety Excellence Group</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 0.75in;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 10pt;
+            line-height: 1.5;
+            color: #333;
+            background: #fff;
+        }
+
+        .print-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #FFCF00;
+            margin-bottom: 1.5rem;
+        }
+
+        .print-header h1 {
+            color: #132544;
+            font-size: 18pt;
+            font-weight: 700;
+        }
+
+        .print-header .logo-text {
+            color: #132544;
+            font-weight: 700;
+            font-size: 10pt;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 10pt;
+            margin-bottom: 1rem;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            background: #f8f9fa;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #ef4444;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 14pt;
+            font-weight: 700;
+            color: #ef4444;
+        }
+
+        .stat-label {
+            font-size: 8pt;
+            color: #666;
+        }
+
+        .section {
+            margin-bottom: 1.5rem;
+            page-break-inside: avoid;
+        }
+
+        .section-header {
+            background: #132544;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 11pt;
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #eee;
+            page-break-inside: avoid;
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-number {
+            width: 24px;
+            height: 24px;
+            background: #FFCF00;
+            color: #132544;
+            font-weight: 700;
+            font-size: 9pt;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-title {
+            font-weight: 600;
+            color: #132544;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-standard {
+            font-size: 8pt;
+            color: #666;
+            margin-bottom: 0.35rem;
+        }
+
+        .verify-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .verify-list li {
+            position: relative;
+            padding-left: 1.25rem;
+            font-size: 9pt;
+            margin-bottom: 0.2rem;
+        }
+
+        .verify-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.4em;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #FFCF00;
+            border-radius: 2px;
+        }
+
+        .checkbox {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .score-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            page-break-inside: avoid;
+        }
+
+        .score-card h3 {
+            color: #132544;
+            margin-bottom: 0.75rem;
+            font-size: 11pt;
+        }
+
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9pt;
+        }
+
+        .score-table th,
+        .score-table td {
+            padding: 0.4rem 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .score-table th {
+            background: #132544;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .score-table td:last-child {
+            width: 80px;
+            text-align: center;
+        }
+
+        .interpretation {
+            margin-top: 1rem;
+            font-size: 9pt;
+        }
+
+        .interpretation strong {
+            color: #132544;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);
+            color: #fff;
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            page-break-inside: avoid;
+        }
+
+        .cta-box h3 {
+            color: #FFCF00;
+            margin-bottom: 0.5rem;
+            font-size: 12pt;
+        }
+
+        .cta-box p {
+            font-size: 9pt;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .cta-box .contact {
+            font-weight: 600;
+            color: #FFCF00;
+        }
+
+        .footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+            font-size: 8pt;
+            color: #666;
+        }
+
+        .disclaimer {
+            font-size: 7.5pt;
+            color: #888;
+            font-style: italic;
+            margin-top: 0.75rem;
+        }
+
+        @media print {
+            body {
+                font-size: 9pt;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+
+            .cta-box {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        @media screen {
+            body {
+                max-width: 8.5in;
+                margin: 0 auto;
+                padding: 1rem;
+            }
+
+            .print-btn {
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                background: #132544;
+                color: #fff;
+                border: none;
+                padding: 0.75rem 1.5rem;
+                font-weight: 600;
+                border-radius: 4px;
+                cursor: pointer;
+                z-index: 100;
+            }
+
+            .print-btn:hover {
+                background: #1a3a5c;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+
+    <div class="print-header">
+        <div>
+            <h1>20-Point Data Center Safety Checklist</h1>
+            <p class="subtitle">For Construction & Operations Teams at Hyperscale Facilities</p>
+        </div>
+        <div class="logo-text">
+            Safety Excellence Group<br>
+            <span style="font-weight: 400; font-size: 8pt;">safety-excellence.com</span>
+        </div>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-value">63%</div>
+            <div class="stat-label">DC fatalities are electrical</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">$1.2M</div>
+            <div class="stat-label">Avg. serious injury cost</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">6+ mo</div>
+            <div class="stat-label">Project delay per incident</div>
+        </div>
+    </div>
+
+    <!-- Section 1: Electrical Safety -->
+    <div class="section">
+        <div class="section-header">Section 1: Electrical Safety Program (NFPA 70E)</div>
+
+        <div class="checklist-item">
+            <div class="item-number">1</div>
+            <div class="item-content">
+                <div class="item-title">Arc Flash Risk Assessment Complete</div>
+                <div class="item-standard">NFPA 70E Article 130.5</div>
+                <ul class="verify-list">
+                    <li>Arc flash risk assessment by qualified engineer</li>
+                    <li>Incident energy calculations for all equipment >240V</li>
+                    <li>Labels installed on panels, switchgear, transformers</li>
+                    <li>Assessment updated within 5 years or after mods</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">2</div>
+            <div class="item-content">
+                <div class="item-title">Energized Electrical Work Permit (EEWP) Process</div>
+                <div class="item-standard">NFPA 70E Article 130.2</div>
+                <ul class="verify-list">
+                    <li>EEWP required for energized work >50V</li>
+                    <li>Justified business necessity documented</li>
+                    <li>Permits specify PPE category, AFB, approach boundaries</li>
+                    <li>No "blanket permits" - task-specific authorization</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">3</div>
+            <div class="item-content">
+                <div class="item-title">PPE Selection and Availability</div>
+                <div class="item-standard">NFPA 70E Article 130.5, Table 130.5(G)</div>
+                <ul class="verify-list">
+                    <li>Arc-rated PPE available (Categories 1-4)</li>
+                    <li>Face shields + balaclava or arc hoods for Cat 2+</li>
+                    <li>Voltage-rated gloves per Table 130.7(C)(15)(a)</li>
+                    <li>Glove inspection logs current (6-month testing)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">4</div>
+            <div class="item-content">
+                <div class="item-title">Qualified Person Verification</div>
+                <div class="item-standard">NFPA 70E Article 100</div>
+                <ul class="verify-list">
+                    <li>Training records for all electrical workers</li>
+                    <li>Training specific to on-site equipment types</li>
+                    <li>Demonstrated competency (not just course completion)</li>
+                    <li>Annual refresher training documented</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: LOTO -->
+    <div class="section">
+        <div class="section-header">Section 2: Lockout/Tagout Program (OSHA 1910.147)</div>
+
+        <div class="checklist-item">
+            <div class="item-number">5</div>
+            <div class="item-content">
+                <div class="item-title">Equipment-Specific LOTO Procedures</div>
+                <div class="item-standard">OSHA 29 CFR 1910.147(c)(4)</div>
+                <ul class="verify-list">
+                    <li>Written procedure for each equipment type</li>
+                    <li>All energy sources covered (elec, pneumatic, hydraulic)</li>
+                    <li>UPS bypass procedures documented</li>
+                    <li>Generator and ATS isolation procedures documented</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">6</div>
+            <div class="item-content">
+                <div class="item-title">Group LOTO for Complex Servicing</div>
+                <div class="item-standard">OSHA 29 CFR 1910.147(f)(3)</div>
+                <ul class="verify-list">
+                    <li>Group lockout procedure for multi-worker tasks</li>
+                    <li>Primary authorized employee designated</li>
+                    <li>Individual lockout devices for each worker</li>
+                    <li>Shift change procedures documented</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">7</div>
+            <div class="item-content">
+                <div class="item-title">Periodic Inspection of LOTO Procedures</div>
+                <div class="item-standard">OSHA 29 CFR 1910.147(c)(6)</div>
+                <ul class="verify-list">
+                    <li>Annual inspection by authorized employee</li>
+                    <li>Inspector different from person evaluated</li>
+                    <li>Certification documents current</li>
+                    <li>Deficiencies documented and corrected</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 3: Fall Protection -->
+    <div class="section">
+        <div class="section-header">Section 3: Fall Protection (OSHA 1926 Subpart M)</div>
+
+        <div class="checklist-item">
+            <div class="item-number">8</div>
+            <div class="item-content">
+                <div class="item-title">Elevated Work Plans for Overhead Cable Tray</div>
+                <div class="item-standard">OSHA 29 CFR 1926.502</div>
+                <ul class="verify-list">
+                    <li>Fall protection required at 6 feet</li>
+                    <li>Cable tray work has specific fall protection plan</li>
+                    <li>PFAS installed and inspected</li>
+                    <li>Rescue plan documented and equipment staged</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">9</div>
+            <div class="item-content">
+                <div class="item-title">Ladder Safety Program</div>
+                <div class="item-standard">OSHA 29 CFR 1926.1053</div>
+                <ul class="verify-list">
+                    <li>Ladder inspection program in place</li>
+                    <li>Fiberglass ladders near electrical equipment</li>
+                    <li>A-frame on level surfaces only</li>
+                    <li>No metal ladders on site</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">10</div>
+            <div class="item-content">
+                <div class="item-title">Raised Floor Opening Protection</div>
+                <div class="item-standard">OSHA 29 CFR 1926.502(i)</div>
+                <ul class="verify-list">
+                    <li>All floor openings covered or guarded</li>
+                    <li>Covers secured and marked</li>
+                    <li>Proper tile lifting procedures trained</li>
+                    <li>Tile carts/racks provided</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 4: Hot Work -->
+    <div class="section">
+        <div class="section-header">Section 4: Hot Work Controls</div>
+
+        <div class="checklist-item">
+            <div class="item-number">11</div>
+            <div class="item-content">
+                <div class="item-title">Hot Work Permit System</div>
+                <div class="item-standard">OSHA 29 CFR 1926.352, NFPA 51B</div>
+                <ul class="verify-list">
+                    <li>Permits required for welding, cutting, brazing</li>
+                    <li>Fire watch for duration + 30 min after</li>
+                    <li>Combustibles cleared within 35 feet</li>
+                    <li>Fire extinguisher within 20 feet</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">12</div>
+            <div class="item-content">
+                <div class="item-title">Fire Detection During Construction</div>
+                <div class="item-standard">NFPA 75, NFPA 76</div>
+                <ul class="verify-list">
+                    <li>Fire detection maintained throughout construction</li>
+                    <li>Impairment notification process for outages</li>
+                    <li>Alternative fire watch when impaired</li>
+                    <li>Suppression systems protected from accidental discharge</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 5: Contractor Safety -->
+    <div class="section">
+        <div class="section-header">Section 5: Contractor Safety Management</div>
+
+        <div class="checklist-item">
+            <div class="item-number">13</div>
+            <div class="item-content">
+                <div class="item-title">Contractor Pre-Qualification</div>
+                <div class="item-standard">Industry Best Practice</div>
+                <ul class="verify-list">
+                    <li>EMR verification (&lt;1.0 required, &lt;0.8 preferred)</li>
+                    <li>DART rate verification</li>
+                    <li>OSHA 10/30 training verified for workers</li>
+                    <li>NFPA 70E training for electrical workers</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">14</div>
+            <div class="item-content">
+                <div class="item-title">Daily Safety Coordination</div>
+                <div class="item-standard">OSHA 29 CFR 1926.16</div>
+                <ul class="verify-list">
+                    <li>Daily coordination meetings held</li>
+                    <li>All contractors represented</li>
+                    <li>Hot work, LOTO, confined space coordinated</li>
+                    <li>Work area boundaries defined</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">15</div>
+            <div class="item-content">
+                <div class="item-title">Multi-Employer Responsibilities</div>
+                <div class="item-standard">OSHA Multi-Employer Citation Policy</div>
+                <ul class="verify-list">
+                    <li>Controlling employer duties documented</li>
+                    <li>Creating employer responsibilities clear</li>
+                    <li>Right-to-stop-work authority granted</li>
+                    <li>Hazard correction process established</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 6: Emergency Response -->
+    <div class="section">
+        <div class="section-header">Section 6: Emergency Response</div>
+
+        <div class="checklist-item">
+            <div class="item-number">16</div>
+            <div class="item-content">
+                <div class="item-title">Emergency Action Plan</div>
+                <div class="item-standard">OSHA 29 CFR 1926.35</div>
+                <ul class="verify-list">
+                    <li>Written EAP for the site</li>
+                    <li>Evacuation routes posted</li>
+                    <li>Assembly points away from electrical equipment</li>
+                    <li>Plan addresses electrical emergencies</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">17</div>
+            <div class="item-content">
+                <div class="item-title">Electrical Rescue Equipment</div>
+                <div class="item-standard">NFPA 70E Article 110.2</div>
+                <ul class="verify-list">
+                    <li>Rescue hooks/blankets near high-voltage areas</li>
+                    <li>AED within 3-minute response time</li>
+                    <li>Personnel trained in electrical rescue</li>
+                    <li>Local EMS briefed on site hazards</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">18</div>
+            <div class="item-content">
+                <div class="item-title">Spill Response for Battery Systems</div>
+                <div class="item-standard">OSHA 29 CFR 1926.441</div>
+                <ul class="verify-list">
+                    <li>Battery room spill containment in place</li>
+                    <li>Spill response kits accessible</li>
+                    <li>Workers trained on battery acid hazards</li>
+                    <li>Eye wash within 10 seconds of battery areas</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 7: Documentation -->
+    <div class="section">
+        <div class="section-header">Section 7: Documentation and Verification</div>
+
+        <div class="checklist-item">
+            <div class="item-number">19</div>
+            <div class="item-content">
+                <div class="item-title">Safety Documentation Currency</div>
+                <div class="item-standard">Multiple OSHA Standards</div>
+                <ul class="verify-list">
+                    <li>Training records current (OSHA, NFPA 70E, LOTO)</li>
+                    <li>Equipment inspection records current</li>
+                    <li>EEWP and hot work permits filed</li>
+                    <li>Corrective actions tracked to completion</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist-item">
+            <div class="item-number">20</div>
+            <div class="item-content">
+                <div class="item-title">Pre-Energization Safety Verification</div>
+                <div class="item-standard">NFPA 70E, Industry Best Practice</div>
+                <ul class="verify-list">
+                    <li>Visual inspection of all electrical connections</li>
+                    <li>Torque verification documented</li>
+                    <li>IR scanning scheduled for first 30 days</li>
+                    <li>All workers cleared from energization zone</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Score Card -->
+    <div class="score-card">
+        <h3>Score Card</h3>
+        <table class="score-table">
+            <thead>
+                <tr>
+                    <th>Section</th>
+                    <th>Points</th>
+                    <th>Your Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1. Electrical Safety (Items 1-4)</td>
+                    <td>4</td>
+                    <td>___</td>
+                </tr>
+                <tr>
+                    <td>2. Lockout/Tagout (Items 5-7)</td>
+                    <td>3</td>
+                    <td>___</td>
+                </tr>
+                <tr>
+                    <td>3. Fall Protection (Items 8-10)</td>
+                    <td>3</td>
+                    <td>___</td>
+                </tr>
+                <tr>
+                    <td>4. Hot Work (Items 11-12)</td>
+                    <td>2</td>
+                    <td>___</td>
+                </tr>
+                <tr>
+                    <td>5. Contractor Management (Items 13-15)</td>
+                    <td>3</td>
+                    <td>___</td>
+                </tr>
+                <tr>
+                    <td>6. Emergency Response (Items 16-18)</td>
+                    <td>3</td>
+                    <td>___</td>
+                </tr>
+                <tr>
+                    <td>7. Documentation (Items 19-20)</td>
+                    <td>2</td>
+                    <td>___</td>
+                </tr>
+                <tr style="font-weight: 700; background: #f0f0f0;">
+                    <td>TOTAL</td>
+                    <td>20</td>
+                    <td>___</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="interpretation">
+            <strong>18-20:</strong> Controlled - Industry-leading program &nbsp;|&nbsp;
+            <strong>14-17:</strong> Managed - Address gaps promptly &nbsp;|&nbsp;
+            <strong>10-13:</strong> Developing - Significant exposure &nbsp;|&nbsp;
+            <strong>&lt;10:</strong> Exposed - Immediate intervention required
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+        <h3>Found Gaps in Your DC Safety Program?</h3>
+        <p>Safety Excellence Group provides arc flash engineering, LOTO program development, contractor safety oversight, and CSP/CHST certified staffing for data center construction.</p>
+        <p class="contact">Book a 15-minute discovery call: safety-excellence.com | Custom proposal in 48 hours</p>
+    </div>
+
+    <div class="footer">
+        <strong>Safety Excellence Group</strong> | 17+ Years | 50+ Advanced Facility Projects | 5 Continents
+        <div class="disclaimer">
+            This checklist provides general guidance only. It does not constitute professional safety consulting or site-specific advice. Verify all requirements against applicable regulations. Consult qualified safety professionals before implementation.
+        </div>
+    </div>
+</body>
+</html>

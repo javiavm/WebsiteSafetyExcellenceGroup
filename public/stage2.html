@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Professional Assessment | Safety Excellence Group</title>
+    <link rel="icon" type="image/png" href="images/SEG Favicon Original.png">
+    <style>
+        :root {
+            --SEG-yellow: #FFCF00;
+            --SEG-blue: #132544;
+            --SEG-dark-grey: #333333;
+            --SEG-grey: #BABABA;
+            --SEG-light-grey: #F4F4F4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--SEG-light-grey);
+            color: var(--SEG-dark-grey);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--SEG-blue);
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+
+        .header img { height: 50px; }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: var(--SEG-blue);
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--SEG-grey);
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-bar {
+            background: var(--SEG-grey);
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: var(--SEG-yellow);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            display: none;
+        }
+
+        .question-card.active {
+            display: block;
+        }
+
+        .question-number {
+            color: var(--SEG-yellow);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            color: var(--SEG-blue);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .question-hint {
+            color: var(--SEG-grey);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid var(--SEG-grey);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--SEG-yellow);
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 0.85rem;
+            color: var(--SEG-grey);
+            margin-top: 0.5rem;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: var(--SEG-light-grey);
+            color: var(--SEG-dark-grey);
+        }
+
+        .btn-primary {
+            background: var(--SEG-yellow);
+            color: var(--SEG-blue);
+        }
+
+        .btn-primary:hover {
+            background: #e6bb00;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .error-state h2 {
+            color: var(--SEG-blue);
+            margin-bottom: 1rem;
+        }
+
+        .success-state {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .success-state h2 {
+            color: var(--SEG-blue);
+            margin-bottom: 1rem;
+        }
+
+        .success-state .checkmark {
+            width: 80px;
+            height: 80px;
+            background: var(--SEG-yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--SEG-grey);
+            border-top-color: var(--SEG-yellow);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="images/SEG Original Logo.png" alt="Safety Excellence Group">
+    </div>
+
+    <div class="container">
+        <!-- Loading State -->
+        <div class="card loading" id="loadingState">
+            <div class="spinner"></div>
+            <p>Loading your assessment...</p>
+        </div>
+
+        <!-- Error State -->
+        <div class="card error-state" id="errorState" style="display: none;">
+            <h2>Link Expired or Invalid</h2>
+            <p>This assessment link has expired or is invalid.</p>
+            <p style="margin-top: 1rem; color: var(--SEG-grey);">
+                If you believe this is an error, please contact us at<br>
+                <a href="mailto:Talent@safety-excellence.com">Talent@safety-excellence.com</a>
+            </p>
+        </div>
+
+        <!-- Assessment Form -->
+        <div id="assessmentForm" style="display: none;">
+            <div class="card">
+                <h1>Safety Professional Assessment</h1>
+                <p class="subtitle">Help us understand your experience and approach. This takes about 10 minutes.</p>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 12.5%"></div>
+                </div>
+
+                <!-- Question 1 -->
+                <div class="question-card active" data-question="1">
+                    <div class="question-number">Question 1 of 8</div>
+                    <div class="question-text">What are you looking to accomplish in your career over the next 3-5 years?</div>
+                    <div class="question-hint">Be specific about your goals, the type of roles you're targeting, and what success looks like to you.</div>
+                    <textarea id="q1" placeholder="Share your career aspirations..."></textarea>
+                    <div class="char-count"><span id="q1count">0</span> characters</div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="question-card" data-question="2">
+                    <div class="question-number">Question 2 of 8</div>
+                    <div class="question-text">What are your greatest professional strengths?</div>
+                    <div class="question-hint">Provide specific examples that demonstrate these strengths in action.</div>
+                    <textarea id="q2" placeholder="Describe your key strengths with examples..."></textarea>
+                    <div class="char-count"><span id="q2count">0</span> characters</div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="question-card" data-question="3">
+                    <div class="question-number">Question 3 of 8</div>
+                    <div class="question-text">What are areas you're actively working to improve?</div>
+                    <div class="question-hint">Be honest and specific. What steps are you taking to develop in these areas?</div>
+                    <textarea id="q3" placeholder="Share areas of improvement and your development plan..."></textarea>
+                    <div class="char-count"><span id="q3count">0</span> characters</div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="question-card" data-question="4">
+                    <div class="question-number">Question 4 of 8</div>
+                    <div class="question-text">How would your last 3 supervisors rate your performance on a scale of 1-10?</div>
+                    <div class="question-hint">Provide a rating for each and explain why they would give that score.</div>
+                    <textarea id="q4" placeholder="Example: Supervisor 1 (Jane at ABC Corp): 8/10 because..."></textarea>
+                    <div class="char-count"><span id="q4count">0</span> characters</div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="question-card" data-question="5">
+                    <div class="question-number">Question 5 of 8</div>
+                    <div class="question-text">Tell me about a time you made a significant mistake at work. What happened and what did you do?</div>
+                    <div class="question-hint">Focus on what you learned and how you took accountability.</div>
+                    <textarea id="q5" placeholder="Describe the situation, your actions, and the outcome..."></textarea>
+                    <div class="char-count"><span id="q5count">0</span> characters</div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="question-card" data-question="6">
+                    <div class="question-number">Question 6 of 8</div>
+                    <div class="question-text">Describe a situation where you had to choose between meeting a deadline and ensuring safety compliance.</div>
+                    <div class="question-hint">What did you do and why? What was the outcome?</div>
+                    <textarea id="q6" placeholder="Describe the situation and your decision-making process..."></textarea>
+                    <div class="char-count"><span id="q6count">0</span> characters</div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="question-card" data-question="7">
+                    <div class="question-number">Question 7 of 8</div>
+                    <div class="question-text">Walk me through your approach to solving a complex safety challenge.</div>
+                    <div class="question-hint">Describe your methodology, who you involved, and how you measured success.</div>
+                    <textarea id="q7" placeholder="Describe your problem-solving approach with a specific example..."></textarea>
+                    <div class="char-count"><span id="q7count">0</span> characters</div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="question-card" data-question="8">
+                    <div class="question-number">Question 8 of 8</div>
+                    <div class="question-text">What motivates you to excel in the safety profession?</div>
+                    <div class="question-hint">What drives you? Why safety specifically?</div>
+                    <textarea id="q8" placeholder="Share what drives your passion for safety..."></textarea>
+                    <div class="char-count"><span id="q8count">0</span> characters</div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()" disabled>Previous</button>
+                    <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success State -->
+        <div class="card success-state" id="successState" style="display: none;">
+            <div class="checkmark">&#10003;</div>
+            <h2>Assessment Complete!</h2>
+            <p>Thank you for taking the time to complete this assessment.</p>
+            <p style="margin-top: 1rem; color: var(--SEG-grey);">
+                Our team will review your responses and be in touch soon.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        const totalQuestions = 8;
+        let token = null;
+        let candidateInfo = null;
+
+        // Get token from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        token = urlParams.get('token');
+
+        // Validate token on load
+        async function validateToken() {
+            if (!token) {
+                showError();
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/stage2/validate?token=${token}`);
+                const data = await response.json();
+
+                if (data.valid) {
+                    candidateInfo = data.candidate;
+                    document.getElementById('loadingState').style.display = 'none';
+                    document.getElementById('assessmentForm').style.display = 'block';
+                } else {
+                    showError();
+                }
+            } catch (error) {
+                showError();
+            }
+        }
+
+        function showError() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function showQuestion(num) {
+            document.querySelectorAll('.question-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`[data-question="${num}"]`).classList.add('active');
+
+            document.getElementById('prevBtn').disabled = num === 1;
+            document.getElementById('nextBtn').textContent = num === totalQuestions ? 'Submit' : 'Next';
+
+            updateProgress();
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                submitAssessment();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        async function submitAssessment() {
+            const responses = {
+                careerGoals: document.getElementById('q1').value,
+                strengths: document.getElementById('q2').value,
+                weaknesses: document.getElementById('q3').value,
+                bossRatings: document.getElementById('q4').value,
+                accountability: document.getElementById('q5').value,
+                integrity: document.getElementById('q6').value,
+                problemSolving: document.getElementById('q7').value,
+                drivingForce: document.getElementById('q8').value
+            };
+
+            // Validate all questions answered
+            const unanswered = Object.entries(responses).filter(([k, v]) => v.trim().length < 20);
+            if (unanswered.length > 0) {
+                alert('Please provide more detailed responses (at least 20 characters each).');
+                return;
+            }
+
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextBtn').textContent = 'Submitting...';
+
+            try {
+                const response = await fetch('/api/stage2/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, responses })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('assessmentForm').style.display = 'none';
+                    document.getElementById('successState').style.display = 'block';
+                } else {
+                    alert('Error submitting assessment. Please try again.');
+                    document.getElementById('nextBtn').disabled = false;
+                    document.getElementById('nextBtn').textContent = 'Submit';
+                }
+            } catch (error) {
+                alert('Error submitting assessment. Please try again.');
+                document.getElementById('nextBtn').disabled = false;
+                document.getElementById('nextBtn').textContent = 'Submit';
+            }
+        }
+
+        // Character counters
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('input', function() {
+                const countSpan = document.getElementById(this.id + 'count');
+                if (countSpan) {
+                    countSpan.textContent = this.value.length;
+                }
+            });
+        });
+
+        // Initialize
+        validateToken();
+    </script>
+</body>
+</html>

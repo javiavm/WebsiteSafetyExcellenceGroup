@@ -1,0 +1,54 @@
+# ===========================================
+# SEG Website .gitignore
+# ===========================================
+
+# Dependencies
+node_modules/
+
+# Environment files (contain secrets)
+.env
+server/.env
+
+# Database (local data - don't commit)
+database/*.db
+*.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+nul
+
+# IDE/Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Claude Code
+.claude/
+
+# Build artifacts
+dist/
+build/
+
+# Temp files
+tmp/
+temp/
+*.tmp
+tmpclaude-*
+
+# Backups (use git instead)
+backups/
+*.bak
+
+# Test/Coverage
+coverage/
+.nyc_output/
+
+# Optional: Archive folder (uncomment to exclude from repo)
+# _archive/

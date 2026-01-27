@@ -1,0 +1,114 @@
+# How to Run Claude Code Tonight
+
+## Step 1: Download These Files
+
+Download all 4 files and put them in your `seg-website` folder:
+- `AEGIS-CHATBOT-TASKS.md`
+- `CLAUDE-CODE-PROMPT.txt`
+- `README.md`
+- `aegis-chatbot.js` (replace existing in `js/` folder)
+
+---
+
+## Step 2: CREATE A BACKUP FIRST (Important!)
+
+Before running Claude Code, make a backup:
+
+1. Open File Explorer
+2. Go to: `C:\Users\AlexGomez\OneDrive - Safety Excellence Group\Desktop\`
+3. Right-click on `seg-website` folder
+4. Click "Copy"
+5. Right-click in empty space
+6. Click "Paste"
+7. Rename the copy to `seg-website-BACKUP-Jan9`
+
+Now you have a safe copy if anything goes wrong!
+
+---
+
+## Step 3: Open Command Prompt
+
+Press `Windows + R`, type `cmd`, press Enter
+
+---
+
+## Step 4: Navigate to Project Folder
+
+Type this exactly (with quotes):
+```
+cd "C:\Users\AlexGomez\OneDrive - Safety Excellence Group\Desktop\seg-website"
+```
+Press Enter
+
+---
+
+## Step 5: Start Claude Code
+
+Type:
+```
+claude
+```
+Press Enter
+
+Wait for it to load (you'll see a prompt)
+
+---
+
+## Step 6: Paste the Task Prompt
+
+1. Open `CLAUDE-CODE-PROMPT.txt` in Notepad
+2. Copy ALL the text inside the ``` marks
+3. Go back to the command prompt
+4. Right-click to paste
+5. Press Enter
+
+---
+
+## Step 7: Let It Work
+
+Claude Code will:
+1. Create another backup (belt and suspenders!)
+2. Read your files
+3. Start making changes
+4. Ask questions if needed
+
+You can:
+- Watch it work
+- Or minimize and go to sleep
+- Check results in the morning
+
+---
+
+## If Something Goes Wrong
+
+**To restore from backup:**
+1. Delete the messed up `seg-website` folder
+2. Rename `seg-website-BACKUP-Jan9` back to `seg-website`
+3. You're back to where you started!
+
+**If you see errors:**
+- Type `exit` to quit Claude Code
+- Close command prompt
+- Start over from Step 4
+
+---
+
+## In the Morning
+
+1. Open your browser
+2. Navigate to seg-website folder
+3. Open `aegis-demo.html` to test
+4. Check what changed!
+
+If server needs to run:
+- Open command prompt
+- `cd "C:\Users\AlexGomez\OneDrive - Safety Excellence Group\Desktop\seg-website\server"`
+- `node index.js`
+
+---
+
+## Questions?
+
+If Claude Code asks you something and you're not sure:
+- Type "proceed with your best judgment" 
+- Or just press Enter to accept defaults

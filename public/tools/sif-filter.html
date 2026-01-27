@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P-SIF Classification Tool | Safety Excellence Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tools-v3.css">
+</head>
+<body>
+    <script>alert('P-SIF Classification is coming soon!');window.location.href='/tools/';</script>
+    <div class="tool-container">
+        <div class="tool-header">
+            <h1>P-SIF Classification</h1>
+            <p class="subtitle">AI-powered near-miss analysis</p>
+        </div>
+
+        <div class="card" style="margin-bottom:24px;background:rgba(19,37,68,0.04)">
+            <strong style="color:var(--blue)">Before you paste:</strong>
+            <p style="margin-top:8px;color:var(--text-light)">
+                Remove names, company identifiers, locations, and dates.
+            </p>
+            <div style="margin-top:12px;font-size:0.875rem">
+                <div style="padding:8px 12px;background:var(--danger-light);border-radius:4px;margin-bottom:8px">
+                    <span style="color:var(--danger)">Avoid:</span> "John fell at Acme's Houston plant on Jan 3"
+                </div>
+                <div style="padding:8px 12px;background:var(--success-light);border-radius:4px">
+                    <span style="color:var(--success)">Better:</span> "Worker fell from scaffold during installation"
+                </div>
+            </div>
+            <p style="margin-top:12px;font-size:0.8125rem;color:var(--text-light);font-style:italic">
+                We analyze the event, not the people. Keep it anonymous.
+            </p>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Near-Miss Description</label>
+            <textarea
+                id="description"
+                placeholder="Describe the near-miss event. Include details about the hazard type, energy involved, and how close the exposure was..."
+                style="min-height:150px"
+            ></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-full" id="classify-btn" onclick="classifyEvent()">
+            Analyze Event
+        </button>
+
+        <div id="result-container" style="display:none;margin-top:24px">
+            <div id="result"></div>
+        </div>
+
+        <div class="disclaimer" style="margin-top:24px">
+            This tool provides classification guidance only. It does not replace professional incident investigation or root cause analysis. All classifications should be verified by qualified safety professionals.
+        </div>
+
+        <div class="cta-box" style="margin-top:32px">
+            <h3>Need P-SIF Classification at Scale?</h3>
+            <p>AEGIS AI automatically classifies near-misses across your operation in real-time.</p>
+            <a href="/contact?source=sif-filter" class="btn">Schedule a Demo</a>
+        </div>
+    </div>
+
+    <script src="/js/tool-engine.js"></script>
+    <script>
+    async function classifyEvent() {
+        const description = document.getElementById('description').value.trim();
+        const btn = document.getElementById('classify-btn');
+        const resultContainer = document.getElementById('result-container');
+        const resultEl = document.getElementById('result');
+
+        if (description.length < 10) {
+            alert('Please enter a more detailed description of the near-miss event.');
+            return;
+        }
+
+        // Show loading state
+        btn.disabled = true;
+        btn.textContent = 'Analyzing...';
+        resultContainer.style.display = 'none';
+
+        try {
+            const res = await ToolEngine.postJSON('/api/sif-filter/classify', { description });
+
+            if (res.success && res.result) {
+                const r = res.result;
+
+                // Check for PII error
+                if (r.error === 'pii') {
+                    resultEl.innerHTML = `
+                        <div class="filter-result">
+                            <div class="filter-verdict" style="color:var(--warning)">
+                                Review Required
+                            </div>
+                            <p style="color:var(--text)">${r.message}</p>
+                        </div>
+                    `;
+                } else {
+                    // Structured response
+                    const isPSIF = r.isPSIF;
+                    resultEl.innerHTML = `
+                        <div class="filter-result ${isPSIF ? 'psif-yes' : 'psif-no'}">
+                            <div class="filter-verdict ${isPSIF ? 'yes' : 'no'}">
+                                P-SIF: ${isPSIF ? 'YES' : 'NO'}
+                            </div>
+
+                            <div class="filter-detail">
+                                <strong>Energy Assessment</strong>
+                                <span>${r.energy}</span>
+                            </div>
+
+                            <div class="filter-detail">
+                                <strong>Exposure Analysis</strong>
+                                <span>${r.exposure}</span>
+                            </div>
+
+                            <div class="filter-detail">
+                                <strong>Control Type</strong>
+                                <span>${r.control}</span>
+                            </div>
+
+                            <p class="filter-action">${r.action}</p>
+                        </div>
+                    `;
+                }
+
+                resultContainer.style.display = 'block';
+            }
+        } catch (err) {
+            alert('Error analyzing event. Please try again.');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Analyze Event';
+        }
+    }
+    </script>
+</body>
+</html>

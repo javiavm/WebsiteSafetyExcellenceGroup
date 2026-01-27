@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why S.E.G. | The Precision Safety Model | Safety Excellence Group</title>
+    <meta name="description" content="We're not a staffing agency that happens to do safety. We're safety specialists who happen to staff. 17+ years, 50+ fab projects, 5 continents.">
+    <link rel="canonical" href="https://safety-excellence.com/why-seg.html">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://safety-excellence.com/why-seg.html">
+    <meta property="og:title" content="Why S.E.G. | The Precision Safety Model">
+    <meta property="og:description" content="We're not a staffing agency that happens to do safety. We're safety specialists who happen to staff. 17+ years, 50+ fab projects, 5 continents.">
+    <meta property="og:image" content="https://safety-excellence.com/images/SEG Original Logo.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Why S.E.G. | The Precision Safety Model">
+    <meta name="twitter:description" content="Safety specialists who happen to staff. 17+ years, 50+ fab projects, 5 continents.">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Safety Excellence Group",
+        "alternateName": "SEG",
+        "url": "https://safety-excellence.com",
+        "logo": "https://safety-excellence.com/images/SEG Original Logo.png",
+        "description": "Precision safety consulting for advanced industries. 17+ years experience, 50+ semiconductor fab projects across 5 continents.",
+        "foundingDate": "2007",
+        "areaServed": "Worldwide",
+        "knowsAbout": ["Safety Consulting", "OSHA Compliance", "SEMI S2", "Semiconductor Safety", "Data Center Safety"],
+        "slogan": "Safe. Fast. Precise."
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/SEG Favicon Original.png">
+    <link rel="stylesheet" href="css/aegis-chatbot.css">
+
+    <style>
+        :root {
+            --SEG-yellow: #FFCF00;
+            --SEG-blue: #132544;
+            --SEG-dark-grey: #333333;
+            --SEG-grey: #BABABA;
+            --SEG-grey-2: #DDDDDD;
+            --SEG-light-grey: #F4F4F4;
+            --white: #ffffff;
+            --shadow-md: 0 4px 6px rgba(19, 37, 68, 0.1);
+            --shadow-lg: 0 10px 25px rgba(19, 37, 68, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--SEG-dark-grey);
+            line-height: 1.6;
+            background: var(--white);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--SEG-blue);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .page-header {
+            background: var(--SEG-blue);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .page-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .back-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--SEG-yellow);
+        }
+
+        /* Hero */
+        .why-hero {
+            background: linear-gradient(135deg, var(--SEG-blue) 0%, #1a3a5c 100%);
+            color: var(--white);
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .why-hero .overline {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--SEG-blue);
+            background: var(--SEG-yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            margin-bottom: 1.5rem;
+        }
+
+        .why-hero h1 {
+            color: var(--white);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .why-hero h1 .highlight {
+            color: var(--SEG-yellow);
+        }
+
+        .why-hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 4rem 0;
+            background: var(--white);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--SEG-grey-2);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--SEG-yellow);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-number {
+            font-size: 2.75rem;
+            font-weight: 700;
+            color: var(--SEG-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--SEG-dark-grey);
+            opacity: 0.7;
+        }
+
+        /* Differentiators Section */
+        .differentiators-section {
+            padding: 5rem 0;
+            background: var(--SEG-light-grey);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--SEG-dark-grey);
+        }
+
+        .differentiators-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .differentiator {
+            display: flex;
+            gap: 1.25rem;
+            padding: 1.75rem;
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--SEG-grey-2);
+            transition: all 0.3s ease;
+        }
+
+        .differentiator:hover {
+            border-color: var(--SEG-yellow);
+            box-shadow: var(--shadow-md);
+        }
+
+        .differentiator-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--SEG-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .differentiator-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--SEG-yellow);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .differentiator h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .differentiator p {
+            font-size: 0.95rem;
+            color: var(--SEG-dark-grey);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: var(--SEG-blue);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            color: var(--white);
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--white);
+            opacity: 0.8;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--SEG-yellow);
+            color: var(--SEG-blue);
+            border-color: var(--SEG-yellow);
+        }
+
+        .btn-primary:hover {
+            background: #e6bb00;
+            border-color: #e6bb00;
+        }
+
+        /* Footer */
+        .page-footer {
+            background: var(--SEG-dark-grey);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .page-footer p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .differentiators-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .differentiator {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .differentiator-icon {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="page-header">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="images/SEG Original Logo.png" alt="Safety Excellence Group">
+            </a>
+            <a href="/" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="why-hero">
+        <div class="container">
+            <span class="overline">The Precision Safety Model</span>
+            <h1>Why <span class="highlight">S.E.G.</span>?</h1>
+            <p>We're not a staffing agency that happens to do safety. We're safety specialists who happen to staff. There's a difference.</p>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">17+</div>
+                    <div class="stat-label">Years in Advanced Industries</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Semiconductor Fab Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Continents Worldwide</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">48h</div>
+                    <div class="stat-label">Proposal Turnaround</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Differentiators -->
+    <section class="differentiators-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Sets Us Apart</h2>
+                <p>Four key differentiators that make us the choice for high-stakes safety operations.</p>
+            </div>
+
+            <div class="differentiators-grid">
+                <div class="differentiator">
+                    <div class="differentiator-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    </div>
+                    <div>
+                        <h4>Rapid Deployment</h4>
+                        <p>Proposal in 48 hours. Boots on ground fast. We move at your speed.</p>
+                    </div>
+                </div>
+
+                <div class="differentiator">
+                    <div class="differentiator-icon">
+                        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                    </div>
+                    <div>
+                        <h4>Pre-Vetted Specialists</h4>
+                        <p>Every professional is BCSP-Certified, background-verified, and trained for your specific environment.</p>
+                    </div>
+                </div>
+
+                <div class="differentiator">
+                    <div class="differentiator-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/></svg>
+                    </div>
+                    <div>
+                        <h4>AEGIS AI -- Our Exclusive Platform</h4>
+                        <p>Our proprietary platform. Only our consultants have access—giving your project capabilities no one else can offer.</p>
+                    </div>
+                </div>
+
+                <div class="differentiator">
+                    <div class="differentiator-icon">
+                        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+                    </div>
+                    <div>
+                        <h4>QRT Surge Capacity</h4>
+                        <p>Quick Response Team on standby for PTO, shutdowns, and emergencies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Experience the Difference?</h2>
+            <p>Get a proposal within 48 hours. See why Fortune 100 chipmakers trust SEG.</p>
+            <a href="/#contact" class="btn btn-primary">Get Your Proposal →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <div class="container">
+            <p>&copy; 2026 Safety Excellence Group. All rights reserved. Powered by AEGIS AI</p>
+        </div>
+    </footer>
+
+    <!-- AEGIS Chatbot -->
+    <script src="js/aegis-chatbot.js"></script>
+</body>
+</html>

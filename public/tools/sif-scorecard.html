@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P-SIF Recognition Scorecard | Safety Excellence Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tools-v3.css">
+</head>
+<body>
+    <div class="tool-container">
+        <!-- Progress -->
+        <div class="progress-container" id="progress-container">
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+        </div>
+
+        <!-- Step 1: Path Selection -->
+        <div id="step-path" class="step active">
+            <div class="tool-header">
+                <h1>P-SIF Scorecard</h1>
+                <p class="subtitle">Test your P-SIF recognition capabilities</p>
+            </div>
+
+            <div class="question-label">What brought you here?</div>
+            <div class="path-grid" id="path-grid"></div>
+        </div>
+
+        <!-- Step 2: Context Questions -->
+        <div id="step-context" class="step">
+            <div class="question-label" id="context-label">Context</div>
+            <div class="question-text" id="context-question"></div>
+            <div class="option-grid" id="context-options"></div>
+        </div>
+
+        <!-- Step 3: Scenarios -->
+        <div id="step-scenarios" class="step">
+            <div id="scenario-container"></div>
+        </div>
+
+        <!-- Step 4: Precursors (for full_precursors flow) -->
+        <div id="step-precursors" class="step">
+            <div class="hazard-progress" id="precursor-progress"></div>
+            <div class="question-label" id="precursor-label"></div>
+            <div class="question-text" id="precursor-question"></div>
+            <div class="option-grid" id="precursor-options"></div>
+        </div>
+
+        <!-- Step 5: Results -->
+        <div id="step-results" class="step">
+            <div class="tool-header">
+                <h1>Assessment Complete</h1>
+            </div>
+
+            <div id="score-container"></div>
+
+            <div id="scenario-results" class="mt-24"></div>
+
+            <div id="blind-spots-container" class="mt-24"></div>
+
+            <div id="citations-container" class="mt-24" style="display:none">
+                <h3 style="color:var(--blue);margin-bottom:16px">Regulatory References</h3>
+                <div id="citations-list"></div>
+            </div>
+
+            <div class="disclaimer">
+                This assessment provides general guidance only. It does not constitute professional safety consulting or site-specific advice.
+            </div>
+
+            <button class="btn btn-primary btn-full mt-24" onclick="showEmailStep()">
+                Get Full Analysis
+            </button>
+        </div>
+
+        <!-- Step 6: Email Capture -->
+        <div id="step-email" class="step">
+            <div class="tool-header">
+                <h1>Get Your Full Report</h1>
+                <p class="subtitle">Detailed blind spot analysis and recommendations</p>
+            </div>
+
+            <form id="email-form" class="mt-24">
+                <div class="form-group">
+                    <label for="user-name">Name</label>
+                    <input type="text" id="user-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-email">Work Email</label>
+                    <input type="email" id="user-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-company">Company (optional)</label>
+                    <input type="text" id="user-company" name="company">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    Send Report
+                </button>
+            </form>
+        </div>
+
+        <!-- Step 7: Confirmation -->
+        <div id="step-confirm" class="step">
+            <div class="tool-header" style="margin-bottom:32px">
+                <h1>Report Sent</h1>
+                <p class="subtitle">Check your inbox for the full analysis</p>
+            </div>
+
+            <div class="card" style="text-align:center;padding:32px">
+                <div style="font-size:3rem;font-weight:800;color:var(--blue)" id="final-score">0</div>
+                <div style="color:var(--text-light)">Recognition Score</div>
+            </div>
+
+            <div class="cta-box mt-32">
+                <h3>Want Automatic P-SIF Classification?</h3>
+                <p>Our AI tool analyzes near-miss descriptions in seconds.</p>
+                <a href="/tools/sif-filter.html" class="btn">Try the P-SIF Filter</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/tool-engine.js"></script>
+    <script>
+    // State
+    let config = null;
+    let selectedPath = null;
+    let contextResponses = {};
+    let scenarioResponses = [];
+    let precursorResponses = {};
+    let currentContextIndex = 0;
+    let currentScenarioIndex = 0;
+    let currentPrecursorIndex = 0;
+    let currentQuestionIndex = 0;
+    let scenarios = [];
+    let precursors = [];
+    let results = null;
+    let citations = [];
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadConfig();
+        ToolEngine.initSteps(['step-path', 'step-context', 'step-scenarios', 'step-precursors', 'step-results', 'step-email', 'step-confirm']);
+        document.getElementById('email-form').addEventListener('submit', submitEmail);
+    });
+
+    // Load config from API
+    async function loadConfig() {
+        try {
+            const res = await ToolEngine.getJSON('/api/sif/config');
+            config = res;
+            renderPaths();
+        } catch (e) {
+            console.error('Failed to load config:', e);
+        }
+    }
+
+    // Render path selection
+    function renderPaths() {
+        const container = document.getElementById('path-grid');
+        container.innerHTML = Object.values(config.paths).map(path => `
+            <div class="path-card" data-path="${path.id}">
+                <div class="path-label">${path.label}</div>
+                <div class="path-desc">${path.description}</div>
+                <div class="path-meta">
+                    <span>${path.questions} questions</span>
+                    <span>${path.time}</span>
+                </div>
+            </div>
+        `).join('');
+
+        container.querySelectorAll('.path-card').forEach(card => {
+            card.addEventListener('click', () => selectPath(card.dataset.path));
+        });
+    }
+
+    // Select path
+    async function selectPath(pathId) {
+        selectedPath = pathId;
+        document.querySelectorAll('.path-card').forEach(c => c.classList.remove('selected'));
+        document.querySelector(`[data-path="${pathId}"]`).classList.add('selected');
+
+        // Initialize session
+        await ToolEngine.postJSON('/api/stky/session', { sessionId: ToolEngine.getSessionId() });
+
+        await ToolEngine.delay(300);
+        currentContextIndex = 0;
+        renderContextQuestion();
+        ToolEngine.showStep('step-context');
+    }
+
+    // Render context question
+    function renderContextQuestion() {
+        if (currentContextIndex >= config.context.length) {
+            startAssessment();
+            return;
+        }
+
+        const q = config.context[currentContextIndex];
+        document.getElementById('context-label').textContent = `Question ${currentContextIndex + 1} of ${config.context.length}`;
+        document.getElementById('context-question').textContent = q.question;
+
+        const container = document.getElementById('context-options');
+        container.innerHTML = q.options.map(opt => `
+            <div class="option-card" data-value="${opt.value}">
+                <div class="option-label">${opt.label}</div>
+            </div>
+        `).join('');
+
+        container.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', () => answerContext(q.id, card.dataset.value));
+        });
+    }
+
+    // Answer context question
+    async function answerContext(questionId, value) {
+        contextResponses[questionId] = value;
+
+        document.querySelectorAll('#context-options .option-card').forEach(c => c.classList.remove('selected'));
+        document.querySelector(`#context-options [data-value="${value}"]`).classList.add('selected');
+
+        await ToolEngine.delay(300);
+        currentContextIndex++;
+        renderContextQuestion();
+    }
+
+    // Start assessment based on path flow
+    async function startAssessment() {
+        const path = config.paths[selectedPath];
+
+        if (path.flow === 'classification' || path.flow === 'single_event') {
+            // Scenarios flow
+            const res = await ToolEngine.getJSON('/api/sif/scenarios');
+            scenarios = res.scenarios;
+            currentScenarioIndex = 0;
+            scenarioResponses = [];
+            renderScenario();
+            ToolEngine.showStep('step-scenarios');
+        } else {
+            // Full precursors flow - skip to precursors
+            await loadPrecursors();
+        }
+    }
+
+    // Render scenario
+    function renderScenario() {
+        if (currentScenarioIndex >= scenarios.length) {
+            // Check if this is a full_precursors path
+            const path = config.paths[selectedPath];
+            if (path.flow === 'full_precursors') {
+                loadPrecursors();
+            } else {
+                submitAssessment();
+            }
+            return;
+        }
+
+        const s = scenarios[currentScenarioIndex];
+        const container = document.getElementById('scenario-container');
+        container.innerHTML = `
+            <div class="scenario-card">
+                <div class="scenario-count">Scenario ${currentScenarioIndex + 1} of ${scenarios.length}</div>
+                <div class="scenario-label">Near-Miss Report</div>
+                <p class="scenario-text">"${s.description}"</p>
+                <p class="scenario-prompt">How should this be classified?</p>
+                <div class="scenario-buttons">
+                    <button class="btn-routine" onclick="answerScenario(${s.id}, 'routine')">
+                        Routine Near-Miss
+                    </button>
+                    <button class="btn-sif" onclick="answerScenario(${s.id}, 'sif')">
+                        P-SIF Potential
+                    </button>
+                </div>
+                <div id="scenario-reveal"></div>
+            </div>
+        `;
+    }
+
+    // Answer scenario
+    async function answerScenario(scenarioId, answer) {
+        const s = scenarios.find(sc => sc.id === scenarioId);
+        const userSaidPSIF = answer === 'sif';
+        const isCorrect = userSaidPSIF === s.isPSIF;
+
+        scenarioResponses.push({ scenarioId, answer });
+
+        // Disable buttons
+        document.querySelectorAll('.scenario-buttons button').forEach(b => b.disabled = true);
+
+        // Show reveal
+        const reveal = document.getElementById('scenario-reveal');
+        reveal.innerHTML = `
+            <div class="scenario-reveal ${isCorrect ? 'correct' : 'incorrect'}">
+                <h4>${isCorrect ? 'Correct Classification' : 'Incorrect Classification'}</h4>
+                <p><strong>${s.isPSIF ? 'This IS a P-SIF' : 'This is NOT a P-SIF'}</strong></p>
+                <p>${s.explanation}</p>
+                <p class="scenario-stat">${s.missRate}% of safety programs classify this ${s.isPSIF ? 'as routine' : 'incorrectly as P-SIF'}.</p>
+            </div>
+        `;
+
+        await ToolEngine.delay(3000);
+        currentScenarioIndex++;
+        renderScenario();
+    }
+
+    // Load precursors
+    async function loadPrecursors() {
+        const res = await ToolEngine.getJSON(`/api/sif/precursors/${selectedPath}?sessionId=${ToolEngine.getSessionId()}`);
+        precursors = res.precursors;
+        precursorResponses = { precursors: {} };
+
+        if (precursors.length === 0) {
+            submitAssessment();
+            return;
+        }
+
+        currentPrecursorIndex = 0;
+        currentQuestionIndex = 0;
+        renderPrecursorQuestion();
+        ToolEngine.showStep('step-precursors');
+    }
+
+    // Render precursor question
+    function renderPrecursorQuestion() {
+        if (currentPrecursorIndex >= precursors.length) {
+            submitAssessment();
+            return;
+        }
+
+        const precursor = precursors[currentPrecursorIndex];
+        if (currentQuestionIndex >= precursor.questions.length) {
+            currentPrecursorIndex++;
+            currentQuestionIndex = 0;
+            renderPrecursorQuestion();
+            return;
+        }
+
+        const q = precursor.questions[currentQuestionIndex];
+
+        // Calculate progress
+        let totalQuestions = precursors.reduce((sum, p) => sum + p.questions.length, 0);
+        let answered = 0;
+        for (let i = 0; i < currentPrecursorIndex; i++) {
+            answered += precursors[i].questions.length;
+        }
+        answered += currentQuestionIndex;
+
+        document.getElementById('precursor-progress').innerHTML = `
+            <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:8px">
+                ${answered + 1} of ${totalQuestions}
+            </div>
+            <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden">
+                <div style="height:100%;width:${((answered + 1) / totalQuestions) * 100}%;background:var(--yellow);transition:width 0.3s"></div>
+            </div>
+        `;
+
+        document.getElementById('precursor-label').textContent = precursor.name;
+        document.getElementById('precursor-question').textContent = q.question;
+
+        const container = document.getElementById('precursor-options');
+        container.innerHTML = q.options.map(opt => `
+            <div class="option-card" data-value="${opt.value}">
+                <div class="option-label">${opt.label}</div>
+            </div>
+        `).join('');
+
+        container.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', () => answerPrecursor(precursor.id, q.id, card.dataset.value));
+        });
+    }
+
+    // Answer precursor question
+    async function answerPrecursor(precursorId, questionId, value) {
+        if (!precursorResponses.precursors[precursorId]) {
+            precursorResponses.precursors[precursorId] = {};
+        }
+        precursorResponses.precursors[precursorId][questionId] = value;
+
+        document.querySelectorAll('#precursor-options .option-card').forEach(c => c.classList.remove('selected'));
+        document.querySelector(`#precursor-options [data-value="${value}"]`).classList.add('selected');
+
+        await ToolEngine.delay(300);
+        currentQuestionIndex++;
+        renderPrecursorQuestion();
+    }
+
+    // Submit assessment
+    async function submitAssessment() {
+        try {
+            const res = await ToolEngine.postJSON('/api/sif/assess', {
+                sessionId: ToolEngine.getSessionId(),
+                path: selectedPath,
+                context: contextResponses,
+                responses: {
+                    ...precursorResponses,
+                    scenarios: scenarioResponses
+                }
+            });
+
+            results = res.results;
+            citations = res.citations || [];
+            renderResults();
+            ToolEngine.showStep('step-results');
+        } catch (e) {
+            console.error('Assessment failed:', e);
+            alert('Assessment failed. Please try again.');
+        }
+    }
+
+    // Render results
+    function renderResults() {
+        // Show score
+        const score = results.scenarios?.score || results.overall?.score || 0;
+        ToolEngine.renderScore(score, 'score-container');
+
+        // Show scenario results if applicable
+        if (results.scenarios) {
+            document.getElementById('scenario-results').innerHTML = `
+                <div class="card">
+                    <h3 style="margin-bottom:16px;color:var(--blue)">Scenario Results</h3>
+                    <p>${results.scenarios.correct} of ${results.scenarios.total} correctly classified</p>
+                </div>
+            `;
+        }
+
+        // Show blind spots
+        const blindSpots = results.scenarios?.blindSpots || [];
+        if (blindSpots.length > 0) {
+            document.getElementById('blind-spots-container').innerHTML = `
+                <div class="card" style="border-left:4px solid var(--danger)">
+                    <h3 style="margin-bottom:16px;color:var(--danger)">Detection Gaps</h3>
+                    ${blindSpots.map(bs => `
+                        <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+                            <strong>${bs}</strong>
+                            <p style="color:var(--text-light);font-size:0.875rem">P-SIF events likely misclassified</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Render citations if available
+        if (citations.length > 0) {
+            const container = document.getElementById('citations-container');
+            const list = document.getElementById('citations-list');
+            list.innerHTML = citations.map(c => `
+                <div class="card" style="margin-bottom:12px;padding:16px">
+                    <strong style="color:var(--blue)">${c.primaryCitation.reference}</strong>
+                    <p style="margin:8px 0 4px;font-size:0.9rem">${c.primaryCitation.title}</p>
+                    <p style="font-size:0.85rem;color:var(--text-light)">${c.actionStatement}</p>
+                </div>
+            `).join('');
+            container.style.display = 'block';
+        }
+    }
+
+    // Show email step
+    function showEmailStep() {
+        ToolEngine.showStep('step-email');
+    }
+
+    // Submit email
+    async function submitEmail(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('user-name').value;
+        const email = document.getElementById('user-email').value;
+        const company = document.getElementById('user-company').value;
+
+        try {
+            await ToolEngine.postJSON('/api/sif/capture', {
+                sessionId: ToolEngine.getSessionId(),
+                email,
+                name,
+                company
+            });
+
+            const score = results.scenarios?.score || results.overall?.score || 0;
+            document.getElementById('final-score').textContent = score;
+
+            ToolEngine.showStep('step-confirm');
+        } catch (e) {
+            console.error('Email capture failed:', e);
+            alert('Failed to send report. Please try again.');
+        }
+    }
+
+    </script>
+</body>
+</html>

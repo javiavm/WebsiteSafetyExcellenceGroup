@@ -1,0 +1,102 @@
+{
+  "hazards": {
+    "falls": {"name": "Falls from Height", "icon": "🪜"},
+    "struck_falling": {"name": "Struck by Falling Object", "icon": "📦"},
+    "struck_vehicle": {"name": "Struck by Vehicle", "icon": "🚜"},
+    "caught_in": {"name": "Caught-In/Between", "icon": "⚙️"},
+    "electrical": {"name": "Electrical Contact", "icon": "⚡"},
+    "excavation": {"name": "Excavation/Trench", "icon": "🕳️"},
+    "confined_space": {"name": "Confined Space", "icon": "🚪"},
+    "hazardous_energy": {"name": "Hazardous Energy", "icon": "💥"},
+    "chemical": {"name": "Chemical Exposure", "icon": "☣️"},
+    "fire_explosion": {"name": "Fire/Explosion", "icon": "🔥"},
+    "structural": {"name": "Structural Collapse", "icon": "🏗️"},
+    "mobile_equipment": {"name": "Mobile Equipment", "icon": "🏎️"},
+    "drowning": {"name": "Drowning", "icon": "🌊"}
+  },
+  "industryHazards": {
+    "semiconductor": ["hazardous_energy", "chemical", "electrical", "confined_space", "fire_explosion"],
+    "datacenter": ["electrical", "fire_explosion", "confined_space", "struck_falling", "hazardous_energy"],
+    "construction": ["falls", "struck_falling", "caught_in", "excavation", "electrical"],
+    "manufacturing": ["caught_in", "hazardous_energy", "mobile_equipment", "chemical", "electrical"],
+    "oil_gas": ["fire_explosion", "confined_space", "chemical", "hazardous_energy", "struck_vehicle"],
+    "utilities": ["electrical", "falls", "struck_vehicle", "confined_space", "excavation"]
+  },
+  "industryStats": {
+    "semiconductor": 8,
+    "datacenter": 6,
+    "construction": 14,
+    "manufacturing": 11,
+    "oil_gas": 9,
+    "utilities": 7
+  },
+  "insights": {
+    "hazardous_energy": "87% of LOTO fatalities occur during tasks workers call 'routine.'",
+    "chemical": "Most chemical exposures happen during 'non-routine' tasks that become routine.",
+    "electrical": "Arc flash doesn't warn. The last thing they see is the panel.",
+    "confined_space": "Rescue attempts kill more than the original entry. Every time.",
+    "fire_explosion": "The ignition source is never the one they planned for.",
+    "falls": "6 feet is the rule. 4 feet is where they die.",
+    "struck_falling": "Dropped objects don't miss twice.",
+    "caught_in": "Machine guards get removed for 'just a second.' That second kills.",
+    "excavation": "Soil doesn't crack before it collapses. It just goes.",
+    "struck_vehicle": "Backup alarms don't work when everyone ignores them.",
+    "mobile_equipment": "Forklifts kill more than any other equipment. Not close.",
+    "structural": "The load was fine yesterday. Yesterday doesn't matter.",
+    "drowning": "4 inches of water. That's all it takes."
+  },
+  "questions": {
+    "hazardous_energy": {
+      "main": "When was the last time someone was caught skipping a LOTO step on a task they've done 100+ times?",
+      "followUp": ["Who verifies the verification?", "When's the last time 'no incidents' made you more worried, not less?"]
+    },
+    "chemical": {
+      "main": "Can every worker on your site name the three chemicals most likely to kill them?",
+      "followUp": ["Where's your nearest SDS? How long to get there?", "When did someone last refuse a task because they didn't understand the chemical?"]
+    },
+    "electrical": {
+      "main": "When's the last time someone worked on 'dead' equipment that wasn't?",
+      "followUp": ["Who's testing for absence of voltage — and with what?", "How many of your panel covers are missing right now?"]
+    },
+    "confined_space": {
+      "main": "What happens if your rescue plan fails in the first 60 seconds?",
+      "followUp": ["Who's your backup to the backup?", "When's the last time you ran a rescue drill that went wrong?"]
+    },
+    "fire_explosion": {
+      "main": "What's the ignition source you haven't thought of?",
+      "followUp": ["Who decided that area wasn't a hot work zone?", "When's the last time someone stopped work because 'it didn't smell right'?"]
+    },
+    "falls": {
+      "main": "What's the shortest fall that sent someone to the hospital?",
+      "followUp": ["Who's checking tie-off points before each use?", "Where's the ladder you know shouldn't be there?"]
+    },
+    "struck_falling": {
+      "main": "What dropped last month that you never reported?",
+      "followUp": ["Where's your drop zone that isn't barricaded?", "What's overhead right now that isn't secured?"]
+    },
+    "caught_in": {
+      "main": "Which guard on your floor has been removed 'temporarily' the longest?",
+      "followUp": ["Who can bypass the safety interlock, and do they?", "What's the 'quick task' that skips lockout?"]
+    },
+    "excavation": {
+      "main": "What's in the ground that isn't on the prints?",
+      "followUp": ["When's the last time soil conditions changed mid-dig?", "Who's entering the trench before the competent person arrives?"]
+    },
+    "struck_vehicle": {
+      "main": "Where do pedestrians and vehicles share space right now?",
+      "followUp": ["How many near-misses in the parking lot last month?", "Who's walking behind equipment that's about to move?"]
+    },
+    "mobile_equipment": {
+      "main": "When's the last time an operator moved equipment with someone in the path?",
+      "followUp": ["Who's riding forklifts that weren't built for passengers?", "What's the 'quick move' that skips the spotter?"]
+    },
+    "structural": {
+      "main": "What's the load limit on that mezzanine — and what's on it right now?",
+      "followUp": ["When's the last time someone added 'just one more' to a rack?", "Who decided that scaffold was good enough?"]
+    },
+    "drowning": {
+      "main": "What body of water is within 100 feet that isn't on your hazard list?",
+      "followUp": ["Where's the rescue equipment for that water?", "Who's trained to go in after them?"]
+    }
+  }
+}

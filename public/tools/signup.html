@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Safety Excellence Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tools-v3.css">
+    <style>
+        .auth-container { max-width:440px; margin:0 auto; padding:48px 24px; }
+        .auth-header { text-align:center; margin-bottom:32px; }
+        .auth-header h1 { color:var(--blue); margin-bottom:8px; }
+        .auth-card { background:var(--white); border-radius:var(--radius); padding:32px; box-shadow:var(--shadow); }
+        .plan-badge { display:inline-block; background:var(--yellow); color:var(--blue); padding:6px 16px; border-radius:20px; font-size:0.85rem; font-weight:600; margin-bottom:16px; }
+        .plan-price { font-size:1.5rem; font-weight:700; color:var(--blue); margin-bottom:24px; }
+        .plan-price span { font-size:0.9rem; font-weight:400; color:var(--text-light); }
+        .form-group { margin-bottom:20px; }
+        .form-group label { display:block; margin-bottom:6px; font-weight:500; color:var(--text); }
+        .form-group input { width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:1rem; }
+        .form-group input:focus { outline:none; border-color:var(--yellow); }
+        .btn-submit { width:100%; padding:14px; background:var(--yellow); color:var(--blue); border:none; border-radius:var(--radius-sm); font-size:1rem; font-weight:600; cursor:pointer; transition:background 0.2s; }
+        .btn-submit:hover { background:#e6ba00; }
+        .btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
+        .auth-footer { text-align:center; margin-top:24px; font-size:0.9rem; color:var(--text-light); }
+        .auth-footer a { color:var(--blue); text-decoration:none; }
+        .auth-footer a:hover { text-decoration:underline; }
+        .error-msg { background:var(--danger-light); color:var(--danger); padding:12px; border-radius:var(--radius-sm); margin-bottom:20px; font-size:0.9rem; display:none; }
+        .success-msg { background:var(--success-light); color:var(--success); padding:12px; border-radius:var(--radius-sm); margin-bottom:20px; font-size:0.9rem; display:none; }
+        .features-list { margin:20px 0; padding:16px; background:var(--bg); border-radius:var(--radius-sm); }
+        .features-list li { padding:6px 0; font-size:0.9rem; color:var(--text); display:flex; align-items:center; gap:8px; }
+        .features-list .check { color:var(--success); font-weight:bold; }
+        .trial-note { text-align:center; font-size:0.85rem; color:var(--text-light); margin-top:16px; }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <a href="/tools/" style="color:var(--text-light);text-decoration:none;font-size:0.9rem">← Back to Tools</a>
+            <h1 style="margin-top:24px">Start Your Free Trial</h1>
+            <p style="color:var(--text-light)">7 days free, then $50/month</p>
+        </div>
+
+        <div class="auth-card">
+            <div style="text-align:center">
+                <span class="plan-badge" id="plan-badge">PRO</span>
+                <div class="plan-price">$50<span>/month after trial</span></div>
+            </div>
+
+            <ul class="features-list" style="list-style:none;padding-left:16px">
+                <li><span class="check">✓</span> Unlimited STKY & SIF assessments</li>
+                <li><span class="check">✓</span> Permanent result history</li>
+                <li><span class="check">✓</span> Industry benchmarking</li>
+                <li><span class="check">✓</span> Trend tracking over time</li>
+                <li><span class="check">✓</span> Priority AEGIS responses</li>
+            </ul>
+
+            <div class="error-msg" id="error-msg"></div>
+            <div class="success-msg" id="success-msg"></div>
+
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Work Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required minlength="8">
+                </div>
+                <button type="submit" class="btn-submit" id="submit-btn">Start Free Trial</button>
+            </form>
+
+            <p class="trial-note">No credit card required. Cancel anytime during trial.</p>
+        </div>
+
+        <div class="auth-footer">
+            Already have an account? <a href="/tools/login.html">Log in</a>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const plan = params.get('plan') || 'pro';
+
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btn = document.getElementById('submit-btn');
+            const errorMsg = document.getElementById('error-msg');
+            const successMsg = document.getElementById('success-msg');
+
+            btn.disabled = true;
+            btn.textContent = 'Creating account...';
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const company = document.getElementById('company').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const result = await Auth.register(email, password, name, company);
+
+                if (result.success) {
+                    successMsg.textContent = 'Account created! Redirecting to checkout...';
+                    successMsg.style.display = 'block';
+
+                    // Start Pro checkout
+                    setTimeout(async () => {
+                        const checkout = await Auth.startCheckout('pro');
+                        if (checkout.checkoutUrl) {
+                            window.location.href = checkout.checkoutUrl;
+                        } else {
+                            // For now, redirect to dashboard
+                            window.location.href = '/tools/dashboard.html';
+                        }
+                    }, 1500);
+                } else {
+                    errorMsg.textContent = result.error || 'Registration failed. Please try again.';
+                    errorMsg.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = 'Start Free Trial';
+                }
+            } catch (err) {
+                errorMsg.textContent = 'Something went wrong. Please try again.';
+                errorMsg.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Start Free Trial';
+            }
+        });
+    </script>
+</body>
+</html>

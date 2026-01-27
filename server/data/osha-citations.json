@@ -1,0 +1,491 @@
+{
+  "standards": {
+    "osha_1926": {
+      "name": "OSHA Construction Standards",
+      "prefix": "29 CFR 1926.",
+      "description": "Federal safety standards for the construction industry",
+      "baseUrl": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926",
+      "keyTopics": ["fall protection", "scaffolds", "excavations", "electrical", "cranes"],
+      "sections": {
+        "20": {
+          "title": "General Safety and Health Provisions",
+          "summary": "General duty to provide safe workplace and comply with standards",
+          "keywords": ["general duty", "accident prevention", "safety programs"]
+        },
+        "21": {
+          "title": "Safety Training and Education",
+          "summary": "Employer shall instruct each employee in recognition and avoidance of unsafe conditions",
+          "keywords": ["training", "education", "hazard recognition"]
+        },
+        "28": {
+          "title": "Personal Protective Equipment",
+          "summary": "Employer responsible for requiring appropriate PPE in operations where exposure to hazards exists",
+          "keywords": ["PPE", "protective equipment", "hard hats", "eye protection"]
+        },
+        "95": {
+          "title": "Criteria for Excavation Work",
+          "summary": "Requirements for cave-in protection, access/egress, and hazardous atmospheres in excavations",
+          "keywords": ["excavation", "trenching", "cave-in", "shoring", "sloping"]
+        },
+        "147": {
+          "title": "Control of Hazardous Energy (LOTO)",
+          "summary": "Lockout/tagout requirements for servicing and maintenance of machines and equipment",
+          "keywords": ["lockout", "tagout", "LOTO", "hazardous energy", "isolation"]
+        },
+        "404": {
+          "title": "Wiring Design and Protection",
+          "summary": "Requirements for electrical wiring design, overcurrent protection, and grounding",
+          "keywords": ["electrical", "wiring", "grounding", "GFCI"]
+        },
+        "405": {
+          "title": "Wiring Methods, Components, and Equipment",
+          "summary": "Standards for electrical wiring methods, cabinets, boxes, and equipment",
+          "keywords": ["electrical", "wiring methods", "junction boxes"]
+        },
+        "416": {
+          "title": "General Requirements for Electrical Safety",
+          "summary": "Protection of employees working on or near exposed energized parts",
+          "keywords": ["electrical safety", "energized work", "protective equipment"]
+        },
+        "417": {
+          "title": "Lockout and Tagging of Circuits",
+          "summary": "Controls shall be deenergized before work and lockout/tagout devices applied",
+          "keywords": ["electrical lockout", "deenergize", "circuit tagging"]
+        },
+        "451": {
+          "title": "General Requirements for Scaffolds",
+          "summary": "Capacity, platform construction, and access requirements for scaffolds",
+          "keywords": ["scaffolds", "capacity", "planking", "access"]
+        },
+        "452": {
+          "title": "Additional Requirements for Specific Scaffolds",
+          "summary": "Requirements for supported scaffolds, suspended scaffolds, and aerial lifts",
+          "keywords": ["supported scaffolds", "suspended scaffolds", "aerial lifts"]
+        },
+        "453": {
+          "title": "Aerial Lifts",
+          "summary": "Requirements for vehicle-mounted elevating and rotating work platforms",
+          "keywords": ["aerial lifts", "scissor lifts", "boom lifts", "AWP"]
+        },
+        "500": {
+          "title": "Scope, Application, and Definitions for Fall Protection",
+          "summary": "Scope of fall protection requirements and definitions of key terms",
+          "keywords": ["fall protection", "scope", "definitions"]
+        },
+        "501": {
+          "title": "Duty to Have Fall Protection",
+          "summary": "Employer shall provide fall protection at heights of 6 feet or more in construction",
+          "keywords": ["6 foot rule", "fall protection duty", "leading edges"]
+        },
+        "502": {
+          "title": "Fall Protection Systems Criteria and Practices",
+          "summary": "Specific requirements for guardrails, safety nets, personal fall arrest systems",
+          "keywords": ["guardrails", "safety nets", "PFAS", "harness", "anchorage"]
+        },
+        "502(b)": {
+          "title": "Guardrail Systems",
+          "summary": "Top edge 42 inches, mid-rail at 21 inches, withstand 200 lb force, toeboard when required",
+          "keywords": ["guardrails", "42 inches", "mid-rail", "toeboard"]
+        },
+        "502(d)": {
+          "title": "Personal Fall Arrest Systems",
+          "summary": "Anchor points capable of 5,000 lbs or 2x impact load with safety factor, limit fall to 6 feet",
+          "keywords": ["PFAS", "anchor point", "5000 lbs", "fall arrest"]
+        },
+        "503": {
+          "title": "Training Requirements for Fall Protection",
+          "summary": "Each employee exposed to fall hazards shall be trained by competent person",
+          "keywords": ["fall protection training", "competent person", "hazard recognition"]
+        },
+        "550": {
+          "title": "Cranes and Derricks - General",
+          "summary": "General requirements for assembly, disassembly, and operation of cranes",
+          "keywords": ["cranes", "derricks", "assembly", "disassembly"]
+        },
+        "1400": {
+          "title": "Scope and Application for Cranes and Derricks",
+          "summary": "Applies to power-operated cranes and derricks used in construction",
+          "keywords": ["crane scope", "derricks", "power-operated"]
+        },
+        "1408": {
+          "title": "Ground Conditions for Cranes",
+          "summary": "Employer must verify ground conditions adequate to support crane with intended load",
+          "keywords": ["ground conditions", "crane setup", "soil bearing"]
+        },
+        "1424": {
+          "title": "Work Area Control for Cranes",
+          "summary": "Restrict access to swing radius and areas where falling load could strike employees",
+          "keywords": ["swing radius", "work area", "barricades"]
+        },
+        "1427": {
+          "title": "Electrical Hazards - Cranes",
+          "summary": "Minimum clearance distances from power lines based on voltage",
+          "keywords": ["power lines", "electrical clearance", "crane proximity"]
+        }
+      }
+    },
+    "osha_1910": {
+      "name": "OSHA General Industry Standards",
+      "prefix": "29 CFR 1910.",
+      "description": "Federal safety standards for general industry",
+      "baseUrl": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910",
+      "keyTopics": ["walking surfaces", "electrical", "PPE", "hazardous materials", "machine guarding"],
+      "sections": {
+        "23": {
+          "title": "Walking-Working Surfaces - Ladders",
+          "summary": "Requirements for portable and fixed ladders including capacity, construction, and use",
+          "keywords": ["ladders", "portable ladders", "fixed ladders", "capacity"]
+        },
+        "28": {
+          "title": "Duty to Have Fall Protection",
+          "summary": "Employer shall ensure each employee on walking-working surface with unprotected edge 4+ feet is protected",
+          "keywords": ["fall protection", "4 foot rule", "general industry"]
+        },
+        "29": {
+          "title": "Fall Protection Systems and Falling Object Protection",
+          "summary": "Criteria for guardrail, safety net, personal fall protection, and positioning systems",
+          "keywords": ["guardrails", "safety nets", "PFAS", "fall protection criteria"]
+        },
+        "134": {
+          "title": "Respiratory Protection",
+          "summary": "Requirements for respirator selection, fit testing, and respiratory protection program",
+          "keywords": ["respirators", "fit testing", "respiratory program", "IDLH"]
+        },
+        "147": {
+          "title": "Control of Hazardous Energy (Lockout/Tagout)",
+          "summary": "Procedures for control of hazardous energy during servicing and maintenance",
+          "keywords": ["LOTO", "lockout", "tagout", "energy isolation", "servicing"]
+        },
+        "147(c)(1)": {
+          "title": "Energy Control Program",
+          "summary": "Employer shall establish energy control program with documented procedures",
+          "keywords": ["energy control program", "procedures", "documentation"]
+        },
+        "147(c)(4)": {
+          "title": "Energy Control Procedures",
+          "summary": "Procedures shall clearly outline scope, purpose, authorization, and specific steps",
+          "keywords": ["procedures", "isolation", "verification", "energy sources"]
+        },
+        "147(c)(6)": {
+          "title": "Periodic Inspection of LOTO",
+          "summary": "Annual inspection of each energy control procedure by authorized employee",
+          "keywords": ["inspection", "annual", "certification", "procedure review"]
+        },
+        "147(c)(7)": {
+          "title": "Training and Communication for LOTO",
+          "summary": "Training for authorized, affected, and other employees on energy control procedures",
+          "keywords": ["LOTO training", "authorized employee", "affected employee"]
+        },
+        "303": {
+          "title": "General Requirements for Electrical",
+          "summary": "Examination, installation, and use of electrical equipment",
+          "keywords": ["electrical", "examination", "installation", "use"]
+        },
+        "331": {
+          "title": "Electrical Safety-Related Work Practices - Scope",
+          "summary": "Safety requirements for employees working on or near exposed energized parts",
+          "keywords": ["electrical work practices", "exposed energized", "safe work"]
+        },
+        "333": {
+          "title": "Selection and Use of Work Practices",
+          "summary": "Live parts to be deenergized before work unless infeasible or greater hazard",
+          "keywords": ["deenergize", "live parts", "work practices"]
+        }
+      }
+    },
+    "nfpa_70e": {
+      "name": "NFPA 70E - Electrical Safety in the Workplace",
+      "prefix": "NFPA 70E Article ",
+      "description": "Standard for electrical safety requirements for employee workplaces",
+      "baseUrl": "https://www.nfpa.org/codes-and-standards/all-codes-and-standards/list-of-codes-and-standards/detail?code=70E",
+      "keyTopics": ["arc flash", "shock hazard", "PPE", "energized work", "LOTO"],
+      "sections": {
+        "100": {
+          "title": "Definitions",
+          "summary": "Definitions of qualified person, arc flash boundary, incident energy, and other key terms",
+          "keywords": ["definitions", "qualified person", "arc flash boundary"]
+        },
+        "110.2": {
+          "title": "Host Employer Responsibilities",
+          "summary": "Host employer to inform contract employer of known hazards and emergency procedures",
+          "keywords": ["host employer", "contract employer", "communication"]
+        },
+        "110.6": {
+          "title": "Training Requirements",
+          "summary": "Employees shall be trained on hazards and safe work practices for their job assignment",
+          "keywords": ["training", "qualified person", "electrical safety training"]
+        },
+        "120.1": {
+          "title": "Electrically Safe Work Condition",
+          "summary": "Electrical conductors and circuit parts shall be placed in electrically safe work condition before work",
+          "keywords": ["electrically safe", "deenergize", "LOTO", "safe condition"]
+        },
+        "120.2": {
+          "title": "Lockout/Tagout Process",
+          "summary": "Process for establishing and verifying electrically safe work condition",
+          "keywords": ["LOTO process", "verification", "isolation"]
+        },
+        "120.5": {
+          "title": "Process for Establishing Electrically Safe Work Condition",
+          "summary": "Six-step process: determine sources, isolate, release stored energy, apply LOTO, verify, proceed",
+          "keywords": ["six steps", "establish safe condition", "verification"]
+        },
+        "130.1": {
+          "title": "Work Involving Electrical Hazards",
+          "summary": "Safety-related work practices shall protect employees from shock and arc flash hazards",
+          "keywords": ["work practices", "shock hazard", "arc flash hazard"]
+        },
+        "130.2": {
+          "title": "Energized Electrical Work Permit",
+          "summary": "Work permit required when work performed within restricted approach boundary or arc flash boundary",
+          "keywords": ["EEWP", "energized work permit", "justification"]
+        },
+        "130.4": {
+          "title": "Approach Boundaries",
+          "summary": "Limited, restricted, and prohibited approach boundaries for shock protection",
+          "keywords": ["approach boundaries", "limited", "restricted", "prohibited"]
+        },
+        "130.5": {
+          "title": "Arc Flash Risk Assessment",
+          "summary": "Assessment shall determine if arc flash hazard exists and identify appropriate safety measures",
+          "keywords": ["arc flash assessment", "incident energy", "PPE category"]
+        },
+        "130.5(G)": {
+          "title": "Equipment Labeling",
+          "summary": "Electrical equipment shall be labeled with arc flash and shock hazard information",
+          "keywords": ["labeling", "arc flash label", "incident energy", "PPE"]
+        },
+        "130.7": {
+          "title": "Personal Protective Equipment",
+          "summary": "PPE selection based on arc flash and shock hazard analysis or PPE category method",
+          "keywords": ["PPE", "arc-rated", "PPE category", "incident energy method"]
+        },
+        "130.7(C)(15)": {
+          "title": "Rubber Insulating Equipment",
+          "summary": "Rubber insulating gloves, sleeves, and other equipment rated for voltage exposure",
+          "keywords": ["rubber gloves", "insulating equipment", "voltage rating"]
+        }
+      }
+    },
+    "nfpa_70": {
+      "name": "NFPA 70 - National Electrical Code (NEC)",
+      "prefix": "NEC Article ",
+      "description": "Standard for electrical installation requirements",
+      "baseUrl": "https://www.nfpa.org/codes-and-standards/all-codes-and-standards/list-of-codes-and-standards/detail?code=70",
+      "keyTopics": ["wiring", "grounding", "overcurrent protection", "equipment"],
+      "sections": {
+        "110": {
+          "title": "Requirements for Electrical Installations",
+          "summary": "General requirements for examination and approval of equipment",
+          "keywords": ["electrical installation", "equipment approval", "examination"]
+        },
+        "250": {
+          "title": "Grounding and Bonding",
+          "summary": "Requirements for grounding electrode system, grounding conductor sizing",
+          "keywords": ["grounding", "bonding", "grounding electrode", "EGC"]
+        },
+        "480": {
+          "title": "Storage Batteries",
+          "summary": "Requirements for stationary storage battery installations",
+          "keywords": ["batteries", "storage batteries", "battery rooms"]
+        }
+      }
+    },
+    "ansi_z359": {
+      "name": "ANSI Z359 - Fall Protection Code",
+      "prefix": "ANSI Z359.",
+      "description": "Consensus standards for fall protection equipment and systems",
+      "baseUrl": "https://www.assp.org/standards/standards-topics/fall-protection-and-working-at-heights",
+      "keyTopics": ["fall arrest", "harness", "self-retracting lifeline", "anchor"],
+      "sections": {
+        "1": {
+          "title": "Safety Requirements for Personal Fall Arrest Systems",
+          "summary": "Requirements for full-body harnesses, lanyards, deceleration devices, and anchorages",
+          "keywords": ["PFAS", "harness", "lanyard", "anchorage", "deceleration"]
+        },
+        "2": {
+          "title": "Minimum Requirements for a Comprehensive Managed Fall Protection Program",
+          "summary": "Elements of an effective fall protection program including training, rescue, and documentation",
+          "keywords": ["fall protection program", "managed program", "rescue plan"]
+        },
+        "4": {
+          "title": "Safety Requirements for Self-Retracting Devices and Lanyards",
+          "summary": "Design, performance, and testing requirements for SRLs and energy-absorbing lanyards",
+          "keywords": ["SRL", "self-retracting", "energy absorbing", "lanyard"]
+        },
+        "11": {
+          "title": "Safety Requirements for Full Body Harnesses",
+          "summary": "Design, construction, and testing requirements for full body harnesses",
+          "keywords": ["harness", "full body harness", "D-ring", "connection points"]
+        },
+        "14": {
+          "title": "Safety Requirements for Self-Retracting Devices and SRL-Ps",
+          "summary": "Requirements for personal self-retracting lifelines for leading edge applications",
+          "keywords": ["SRL-P", "leading edge", "self-retracting", "personal SRL"]
+        }
+      }
+    },
+    "ansi_z49": {
+      "name": "ANSI Z49.1 - Safety in Welding",
+      "prefix": "ANSI Z49.1 ",
+      "description": "Safety standards for welding, cutting, and allied processes",
+      "baseUrl": "https://www.aws.org/",
+      "keyTopics": ["welding safety", "hot work", "fire prevention", "ventilation"],
+      "sections": {
+        "4": {
+          "title": "Protection of Personnel",
+          "summary": "Eye protection, protective clothing, respiratory protection for welding operations",
+          "keywords": ["welding PPE", "eye protection", "welding helmet", "respiratory"]
+        },
+        "6": {
+          "title": "Fire Prevention and Protection",
+          "summary": "Fire prevention measures, hot work permits, fire watch requirements",
+          "keywords": ["hot work", "fire prevention", "fire watch", "combustibles"]
+        },
+        "9": {
+          "title": "Ventilation",
+          "summary": "Ventilation requirements for welding operations including confined spaces",
+          "keywords": ["welding ventilation", "fume extraction", "confined space welding"]
+        }
+      }
+    }
+  },
+  "hazardMappings": {
+    "fall_protection": [
+      { "standard": "osha_1926", "section": "501", "relevance": 100, "context": "Primary fall protection duty for construction" },
+      { "standard": "osha_1926", "section": "502", "relevance": 95, "context": "Fall protection systems criteria" },
+      { "standard": "osha_1926", "section": "502(b)", "relevance": 90, "context": "Guardrail system requirements" },
+      { "standard": "osha_1926", "section": "502(d)", "relevance": 90, "context": "Personal fall arrest system requirements" },
+      { "standard": "osha_1926", "section": "503", "relevance": 80, "context": "Fall protection training requirements" },
+      { "standard": "ansi_z359", "section": "1", "relevance": 85, "context": "PFAS equipment standards" },
+      { "standard": "ansi_z359", "section": "2", "relevance": 75, "context": "Managed fall protection program" }
+    ],
+    "electrical": [
+      { "standard": "nfpa_70e", "section": "130.5", "relevance": 100, "context": "Arc flash risk assessment" },
+      { "standard": "nfpa_70e", "section": "130.7", "relevance": 95, "context": "Arc flash PPE requirements" },
+      { "standard": "nfpa_70e", "section": "130.2", "relevance": 90, "context": "Energized electrical work permit" },
+      { "standard": "osha_1926", "section": "416", "relevance": 85, "context": "General electrical safety requirements" },
+      { "standard": "osha_1910", "section": "333", "relevance": 80, "context": "Electrical work practices" }
+    ],
+    "loto": [
+      { "standard": "osha_1910", "section": "147", "relevance": 100, "context": "Primary LOTO standard" },
+      { "standard": "osha_1910", "section": "147(c)(4)", "relevance": 95, "context": "Energy control procedures" },
+      { "standard": "osha_1910", "section": "147(c)(6)", "relevance": 90, "context": "Periodic inspection requirement" },
+      { "standard": "nfpa_70e", "section": "120.2", "relevance": 85, "context": "Electrical LOTO process" },
+      { "standard": "nfpa_70e", "section": "120.5", "relevance": 80, "context": "Six-step safe condition process" },
+      { "standard": "osha_1926", "section": "417", "relevance": 85, "context": "Construction electrical LOTO" }
+    ],
+    "arc_flash": [
+      { "standard": "nfpa_70e", "section": "130.5", "relevance": 100, "context": "Arc flash risk assessment requirement" },
+      { "standard": "nfpa_70e", "section": "130.5(G)", "relevance": 95, "context": "Arc flash labeling requirements" },
+      { "standard": "nfpa_70e", "section": "130.7", "relevance": 90, "context": "Arc-rated PPE selection" },
+      { "standard": "nfpa_70e", "section": "130.7(C)(15)", "relevance": 85, "context": "Rubber insulating equipment" }
+    ],
+    "scaffolds": [
+      { "standard": "osha_1926", "section": "451", "relevance": 100, "context": "General scaffold requirements" },
+      { "standard": "osha_1926", "section": "452", "relevance": 95, "context": "Specific scaffold types" },
+      { "standard": "osha_1926", "section": "453", "relevance": 90, "context": "Aerial lift requirements" }
+    ],
+    "excavation": [
+      { "standard": "osha_1926", "section": "95", "relevance": 100, "context": "Excavation and trenching requirements" }
+    ],
+    "cranes": [
+      { "standard": "osha_1926", "section": "1400", "relevance": 100, "context": "Crane and derrick scope" },
+      { "standard": "osha_1926", "section": "1408", "relevance": 95, "context": "Ground conditions for cranes" },
+      { "standard": "osha_1926", "section": "1424", "relevance": 90, "context": "Work area control" },
+      { "standard": "osha_1926", "section": "1427", "relevance": 85, "context": "Electrical hazards - cranes" }
+    ],
+    "hot_work": [
+      { "standard": "ansi_z49", "section": "6", "relevance": 100, "context": "Fire prevention and hot work permits" },
+      { "standard": "ansi_z49", "section": "4", "relevance": 90, "context": "Personnel protection during welding" },
+      { "standard": "ansi_z49", "section": "9", "relevance": 85, "context": "Ventilation requirements" }
+    ],
+    "ladders": [
+      { "standard": "osha_1910", "section": "23", "relevance": 100, "context": "Ladder requirements general industry" },
+      { "standard": "osha_1926", "section": "1053", "relevance": 95, "context": "Ladder requirements construction" }
+    ],
+    "training": [
+      { "standard": "osha_1926", "section": "21", "relevance": 100, "context": "Safety training requirements" },
+      { "standard": "nfpa_70e", "section": "110.6", "relevance": 90, "context": "Electrical safety training" },
+      { "standard": "osha_1910", "section": "147(c)(7)", "relevance": 85, "context": "LOTO training requirements" }
+    ]
+  },
+  "controlRecommendations": {
+    "guardrails": {
+      "primary": { "standard": "osha_1926", "section": "502(b)" },
+      "recommendation": "Install guardrail systems meeting OSHA specifications",
+      "specificRequirements": [
+        "Top edge height of 42 inches (+/- 3 inches)",
+        "Mid-rail at approximately 21 inches",
+        "Withstand 200 lbs outward or downward force",
+        "Toeboard when material/tools could fall on workers below"
+      ],
+      "related": [
+        { "standard": "ansi_z359", "section": "2" }
+      ]
+    },
+    "pfas": {
+      "primary": { "standard": "osha_1926", "section": "502(d)" },
+      "recommendation": "Implement personal fall arrest system with proper anchorage",
+      "specificRequirements": [
+        "Anchor points capable of supporting 5,000 lbs per employee",
+        "Full body harness (body belts prohibited for fall arrest)",
+        "Maximum arresting force of 1,800 lbs on employee",
+        "Limit free fall to 6 feet"
+      ],
+      "related": [
+        { "standard": "ansi_z359", "section": "1" },
+        { "standard": "ansi_z359", "section": "11" }
+      ]
+    },
+    "arc_flash_program": {
+      "primary": { "standard": "nfpa_70e", "section": "130.5" },
+      "recommendation": "Conduct arc flash risk assessment and implement controls",
+      "specificRequirements": [
+        "Determine if arc flash hazard exists",
+        "Calculate incident energy or use PPE category tables",
+        "Install arc flash labels on equipment",
+        "Select appropriate arc-rated PPE"
+      ],
+      "related": [
+        { "standard": "nfpa_70e", "section": "130.5(G)" },
+        { "standard": "nfpa_70e", "section": "130.7" }
+      ]
+    },
+    "loto_program": {
+      "primary": { "standard": "osha_1910", "section": "147" },
+      "recommendation": "Establish comprehensive lockout/tagout program",
+      "specificRequirements": [
+        "Written energy control procedures for each equipment type",
+        "Authorized employee training and documentation",
+        "Individual lockout devices for each worker",
+        "Annual procedure inspection and certification"
+      ],
+      "related": [
+        { "standard": "nfpa_70e", "section": "120.2" },
+        { "standard": "osha_1926", "section": "417" }
+      ]
+    },
+    "eewp": {
+      "primary": { "standard": "nfpa_70e", "section": "130.2" },
+      "recommendation": "Implement energized electrical work permit process",
+      "specificRequirements": [
+        "Documented justification for energized work",
+        "Hazard analysis completed",
+        "PPE and approach boundaries specified",
+        "Approval by qualified person"
+      ],
+      "related": [
+        { "standard": "nfpa_70e", "section": "130.4" },
+        { "standard": "nfpa_70e", "section": "130.7" }
+      ]
+    }
+  },
+  "industryMappings": {
+    "construction": ["osha_1926", "nfpa_70e", "ansi_z359", "ansi_z49"],
+    "general_industry": ["osha_1910", "nfpa_70e", "ansi_z359"],
+    "data_center": ["nfpa_70e", "nfpa_70", "osha_1926", "osha_1910"],
+    "semiconductor": ["osha_1910", "nfpa_70e", "ansi_z359"],
+    "manufacturing": ["osha_1910", "nfpa_70e", "ansi_z49"]
+  }
+}
