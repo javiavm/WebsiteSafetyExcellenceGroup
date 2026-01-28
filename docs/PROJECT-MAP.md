@@ -1,5 +1,17 @@
 # S.E.G. Website Project Map
-> Updated: 2026-01-27 | Technical reference for development | Version 3.1.0
+> Updated: 2026-01-28 | Technical reference for development | Version 3.1.0
+
+---
+
+## Product Plan: FREE → PRO → PREMIUM
+
+| Tier | Price | Status | Features |
+|------|-------|--------|----------|
+| **FREE** | $0 | ✅ NOW | STKY + SIF assessments, basic results, 7-day history |
+| **PRO** | $50/mo | 🔜 COMING SOON | Benchmarking, PhD recommendations, permanent history, trends |
+| **PREMIUM** | $500/mo | 🔜 COMING SOON | Everything PRO + 4 hrs/mo Fractional Director, AEGIS Priority Queue |
+
+**Conversion Strategy:** Free results expire after 7 days → Day 5/7 emails trigger upgrade → 25-40% expected conversion
 
 ---
 
@@ -84,13 +96,17 @@ seg-website/
 |------|------|--------|-------|
 | P-SIF Classification | `public/tools/sif-filter.html` | 🔜 Coming Soon | AI near-miss classifier |
 
-### PRO Features (Backend Ready)
+### PRO Features (Backend Ready — COMING SOON)
 | Feature | File | Status | Notes |
 |---------|------|--------|-------|
 | Benchmarking | `server/lib/benchmarkEngine.js` | ✅ Ready | Needs Stripe integration |
 | PhD Recommendations | `server/lib/recommendationsEngine.js` | ✅ Ready | Needs Stripe integration |
 | Benchmark Data | `server/data/benchmarks.json` | ✅ Ready | Industry percentiles |
 | Trend Tracking | In benchmarkEngine.js | ✅ Ready | Score history analysis |
+| User Auth | `server/routes/auth.js` | ✅ Ready | Needs Stripe integration |
+| Stripe Billing | `server/routes/billing.js` | ✅ Ready | Needs Stripe products |
+
+**Activation Blocked By:** Stripe keys not configured (STRIPE_SECRET_KEY, STRIPE_PRO_PRICE_ID, STRIPE_PREMIUM_PRICE_ID)
 
 ### Tool API Endpoints
 | Method | Path | Purpose |

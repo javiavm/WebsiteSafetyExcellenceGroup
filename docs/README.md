@@ -2,7 +2,17 @@
 
 > **Note:** Main documentation is in the project root `README.md`
 >
-> **Version:** 3.1.0 | **Updated:** 2026-01-27
+> **Version:** 3.1.0 | **Updated:** 2026-01-28
+
+## Product Plan
+
+| Tier | Price | Status |
+|------|-------|--------|
+| FREE | $0 | ✅ NOW |
+| PRO | $50/mo | 🔜 COMING SOON |
+| PREMIUM | $500/mo | 🔜 COMING SOON |
+
+See [README.md](../README.md) for full details on features per tier.
 
 ## Contents
 
