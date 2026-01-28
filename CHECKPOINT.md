@@ -7,28 +7,59 @@ STATUS: ok
 
 ---
 
+## Product Plan: FREE → PRO → PREMIUM
+
+S.E.G. tools follow a freemium model designed to demonstrate value, then convert users to paid tiers.
+
+| Tier | Price | Status | Features |
+|------|-------|--------|----------|
+| **FREE** | $0 | ✅ NOW | STKY + SIF assessments, basic results, 7-day history |
+| **PRO** | $50/mo | 🔜 COMING SOON | Benchmarking, PhD recommendations, permanent history, trends, 7-day trial |
+| **PREMIUM** | $500/mo | 🔜 COMING SOON | Everything PRO + 4 hrs/mo Fractional Director, AEGIS Priority Queue |
+
+### Conversion Strategy
+- **Loss Aversion:** Free results expire after 7 days
+- **Day 5 Email:** "Your insights expire in 48 hours"
+- **Day 7 Email:** "Upgrade to keep results forever"
+- **Expected Conversion:** 25-40% (industry benchmark)
+
+### PRO Tier Value ($50/mo)
+- Permanent history (results never expire)
+- Benchmarking vs 50+ fab project data
+- PhD-level recommendations with OSHA/NFPA/ANSI citations
+- Trend tracking (score improvement over time)
+- Priority AEGIS responses
+
+### PREMIUM Tier Value ($500/mo)
+- Everything PRO
+- 4 hours/month direct access to principal consultant
+- AEGIS Priority Queue (urgent questions routed immediately)
+- Custom guidance tailored to your operation
+
+---
+
 ## Release Roadmap
 
-### Phase 1: Website Launch (PRIORITY)
+### Phase 1: Website Launch (NOW - PRIORITY)
 | Component | Status | Go-Live Blocker |
 |-----------|--------|-----------------|
 | Main Website (all pages) | ✅ Ready | Deploy to safety-excellence.com |
 | GHL Webhooks (Client/Candidate/Newsletter) | ✅ Ready | Configure production URLs |
-| Lead Scoring Algorithm | ✅ Ready | - |
-| Candidate Scoring Algorithm | ✅ Ready | - |
 | AEGIS Chatbot | ✅ Ready | - |
 | DC Safety Checklist | ✅ Ready | - |
 
-### Phase 2: Tools Release (Shortly After)
-| Tool | Status | Go-Live Blocker |
-|------|--------|-----------------|
-| STKY Assessment | ✅ Ready | QA test flows |
-| P-SIF Scorecard | ✅ Ready | QA test flows |
-| Results Dashboard | ✅ Ready | - |
-| Tool Webhooks (STKY/SIF) | ✅ Ready | Verify GHL delivery |
-| P-SIF Classification | 🔜 Coming Soon | Claude API integration |
+### Phase 2: FREE Tools Release (Shortly After Website)
+| Tool | Status | Tier | Go-Live Blocker |
+|------|--------|------|-----------------|
+| STKY Assessment | ✅ Ready | FREE | QA test flows |
+| P-SIF Scorecard | ✅ Ready | FREE | QA test flows |
+| Results Dashboard | ✅ Ready | FREE | - |
+| Tool Webhooks (STKY/SIF) | ✅ Ready | - | Verify GHL delivery |
+| P-SIF Classification | 🔜 Coming | FREE | Claude API integration |
 
 ### Phase 3: Algorithms & AI (Close Second - HIGH PRIORITY)
+These run automatically in the background, powering the website and tools.
+
 | Component | Status | File |
 |-----------|--------|------|
 | Lead Scoring | ✅ Ready | `algorithms/leadScoring.js` |
@@ -37,21 +68,36 @@ STATUS: ok
 | Stage 2 WHO Assessment | ✅ Ready | `algorithms/stage2Assessment.js` |
 | Opportunity Detector | ✅ Ready | `server/services/opportunityDetector.js` |
 | SME Agent Navigator | ✅ Ready | `server/agents/navigator.js` |
-| Falls Specialist Agent | ✅ Ready | `server/agents/falls-specialist.js` |
-| Electrical Specialist Agent | ✅ Ready | `server/agents/electrical-specialist.js` |
-| DC Specialist Agent | ✅ Ready | `server/agents/dc-specialist.js` |
-| General Specialist Agent | ✅ Ready | `server/agents/general-specialist.js` |
+| Falls Specialist | ✅ Ready | `server/agents/falls-specialist.js` |
+| Electrical Specialist | ✅ Ready | `server/agents/electrical-specialist.js` |
+| DC Specialist | ✅ Ready | `server/agents/dc-specialist.js` |
+| General Specialist | ✅ Ready | `server/agents/general-specialist.js` |
 | Citation Engine | ✅ Ready | `server/lib/citationEngine.js` |
-| Benchmarking Engine (PRO) | ✅ Ready | `server/lib/benchmarkEngine.js` |
-| Recommendations Engine (PRO) | ✅ Ready | `server/lib/recommendationsEngine.js` |
+| Benchmarking Engine | ✅ Ready | `server/lib/benchmarkEngine.js` (PRO) |
+| Recommendations Engine | ✅ Ready | `server/lib/recommendationsEngine.js` (PRO) |
 
-### Phase 4: Subscription Features (After Tools Validated)
-| Feature | Status | Go-Live Blocker |
-|---------|--------|-----------------|
-| User Auth (register/login) | ✅ Backend Ready | Stripe keys needed |
+### Phase 4: Subscription Model (COMING SOON)
+Backend infrastructure is ready. Blocked by Stripe integration.
+
+| Feature | Status | Blocker |
+|---------|--------|---------|
+| User Auth (register/login) | ✅ Backend Ready | Stripe keys |
 | Stripe Billing | ✅ Backend Ready | Create Stripe products |
+| 7-Day Results Expiration | ✅ Backend Ready | Stripe integration |
 | PRO Benchmarking | ✅ Backend Ready | Stripe integration |
-| PRO Recommendations | ✅ Backend Ready | Stripe integration |
+| PRO PhD Recommendations | ✅ Backend Ready | Stripe integration |
+| PREMIUM Fractional Director | 🔜 Planned | Manual scheduling |
+| PREMIUM AEGIS Priority Queue | 🔜 Planned | Routing logic |
+
+**To Activate Subscriptions:**
+1. Add Stripe keys to `.env`:
+   - `STRIPE_SECRET_KEY`
+   - `STRIPE_WEBHOOK_SECRET`
+   - `STRIPE_PRO_PRICE_ID` ($50/mo)
+   - `STRIPE_PREMIUM_PRICE_ID` ($500/mo)
+2. Create products/prices in Stripe Dashboard
+3. Set up Stripe webhook endpoint
+4. Enable 7-day trial for PRO
 
 ---
 
