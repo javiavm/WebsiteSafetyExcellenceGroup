@@ -4,6 +4,51 @@ All notable changes documented per CYA protocol.
 
 ---
 
+## [2026-01-27] Brand Standardization & DC Enhancements
+
+### Brand Standardization ✅
+| File | Change | Description |
+|------|--------|-------------|
+| All pages | UPDATE | "Why SEG" → "Why S.E.G." in nav links |
+| All pages | UPDATE | "The SEG Difference" → "What Sets Us Apart" |
+| All pages | UPDATE | Hero badges simplified to "Powered by AEGIS AI" |
+| All pages | UPDATE | Body copy "SEG" replaced with pronouns (we/our/us) |
+| `public/why-seg.html` | UPDATE | Hero title "Why SEG?" → "Why S.E.G.?" |
+
+**Kept As-Is (Intentional):** Image filenames, JSON-LD/structured data, legal disclaimers, testimonial quotes, CSS variables, admin dashboard.
+
+### DC Page Polish ✅
+| File | Change | Description |
+|------|--------|-------------|
+| `public/data-centers.html` | UPDATE | Added psychological triggers (loss aversion, authority, specificity, urgency) |
+| `public/data-centers.html` | UPDATE | Cleaned copy - removed competitor attacks, added data-driven pain points |
+| Multiple files | UPDATE | Fixed domain: `safetyexcellencegroup.com` → `safety-excellence.com` |
+| `public/data-centers.html` | UPDATE | Added booking modal (GHL calendar) |
+
+### DC Safety Checklist ✅
+| Feature | Description |
+|---------|-------------|
+| Location | Modal on `public/data-centers.html` |
+| Assessment | 20-point interactive checklist (7 sections) |
+| ROI Calculation | OSHA Safety Pays methodology (internal pricing hidden) |
+| Print Report | Generates PDF with answers, scores, ROI |
+| Perfect Score | Pushes to Verification Audit (Uptime Institute 79% stat) |
+| High Gap Warning | Red alert when >3 critical gaps |
+
+### PRO Features (Backend) ✅
+| File | Action | Description |
+|------|--------|-------------|
+| `server/lib/benchmarkEngine.js` | CREATE | Industry benchmarking vs 50+ fab projects |
+| `server/lib/recommendationsEngine.js` | CREATE | PhD-level recommendations with citations |
+| `server/data/benchmarks.json` | CREATE | Overall and by-industry benchmark data |
+
+**API Response Updates:**
+- `/api/stky/assess` → includes `benchmark`, `enhancedRecommendations`, `isPro`
+- `/api/sif/assess` → includes `benchmark`, `isPro`
+- `/api/dashboard` → includes `trends`, `isPro`
+
+---
+
 ## [2026-01-24] Strategic Update Implementation
 
 ### Phase 1: DC Campaign ✅
@@ -119,14 +164,20 @@ Note: Database changes (if any) would need separate rollback.
 
 ## Next Steps
 
-1. Phase 3: Subscription Infrastructure
-   - `server/routes/auth.js` - User authentication
-   - `server/routes/billing.js` - Stripe integration
-   - `database/migrations/users.sql` - User/subscription tables
-   - `public/js/auth.js` - Frontend auth
-   - Results expiration logic (7-day for free)
-   - Premium AEGIS routing
+1. **Go Live Requirements:**
+   - Add Stripe keys to `.env`:
+     - STRIPE_SECRET_KEY
+     - STRIPE_WEBHOOK_SECRET
+     - STRIPE_PRO_PRICE_ID
+     - STRIPE_PREMIUM_PRICE_ID
+   - Create products/prices in Stripe Dashboard
+   - Set up Stripe webhook endpoint
 
-2. Phase 5: Data Integration (awaiting user sample docs)
+2. **QA Testing:**
+   - Test all pages at localhost:3001
+   - Verify brand standardization (S.E.G. with periods)
+   - Test DC Safety Checklist modal and print report
 
-3. Remaining QA fixes from QA-ISSUES.md
+3. **Phase 5:** Data Integration (awaiting user sample docs)
+
+4. Remaining QA fixes from QA-ISSUES.md

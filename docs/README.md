@@ -1,6 +1,8 @@
 # Documentation
 
 > **Note:** Main documentation is in the project root `README.md`
+>
+> **Version:** 3.1.0 | **Updated:** 2026-01-27
 
 ## Contents
 
@@ -9,6 +11,9 @@
 | `PROJECT-MAP.md` | API reference and file structure |
 | `SEG-MASTER-PROJECT-FILE.md` | Original project specification |
 | `AEGIS-CHATBOT-TASKS.md` | Chatbot-specific development notes |
+| `GHL-WEBHOOK-REFERENCE.md` | GoHighLevel webhook documentation |
+| `DC-Safety-Checklist.md` | Data center 20-point checklist content |
+| `STRATEGIC-UPDATE-PLAN.md` | Strategic roadmap |
 | `INTEGRATION-SNIPPET.html` | Website embed code for chatbot |
 
 ## Quick Links

@@ -1,6 +1,8 @@
-# SEG Website & Tools Platform
+# S.E.G. Website & Tools Platform
 
 Safety Excellence Group - Assessment Tools & AEGIS AI Chatbot Platform
+
+**Version:** 3.1.0 | **Domain:** safety-excellence.com | **Updated:** 2026-01-27
 
 ## Overview
 
@@ -9,6 +11,106 @@ This platform provides:
 - **STKY Assessment** - Hazard control maturity assessment tool (FREE)
 - **P-SIF Scorecard** - SIF precursor recognition testing (FREE)
 - **P-SIF Classification** - AI-powered near-miss classification (COMING SOON)
+- **DC Safety Checklist** - 20-point interactive assessment with ROI calculator
+
+---
+
+## Release Roadmap
+
+### Phase 1: Website Launch (PRIORITY)
+| Component | Status | Description |
+|-----------|--------|-------------|
+| Main Website | ✅ Ready | Homepage, Why S.E.G., Careers, Data Centers pages |
+| GHL Webhooks | ✅ Ready | Client, Candidate, Newsletter forms → GHL automation |
+| Lead Scoring | ✅ Ready | HOT/WARM/NURTURE classification |
+| Candidate Scoring | ✅ Ready | A/B/C/D fit rating |
+| AEGIS Chatbot | ✅ Ready | Claude-powered safety assistant |
+| DC Safety Checklist | ✅ Ready | 20-point assessment with ROI |
+
+**Go-Live Requirements:**
+- [ ] Deploy to safety-excellence.com
+- [ ] Configure production GHL webhook URLs
+- [ ] SSL/HTTPS enabled
+- [ ] DNS configured
+
+### Phase 2: Tools Release (Shortly After Website)
+| Tool | Status | Description |
+|------|--------|-------------|
+| STKY Assessment | ✅ Ready | Hazard control maturity (FREE) |
+| P-SIF Scorecard | ✅ Ready | SIF precursor recognition (FREE) |
+| Results Dashboard | ✅ Ready | Email-based results lookup |
+| P-SIF Classification | 🔜 Coming | AI near-miss classifier |
+
+**Go-Live Requirements:**
+- [ ] QA test all tool flows
+- [ ] Verify webhook delivery to GHL
+- [ ] Add Tools link to main nav
+
+### Phase 3: Algorithms & AI Enhancement (Close Second)
+| Component | Status | Priority | Description |
+|-----------|--------|----------|-------------|
+| **Lead Scoring Algorithm** | ✅ Ready | HIGH | 0-100 scoring → HOT/WARM/NURTURE |
+| **Candidate Scoring Algorithm** | ✅ Ready | HIGH | Certifications, experience → A/B/C/D rating |
+| **Matching Algorithm** | ✅ Ready | HIGH | Client-candidate weighted matching |
+| **Stage 2 WHO Assessment** | ✅ Ready | HIGH | Behavioral interview scoring |
+| **Opportunity Detector** | ✅ Ready | HIGH | Auto-triggers on HOT leads |
+| **SME Agent Navigator** | ✅ Ready | HIGH | Routes queries to specialist agents |
+| **Falls Specialist Agent** | ✅ Ready | HIGH | Fall protection SME (Claude) |
+| **Electrical Specialist Agent** | ✅ Ready | HIGH | Arc flash/LOTO SME (Claude) |
+| **DC Specialist Agent** | ✅ Ready | HIGH | Data center safety SME (Claude) |
+| **General Specialist Agent** | ✅ Ready | HIGH | Compliance fallback (Claude) |
+| **Citation Engine** | ✅ Ready | MEDIUM | OSHA/NFPA/ANSI regulatory citations |
+| **Benchmarking Engine** | ✅ Ready | MEDIUM | Industry comparison (PRO feature) |
+| **Recommendations Engine** | ✅ Ready | MEDIUM | PhD-level recommendations (PRO) |
+
+---
+
+## Algorithms & AI (Core Differentiator)
+
+Our proprietary algorithms and AI agents are what set S.E.G. apart. These run automatically in the background.
+
+### Scoring Algorithms
+```
+algorithms/
+├── leadScoring.js        # Client leads → HOT/WARM/NURTURE (0-100)
+├── candidateScoring.js   # Candidates → A/B/C/D rating (0-110)
+├── matchingAlgorithm.js  # Client ↔ Candidate weighted matching
+├── stage2Assessment.js   # WHO Method behavioral interview scoring
+└── metricsAnalyzer.js    # Safety metrics analysis
+```
+
+### AI Support Tools (Claude-Powered)
+```
+server/agents/
+├── navigator.js              # Query router → best specialist
+├── falls-specialist.js       # Fall protection SME
+├── electrical-specialist.js  # Arc flash, LOTO, NFPA 70E
+├── dc-specialist.js          # Data center construction safety
+└── general-specialist.js     # General compliance fallback
+
+server/lib/
+├── citationEngine.js         # Regulatory citation lookup
+├── benchmarkEngine.js        # Industry benchmarking (PRO)
+└── recommendationsEngine.js  # PhD-level recommendations (PRO)
+```
+
+### How They Work Together
+```
+Client submits form
+    → leadScoring.js scores (0-100)
+    → IF HOT: opportunityDetector.js triggers
+        → matchingAlgorithm.js finds B+ candidates
+        → Stage 2 invites sent via GHL
+        → Admin alerted
+
+User asks AEGIS a question
+    → navigator.js classifies domain
+    → Routes to specialist agent (falls/electrical/dc/general)
+    → Agent queries citationEngine.js for regulations
+    → Returns PhD-level response with citations
+```
+
+---
 
 ## Tech Stack
 
@@ -320,6 +422,35 @@ curl -X POST http://localhost:3001/api/stky/assess \
 </script>
 ```
 
+## Subscription Tiers
+
+| Tier | Price | Features |
+|------|-------|----------|
+| **FREE** | $0 | STKY + SIF assessments, basic results, 7-day history |
+| **PRO** | $50/mo | Benchmarking, PhD recommendations, permanent history, trends |
+| **PREMIUM** | $500/mo | Everything PRO + 4 hrs/mo Fractional Director |
+
+## PRO Features (Backend Ready)
+
+| Feature | File | Description |
+|---------|------|-------------|
+| Benchmarking Engine | `server/lib/benchmarkEngine.js` | Compare scores to 50+ fab project data |
+| PhD Recommendations | `server/lib/recommendationsEngine.js` | Specific citations (OSHA, NFPA, ANSI) |
+| Benchmark Data | `server/data/benchmarks.json` | Industry-specific percentiles |
+| Trend Tracking | `server/lib/benchmarkEngine.js` | Score improvement over time |
+
+**To Go Live:** Add Stripe keys to `.env` (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_PRO_PRICE_ID, STRIPE_PREMIUM_PRICE_ID)
+
+## DC Safety Checklist
+
+Interactive 20-point assessment modal on `/data-centers.html`:
+- 7 sections covering DC-specific safety requirements
+- Disclaimer step with checkbox acceptance
+- Project context sliders (workers, burn rate)
+- ROI calculation using OSHA Safety Pays methodology
+- Print report with filled-out answers + scores
+- Perfect score (20/20) pushes to Verification Audit
+
 ## Archive Notice
 
 The `_archive/` folder contains legacy V1/V2 code preserved for reference:
@@ -342,6 +473,6 @@ The `_archive/` folder contains legacy V1/V2 code preserved for reference:
 
 ---
 
-**Version:** 3.0.0
-**Last Updated:** January 2026
+**Version:** 3.1.0
+**Last Updated:** 2026-01-27
 **License:** Proprietary - Safety Excellence Group

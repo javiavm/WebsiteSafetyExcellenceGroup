@@ -1,5 +1,5 @@
-# SEG Website Project Map
-> Updated: 2026-01-25 | Technical reference for development
+# S.E.G. Website Project Map
+> Updated: 2026-01-27 | Technical reference for development | Version 3.1.0
 
 ---
 
@@ -77,11 +77,20 @@ seg-website/
 | STKY Assessment | `public/tools/stky-assessment.html` | ✅ FREE | Hazard control maturity assessment |
 | P-SIF Scorecard | `public/tools/sif-scorecard.html` | ✅ FREE | P-SIF recognition test |
 | Results Dashboard | `public/tools/dashboard.html` | ✅ FREE | Email-based results lookup |
+| DC Safety Checklist | `public/data-centers.html` (modal) | ✅ FREE | 20-point DC assessment with ROI |
 
 ### Future Tools (Coming Soon)
 | Tool | File | Status | Notes |
 |------|------|--------|-------|
 | P-SIF Classification | `public/tools/sif-filter.html` | 🔜 Coming Soon | AI near-miss classifier |
+
+### PRO Features (Backend Ready)
+| Feature | File | Status | Notes |
+|---------|------|--------|-------|
+| Benchmarking | `server/lib/benchmarkEngine.js` | ✅ Ready | Needs Stripe integration |
+| PhD Recommendations | `server/lib/recommendationsEngine.js` | ✅ Ready | Needs Stripe integration |
+| Benchmark Data | `server/data/benchmarks.json` | ✅ Ready | Industry percentiles |
+| Trend Tracking | In benchmarkEngine.js | ✅ Ready | Score history analysis |
 
 ### Tool API Endpoints
 | Method | Path | Purpose |
@@ -114,12 +123,15 @@ server/routes/
 server/lib/
 ├── stkyEngine.js           # STKY scoring logic
 ├── sifEngine.js            # SIF scoring logic
-└── citationEngine.js       # Regulatory citations
+├── citationEngine.js       # Regulatory citations
+├── benchmarkEngine.js      # PRO: Industry benchmarking
+└── recommendationsEngine.js # PRO: PhD-level recommendations
 
 server/data/
 ├── stky-config.json        # STKY paths/hazards/questions
 ├── sif-config.json         # SIF paths/scenarios/precursors
-└── osha-citations.json     # Citation database
+├── osha-citations.json     # Citation database
+└── benchmarks.json         # PRO: Benchmark data
 ```
 
 ---
@@ -151,6 +163,24 @@ server/data/
 |--------|------|---------|
 | GET | `/api/clients/:id/matches` | Find candidates for client |
 | GET | `/api/candidates/:id/matches` | Find clients for candidate |
+
+### Auth Endpoints (Ready - needs Stripe keys)
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/api/auth/register` | User registration |
+| POST | `/api/auth/login` | User login |
+| POST | `/api/auth/logout` | User logout |
+| GET | `/api/auth/session` | Get current session |
+
+### Billing Endpoints (Ready - needs Stripe keys)
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/api/billing/create-checkout` | Create Stripe checkout session |
+| POST | `/api/billing/webhook` | Stripe webhook handler |
+| GET | `/api/billing/subscription` | Get user subscription status |
+| POST | `/api/billing/cancel` | Cancel subscription |
 
 ### Admin Endpoints (require `x-admin-key` header)
 

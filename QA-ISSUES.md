@@ -1,7 +1,7 @@
-# SEG Website QA/QC Issues
+# S.E.G. Website QA/QC Issues
 
-**Generated:** 2026-01-23
-**Total Issues:** 104
+**Generated:** 2026-01-23 | **Updated:** 2026-01-27
+**Total Issues:** 104 | **Fixed:** 6
 
 ---
 
@@ -12,11 +12,11 @@
 - **Issue:** Live Anthropic API key committed to version control
 - **Action:** Rotate key in Anthropic console, remove from git history, add .env to .gitignore
 
-### 2. Weak Admin Authentication
+### 2. ~~Weak Admin Authentication~~ ✅ FIXED (2026-01-24)
 - **File:** `server/routes/admin.js:17`
-- **Code:** `const ADMIN_KEY = process.env.ADMIN_KEY || 'seg-admin-2025';`
-- **Issue:** Default hardcoded key used if env var not set
-- **Action:** Remove default fallback, implement JWT authentication
+- ~~**Code:** `const ADMIN_KEY = process.env.ADMIN_KEY || 'seg-admin-2025';`~~
+- ~~**Issue:** Default hardcoded key used if env var not set~~
+- **Resolution:** Default fallback removed
 
 ### 3. Public Data Endpoints (No Auth)
 - **File:** `server/index.js:550` - `/api/clients` returns ALL clients
@@ -38,19 +38,20 @@
 ## HIGH Priority
 
 ### Security
-| Issue | File | Line | Action |
+| Issue | File | Line | Status |
 |-------|------|------|--------|
-| CORS allows all origins | `server/index.js` | 52 | Configure allowed origins |
+| ~~CORS allows all origins~~ | `server/index.js` | 52 | ✅ FIXED - Configured for production |
 | Hardcoded webhook URLs | Multiple files | - | Move to env vars only |
 | No rate limiting | All endpoints | - | Add express-rate-limit |
 | No input validation | POST endpoints | - | Add joi/express-validator |
 | PII logged unmasked | `server/index.js` | 241-246 | Mask sensitive data |
 | Insecure session ID | `public/js/tool-engine.js` | 14 | Use crypto.randomUUID() |
+| ~~No request body size limits~~ | `server/index.js` | - | ✅ FIXED - 10kb limit added |
 
 ### Reliability
-| Issue | File | Action |
+| Issue | File | Status |
 |-------|------|--------|
-| No timeout on webhook calls | `stky.js`, `sif.js` | Add AbortController with 10s timeout |
+| ~~No timeout on webhook calls~~ | `stky.js`, `sif.js` | ✅ FIXED - 10s timeout added |
 | No timeout on Anthropic API | `sif-filter.js:50` | Add timeout config |
 | No retry logic on webhooks | All webhook calls | Implement exponential backoff |
 | Webhook failures silent | `server/index.js:329-338` | Log and alert on failures |
@@ -147,11 +148,11 @@
 ## Quick Wins (< 1 hour each)
 
 1. [ ] Add `.env` to `.gitignore`
-2. [ ] `app.use(express.json({ limit: '10kb' }))`
-3. [ ] Configure CORS origins
+2. [x] `app.use(express.json({ limit: '10kb' }))` ✅ Done 2026-01-24
+3. [x] Configure CORS origins ✅ Done 2026-01-24
 4. [ ] Add `loading="lazy"` to images
-5. [ ] Remove default admin key fallback
-6. [ ] Add timeout to fetch calls
+5. [x] Remove default admin key fallback ✅ Done 2026-01-24
+6. [x] Add timeout to fetch calls ✅ Done 2026-01-24
 
 ---
 

@@ -7,6 +7,54 @@ STATUS: ok
 
 ---
 
+## Release Roadmap
+
+### Phase 1: Website Launch (PRIORITY)
+| Component | Status | Go-Live Blocker |
+|-----------|--------|-----------------|
+| Main Website (all pages) | ✅ Ready | Deploy to safety-excellence.com |
+| GHL Webhooks (Client/Candidate/Newsletter) | ✅ Ready | Configure production URLs |
+| Lead Scoring Algorithm | ✅ Ready | - |
+| Candidate Scoring Algorithm | ✅ Ready | - |
+| AEGIS Chatbot | ✅ Ready | - |
+| DC Safety Checklist | ✅ Ready | - |
+
+### Phase 2: Tools Release (Shortly After)
+| Tool | Status | Go-Live Blocker |
+|------|--------|-----------------|
+| STKY Assessment | ✅ Ready | QA test flows |
+| P-SIF Scorecard | ✅ Ready | QA test flows |
+| Results Dashboard | ✅ Ready | - |
+| Tool Webhooks (STKY/SIF) | ✅ Ready | Verify GHL delivery |
+| P-SIF Classification | 🔜 Coming Soon | Claude API integration |
+
+### Phase 3: Algorithms & AI (Close Second - HIGH PRIORITY)
+| Component | Status | File |
+|-----------|--------|------|
+| Lead Scoring | ✅ Ready | `algorithms/leadScoring.js` |
+| Candidate Scoring | ✅ Ready | `algorithms/candidateScoring.js` |
+| Matching Algorithm | ✅ Ready | `algorithms/matchingAlgorithm.js` |
+| Stage 2 WHO Assessment | ✅ Ready | `algorithms/stage2Assessment.js` |
+| Opportunity Detector | ✅ Ready | `server/services/opportunityDetector.js` |
+| SME Agent Navigator | ✅ Ready | `server/agents/navigator.js` |
+| Falls Specialist Agent | ✅ Ready | `server/agents/falls-specialist.js` |
+| Electrical Specialist Agent | ✅ Ready | `server/agents/electrical-specialist.js` |
+| DC Specialist Agent | ✅ Ready | `server/agents/dc-specialist.js` |
+| General Specialist Agent | ✅ Ready | `server/agents/general-specialist.js` |
+| Citation Engine | ✅ Ready | `server/lib/citationEngine.js` |
+| Benchmarking Engine (PRO) | ✅ Ready | `server/lib/benchmarkEngine.js` |
+| Recommendations Engine (PRO) | ✅ Ready | `server/lib/recommendationsEngine.js` |
+
+### Phase 4: Subscription Features (After Tools Validated)
+| Feature | Status | Go-Live Blocker |
+|---------|--------|-----------------|
+| User Auth (register/login) | ✅ Backend Ready | Stripe keys needed |
+| Stripe Billing | ✅ Backend Ready | Create Stripe products |
+| PRO Benchmarking | ✅ Backend Ready | Stripe integration |
+| PRO Recommendations | ✅ Backend Ready | Stripe integration |
+
+---
+
 ## Brand Standardization (2026-01-27) ✅ COMPLETE
 
 ### Changes Made
