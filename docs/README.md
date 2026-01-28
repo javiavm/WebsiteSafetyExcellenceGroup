@@ -28,10 +28,11 @@ See [README.md](../README.md) for full details on features per tier.
 
 ## Quick Links
 
+- [**DEPLOY.md**](../DEPLOY.md) - **START HERE** for deployment
 - [Main README](../README.md) - Setup, API reference, architecture
+- [Checkpoint](../CHECKPOINT.md) - Build progress and status
 - [Tool Specs](../SEG-TOOLS-V3.md) - STKY & SIF tool specifications
 - [Build Instructions](../CLAUDE.md) - AI assistant build guide
-- [Checkpoint](../CHECKPOINT.md) - Build progress and status
 
 ## Support
 

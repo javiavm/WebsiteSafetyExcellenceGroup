@@ -2,7 +2,9 @@
 
 Safety Excellence Group - Assessment Tools & AEGIS AI Chatbot Platform
 
-**Version:** 3.1.0 | **Domain:** safety-excellence.com | **Updated:** 2026-01-27
+**Version:** 3.1.0 | **Domain:** safety-excellence.com | **Updated:** 2026-01-28
+
+> **Deploying?** Start with [DEPLOY.md](DEPLOY.md) for quick setup.
 
 ## Overview
 
