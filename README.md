@@ -15,53 +15,95 @@ This platform provides:
 
 ---
 
+## Product Plan
+
+### The Vision: FREE → PRO → PREMIUM
+
+S.E.G. tools follow a freemium model designed to demonstrate value, then convert users to paid tiers.
+
+| Tier | Price | Status | Features |
+|------|-------|--------|----------|
+| **FREE** | $0 | ✅ NOW | STKY + SIF assessments, basic results, 7-day history |
+| **PRO** | $50/mo | 🔜 COMING SOON | Benchmarking, PhD recommendations, permanent history, trends, 7-day trial |
+| **PREMIUM** | $500/mo | 🔜 COMING SOON | Everything PRO + 4 hrs/mo Fractional Director, AEGIS Priority Queue |
+
+### Conversion Strategy
+- **Loss Aversion:** Free results expire after 7 days
+- **Day 5 Email:** "Your insights expire in 48 hours"
+- **Day 7 Email:** "Upgrade to keep results forever"
+- **Expected Conversion:** 25-40% (industry benchmark for short trials)
+
+---
+
 ## Release Roadmap
 
-### Phase 1: Website Launch (PRIORITY)
+### Phase 1: Website Launch (NOW - PRIORITY)
 | Component | Status | Description |
 |-----------|--------|-------------|
 | Main Website | ✅ Ready | Homepage, Why S.E.G., Careers, Data Centers pages |
 | GHL Webhooks | ✅ Ready | Client, Candidate, Newsletter forms → GHL automation |
-| Lead Scoring | ✅ Ready | HOT/WARM/NURTURE classification |
-| Candidate Scoring | ✅ Ready | A/B/C/D fit rating |
 | AEGIS Chatbot | ✅ Ready | Claude-powered safety assistant |
 | DC Safety Checklist | ✅ Ready | 20-point assessment with ROI |
 
-**Go-Live Requirements:**
+**Go-Live Blockers:**
 - [ ] Deploy to safety-excellence.com
 - [ ] Configure production GHL webhook URLs
-- [ ] SSL/HTTPS enabled
-- [ ] DNS configured
+- [ ] SSL/HTTPS + DNS configured
 
-### Phase 2: Tools Release (Shortly After Website)
-| Tool | Status | Description |
-|------|--------|-------------|
-| STKY Assessment | ✅ Ready | Hazard control maturity (FREE) |
-| P-SIF Scorecard | ✅ Ready | SIF precursor recognition (FREE) |
-| Results Dashboard | ✅ Ready | Email-based results lookup |
-| P-SIF Classification | 🔜 Coming | AI near-miss classifier |
+### Phase 2: FREE Tools Release (Shortly After Website)
+| Tool | Status | Tier | Description |
+|------|--------|------|-------------|
+| STKY Assessment | ✅ Ready | FREE | Hazard control maturity assessment |
+| P-SIF Scorecard | ✅ Ready | FREE | SIF precursor recognition testing |
+| Results Dashboard | ✅ Ready | FREE | Email-based results lookup (7-day history) |
+| P-SIF Classification | 🔜 Coming | FREE | AI-powered near-miss classifier |
 
-**Go-Live Requirements:**
+**Go-Live Blockers:**
 - [ ] QA test all tool flows
 - [ ] Verify webhook delivery to GHL
 - [ ] Add Tools link to main nav
 
-### Phase 3: Algorithms & AI Enhancement (Close Second)
-| Component | Status | Priority | Description |
-|-----------|--------|----------|-------------|
-| **Lead Scoring Algorithm** | ✅ Ready | HIGH | 0-100 scoring → HOT/WARM/NURTURE |
-| **Candidate Scoring Algorithm** | ✅ Ready | HIGH | Certifications, experience → A/B/C/D rating |
-| **Matching Algorithm** | ✅ Ready | HIGH | Client-candidate weighted matching |
-| **Stage 2 WHO Assessment** | ✅ Ready | HIGH | Behavioral interview scoring |
-| **Opportunity Detector** | ✅ Ready | HIGH | Auto-triggers on HOT leads |
-| **SME Agent Navigator** | ✅ Ready | HIGH | Routes queries to specialist agents |
-| **Falls Specialist Agent** | ✅ Ready | HIGH | Fall protection SME (Claude) |
-| **Electrical Specialist Agent** | ✅ Ready | HIGH | Arc flash/LOTO SME (Claude) |
-| **DC Specialist Agent** | ✅ Ready | HIGH | Data center safety SME (Claude) |
-| **General Specialist Agent** | ✅ Ready | HIGH | Compliance fallback (Claude) |
-| **Citation Engine** | ✅ Ready | MEDIUM | OSHA/NFPA/ANSI regulatory citations |
-| **Benchmarking Engine** | ✅ Ready | MEDIUM | Industry comparison (PRO feature) |
-| **Recommendations Engine** | ✅ Ready | MEDIUM | PhD-level recommendations (PRO) |
+### Phase 3: Algorithms & AI (Close Second - HIGH PRIORITY)
+These run automatically in the background, powering the website and tools.
+
+| Component | Status | File | Description |
+|-----------|--------|------|-------------|
+| Lead Scoring | ✅ Ready | `algorithms/leadScoring.js` | 0-100 → HOT/WARM/NURTURE |
+| Candidate Scoring | ✅ Ready | `algorithms/candidateScoring.js` | A/B/C/D fit rating |
+| Matching Algorithm | ✅ Ready | `algorithms/matchingAlgorithm.js` | Client ↔ Candidate matching |
+| Stage 2 WHO Assessment | ✅ Ready | `algorithms/stage2Assessment.js` | Behavioral interview scoring |
+| Opportunity Detector | ✅ Ready | `server/services/opportunityDetector.js` | Auto-triggers on HOT leads |
+| SME Agent Navigator | ✅ Ready | `server/agents/navigator.js` | Routes to specialist agents |
+| Falls Specialist | ✅ Ready | `server/agents/falls-specialist.js` | OSHA 1926, ANSI Z359 |
+| Electrical Specialist | ✅ Ready | `server/agents/electrical-specialist.js` | NFPA 70E, LOTO |
+| DC Specialist | ✅ Ready | `server/agents/dc-specialist.js` | Data center safety |
+| General Specialist | ✅ Ready | `server/agents/general-specialist.js` | Compliance fallback |
+| Citation Engine | ✅ Ready | `server/lib/citationEngine.js` | OSHA/NFPA/ANSI lookup |
+| Benchmarking Engine | ✅ Ready | `server/lib/benchmarkEngine.js` | Industry comparison (PRO) |
+| Recommendations Engine | ✅ Ready | `server/lib/recommendationsEngine.js` | PhD-level guidance (PRO) |
+
+### Phase 4: Subscription Model (COMING SOON)
+Backend infrastructure is ready. Needs Stripe integration to go live.
+
+| Feature | Status | Blocker |
+|---------|--------|---------|
+| User Auth (register/login) | ✅ Backend Ready | Stripe keys |
+| Stripe Billing | ✅ Backend Ready | Create Stripe products |
+| 7-Day Results Expiration | ✅ Backend Ready | Stripe integration |
+| PRO Benchmarking | ✅ Backend Ready | Stripe integration |
+| PRO PhD Recommendations | ✅ Backend Ready | Stripe integration |
+| PREMIUM Fractional Director | 🔜 Planned | Manual scheduling |
+| PREMIUM AEGIS Priority Queue | 🔜 Planned | Routing logic |
+
+**To Activate Subscriptions:**
+1. Add Stripe keys to `.env`:
+   - `STRIPE_SECRET_KEY`
+   - `STRIPE_WEBHOOK_SECRET`
+   - `STRIPE_PRO_PRICE_ID` ($50/mo)
+   - `STRIPE_PREMIUM_PRICE_ID` ($500/mo)
+2. Create products/prices in Stripe Dashboard
+3. Set up Stripe webhook endpoint
+4. Enable 7-day trial for PRO
 
 ---
 
@@ -422,24 +464,47 @@ curl -X POST http://localhost:3001/api/stky/assess \
 </script>
 ```
 
-## Subscription Tiers
+## Subscription Tiers (COMING SOON)
 
-| Tier | Price | Features |
-|------|-------|----------|
-| **FREE** | $0 | STKY + SIF assessments, basic results, 7-day history |
-| **PRO** | $50/mo | Benchmarking, PhD recommendations, permanent history, trends |
-| **PREMIUM** | $500/mo | Everything PRO + 4 hrs/mo Fractional Director |
+### FREE Tier ($0)
+| Feature | Description |
+|---------|-------------|
+| STKY Assessment | Full hazard control maturity assessment |
+| P-SIF Scorecard | SIF precursor recognition testing |
+| Basic Results | Score, rating, top gaps |
+| 7-Day History | Results expire after 7 days |
+| Email Capture | Required for results delivery |
+
+### PRO Tier ($50/mo) — 7-Day Free Trial
+| Feature | Description |
+|---------|-------------|
+| Everything FREE | All FREE tier features |
+| Permanent History | Results never expire |
+| Benchmarking | Compare to 50+ fab project data |
+| PhD Recommendations | Specific citations (OSHA, NFPA, ANSI) with implementation steps |
+| Trend Tracking | Score improvement over time |
+| Priority AEGIS | Enhanced chatbot responses |
+
+### PREMIUM Tier ($500/mo)
+| Feature | Description |
+|---------|-------------|
+| Everything PRO | All PRO tier features |
+| 4 hrs/mo Fractional Director | Direct access to principal consultant |
+| AEGIS Priority Queue | Urgent questions routed immediately |
+| Custom Guidance | Tailored recommendations for your operation |
 
 ## PRO Features (Backend Ready)
 
-| Feature | File | Description |
-|---------|------|-------------|
-| Benchmarking Engine | `server/lib/benchmarkEngine.js` | Compare scores to 50+ fab project data |
-| PhD Recommendations | `server/lib/recommendationsEngine.js` | Specific citations (OSHA, NFPA, ANSI) |
-| Benchmark Data | `server/data/benchmarks.json` | Industry-specific percentiles |
-| Trend Tracking | `server/lib/benchmarkEngine.js` | Score improvement over time |
+| Feature | File | Status |
+|---------|------|--------|
+| Benchmarking Engine | `server/lib/benchmarkEngine.js` | ✅ Ready |
+| PhD Recommendations | `server/lib/recommendationsEngine.js` | ✅ Ready |
+| Benchmark Data | `server/data/benchmarks.json` | ✅ Ready |
+| Trend Tracking | `server/lib/benchmarkEngine.js` | ✅ Ready |
+| User Auth | `server/routes/auth.js` | ✅ Ready |
+| Stripe Billing | `server/routes/billing.js` | ✅ Ready |
 
-**To Go Live:** Add Stripe keys to `.env` (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_PRO_PRICE_ID, STRIPE_PREMIUM_PRICE_ID)
+**Activation Blocked By:** Stripe keys not configured (see Phase 4 in Release Roadmap)
 
 ## DC Safety Checklist
 
