@@ -31,6 +31,8 @@
     let disclaimerAccepted = sessionStorage.getItem('aegis_disclaimer') === 'true';
     let conversationHistory = [];
     let isTyping = false;
+    let isOnline = false;
+    let statusCheckInterval = null;
 
     // Generate unique session ID
     function generateSessionId() {
@@ -45,54 +47,52 @@
 
         widget.innerHTML = `
             <!-- Chat Window -->
-            <div class="aegis-chat" id="aegis-chat">
+            <div class="aegis-chat${disclaimerAccepted ? '' : ' disclaimer-active'}" id="aegis-chat">
                 <!-- Header -->
                 <div class="aegis-header">
                     <div class="aegis-avatar">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
+                        <img src="/images/Aegis logo-15.png" alt="AEGIS" style="width: 32px; height: 32px; object-fit: contain;">
                     </div>
                     <div class="aegis-header-info">
                         <h4>${CONFIG.botName}</h4>
                         <p>${CONFIG.botTagline}</p>
                     </div>
-                    <span class="aegis-status">Online</span>
+                    <span class="aegis-status offline" id="aegis-status">Offline</span>
+                    <button class="aegis-header-close" onclick="AEGIS.toggle()" aria-label="Close chat">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
                 </div>
 
                 <!-- Disclaimer (shown first time) -->
                 <div class="aegis-disclaimer" id="aegis-disclaimer" style="${disclaimerAccepted ? 'display: none;' : ''}">
                     <div class="aegis-disclaimer-content">
                         <strong>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFCF00" stroke-width="2">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFCF00" stroke-width="2">
                                 <circle cx="12" cy="12" r="10"/>
                                 <line x1="12" y1="8" x2="12" y2="12"/>
                                 <line x1="12" y1="16" x2="12.01" y2="16"/>
                             </svg>
                             Important Disclaimer
                         </strong>
-                        <div style="max-height: 150px; overflow-y: auto; margin: 8px 0; padding: 8px; background: #fff; border-radius: 4px; font-size: 10px; line-height: 1.4;">
-                            <p style="margin-bottom: 6px;">AEGIS AI is provided by Safety Excellence Group for <strong>educational and informational purposes only</strong>.</p>
-                            <p style="margin-bottom: 6px;"><strong>This tool does NOT constitute:</strong></p>
-                            <ul style="margin: 4px 0 6px 16px; padding: 0;">
-                                <li>A professional safety audit or compliance assessment</li>
-                                <li>Legal, regulatory, or professional advice</li>
-                                <li>Certification of compliance with OSHA, ANSI, SEMI, or any standard</li>
-                                <li>A substitute for consultation with qualified safety professionals</li>
-                            </ul>
-                            <p style="margin-bottom: 6px;"><strong>No liability.</strong> Safety Excellence Group assumes no responsibility for outcomes resulting from the use of this tool. Users assume all risk.</p>
-                            <p><strong>Recommendation:</strong> Engage qualified safety professionals for comprehensive assessments.</p>
+                        <div style="max-height: 120px; overflow-y: auto; margin: 6px 0; padding: 6px; background: #fff; border-radius: 4px; font-size: 9px; line-height: 1.4;">
+                            <p style="margin-bottom: 4px;">AEGIS AI is for <strong>educational purposes only</strong>.</p>
+                            <p style="margin-bottom: 4px;"><strong>Does NOT constitute:</strong> professional safety audits, legal advice, or compliance certification.</p>
+                            <p style="margin-bottom: 4px;"><strong>No liability.</strong> Users assume all risk.</p>
+                            <p><strong>Recommendation:</strong> Engage qualified safety professionals.</p>
                         </div>
-                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 11px; font-weight: 500; color: var(--aegis-blue); margin-bottom: 8px;">
-                            <input type="checkbox" id="aegis-disclaimer-checkbox" style="width: 16px; height: 16px;">
-                            <span>I have read, understand, and agree to this disclaimer</span>
+                        <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer; font-size: 10px; font-weight: 500; color: #132544; margin-bottom: 6px;">
+                            <input type="checkbox" id="aegis-disclaimer-checkbox" style="width: 14px; height: 14px; margin-top: 1px;">
+                            <span>I have read and agree to this disclaimer</span>
                         </label>
                         <button class="aegis-disclaimer-btn" onclick="AEGIS.acceptDisclaimer()">I Agree — Continue →</button>
                     </div>
                 </div>
 
                 <!-- Messages -->
-                <div class="aegis-messages" id="aegis-messages"></div>
+                <div class="aegis-messages" id="aegis-messages"><div class="aegis-messages-inner" id="aegis-messages-inner"></div></div>
 
                 <!-- Quick Replies -->
                 <div class="aegis-quick-replies" id="aegis-quick-replies"></div>
@@ -147,7 +147,7 @@
     // Set up event listeners
     function setupEventListeners() {
         const input = document.getElementById('aegis-input');
-        
+
         // Auto-resize textarea
         input.addEventListener('input', function() {
             this.style.height = 'auto';
@@ -161,21 +161,48 @@
                 sendMessage();
             }
         });
+
+        // Close chat when clicking outside (desktop only)
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) return; // Skip on mobile/tablet (full-screen mode)
+            const widget = document.getElementById('aegis-widget');
+            const chat = document.getElementById('aegis-chat');
+            const trigger = widget.querySelector('.aegis-trigger');
+
+            if (isOpen && !chat.contains(e.target) && !trigger.contains(e.target)) {
+                toggle();
+            }
+        });
+
+        // Update disclaimer-active class based on disclaimer visibility
+        updateDisclaimerState();
+    }
+
+    // Update disclaimer active state
+    function updateDisclaimerState() {
+        const chat = document.getElementById('aegis-chat');
+        const disclaimer = document.getElementById('aegis-disclaimer');
+        if (disclaimer && disclaimer.style.display !== 'none') {
+            chat.classList.add('disclaimer-active');
+        } else {
+            chat.classList.remove('disclaimer-active');
+        }
     }
 
     // Toggle chat window
     function toggle() {
         const widget = document.getElementById('aegis-widget');
         const badge = document.getElementById('aegis-badge');
-        
+
         isOpen = !isOpen;
         widget.classList.toggle('open', isOpen);
-        
+
         if (isOpen) {
             badge.style.display = 'none';
             if (disclaimerAccepted) {
                 document.getElementById('aegis-input').focus();
             }
+            updateDisclaimerState();
         }
     }
 
@@ -203,6 +230,9 @@
         document.getElementById('aegis-input').disabled = false;
         document.getElementById('aegis-send').disabled = false;
 
+        // Update disclaimer state to show messages area
+        updateDisclaimerState();
+
         showWelcomeMessage();
         document.getElementById('aegis-input').focus();
     }
@@ -217,27 +247,26 @@
 
     // Add message to chat
     function addMessage(text, sender) {
-        const messagesContainer = document.getElementById('aegis-messages');
-        
+        const inner = document.getElementById('aegis-messages-inner');
+        const scroller = document.getElementById('aegis-messages');
+
         const messageEl = document.createElement('div');
         messageEl.className = `aegis-message ${sender}`;
-        
-        const avatarSvg = sender === 'bot' 
+
+        const avatarSvg = sender === 'bot'
             ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>'
             : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
-        
-        // Format message text (handle line breaks and basic markdown)
+
         const formattedText = formatMessage(text);
-        
+
         messageEl.innerHTML = `
             <div class="avatar">${avatarSvg}</div>
             <div class="bubble">${formattedText}</div>
         `;
-        
-        messagesContainer.appendChild(messageEl);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-        // Store in conversation history
+        inner.appendChild(messageEl);
+        scroller.scrollTop = scroller.scrollHeight;
+
         conversationHistory.push({ sender, text });
     }
 
@@ -254,12 +283,13 @@
     // Show typing indicator
     function showTyping() {
         isTyping = true;
-        const messagesContainer = document.getElementById('aegis-messages');
-        
+        const inner = document.getElementById('aegis-messages-inner');
+        const scroller = document.getElementById('aegis-messages');
+
         const typingEl = document.createElement('div');
         typingEl.className = 'aegis-message bot';
         typingEl.id = 'aegis-typing';
-        
+
         typingEl.innerHTML = `
             <div class="avatar">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -272,9 +302,9 @@
                 <span></span>
             </div>
         `;
-        
-        messagesContainer.appendChild(typingEl);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        inner.appendChild(typingEl);
+        scroller.scrollTop = scroller.scrollHeight;
     }
 
     // Hide typing indicator
@@ -295,7 +325,8 @@
             const btn = document.createElement('button');
             btn.className = 'aegis-quick-btn';
             btn.textContent = reply;
-            btn.onclick = () => {
+            btn.onclick = (e) => {
+                e.stopPropagation(); // Prevent click from bubbling to document close handler
                 container.innerHTML = '';
                 
                 // Handle special actions
@@ -358,13 +389,15 @@
             // Hide typing and show response
             hideTyping();
             addMessage(data.message, 'bot');
-            
+            setOnline(true);
+
             // Check if we should show lead capture form
             checkForLeadCapture(message, data.message);
-            
+
         } catch (error) {
             console.error('AEGIS Error:', error);
             hideTyping();
+            setOnline(false);
             addMessage("I'm having trouble connecting right now. Please try again, or call us directly at 469.988.4777.", 'bot');
         }
     }
@@ -392,17 +425,18 @@
 
     // Show qualification form with dropdowns
     function showQualificationForm() {
-        const messagesContainer = document.getElementById('aegis-messages');
+        const inner = document.getElementById('aegis-messages-inner');
+        const scroller = document.getElementById('aegis-messages');
         clearQuickReplies();
-        
+
         // Remove existing form if present
         const existingForm = document.getElementById('aegis-qual-form');
         if (existingForm) existingForm.remove();
-        
+
         const formEl = document.createElement('div');
         formEl.id = 'aegis-qual-form';
         formEl.className = 'aegis-qual-form';
-        
+
         formEl.innerHTML = `
             <h5>📋 Quick Qualification</h5>
             <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Help us prepare for your discovery call:</p>
@@ -451,9 +485,9 @@
                 📅 Book My Discovery Call
             </button>
         `;
-        
-        messagesContainer.appendChild(formEl);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        inner.appendChild(formEl);
+        scroller.scrollTop = scroller.scrollHeight;
     }
 
     // Submit qualification and show booking calendar
@@ -552,16 +586,17 @@
 
     // Show lead capture form
     function showLeadForm() {
-        const messagesContainer = document.getElementById('aegis-messages');
-        
+        const inner = document.getElementById('aegis-messages-inner');
+        const scroller = document.getElementById('aegis-messages');
+
         // Remove existing form if present
         const existingForm = document.getElementById('aegis-lead-form');
         if (existingForm) existingForm.remove();
-        
+
         const formEl = document.createElement('div');
         formEl.id = 'aegis-lead-form';
         formEl.className = 'aegis-lead-form';
-        
+
         formEl.innerHTML = `
             <h5>📅 Book Your Discovery Call</h5>
             <input type="text" id="lead-name" placeholder="Your name *" required>
@@ -570,9 +605,9 @@
             <input type="text" id="lead-company" placeholder="Company name">
             <button onclick="AEGIS.submitLead()">Schedule My Call →</button>
         `;
-        
-        messagesContainer.appendChild(formEl);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        inner.appendChild(formEl);
+        scroller.scrollTop = scroller.scrollHeight;
     }
 
     // Submit lead
@@ -621,13 +656,56 @@
         }
     }
 
+    // Check API connectivity status
+    async function checkStatus() {
+        const statusEl = document.getElementById('aegis-status');
+        if (!statusEl) return;
+
+        try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 5000);
+            const res = await fetch(`${CONFIG.apiUrl}/chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: '', sessionId: 'ping' }),
+                signal: controller.signal
+            });
+            clearTimeout(timeout);
+            // Any response (even 400) means server is reachable
+            setOnline(true);
+        } catch (e) {
+            setOnline(false);
+        }
+    }
+
+    // Update online/offline state
+    function setOnline(online) {
+        isOnline = online;
+        const statusEl = document.getElementById('aegis-status');
+        if (!statusEl) return;
+
+        if (online) {
+            statusEl.textContent = 'Online';
+            statusEl.classList.remove('offline');
+        } else {
+            statusEl.textContent = 'Offline';
+            statusEl.classList.add('offline');
+        }
+    }
+
     // Initialize
     function init() {
         // Wait for DOM
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', createChatbotHTML);
+            document.addEventListener('DOMContentLoaded', () => {
+                createChatbotHTML();
+                checkStatus();
+                statusCheckInterval = setInterval(checkStatus, 30000);
+            });
         } else {
             createChatbotHTML();
+            checkStatus();
+            statusCheckInterval = setInterval(checkStatus, 30000);
         }
     }
 

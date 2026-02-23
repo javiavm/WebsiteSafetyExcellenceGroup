@@ -6,7 +6,7 @@
 
     <!-- SEO META TAGS -->
     <title>Data Center Safety Consulting | Arc Flash & NFPA 70E Experts | Safety Excellence Group</title>
-    <meta name="description" content="Data center construction safety at hyperscale speed. Arc flash protection, NFPA 70E compliance, LOTO programs. BCSP-Certified specialists with 17+ years experience.">
+    <meta name="description" content="Data center construction safety at hyperscale speed. Arc flash protection, NFPA 70E compliance, LOTO programs. BCSP-Certified specialists with 18+ years experience.">
     <meta name="keywords" content="data center safety, arc flash protection, NFPA 70E compliance, data center construction safety, hyperscale safety, electrical safety, LOTO, data center EHS">
     <meta name="author" content="Safety Excellence Group">
     <meta name="robots" content="index, follow">
@@ -56,6 +56,7 @@
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
@@ -176,7 +177,7 @@
         }
 
         .logo img {
-            height: 40px;
+            height: 60px;
             width: auto;
         }
 
@@ -665,9 +666,11 @@
 
         .proof-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .proof-item {
@@ -700,7 +703,7 @@
         }
 
         .footer-logo img {
-            height: 36px;
+            height: 75px;
         }
 
         .footer-links {
@@ -722,6 +725,86 @@
         .footer-copy {
             color: var(--SEG-grey);
             font-size: 0.8125rem;
+        }
+
+        /* Header scroll behavior */
+        header { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        header.header-hidden { transform: translateY(-100%); }
+        header.header-visible { transform: translateY(0); }
+
+        /* Hero enhancement - staggered entry animation */
+        @keyframes heroFadeBlurUp {
+            0% { opacity: 0; filter: blur(12px); transform: translateY(30px); }
+            100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+        }
+        .hero-text > * {
+            opacity: 0; animation: heroFadeBlurUp 0.8s cubic-bezier(0.22,1,0.36,1) forwards;
+        }
+        .hero-text > *:nth-child(1) { animation-delay: 0.1s; }
+        .hero-text > *:nth-child(2) { animation-delay: 0.25s; }
+        .hero-text > *:nth-child(3) { animation-delay: 0.4s; }
+        .hero-text > *:nth-child(4) { animation-delay: 0.55s; }
+        .hero-text > *:nth-child(5) { animation-delay: 0.7s; }
+
+        .risk-card {
+            opacity: 0; animation: heroFadeBlurUp 0.8s cubic-bezier(0.22,1,0.36,1) forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* Floating particles */
+        .hero-particle {
+            position: absolute; border-radius: 50%; pointer-events: none;
+            background: rgba(255,207,0,0.12);
+        }
+        .hero-particle:nth-child(1) { width: 6px; height: 6px; top: 15%; left: 10%; animation: float1 6s ease-in-out infinite; }
+        .hero-particle:nth-child(2) { width: 4px; height: 4px; top: 70%; left: 85%; animation: float2 8s ease-in-out infinite; }
+        .hero-particle:nth-child(3) { width: 8px; height: 8px; top: 45%; left: 55%; animation: float3 7s ease-in-out infinite; }
+        .hero-particle:nth-child(4) { width: 5px; height: 5px; top: 80%; left: 30%; animation: float1 9s ease-in-out infinite reverse; }
+        .hero-particle:nth-child(5) { width: 3px; height: 3px; top: 25%; left: 75%; animation: float2 5s ease-in-out infinite; }
+        @keyframes float1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -30px); } }
+        @keyframes float2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-15px, 25px); } }
+        @keyframes float3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(10px, -20px); } }
+
+        /* Scroll animations */
+        .animate-on-scroll {
+            opacity: 0; transform: translateY(30px); filter: blur(6px);
+            transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1), filter 0.7s cubic-bezier(0.22,1,0.36,1);
+        }
+        .animate-on-scroll.animated { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        /* Enhanced hover effects on pain-card */
+        .pain-card { transition: all 0.4s cubic-bezier(0.22,1,0.36,1); }
+        .pain-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(19,37,68,0.15); }
+        .pain-icon { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
+        .pain-card:hover .pain-icon { transform: scale(1.1) rotate(-5deg); }
+
+        /* Enhanced solution-card hover */
+        .solution-card { transition: all 0.4s cubic-bezier(0.22,1,0.36,1); }
+        .solution-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .solution-icon { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease; }
+        .solution-card:hover .solution-icon { transform: scale(1.1) rotate(-5deg); box-shadow: 0 8px 20px rgba(255,207,0,0.3); }
+
+        /* Animated counter styles for proof section */
+        .proof-value { font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+        .proof-item { transition: all 0.3s ease; }
+        .proof-item:hover { transform: translateY(-4px); }
+
+        /* Risk item hover */
+        .risk-item { transition: all 0.3s ease; }
+        .risk-item:hover { background: rgba(255,255,255,0.03); border-radius: 8px; }
+        .risk-icon { transition: transform 0.3s ease; }
+        .risk-item:hover .risk-icon { transform: scale(1.1); }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .animate-on-scroll, .hero-text > *, .risk-card, .hero-particle {
+                transition: none !important; animation: none !important;
+                transform: none !important; opacity: 1 !important; filter: none !important;
+            }
         }
 
         /* Mobile Responsive */
@@ -801,7 +884,37 @@
             .hero-cta .btn {
                 width: 100%;
             }
+
+            .proof-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 2.5rem 0;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            header .logo-icon, header .logo img {
+                height: 45px !important;
+            }
         }
+
+        /* Client Modal extras */
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-section-title { font-size: 0.85rem; font-weight: 600; color: var(--SEG-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--SEG-yellow); }
+        .form-group label .required { color: var(--danger); }
+        .form-submit { margin-top: 1.5rem; }
+        .form-submit .btn { width: 100%; }
+        .modal-header { padding: 1.75rem 2rem; border-bottom: 1px solid var(--SEG-grey-2); display: flex; justify-content: space-between; align-items: flex-start; }
+        .modal-header h3 { font-size: 1.35rem; }
+        .modal-header p { color: var(--SEG-dark-grey); font-size: 0.9rem; margin-top: 0.25rem; opacity: 0.7; }
+        .modal-close { background: none; border: none; cursor: pointer; padding: 0.5rem; color: var(--SEG-grey); transition: color 0.3s ease; }
+        .modal-close:hover { color: var(--SEG-dark-grey); }
+        .modal-body { padding: 1.75rem 2rem 2rem; }
+        @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -816,11 +929,11 @@
                 <li><a href="/#industries">Industries</a></li>
                 <li><a href="/#services">Services</a></li>
                 <li><a href="/why-seg.html">Why S.E.G.</a></li>
-                <li><a href="/tools/">Tools</a></li>
+                <li><a href="/careers.html">Careers</a></li>
             </ul>
 
             <div class="nav-cta">
-                <a href="/#contact" class="btn btn-primary">Get a Proposal</a>
+                <a href="#" class="btn btn-primary" onclick="openClientModal(event)">Get a Proposal</a>
             </div>
         </nav>
     </header>
@@ -828,6 +941,11 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-grid"></div>
+        <div class="hero-particle"></div>
+        <div class="hero-particle"></div>
+        <div class="hero-particle"></div>
+        <div class="hero-particle"></div>
+        <div class="hero-particle"></div>
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
@@ -849,13 +967,13 @@
                             <div class="stat-label">Avg. serious injury cost</div>
                         </div>
                         <div class="stat">
-                            <div class="stat-value">17+</div>
+                            <div class="stat-value">18+</div>
                             <div class="stat-label">Years experience</div>
                         </div>
                     </div>
                     <div class="hero-cta">
                         <a href="#checklist" class="btn btn-primary">Download DC Safety Checklist</a>
-                        <a href="#contact" class="btn btn-secondary">Talk to an Expert</a>
+                        <a href="#" class="btn btn-secondary" onclick="openClientModal(event)">Talk to an Expert</a>
                     </div>
                 </div>
 
@@ -899,27 +1017,27 @@
     <!-- Pain Section -->
     <section class="pain-section">
         <div class="container">
-            <div class="pain-header">
+            <div class="pain-header animate-on-scroll">
                 <div class="overline">The Stakes</div>
                 <h2>Data Center Construction Runs on Schedule. Safety Incidents Stop It.</h2>
                 <p>Per industry data, DC project delays cost up to $14M/month for 60MW facilities. Every safety incident triggers mandatory OSHA investigation and work stoppage. The math is simple: proactive safety protects your timeline.</p>
             </div>
             <div class="pain-grid">
-                <div class="pain-card">
+                <div class="pain-card animate-on-scroll">
                     <div class="pain-icon">
                         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8 0-1.85.63-3.55 1.69-4.9L16.9 18.31C15.55 19.37 13.85 20 12 20zm6.31-3.1L7.1 5.69C8.45 4.63 10.15 4 12 4c4.42 0 8 3.58 8 8 0 1.85-.63 3.55-1.69 4.9z"/></svg>
                     </div>
                     <h3>30,000+ Arc Flash Incidents/Year</h3>
                     <p>NFPA data shows 400 electrical fatalities annually. Fatal burns occur at distances over 10 feet. NFPA 70E compliance isn't optional—it's survival.</p>
                 </div>
-                <div class="pain-card">
+                <div class="pain-card animate-on-scroll delay-1">
                     <div class="pain-icon">
                         <svg viewBox="0 0 24 24"><path d="M11 15h2v2h-2v-2zm0-8h2v6h-2V7zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
                     </div>
                     <h3>Fall Protection: #1 Citation—12 Years Running</h3>
                     <p>OSHA cited fall protection violations 6,750 times in FY2024. Penalties reach $161,323 per willful violation. Elevated work in data centers demands precision programs.</p>
                 </div>
-                <div class="pain-card">
+                <div class="pain-card animate-on-scroll delay-2">
                     <div class="pain-icon">
                         <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
                     </div>
@@ -933,13 +1051,13 @@
     <!-- Solution Section -->
     <section class="solution-section">
         <div class="container">
-            <div class="solution-header">
+            <div class="solution-header animate-on-scroll">
                 <div class="overline">What Sets Us Apart</div>
                 <h2>Precision Safety for Data Centers</h2>
                 <p>BCSP-Certified professionals backed by AI-powered intelligence, with performance accountability built in from day one.</p>
             </div>
             <div class="solution-grid">
-                <div class="solution-card">
+                <div class="solution-card animate-on-scroll">
                     <div class="solution-icon">
                         <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9 7H7v2h2V7zm0 4H7v2h2v-2zm0 4H7v2h2v-2zm8-8h-6v6h6V7zm-2 4h-2V9h2v2zm2 4h-6v2h6v-2z"/></svg>
                     </div>
@@ -952,7 +1070,7 @@
                         <li>Automated compliance verification</li>
                     </ul>
                 </div>
-                <div class="solution-card">
+                <div class="solution-card animate-on-scroll delay-1">
                     <div class="solution-icon">
                         <svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>
                     </div>
@@ -965,7 +1083,7 @@
                         <li>LOTO procedure validation</li>
                     </ul>
                 </div>
-                <div class="solution-card">
+                <div class="solution-card animate-on-scroll delay-2">
                     <div class="solution-icon">
                         <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                     </div>
@@ -978,7 +1096,7 @@
                         <li>No disruption to your timeline</li>
                     </ul>
                 </div>
-                <div class="solution-card">
+                <div class="solution-card animate-on-scroll delay-3">
                     <div class="solution-icon">
                         <svg viewBox="0 0 24 24"><path d="M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z"/></svg>
                     </div>
@@ -999,21 +1117,17 @@
     <section class="proof-section">
         <div class="container">
             <div class="proof-grid">
-                <div class="proof-item">
-                    <div class="proof-value">17+</div>
+                <div class="proof-item animate-on-scroll">
+                    <div class="proof-value" data-target="17" data-suffix="+">0</div>
                     <div class="proof-label">Years Experience</div>
                 </div>
-                <div class="proof-item">
-                    <div class="proof-value">50+</div>
+                <div class="proof-item animate-on-scroll delay-1">
+                    <div class="proof-value" data-target="50" data-suffix="+">0</div>
                     <div class="proof-label">Advanced Facility Projects</div>
                 </div>
-                <div class="proof-item">
-                    <div class="proof-value">5</div>
+                <div class="proof-item animate-on-scroll delay-2">
+                    <div class="proof-value" data-target="5" data-suffix="">0</div>
                     <div class="proof-label">Continents Served</div>
-                </div>
-                <div class="proof-item">
-                    <div class="proof-value">48hr</div>
-                    <div class="proof-label">Proposal Turnaround</div>
                 </div>
             </div>
         </div>
@@ -1022,7 +1136,7 @@
     <!-- CTA Section -->
     <section class="cta-section" id="checklist">
         <div class="container">
-            <div class="cta-card">
+            <div class="cta-card animate-on-scroll">
                 <div class="cta-content">
                     <h2>Get the 20-Point DC Safety Checklist</h2>
                     <p>Our comprehensive checklist covers NFPA 70E compliance, arc flash programs, LOTO requirements, and critical infrastructure protocols. PhD-level research distilled into 20 actionable verification points.</p>
@@ -1082,13 +1196,13 @@
         <div class="container">
             <div class="footer-content">
                 <a href="/" class="footer-logo">
-                    <img src="images/SEG Original Logo.png" alt="Safety Excellence Group">
+                    <img src="images/Transparent Logo.png" alt="Safety Excellence Group">
                 </a>
                 <div class="footer-links">
                     <a href="/">Home</a>
-                    <a href="/tools/">Tools</a>
                     <a href="/why-seg.html">Why S.E.G.</a>
                     <a href="/careers.html">Careers</a>
+                    <a href="/data-centers.html">Data Centers</a>
                 </div>
                 <div class="footer-copy">
                     &copy; 2026 Safety Excellence Group. All rights reserved.
@@ -2055,5 +2169,212 @@ ${sectionsHTML}
             </div>
         </div>
     </div>
+
+    <!-- Client Request Modal -->
+    <div class="modal-overlay" id="clientModal" onclick="if(event.target === this) closeClientModal()">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header">
+                <div>
+                    <h3>Request Safety Support</h3>
+                    <p>Tell us about your needs — we'll respond within 2 hours</p>
+                </div>
+                <button class="modal-close" onclick="closeClientModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="event.preventDefault(); submitClientForm();">
+                    <h5 class="form-section-title">Contact Information</h5>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name <span class="required">*</span></label>
+                            <input type="text" name="full_name" required placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone <span class="required">*</span></label>
+                            <input type="tel" name="phone" required placeholder="(555) 123-4567">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Company Email <span class="required">*</span></label>
+                            <input type="email" name="company_email" required placeholder="you@company.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Company Name <span class="required">*</span></label>
+                            <input type="text" name="company_name" required placeholder="Your company">
+                        </div>
+                    </div>
+                    <h5 class="form-section-title">Project Context</h5>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Your Role <span class="required">*</span></label>
+                            <select name="project_role" required>
+                                <option value="">Select your role</option>
+                                <option value="gc">General Contractor</option>
+                                <option value="sub">Subcontractor</option>
+                                <option value="owner">Owner / Developer</option>
+                                <option value="oem">Supplier / OEM</option>
+                                <option value="manufacturer">Manufacturer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Support Needed <span class="required">*</span></label>
+                            <select name="support_type" required>
+                                <option value="">Select support type</option>
+                                <option value="staffing">Staffing Solutions</option>
+                                <option value="audit">Assessments & Audits</option>
+                                <option value="program">Program Development</option>
+                                <option value="vetting">Subcontractor Vetting</option>
+                                <option value="multiple">Multiple Services</option>
+                                <option value="unsure">Not Sure</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Timeline <span class="required">*</span></label>
+                            <select name="timeline" required>
+                                <option value="">How soon?</option>
+                                <option value="immediate">Immediate (within 72 hours)</option>
+                                <option value="1-2weeks">1-2 weeks</option>
+                                <option value="30days">Within 30 days</option>
+                                <option value="exploring">Just exploring</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Location <span class="required">*</span></label>
+                            <input type="text" name="location" required placeholder="City, State">
+                        </div>
+                    </div>
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary">Submit Request →</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openClientModal(event) {
+            if (event) event.preventDefault();
+            document.getElementById('clientModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeClientModal() {
+            document.getElementById('clientModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        async function submitClientForm() {
+            const form = document.querySelector('#clientModal form');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            const data = {
+                "form_type": "request_safety_support",
+                "full_name": form.querySelector('[name="full_name"]').value,
+                "phone": form.querySelector('[name="phone"]').value,
+                "company_email": form.querySelector('[name="company_email"]').value,
+                "company_name": form.querySelector('[name="company_name"]').value,
+                "project_role": form.querySelector('[name="project_role"]').value,
+                "support_type": form.querySelector('[name="support_type"]').value,
+                "timeline": form.querySelector('[name="timeline"]').value,
+                "location": form.querySelector('[name="location"]').value,
+                "industry": "datacenter",
+                "source_page": "data-centers"
+            };
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+            try {
+                const API_BASE = window.location.origin;
+                await fetch(`${API_BASE}/api/forms/client`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                submitBtn.textContent = 'Submitted ✓';
+                submitBtn.style.background = 'var(--success)';
+                setTimeout(() => {
+                    closeClientModal();
+                    form.reset();
+                    submitBtn.textContent = originalText;
+                    submitBtn.style.background = '';
+                    submitBtn.disabled = false;
+                }, 2000);
+            } catch (error) {
+                submitBtn.textContent = 'Error - Try Again';
+                submitBtn.style.background = 'var(--danger)';
+                submitBtn.disabled = false;
+                setTimeout(() => { submitBtn.textContent = originalText; submitBtn.style.background = ''; }, 3000);
+            }
+        }
+    </script>
+
+<!-- Scroll Animations -->
+<script>
+(function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { rootMargin: '0px 0px -60px 0px', threshold: 0.1 });
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+})();
+</script>
+
+<!-- Animated Number Counters -->
+<script>
+(function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const target = parseInt(el.getAttribute('data-target'));
+                const suffix = el.getAttribute('data-suffix') || '';
+                const duration = 2000;
+                const start = performance.now();
+                function update(now) {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const value = Math.round(easeOutExpo(progress) * target);
+                    el.textContent = value + suffix;
+                    if (progress < 1) requestAnimationFrame(update);
+                }
+                requestAnimationFrame(update);
+                counterObserver.unobserve(el);
+            }
+        });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.proof-value[data-target]').forEach(el => counterObserver.observe(el));
+})();
+</script>
+
+<!-- Header Hide/Show on Scroll -->
+<script>
+(function() {
+    const header = document.querySelector('header');
+    if (!header) return;
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+    function updateHeader() {
+        const y = window.scrollY;
+        if (y > 100) {
+            if (y > lastScrollY) { header.classList.add('header-hidden'); header.classList.remove('header-visible'); }
+            else { header.classList.remove('header-hidden'); header.classList.add('header-visible'); }
+        } else { header.classList.remove('header-hidden', 'header-visible'); }
+        lastScrollY = y; ticking = false;
+    }
+    window.addEventListener('scroll', function() { if (!ticking) { requestAnimationFrame(updateHeader); ticking = true; } });
+})();
+</script>
+
+<!-- GHL External Tracking -->
+<script src="https://link.msgsndr.com/js/external-tracking.js" data-tracking-id="tk_fdb8d3e5921e4482a9d815a4d73afa6a"></script>
+
 </body>
 </html>

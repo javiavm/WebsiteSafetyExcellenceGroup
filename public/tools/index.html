@@ -3,162 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safety Assessment Tools | Safety Excellence Group</title>
+    <title>Safety Tools Coming Soon | Safety Excellence Group</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/tools-v3.css">
+    <link rel="icon" type="image/png" href="/images/SEG Favicon Original.png">
     <style>
-        .pricing-section { margin-top:48px; }
-        .pricing-header { text-align:center; margin-bottom:32px; }
-        .pricing-header h2 { color:var(--blue); margin-bottom:8px; }
-        .pricing-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; }
-        .pricing-card { background:var(--white); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); position:relative; }
-        .pricing-card.featured { border:2px solid var(--yellow); }
-        .pricing-card.featured::before { content:'MOST POPULAR'; position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--yellow); color:var(--blue); padding:4px 12px; border-radius:4px; font-size:0.7rem; font-weight:700; }
-        .pricing-tier { font-size:0.85rem; color:var(--text-light); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
-        .pricing-price { font-size:2.5rem; font-weight:800; color:var(--blue); }
-        .pricing-price span { font-size:1rem; font-weight:400; color:var(--text-light); }
-        .pricing-desc { color:var(--text-light); margin:12px 0 20px; font-size:0.95rem; }
-        .pricing-features { list-style:none; padding:0; margin:0 0 24px; }
-        .pricing-features li { padding:8px 0; border-bottom:1px solid var(--border); font-size:0.9rem; display:flex; align-items:center; gap:8px; }
-        .pricing-features li:last-child { border-bottom:none; }
-        .pricing-features .check { color:var(--success); font-weight:bold; }
-        .pricing-features .x { color:var(--text-light); }
-        .btn-upgrade { width:100%; padding:12px; border:none; border-radius:var(--radius-sm); font-size:1rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
-        .btn-free { background:var(--bg); color:var(--text); }
-        .btn-free:hover { background:var(--border); }
-        .btn-pro { background:var(--yellow); color:var(--blue); }
-        .btn-pro:hover { background:#e6ba00; }
-        .btn-premium { background:var(--blue); color:var(--white); }
-        .btn-premium:hover { background:#0f1d36; }
-        .tools-section { margin-top:48px; }
-        .tools-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; margin-top:24px; }
-        .tool-card { background:var(--white); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); text-decoration:none; color:inherit; display:block; transition:transform 0.2s, box-shadow 0.2s; }
-        .tool-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.12); }
-        .tool-card.disabled { opacity:0.6; cursor:not-allowed; pointer-events:none; }
-        .tool-badge { display:inline-block; padding:4px 12px; border-radius:4px; font-size:0.8rem; font-weight:600; }
-        .badge-free { background:var(--yellow); color:var(--blue); }
-        .badge-coming { background:var(--border); color:var(--text-light); }
+        :root {
+            --blue: #132544;
+            --yellow: #FFCF00;
+            --white: #ffffff;
+            --grey: #6b7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--blue) 0%, #1a3158 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .logo {
+            margin-bottom: 40px;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 207, 0, 0.15);
+            border: 1px solid var(--yellow);
+            padding: 8px 16px;
+            border-radius: 100px;
+            margin-bottom: 24px;
+        }
+
+        .badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--yellow);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .badge span {
+            color: var(--yellow);
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            color: var(--white);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        h1 .highlight {
+            color: var(--yellow);
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.125rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px 24px;
+            text-align: left;
+            flex: 1;
+            min-width: 200px;
+            max-width: 250px;
+        }
+
+        .feature h3 {
+            color: var(--yellow);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--yellow);
+            color: var(--blue);
+        }
+
+        .btn-primary:hover {
+            background: #e6ba00;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 207, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--white);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .footer {
+            margin-top: 60px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.875rem;
+        }
+
+        .footer a {
+            color: var(--yellow);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feature {
+                max-width: 100%;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="tool-container" style="max-width:1100px">
-        <div class="tool-header" style="text-align:center">
-            <h1>Safety Assessment Tools</h1>
-            <p class="subtitle">Research-backed tools for EHS professionals</p>
+    <div class="container">
+        <div class="logo">
+            <a href="/">
+                <img src="/images/SEG Original Logo.png" alt="Safety Excellence Group">
+            </a>
         </div>
 
-        <!-- Free Tools -->
-        <div class="tools-section">
-            <h2 style="color:var(--blue);margin-bottom:8px">Free Tools</h2>
-            <p style="color:var(--text-light)">Start with our free assessments - no account required</p>
-            <div class="tools-grid">
-                <a href="/tools/stky-assessment.html" class="tool-card">
-                    <h3 style="color:var(--blue);margin-bottom:8px">STKY Assessment</h3>
-                    <p style="color:var(--text-light);margin-bottom:12px;font-size:0.95rem">Hazard control maturity assessment</p>
-                    <span class="tool-badge badge-free">FREE</span>
-                </a>
+        <div class="badge">
+            <span class="dot"></span>
+            <span>Coming Soon</span>
+        </div>
 
-                <a href="/tools/sif-scorecard.html" class="tool-card">
-                    <h3 style="color:var(--blue);margin-bottom:8px">P-SIF Scorecard</h3>
-                    <p style="color:var(--text-light);margin-bottom:12px;font-size:0.95rem">Test your P-SIF recognition capabilities</p>
-                    <span class="tool-badge badge-free">FREE</span>
-                </a>
+        <h1>Safety Assessment <span class="highlight">Tools</span></h1>
 
-                <div class="tool-card disabled">
-                    <h3 style="color:var(--blue);margin-bottom:8px">P-SIF Classification</h3>
-                    <p style="color:var(--text-light);margin-bottom:12px;font-size:0.95rem">AI-powered near-miss classification</p>
-                    <span class="tool-badge badge-coming">COMING SOON</span>
-                </div>
+        <p class="subtitle">
+            We're building powerful, research-backed safety assessment tools to help EHS professionals identify gaps and improve their programs. Stay tuned!
+        </p>
+
+        <div class="features">
+            <div class="feature">
+                <h3>STKY Assessment</h3>
+                <p>Hazard control maturity assessment based on research</p>
+            </div>
+            <div class="feature">
+                <h3>P-SIF Scorecard</h3>
+                <p>Test your P-SIF recognition capabilities</p>
+            </div>
+            <div class="feature">
+                <h3>AI Classification</h3>
+                <p>AI-powered near-miss and incident classification</p>
             </div>
         </div>
 
-        <!-- Pricing Section -->
-        <div class="pricing-section">
-            <div class="pricing-header">
-                <h2>Upgrade for More</h2>
-                <p style="color:var(--text-light)">Unlock unlimited assessments, permanent history, and expert access</p>
-            </div>
-
-            <div class="pricing-grid">
-                <!-- Free Tier -->
-                <div class="pricing-card">
-                    <div class="pricing-tier">Free</div>
-                    <div class="pricing-price">$0</div>
-                    <p class="pricing-desc">Try our tools with no commitment</p>
-                    <ul class="pricing-features">
-                        <li><span class="check">✓</span> STKY Assessment</li>
-                        <li><span class="check">✓</span> P-SIF Scorecard</li>
-                        <li><span class="check">✓</span> Basic results & citations</li>
-                        <li><span class="x">—</span> Results expire in 7 days</li>
-                        <li><span class="x">—</span> No benchmarking</li>
-                    </ul>
-                    <button class="btn-upgrade btn-free" onclick="window.location.href='/tools/stky-assessment.html'">Start Free</button>
-                </div>
-
-                <!-- Pro Tier -->
-                <div class="pricing-card featured">
-                    <div class="pricing-tier">Pro</div>
-                    <div class="pricing-price">$50<span>/month</span></div>
-                    <p class="pricing-desc">For safety professionals who need ongoing insights</p>
-                    <ul class="pricing-features">
-                        <li><span class="check">✓</span> Unlimited STKY & SIF assessments</li>
-                        <li><span class="check">✓</span> Permanent result history</li>
-                        <li><span class="check">✓</span> Industry benchmarking</li>
-                        <li><span class="check">✓</span> Trend tracking over time</li>
-                        <li><span class="check">✓</span> Priority AEGIS responses</li>
-                    </ul>
-                    <button class="btn-upgrade btn-pro" onclick="startProTrial()">Start 7-Day Free Trial</button>
-                </div>
-
-                <!-- Premium Tier -->
-                <div class="pricing-card">
-                    <div class="pricing-tier">Premium</div>
-                    <div class="pricing-price">$500<span>/month</span></div>
-                    <p class="pricing-desc">Strategic EHS leadership for your operation</p>
-                    <ul class="pricing-features">
-                        <li><span class="check">✓</span> Everything in Pro</li>
-                        <li><span class="check">✓</span> 4 hrs/month Fractional Director</li>
-                        <li><span class="check">✓</span> AEGIS Priority Queue</li>
-                        <li><span class="check">✓</span> Custom recommendations</li>
-                        <li><span class="check">✓</span> Direct access to principal</li>
-                    </ul>
-                    <button class="btn-upgrade btn-premium" onclick="contactForPremium()">Contact Sales</button>
-                </div>
-            </div>
+        <div class="cta-buttons">
+            <a href="/" class="btn btn-primary">Back to Homepage</a>
+            <a href="/#contact" class="btn btn-secondary">Get Notified</a>
         </div>
 
-        <!-- Results Lookup -->
-        <div class="cta-box" style="margin-top:48px">
-            <h3>Already Taken an Assessment?</h3>
-            <p>Look up your past results by email</p>
-            <a href="/tools/dashboard.html" class="btn">View My Results</a>
+        <div class="footer">
+            <p>&copy; 2026 Safety Excellence Group. Need help now? <a href="/#contact">Contact us</a></p>
         </div>
     </div>
-
-    <script src="/js/auth.js"></script>
-    <script>
-        function startProTrial() {
-            // Check if user is logged in
-            if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
-                // Start checkout
-                Auth.startCheckout('pro').then(data => {
-                    if (data.checkoutUrl) {
-                        window.location.href = data.checkoutUrl;
-                    } else if (data.error) {
-                        alert(data.error);
-                    }
-                });
-            } else {
-                // Show signup modal or redirect to signup
-                window.location.href = '/tools/signup.html?plan=pro';
-            }
-        }
-
-        function contactForPremium() {
-            window.location.href = '/contact?source=premium-tier';
-        }
-    </script>
 </body>
 </html>

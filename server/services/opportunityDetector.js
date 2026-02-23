@@ -8,8 +8,8 @@ const fetch = require('node-fetch');
 
 const GHL_WEBHOOKS = {
     stage2Invite: 'https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/ad8aa4ed-32cd-45fe-b9eb-77727b3993aa',
-    opportunityAlert: 'https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/558c9693-50bc-4743-b82f-afd1912e0659',
-    aPlayerConfirmed: 'https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/7f5630cb-1250-4881-a91e-809a47867d80'
+    opportunityAlert: 'https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/558c9693-58bc-4743-b82f-afd1912e0659',
+    aPlayerConfirmed: 'https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/7f5630cb-1258-4881-a91e-809a47867d80'
 };
 
 const SITE_URL = process.env.SITE_URL || 'http://localhost:3001';

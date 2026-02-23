@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industries We Serve | Safety Excellence Group</title>
+    <meta name="description" content="Expert EHS consulting for semiconductor fabs, data centers, construction, and manufacturing. 18+ years experience, 50+ fab projects across 5 continents.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/aegis-chatbot.css">
+    <link rel="icon" type="image/png" href="images/SEG Favicon Original.png">
+    <style>
+        :root {
+            --SEG-yellow: #FFCF00;
+            --SEG-blue: #132544;
+            --SEG-dark-grey: #333333;
+            --SEG-grey: #BABABA;
+            --SEG-grey-2: #DDDDDD;
+            --SEG-light-grey: #F4F4F4;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px rgba(19,37,68,0.05);
+            --shadow-md: 0 4px 6px rgba(19,37,68,0.1);
+            --shadow-lg: 0 10px 25px rgba(19,37,68,0.15);
+            --danger: #dc2626;
+            --success: #059669;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: rgba(19,37,68,0.25) transparent; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(19,37,68,0.25); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(19,37,68,0.45); border: 2px solid transparent; background-clip: padding-box; }
+        body { font-family: 'Poppins', sans-serif; color: var(--SEG-dark-grey); line-height: 1.6; background: var(--white); }
+
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--SEG-blue); line-height: 1.2; }
+        h2 { font-size: clamp(2.25rem, 4.5vw, 3.25rem); letter-spacing: -0.01em; }
+        h3 { font-size: clamp(1.5rem, 3vw, 1.75rem); font-weight: 600; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+        section { padding: 7rem 0; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem;
+            font-family: inherit; font-size: 1rem; font-weight: 600; text-decoration: none;
+            border-radius: 6px; cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); border: 2px solid transparent;
+            position: relative; overflow: hidden;
+        }
+        .btn::after {
+            content: ''; position: absolute; top: -50%; left: -100%; width: 60%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg); transition: left 0.5s ease; pointer-events: none;
+        }
+        .btn:hover::after { left: 150%; }
+        .btn:active { transform: translateY(-1px) scale(0.98); transition-duration: 0.1s; }
+        .btn-primary { background: var(--SEG-yellow); color: var(--SEG-blue); border-color: var(--SEG-yellow); }
+        .btn-primary:hover { background: #e6bb00; transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 30px rgba(255,207,0,0.4); }
+        .btn-outline { background: transparent; color: var(--SEG-blue); border-color: var(--SEG-blue); }
+        .btn-outline:hover { background: var(--SEG-blue); color: var(--white); }
+        .btn-white { background: var(--white); color: var(--SEG-blue); border-color: var(--white); }
+        .btn-white:hover { background: var(--SEG-yellow); border-color: var(--SEG-yellow); }
+
+        /* Header */
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: var(--SEG-blue); border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease;
+        }
+        header.header-hidden { transform: translateY(-100%); }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; max-width: 1400px; margin: 0 auto; }
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo-icon { height: 60px; width: auto; }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.3s ease; }
+        .nav-links a:hover, .nav-links a.active-page { color: var(--SEG-yellow); }
+        .nav-cta { display: flex; gap: 1rem; }
+        .nav-cta .btn { padding: 0.75rem 1.5rem; font-size: 0.875rem; }
+        .btn-secondary { background: transparent; color: var(--white); border-color: var(--white); }
+        .btn-secondary:hover { background: var(--white); color: var(--SEG-blue); }
+
+        /* Mega Menu */
+        .nav-links .dropdown { position: static; }
+        .mega-menu { position: absolute; top: calc(100% + 10px); left: 50%; width: 880px; max-width: calc(100vw - 2rem); background: var(--SEG-blue); box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden; opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(10px); transition: all 0.3s cubic-bezier(0.22,1,0.36,1); z-index: 1000; border-top: 3px solid var(--SEG-yellow); }
+        .nav-links .dropdown:hover .mega-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .mega-menu-inner { display: flex; min-height: 280px; }
+        .mega-menu-sidebar { width: 260px; padding: 1.5rem 0; flex-shrink: 0; }
+        .nav-links .mega-menu-item { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.5rem; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; font-weight: 500; border-left: 3px solid transparent; transition: all 0.25s ease; cursor: pointer; }
+        .nav-links .mega-menu-item:hover, .nav-links .mega-menu-item.active { background: rgba(255,255,255,0.08); color: var(--white); border-left-color: var(--SEG-yellow); font-weight: 600; }
+        .mega-menu-item svg { width: 22px; height: 22px; stroke: rgba(255,255,255,0.7); fill: none; stroke-width: 1.5; flex-shrink: 0; transition: stroke 0.25s ease; }
+        .mega-menu-item:hover svg, .mega-menu-item.active svg { stroke: var(--SEG-yellow); }
+        .mega-menu-content { flex: 1; padding: 2rem 2.5rem; display: flex; gap: 2rem; align-items: flex-start; background: var(--white); }
+        .mega-menu-preview { display: none; flex: 1; animation: megaFadeIn 0.3s ease forwards; }
+        .mega-menu-preview.active { display: block; }
+        @keyframes megaFadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+        .mega-menu-preview-image { width: 200px; height: 160px; border-radius: 12px; overflow: hidden; flex-shrink: 0; background: var(--SEG-blue); display: none; }
+        .mega-menu-preview-image svg { width: 60px; height: 60px; stroke: var(--SEG-yellow); fill: none; stroke-width: 1.5; }
+        .mega-menu-preview-text { flex: 1; }
+        .mega-menu-preview-text h4 { font-size: 1.25rem; color: var(--SEG-blue); margin-bottom: 0.25rem; }
+        .mega-menu-preview-text .mega-tagline { font-size: 0.85rem; color: var(--SEG-yellow); font-weight: 600; margin-bottom: 0.75rem; display: block; }
+        .mega-menu-preview-text p { font-size: 0.9rem; color: var(--SEG-dark-grey); line-height: 1.6; margin-bottom: 1rem; }
+        .mega-menu-preview-text ul { list-style: none; padding: 0; margin: 0 0 1.25rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem; }
+        .mega-menu-preview-text li { font-size: 0.85rem; color: var(--SEG-dark-grey); display: flex; align-items: center; gap: 0.4rem; }
+        .mega-menu-preview-text li::before { content: '\2713'; color: var(--SEG-yellow); font-weight: 700; font-size: 0.75rem; }
+        .mega-menu-cta { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; font-weight: 600; color: var(--SEG-blue); text-decoration: none; padding: 0.6rem 1.25rem; background: var(--SEG-yellow); border-radius: 4px; transition: all 0.3s ease; }
+        .mega-menu-cta:hover { background: #e6bb00; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,207,0,0.4); }
+        .nav-links .dropdown-menu { display: none; }
+
+        /* Mobile Menu Toggle Animation */
+        .mobile-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .mobile-toggle.active span:nth-child(2) { opacity: 0; }
+        .mobile-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* Mobile Menu Overlay & Panel */
+        .mobile-menu-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .mobile-menu-overlay.active { opacity: 1; visibility: visible; }
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 100%; max-width: 320px; height: 100vh; height: 100dvh; background: var(--SEG-blue); z-index: 1001; transition: right 0.3s ease; overflow-y: auto; padding: 70px 0 2rem; }
+        .mobile-menu.active { right: 0; }
+        .mobile-menu-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--white); font-size: 2rem; cursor: pointer; padding: 0.5rem; line-height: 1; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+        .mobile-menu-close:hover { color: var(--SEG-yellow); }
+        .mobile-menu-links { list-style: none; padding: 0 1rem; margin: 0; }
+        .mobile-menu-links li { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .mobile-menu-links > li > a { display: block; padding: 0.875rem 0; color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.3s ease; }
+        .mobile-menu-links a:hover { color: var(--SEG-yellow); }
+        .mobile-menu-submenu { list-style: none; padding: 0 0 0.5rem 0.75rem; margin: 0; }
+        .mobile-menu-submenu li { border-bottom: none; }
+        .mobile-menu-submenu a { display: block; padding: 0.5rem 0; font-size: 0.85rem; color: var(--SEG-grey); text-decoration: none; }
+        .mobile-menu-submenu a:hover { color: var(--SEG-yellow); }
+        .mobile-menu-cta { padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; }
+        .mobile-menu-cta .btn { width: 100%; text-align: center; padding: 0.75rem 1rem; font-size: 0.9rem; white-space: nowrap; }
+
+        /* Hero Banner */
+        .page-hero {
+            background: linear-gradient(170deg, #0d1a30 0%, var(--SEG-blue) 40%, #1a3560 100%);
+            padding: 8rem 0 4rem; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .page-hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 20% 80%, rgba(255,207,0,0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 20%, rgba(255,207,0,0.04) 0%, transparent 40%),
+                        radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 50%);
+        }
+        @keyframes heroFadeBlurUp {
+            0% { opacity: 0; filter: blur(12px); transform: translateY(30px); }
+            100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+        }
+        .page-hero .container > * {
+            opacity: 0; animation: heroFadeBlurUp 0.8s cubic-bezier(0.22,1,0.36,1) forwards;
+        }
+        .page-hero .container > *:nth-child(1) { animation-delay: 0.1s; }
+        .page-hero .container > *:nth-child(2) { animation-delay: 0.25s; }
+        .page-hero .container > *:nth-child(3) { animation-delay: 0.4s; }
+        .page-hero .container { position: relative; z-index: 1; }
+        .page-hero .overline {
+            display: inline-block; font-size: 0.8rem; font-weight: 600; color: var(--SEG-yellow);
+            text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.75rem;
+            background: rgba(255,207,0,0.15); padding: 0.4rem 1rem; border-radius: 100px;
+        }
+        .page-hero h1 { color: var(--white); font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 1rem; }
+        .page-hero p { color: var(--SEG-grey); font-size: 1.125rem; max-width: 600px; margin: 0 auto; }
+
+        /* Industry Nav - Carousel Style */
+        .industry-nav {
+            background: transparent;
+            padding: 1rem 0;
+        }
+        .industry-nav .container {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0; padding: 0 2rem; position: relative; max-width: 900px;
+        }
+        .industry-nav-arrow {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--SEG-blue); border: none; color: var(--white);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease; flex-shrink: 0;
+            box-shadow: 0 3px 12px rgba(19,37,68,0.25);
+        }
+        .industry-nav-arrow:hover {
+            background: var(--SEG-yellow); color: var(--SEG-blue);
+            transform: scale(1.1); box-shadow: 0 4px 16px rgba(255,207,0,0.35);
+        }
+        .industry-nav-arrow svg {
+            width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+        }
+        .industry-nav-track {
+            display: flex; align-items: center; gap: 0.6rem;
+            overflow: hidden; flex: 1; justify-content: center;
+            padding: 0 1rem;
+        }
+        .industry-nav-btn {
+            position: relative; padding: 0.7rem 1.5rem; background: var(--SEG-light-grey); border: 2px solid transparent;
+            border-radius: 100px; font-family: inherit; font-size: 0.85rem; font-weight: 600;
+            color: var(--SEG-dark-grey); cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); text-decoration: none;
+            overflow: hidden; white-space: nowrap; flex-shrink: 0;
+        }
+        .industry-nav-btn::after {
+            content: ''; position: absolute; inset: 0; border-radius: 100px;
+            background: radial-gradient(circle at center, rgba(255,207,0,0.15) 0%, transparent 70%);
+            opacity: 0; transition: opacity 0.35s ease;
+        }
+        .industry-nav-btn:hover::after { opacity: 1; }
+        .industry-nav-btn:hover {
+            border-color: var(--SEG-yellow); transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,207,0,0.2); background: rgba(255,207,0,0.06);
+            color: var(--SEG-blue);
+        }
+        .industry-nav-btn:active { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(255,207,0,0.15); }
+        .industry-nav-btn.active {
+            background: var(--SEG-blue); color: var(--white); border-color: var(--SEG-blue);
+            box-shadow: 0 6px 20px rgba(19,37,68,0.25); transform: translateY(-1px);
+        }
+        .industry-nav-btn.active::after { display: none; }
+        .industry-nav-btn.active:hover { box-shadow: 0 8px 25px rgba(19,37,68,0.3); transform: translateY(-2px); }
+
+        @media (max-width: 768px) {
+            .industry-nav .container { padding: 0 0.75rem; }
+            .industry-nav-track { gap: 0.4rem; padding: 0 0.5rem; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; -ms-overflow-style: none; }
+            .industry-nav-track::-webkit-scrollbar { display: none; }
+            .industry-nav-btn { padding: 0.6rem 1rem; font-size: 0.8rem; }
+            .industry-nav-arrow { width: 34px; height: 34px; }
+            .industry-nav-arrow svg { width: 15px; height: 15px; }
+        }
+
+        /* Tab Content Show/Hide */
+        .tab-content-wrapper {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+        .tab-section { display: none; }
+        .tab-section.active {
+            display: block;
+            animation: tabFadeIn 0.35s ease forwards;
+        }
+        @keyframes tabFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tab-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--SEG-blue);
+            border: none;
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(19,37,68,0.3);
+            z-index: 5;
+        }
+        .tab-arrow:hover {
+            background: var(--SEG-yellow);
+            color: var(--SEG-blue);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(255,207,0,0.35);
+        }
+        .tab-arrow svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .tab-arrow-prev { left: 0; }
+        .tab-arrow-next { right: 0; }
+        @media (max-width: 768px) {
+            .tab-content-wrapper { padding: 0 15px; }
+            .tab-arrow { width: 36px; height: 36px; position: static; transform: none; }
+            .tab-arrow:hover { transform: scale(1.1); }
+            .tab-arrows-mobile { display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
+        }
+        @media (min-width: 769px) {
+            .tab-arrows-mobile { display: none; }
+        }
+
+        /* Section Header */
+        .section-header { text-align: center; max-width: 700px; margin: 0 auto 4rem; }
+        .section-header .overline {
+            display: inline-block; font-size: 0.8rem; font-weight: 600; color: var(--SEG-yellow);
+            text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.75rem;
+            background: rgba(255,207,0,0.1); padding: 0.4rem 1rem; border-radius: 100px;
+        }
+        .section-header h2 { margin-bottom: 1rem; }
+        .section-header p { color: var(--SEG-dark-grey); opacity: 0.8; }
+
+        /* Industry Cards Grid */
+        .industry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        .industry-card {
+            background: var(--white); border: 1px solid rgba(19,37,68,0.08); border-radius: 12px;
+            padding: 2.25rem; transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+            box-shadow: 0 2px 12px rgba(19,37,68,0.04);
+        }
+        .industry-card:hover { border-color: rgba(255,207,0,0.4); box-shadow: 0 20px 50px rgba(19,37,68,0.12); transform: translateY(-6px); }
+        .industry-card h3 { margin-bottom: 1rem; }
+        .industry-card p { color: var(--SEG-dark-grey); margin-bottom: 1.5rem; }
+        .industry-card ul { list-style: none; margin-bottom: 1.5rem; }
+        .industry-card li { padding: 0.4rem 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+        .industry-card li::before { content: '✓'; color: var(--SEG-yellow); font-weight: 700; }
+
+        /* Lifecycle Timeline */
+        .lifecycle-section { margin-bottom: 3rem; }
+        .lifecycle-title { text-align: center; margin-bottom: 2rem; }
+        .lifecycle-title p { color: var(--SEG-dark-grey); opacity: 0.7; }
+        .lifecycle-timeline {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            position: relative; padding: 2rem 0; margin-bottom: 2rem;
+        }
+        .lifecycle-timeline::before {
+            content: ''; position: absolute; top: 50%; left: 5%; right: 5%; height: 4px;
+            background: linear-gradient(90deg, var(--SEG-blue), var(--SEG-yellow)); border-radius: 2px;
+        }
+        .lifecycle-phase { display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; z-index: 1; flex: 1; }
+        .lifecycle-phase .icon {
+            width: 60px; height: 60px; background: var(--white); border: 3px solid var(--SEG-blue);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem; transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+        }
+        .lifecycle-phase:hover .icon { background: var(--SEG-yellow); border-color: var(--SEG-yellow); transform: scale(1.15); box-shadow: 0 6px 20px rgba(255,207,0,0.3); }
+        .lifecycle-phase .icon svg { width: 28px; height: 28px; stroke: var(--SEG-blue); fill: none; stroke-width: 1.5; }
+        .lifecycle-phase h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .lifecycle-phase p { font-size: 0.8rem; color: var(--SEG-grey); }
+
+        /* Entry Points */
+        .entry-points { background: var(--SEG-light-grey); border-radius: 8px; padding: 2rem; }
+        .entry-points h4 { text-align: center; margin-bottom: 1.5rem; }
+        .entry-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .entry-card {
+            background: var(--white); border-radius: 10px; padding: 1.75rem;
+            border: 1px solid rgba(19,37,68,0.08); transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+            box-shadow: 0 2px 8px rgba(19,37,68,0.04);
+        }
+        .entry-card:hover { border-color: rgba(255,207,0,0.4); box-shadow: 0 15px 40px rgba(19,37,68,0.12); transform: translateY(-4px); }
+        .entry-card h5 { color: var(--SEG-blue); font-size: 1rem; margin-bottom: 0.5rem; }
+        .entry-card p { font-size: 0.875rem; color: var(--SEG-dark-grey); opacity: 0.8; margin-bottom: 1rem; }
+        .entry-card ul { list-style: none; font-size: 0.85rem; }
+        .entry-card li { padding: 0.3rem 0; display: flex; align-items: center; gap: 0.5rem; color: var(--SEG-dark-grey); }
+        .entry-card li::before { content: '→'; color: var(--SEG-yellow); font-weight: 700; }
+
+        /* Testimonial Quote */
+        .industry-quote {
+            margin-top: 2rem; padding: 1.75rem; background: var(--SEG-light-grey);
+            border-radius: 12px; border-left: 4px solid var(--SEG-yellow);
+            transition: all 0.3s ease;
+        }
+        .industry-quote:hover { box-shadow: 0 8px 25px rgba(19,37,68,0.06); }
+        .industry-quote p:first-child { font-style: italic; margin-bottom: 0.75rem; }
+        .industry-quote .quote-author { font-size: 0.875rem; color: var(--SEG-grey); margin: 0; }
+
+        /* Alt section */
+        .section-alt { background: var(--SEG-light-grey); }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(165deg, var(--SEG-blue) 0%, #0d1a30 50%, #132544 100%); padding: 6rem 0; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .cta-section::before {
+            content: ''; position: absolute; top: -50%; right: -10%; width: 500px; height: 500px;
+            background: rgba(255,207,0,0.1); border-radius: 50%;
+        }
+        .cta-section h2 { color: var(--white); margin-bottom: 1rem; }
+        .cta-section p { color: var(--SEG-grey); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+        /* Footer */
+        footer { background: linear-gradient(180deg, #0d1a30 0%, #080f1c 100%); padding: 4rem 0 2rem; color: var(--white); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+        .footer-brand p { color: var(--SEG-grey); font-size: 0.9rem; margin-top: 1rem; }
+        .footer-links h4 { color: var(--SEG-yellow); font-size: 0.9rem; margin-bottom: 1rem; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 0.5rem; }
+        .footer-links a { color: var(--SEG-grey); text-decoration: none; font-size: 0.875rem; transition: color 0.3s ease; }
+        .footer-links a:hover { color: var(--SEG-yellow); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--SEG-grey); }
+
+        /* Scroll Animations */
+        .animate-on-scroll { opacity: 0; transform: translateY(30px); filter: blur(6px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1), filter 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .animate-on-scroll.animated { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; } .delay-4 { transition-delay: 0.4s; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animate-on-scroll, .page-hero .container > * { transition: none !important; animation: none !important; transform: none !important; opacity: 1 !important; filter: none !important; }
+        }
+
+        /* Mobile Menu */
+        .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+        .mobile-toggle span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px 0; transition: 0.3s; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .industry-grid { grid-template-columns: 1fr; }
+            .entry-cards { grid-template-columns: 1fr; }
+            .lifecycle-timeline { flex-direction: column; gap: 1.5rem; }
+            .lifecycle-timeline::before { display: none; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav-links, .nav-cta { display: none !important; }
+            .mobile-toggle { display: flex !important; width: 44px; height: 44px; align-items: center; justify-content: center; }
+            .mega-menu { display: none; }
+            nav { padding: 0.75rem 1rem; }
+            .footer-grid { grid-template-columns: 1fr; }
+            section { padding: 3.5rem 0; }
+            .container { padding: 0 1.25rem; }
+            img { max-width: 100%; height: auto; }
+            .modal-overlay { padding: 0.5rem; }
+            .modal-header { padding: 1.25rem; }
+            .modal-body { padding: 1.25rem; }
+            .footer-bottom { flex-direction: column; text-align: center; gap: 0.5rem; }
+        }
+        @media (max-width: 576px) {
+            section { padding: 2.5rem 0; }
+            .container { padding: 0 1rem; }
+            header .logo-icon { height: 45px !important; }
+        }
+        @media (max-width: 400px) {
+            .mobile-menu { max-width: 100%; width: 100%; }
+            .container { padding: 0 0.75rem; }
+        }
+
+        /* Modal Styles */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(19,37,68,0.85); backdrop-filter: blur(4px); z-index: 1001; display: none; align-items: center; justify-content: center; padding: 2rem; overflow-y: auto; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--white); border-radius: 12px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; animation: modalSlide 0.4s ease; }
+        @keyframes modalSlide { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .modal-header { padding: 1.75rem 2rem; border-bottom: 1px solid var(--SEG-grey-2); display: flex; justify-content: space-between; align-items: flex-start; }
+        .modal-header h3 { font-size: 1.35rem; }
+        .modal-header p { color: var(--SEG-dark-grey); font-size: 0.9rem; margin-top: 0.25rem; opacity: 0.7; }
+        .modal-close { background: none; border: none; cursor: pointer; padding: 0.5rem; color: var(--SEG-grey); transition: color 0.3s ease; }
+        .modal-close:hover { color: var(--SEG-dark-grey); }
+        .modal-body { padding: 1.75rem 2rem 2rem; }
+        .form-section-title { font-size: 0.85rem; font-weight: 600; color: var(--SEG-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--SEG-yellow); }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label { display: block; font-weight: 500; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--SEG-dark-grey); }
+        .form-group label .required { color: var(--danger); }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.875rem 1rem; border: 2px solid var(--SEG-grey-2); border-radius: 4px; font-family: inherit; font-size: 0.95rem; transition: border-color 0.3s ease; outline: none; background: var(--white); }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--SEG-yellow); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-submit { margin-top: 1.5rem; }
+        .form-submit .btn { width: 100%; }
+        @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <nav>
+            <a href="/" class="logo">
+                <img src="images/SEG Original Logo.png" alt="Safety Excellence Group" class="logo-icon" style="height: 60px; width: auto;">
+            </a>
+
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="/industries.html" class="active-page">Industries &#9662;</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-inner">
+                            <div class="mega-menu-sidebar">
+                                <a class="mega-menu-item active" data-preview="semi" href="/industries.html#semiconductor">
+                                    <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Semiconductor
+                                </a>
+                                <a class="mega-menu-item" data-preview="dc" href="/industries.html#datacenter">
+                                    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="20" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7" y="15" width="4" height="3" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="15" width="4" height="3" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Data Centers
+                                </a>
+                                <a class="mega-menu-item" data-preview="mfg" href="/industries.html#manufacturing">
+                                    <svg viewBox="0 0 24 24"><path d="M4 5h16M4 9h16M4 13h16M4 17h16M9 5v12M15 5v12" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Advanced Manufacturing
+                                </a>
+                                <a class="mega-menu-item" data-preview="const" href="/industries.html#construction">
+                                    <svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V10l6-4 6 4v10M8 20V14M12 20V8M16 20v-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Construction & Infrastructure
+                                </a>
+                            </div>
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-preview active" id="preview-semi">
+                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
+                                        <svg viewBox="0 0 24 24" width="60" height="60"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="#FFCF00" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
+                                    </div>
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Semiconductor</h4>
+                                        <span class="mega-tagline">Full Fab Lifecycle Support</span>
+                                        <p>SEMI S2/S8 compliance, tool install safety, and cleanroom protocols for 50+ fab projects across 5 continents.</p>
+                                        <ul>
+                                            <li>SEMI S2/S8 Compliance</li>
+                                            <li>Tool Install Safety</li>
+                                            <li>Cleanroom Protocols</li>
+                                            <li>Owner Rep Services</li>
+                                            <li>Fab Construction Support</li>
+                                            <li>Equipment Validation</li>
+                                        </ul>
+                                        <a href="/industries.html#semiconductor" class="mega-menu-cta">Explore Semiconductor &#8594;</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-dc">
+                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
+                                        <svg viewBox="0 0 24 24" width="60" height="60"><rect x="2" y="3" width="20" height="6" rx="1" fill="none" stroke="#FFCF00" stroke-width="1.5"/><rect x="2" y="11" width="20" height="6" rx="1" fill="none" stroke="#FFCF00" stroke-width="1.5"/><rect x="7" y="15" width="4" height="3" rx="0.5" fill="none" stroke="#FFCF00" stroke-width="1.5"/><rect x="13" y="15" width="4" height="3" rx="0.5" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
+                                    </div>
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Data Centers</h4>
+                                        <span class="mega-tagline">Safety at Hyperscale Speed</span>
+                                        <p>NFPA 70E qualified specialists protecting your timeline and people during construction and operations.</p>
+                                        <ul>
+                                            <li>Arc Flash Safety (HECA)</li>
+                                            <li>LOTO Programs</li>
+                                            <li>24/7 Safety Coverage</li>
+                                            <li>Critical Infrastructure</li>
+                                            <li>Electrical Safety</li>
+                                            <li>Commissioning Support</li>
+                                        </ul>
+                                        <a href="/data-centers.html" class="mega-menu-cta">Explore Data Centers &#8594;</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-mfg">
+                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
+                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M4 5h16M4 9h16M4 13h16M4 17h16M9 5v12M15 5v12" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
+                                    </div>
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Advanced Manufacturing</h4>
+                                        <span class="mega-tagline">Reduce Incidents, Lower EMR</span>
+                                        <p>Ongoing EHS support and safety culture transformation for production facilities.</p>
+                                        <ul>
+                                            <li>Staff Augmentation</li>
+                                            <li>Program Development</li>
+                                            <li>EMR Turnaround</li>
+                                            <li>Commissioning Safety</li>
+                                            <li>Machine Safety</li>
+                                            <li>Process Safety</li>
+                                        </ul>
+                                        <a href="/industries.html#manufacturing" class="mega-menu-cta">Explore Manufacturing &#8594;</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-const">
+                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
+                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M3 20h18M5 20V10l6-4 6 4v10M8 20V14M12 20V8M16 20v-6" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
+                                    </div>
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Construction & Infrastructure</h4>
+                                        <span class="mega-tagline">Proactive Safety That Prevents Delays</span>
+                                        <p>Ground-up builds, tenant improvements, shutdowns with multi-trade coordination.</p>
+                                        <ul>
+                                            <li>Fall Protection Programs</li>
+                                            <li>Crane & Rigging Oversight</li>
+                                            <li>HASP Development</li>
+                                            <li>Subcontractor Vetting</li>
+                                            <li>Heavy Equipment Safety</li>
+                                            <li>High-Risk Work Planning</li>
+                                        </ul>
+                                        <a href="/industries.html#construction" class="mega-menu-cta">Explore Construction &#8594;</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="/services.html">Services &#9662;</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-inner">
+                            <div class="mega-menu-sidebar">
+                                <a class="mega-menu-item active" data-preview="staffing" href="/services.html#staffing">
+                                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Staffing Solutions
+                                </a>
+                                <a class="mega-menu-item" data-preview="assessments" href="/services.html#assessments">
+                                    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Assessments & Audits
+                                </a>
+                                <a class="mega-menu-item" data-preview="programs" href="/services.html#programs">
+                                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6M16 13H8M16 17H8M12 17H8M8 13h8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Program Development
+                                </a>
+                                <a class="mega-menu-item" data-preview="vetting" href="/services.html#vetting">
+                                    <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M22 4L12 14.01l-3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Subcontractor Vetting
+                                </a>
+                            </div>
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-preview active" id="preview-staffing">
+                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
+                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" fill="none" stroke="#FFCF00" stroke-width="1.5"/><circle cx="9" cy="7" r="4" fill="none" stroke="#FFCF00" stroke-width="1.5"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
+                                    </div>
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Staffing Solutions</h4>
+                                        <span class="mega-tagline">Pre-vetted specialists, deployed fast</span>
+                                        <p>Safety Technicians to Senior Directors. Pre-vetted, certification-ready professionals for your environment.</p>
+                                        <ul>
+                                            <li>Embedded Placements</li>
+                                            <li>Project-Based Teams</li>
+                                            <li>Temp-to-Hire</li>
+                                            <li>Quick Response Team</li>
+                                            <li>Executive Search</li>
+                                            <li>Remote Staffing</li>
+                                        </ul>
+                                        <a href="/services.html#staffing" class="mega-menu-cta">Explore Staffing &#8594;</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-assessments">
+                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
+                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M9 11l3 3L22 4" fill="none" stroke="#FFCF00" stroke-width="1.5"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
+                                    </div>
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Assessments & Audits</h4>
+                                        <span class="mega-tagline">AI-powered insights, not shelf reports</span>
+                                        <p>AEGIS-powered assessments with actionable insights, clear priorities, and ROI projections.</p>
+                                        <ul>
+                                            <li>AI-Driven Loss Control</li>
+                                            <li>Risk Score Generation</li>
+                                            <li>EMR Turnaround</li>
+                                            <li>Executive Reporting</li>
+                                            <li>Gap Analysis</li>
+                                            <li>Trend Analysis</li>
+                                        </ul>
+                                        <a href="/services.html#assessments" class="mega-menu-cta">Explore Assessments &#8594;</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-programs">
+                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
+                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" fill="none" stroke="#FFCF00" stroke-width="1.5"/><path d="M14 2v6h6M16 13H8M16 17H8M12 17H8M8 13h8" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
+                                    </div>
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Program Development</h4>
+                                        <span class="mega-tagline">Compliant documentation, built to last</span>
+                                        <p>Site-specific procedures that integrate with your operations--not generic templates.</p>
+                                        <ul>
+                                            <li>HASP Development</li>
+                                            <li>Fire & Chemical Plans</li>
+                                            <li>Emergency Response</li>
+                                            <li>Training Programs</li>
+                                            <li>Job Hazard Analysis</li>
+                                            <li>Policy Development</li>
+                                        </ul>
+                                        <a href="/services.html#programs" class="mega-menu-cta">Explore Programs &#8594;</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-vetting">
+                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
+                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" fill="none" stroke="#FFCF00" stroke-width="1.5"/><path d="M22 4L12 14.01l-3-3" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
+                                    </div>
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Subcontractor Vetting</h4>
+                                        <span class="mega-tagline">Know your subs before they're on site</span>
+                                        <p>AEGIS-powered analysis with actionable insights on your subcontractors' safety performance.</p>
+                                        <ul>
+                                            <li>Performance Analysis</li>
+                                            <li>Compliance Verification</li>
+                                            <li>Gap Identification</li>
+                                            <li>Pre-Qualification</li>
+                                            <li>Ongoing Monitoring</li>
+                                            <li>Scorecards</li>
+                                        </ul>
+                                        <a href="/services.html#vetting" class="mega-menu-cta">Explore Vetting &#8594;</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                <li><a href="/careers.html">Careers</a></li>
+            </ul>
+
+            <div class="nav-cta">
+                <a href="/careers.html" class="btn btn-secondary">Join Our Team</a>
+                <a href="#" class="btn btn-primary" onclick="openModal('clientModal', event)">Request Support</a>
+            </div>
+
+            <button class="mobile-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+
+    <!-- Mobile Menu Panel -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="closeMobileMenu()">&times;</button>
+
+        <ul class="mobile-menu-links">
+            <li>
+                <a href="/industries.html">Industries</a>
+                <ul class="mobile-menu-submenu">
+                    <li><a href="/industries.html#semiconductor" onclick="closeMobileMenu()">Semiconductor</a></li>
+                    <li><a href="/industries.html#datacenter" onclick="closeMobileMenu()">Data Centers</a></li>
+                    <li><a href="/industries.html#manufacturing" onclick="closeMobileMenu()">Advanced Manufacturing</a></li>
+                    <li><a href="/industries.html#construction" onclick="closeMobileMenu()">Construction & Infrastructure</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/services.html">Services</a>
+                <ul class="mobile-menu-submenu">
+                    <li><a href="/services.html#staffing" onclick="closeMobileMenu()">Staffing Solutions</a></li>
+                    <li><a href="/services.html#assessments" onclick="closeMobileMenu()">Assessments & Audits</a></li>
+                    <li><a href="/services.html#programs" onclick="closeMobileMenu()">Program Development</a></li>
+                    <li><a href="/services.html#vetting" onclick="closeMobileMenu()">Subcontractor Vetting</a></li>
+                </ul>
+            </li>
+            <li><a href="/why-seg.html" onclick="closeMobileMenu()">Why S.E.G.</a></li>
+            <li><a href="/careers.html" onclick="closeMobileMenu()">Careers</a></li>
+        </ul>
+
+        <div class="mobile-menu-cta">
+            <a href="/careers.html" class="btn btn-secondary" onclick="closeMobileMenu()">Join Our Team</a>
+            <a href="#" class="btn btn-primary" onclick="closeMobileMenu(); openModal('clientModal', event)">Request Support</a>
+        </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <section class="page-hero">
+        <div class="container">
+            <span class="overline">Industries We Serve</span>
+            <h1>Built for Complex, High-Stakes Environments</h1>
+            <p>From groundbreaking to full production, we support every phase of your operation.</p>
+        </div>
+    </section>
+
+    <!-- Sticky Industry Nav -->
+    <nav class="industry-nav">
+        <div class="container">
+            <a href="#semiconductor" class="industry-nav-btn active">Semiconductor</a>
+            <a href="#datacenter" class="industry-nav-btn">Data Centers</a>
+            <a href="#construction" class="industry-nav-btn">Construction</a>
+            <a href="#manufacturing" class="industry-nav-btn">Manufacturing</a>
+        </div>
+    </nav>
+
+    <!-- Tab Content with Arrows -->
+    <div class="tab-content-wrapper">
+        <button class="tab-arrow tab-arrow-prev" aria-label="Previous">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="tab-arrow tab-arrow-next" aria-label="Next">
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+
+    <!-- ========== SEMICONDUCTOR ========== -->
+    <section id="semiconductor" class="tab-section active">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="overline">Semiconductor</span>
+                <h2>Full Fab Lifecycle Support</h2>
+                <p>We support semiconductor projects from groundbreaking through full production—and back again for expansion.</p>
+            </div>
+
+            <div class="lifecycle-section animate-on-scroll">
+                <div class="lifecycle-timeline">
+                    <div class="lifecycle-phase">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M2 20h20M5 20V8l7-5 7 5v12"/></svg>
+                        </div>
+                        <div><h4>Construction</h4><p>1-2 years</p></div>
+                    </div>
+                    <div class="lifecycle-phase">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+                        </div>
+                        <div><h4>Equipping</h4><p>1-2 quarters</p></div>
+                    </div>
+                    <div class="lifecycle-phase">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        </div>
+                        <div><h4>Operations</h4><p>Ongoing</p></div>
+                    </div>
+                    <div class="lifecycle-phase">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                        </div>
+                        <div><h4>Expansion</h4><p>Cycle repeats</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="entry-points animate-on-scroll">
+                <h4>Three Entry Points Per Project</h4>
+                <div class="entry-cards">
+                    <div class="entry-card">
+                        <h5>General Contractors</h5>
+                        <p>Safety staffing through Construction AND Equipping phases.</p>
+                        <ul>
+                            <li>Embedded safety teams</li>
+                            <li>Tool install / AMHS support</li>
+                            <li>Multi-trade coordination</li>
+                            <li>Subcontractor oversight</li>
+                        </ul>
+                    </div>
+                    <div class="entry-card">
+                        <h5>Subcontractors</h5>
+                        <p>Meet GC requirements and win more bids with safety support.</p>
+                        <ul>
+                            <li>Compliance documentation</li>
+                            <li>AEGIS-powered readiness</li>
+                            <li>Certification alignment</li>
+                            <li>Pre-qualification support</li>
+                        </ul>
+                    </div>
+                    <div class="entry-card">
+                        <h5>Owners / Developers</h5>
+                        <p>Owner rep services across your full project lifecycle.</p>
+                        <ul>
+                            <li>Independent safety oversight</li>
+                            <li>SEMI S2/S8 compliance</li>
+                            <li>Contractor accountability</li>
+                            <li>Risk visibility & reporting</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== DATA CENTERS ========== -->
+    <section id="datacenter" class="section-alt tab-section">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="overline">Data Centers</span>
+                <h2>Safety at Hyperscale Speed</h2>
+                <p>NFPA 70E qualified specialists protecting your timeline and your people.</p>
+            </div>
+
+            <div class="industry-grid">
+                <div class="industry-card animate-on-scroll">
+                    <h3>Data Center Construction</h3>
+                    <p>Per NFPA data, arc flash incidents cause 400 fatalities annually. We deploy BCSP-Certified specialists who protect your timeline and your people.</p>
+                    <ul>
+                        <li>NFPA 70E qualified personnel</li>
+                        <li>Arc flash safety programs (HECA)</li>
+                        <li>LOTO program development</li>
+                        <li>Critical infrastructure protocols</li>
+                        <li>Contractor pre-qualification</li>
+                    </ul>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                        <a href="/data-centers.html" class="btn btn-primary">Learn More</a>
+                        <a href="#" class="btn btn-outline" onclick="openModal('clientModal', event)">Request Support</a>
+                    </div>
+                </div>
+                <div class="industry-card animate-on-scroll delay-2">
+                    <h3>Data Center Operations</h3>
+                    <p>Ongoing safety support for live facilities. Staff augmentation and program solutions that don't disrupt uptime.</p>
+                    <ul>
+                        <li>24/7 safety coverage options</li>
+                        <li>Electrical safety oversight</li>
+                        <li>Emergency response planning</li>
+                        <li>Contractor safety management</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline" style="margin-top: 1rem;" onclick="openModal('clientModal', event)">Request Support</a>
+                </div>
+            </div>
+
+            <div class="industry-quote animate-on-scroll">
+                <p>"S.E.G. deployed NFPA 70E qualified professionals within 72 hours of our request. Their arc flash expertise was instrumental in maintaining our aggressive timeline."</p>
+                <p class="quote-author">— Safety Director, Hyperscale Data Center Project</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONSTRUCTION ========== -->
+    <section id="construction" class="tab-section">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="overline">Construction</span>
+                <h2>Proactive Safety That Prevents Delays</h2>
+                <p>Ground-up builds, tenant improvements, shutdowns and turnarounds.</p>
+            </div>
+
+            <div class="industry-grid">
+                <div class="industry-card animate-on-scroll">
+                    <h3>Commercial & Industrial Construction</h3>
+                    <p>Proactive safety coordination across multiple trades and complex scopes.</p>
+                    <ul>
+                        <li>Multi-trade safety coordination</li>
+                        <li>Fall protection programs</li>
+                        <li>Excavation competent persons</li>
+                        <li>Crane & rigging oversight</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline" style="margin-top: 1rem;" onclick="openModal('clientModal', event)">Request Support</a>
+                </div>
+                <div class="industry-card animate-on-scroll delay-2">
+                    <h3>Greenfield & Expansion</h3>
+                    <p>New facility construction with complex scope. We scale from site assessment through punch list.</p>
+                    <ul>
+                        <li>Phased staffing plans</li>
+                        <li>Subcontractor vetting</li>
+                        <li>HASP development</li>
+                        <li>Owner rep services</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline" style="margin-top: 1rem;" onclick="openModal('clientModal', event)">Request Support</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== MANUFACTURING ========== -->
+    <section id="manufacturing" class="section-alt tab-section">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="overline">Manufacturing</span>
+                <h2>Reduce Incidents, Lower EMR</h2>
+                <p>Ongoing EHS support for production facilities and growth phases.</p>
+            </div>
+
+            <div class="industry-grid">
+                <div class="industry-card animate-on-scroll">
+                    <h3>Manufacturing Operations</h3>
+                    <p>Ongoing EHS support for production facilities. Reduce incidents, lower EMR, protect your workforce.</p>
+                    <ul>
+                        <li>Staff augmentation</li>
+                        <li>Program development</li>
+                        <li>EMR turnaround consulting</li>
+                        <li>Safety culture transformation</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline" style="margin-top: 1rem;" onclick="openModal('clientModal', event)">Request Support</a>
+                </div>
+                <div class="industry-card animate-on-scroll delay-2">
+                    <h3>Manufacturing Construction</h3>
+                    <p>New lines, facility expansions, equipment installations. Safety support during your growth phases.</p>
+                    <ul>
+                        <li>Project-based staffing</li>
+                        <li>Contractor oversight</li>
+                        <li>Commissioning safety</li>
+                        <li>Operational readiness</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline" style="margin-top: 1rem;" onclick="openModal('clientModal', event)">Request Support</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile arrows -->
+    <div class="tab-arrows-mobile">
+        <button class="tab-arrow tab-arrow-prev-m" aria-label="Previous">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="tab-arrow tab-arrow-next-m" aria-label="Next">
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+    </div>
+
+    </div><!-- /.tab-content-wrapper -->
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container" style="position: relative; z-index: 1;">
+            <h2>Ready to Protect Your Operation?</h2>
+            <p>Get matched with the right safety professionals for your industry and project phase.</p>
+            <a href="#" class="btn btn-white" onclick="openModal('clientModal', event)">Request Support →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="logo"><img src="images/Transparent Logo.png" alt="S.E.G." class="logo-icon" style="height: 75px;"></a>
+                    <p>AI-Powered. Expert-Delivered. Precision safety for advanced industries.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Industries</h4>
+                    <ul>
+                        <li><a href="#semiconductor">Semiconductor</a></li>
+                        <li><a href="#datacenter">Data Centers</a></li>
+                        <li><a href="#construction">Construction</a></li>
+                        <li><a href="#manufacturing">Manufacturing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="/services.html#staffing">Staffing Solutions</a></li>
+                        <li><a href="/services.html#assessments">Assessments & Audits</a></li>
+                        <li><a href="/services.html#programs">Program Development</a></li>
+                        <li><a href="/services.html#vetting">Subcontractor Vetting</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                        <li><a href="/careers.html">Careers</a></li>
+                        <li><a href="/#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Safety Excellence Group. All rights reserved.</p>
+                <p>Powered by <a href="https://aegisai.co/" target="_blank" style="color: var(--SEG-yellow); text-decoration: none;">AEGIS AI</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Client Request Modal -->
+    <div class="modal-overlay" id="clientModal" role="dialog" aria-modal="true">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h3>Request Safety Support</h3>
+                    <p>Tell us about your needs — we'll respond within 2 hours</p>
+                </div>
+                <button class="modal-close" onclick="closeModal('clientModal')" aria-label="Close modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="event.preventDefault(); submitClientForm();">
+                    <h5 class="form-section-title">Contact Information</h5>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-name">Name <span class="required">*</span></label>
+                            <input type="text" id="client-name" name="full_name" required placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-phone">Phone <span class="required">*</span></label>
+                            <input type="tel" id="client-phone" name="phone" required placeholder="(555) 123-4567">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-email">Company Email <span class="required">*</span></label>
+                            <input type="email" id="client-email" name="company_email" required placeholder="you@company.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-company">Company Name <span class="required">*</span></label>
+                            <input type="text" id="client-company" name="company_name" required placeholder="Your company">
+                        </div>
+                    </div>
+                    <h5 class="form-section-title">Project Context</h5>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-role">Your Role <span class="required">*</span></label>
+                            <select id="client-role" name="project_role" required>
+                                <option value="">Select your role</option>
+                                <option value="gc">General Contractor</option>
+                                <option value="sub">Subcontractor</option>
+                                <option value="owner">Owner / Developer</option>
+                                <option value="oem">Supplier / OEM</option>
+                                <option value="manufacturer">Manufacturer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-industry">Industry <span class="required">*</span></label>
+                            <select id="client-industry" name="industry" required>
+                                <option value="">Select industry</option>
+                                <option value="semiconductor">Semiconductor</option>
+                                <option value="datacenter">Data Center</option>
+                                <option value="construction">Construction</option>
+                                <option value="manufacturing">Manufacturing</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-support">Support Needed <span class="required">*</span></label>
+                            <select id="client-support" name="support_type" required>
+                                <option value="">Select support type</option>
+                                <option value="staffing">Staffing Solutions</option>
+                                <option value="audit">Assessments & Audits</option>
+                                <option value="program">Program Development</option>
+                                <option value="vetting">Subcontractor Vetting</option>
+                                <option value="multiple">Multiple Services</option>
+                                <option value="unsure">Not Sure</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-timeline">Timeline <span class="required">*</span></label>
+                            <select id="client-timeline" name="timeline" required>
+                                <option value="">How soon?</option>
+                                <option value="immediate">Immediate (within 72 hours)</option>
+                                <option value="1-2weeks">1-2 weeks</option>
+                                <option value="30days">Within 30 days</option>
+                                <option value="exploring">Just exploring</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary">Submit Request →</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Functions -->
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const overlay = document.querySelector('.mobile-menu-overlay');
+
+            mobileMenu.classList.toggle('active');
+            mobileToggle.classList.toggle('active');
+            overlay.classList.toggle('active');
+
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const overlay = document.querySelector('.mobile-menu-overlay');
+
+            mobileMenu.classList.remove('active');
+            mobileToggle.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
+        });
+    </script>
+
+    <!-- Mega Menu Hover Interaction -->
+    <script>
+        (function() {
+            document.querySelectorAll('.mega-menu').forEach(menu => {
+                const items = menu.querySelectorAll('.mega-menu-item');
+                const previews = menu.querySelectorAll('.mega-menu-preview');
+
+                items.forEach(item => {
+                    item.addEventListener('mouseenter', function() {
+                        const previewId = 'preview-' + this.getAttribute('data-preview');
+
+                        items.forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+
+                        previews.forEach(p => {
+                            p.classList.remove('active');
+                            p.style.display = 'none';
+                        });
+
+                        const target = document.getElementById(previewId);
+                        if (target) {
+                            target.style.display = 'flex';
+                            void target.offsetWidth;
+                            target.classList.add('active');
+                        }
+                    });
+                });
+            });
+        })();
+    </script>
+
+    <!-- Header Hide/Show on Scroll -->
+    <script>
+        (function() {
+            const header = document.querySelector('header');
+            let lastScrollY = window.scrollY;
+            let ticking = false;
+
+            function updateHeader() {
+                const currentScrollY = window.scrollY;
+
+                if (currentScrollY > 100) {
+                    if (currentScrollY > lastScrollY) {
+                        header.classList.add('header-hidden');
+                    } else {
+                        header.classList.remove('header-hidden');
+                    }
+                } else {
+                    header.classList.remove('header-hidden');
+                }
+
+                lastScrollY = currentScrollY;
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(updateHeader);
+                    ticking = true;
+                }
+            });
+        })();
+    </script>
+
+    <!-- Scroll Animations -->
+    <script>
+        (function() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '0px 0px -50px 0px', threshold: 0.1 });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+            // Tab navigation
+            const navBtns = document.querySelectorAll('.industry-nav-btn');
+            const tabSections = document.querySelectorAll('.tab-section');
+            const industryNav = document.querySelector('.industry-nav');
+            const industryIds = ['semiconductor', 'datacenter', 'construction', 'manufacturing'];
+
+            function getActiveIndex() {
+                for (let i = 0; i < tabSections.length; i++) {
+                    if (tabSections[i].classList.contains('active')) return i;
+                }
+                return 0;
+            }
+
+            function goToTab(index) {
+                if (index < 0) index = industryIds.length - 1;
+                if (index >= industryIds.length) index = 0;
+                navBtns.forEach(b => b.classList.remove('active'));
+                tabSections.forEach(s => s.classList.remove('active'));
+                navBtns[index].classList.add('active');
+                tabSections[index].classList.add('active');
+                tabSections[index].querySelectorAll('.animate-on-scroll').forEach(el => el.classList.add('animated'));
+            }
+
+            // Nav button clicks
+            navBtns.forEach((btn, i) => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    goToTab(i);
+                });
+            });
+
+            // Arrow clicks (desktop + mobile)
+            document.querySelectorAll('.tab-arrow-prev, .tab-arrow-prev-m').forEach(btn => {
+                btn.addEventListener('click', () => goToTab(getActiveIndex() - 1));
+            });
+            document.querySelectorAll('.tab-arrow-next, .tab-arrow-next-m').forEach(btn => {
+                btn.addEventListener('click', () => goToTab(getActiveIndex() + 1));
+            });
+
+            // Scrolled shadow effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) industryNav.classList.add('scrolled');
+                else industryNav.classList.remove('scrolled');
+            });
+
+            // Handle hash on load
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                const idx = industryIds.indexOf(hash);
+                if (idx !== -1) goToTab(idx);
+            }
+        })();
+    </script>
+
+    <!-- Modal Functions -->
+    <script>
+        const API_BASE = window.location.origin;
+
+        function openModal(modalId, event) {
+            if (event) event.preventDefault();
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        async function submitClientForm() {
+            const form = document.querySelector('#clientModal form');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+
+            const data = {
+                "form_type": "request_safety_support",
+                "full_name": form.querySelector('[name="full_name"]').value,
+                "phone": form.querySelector('[name="phone"]').value,
+                "company_email": form.querySelector('[name="company_email"]').value,
+                "company_name": form.querySelector('[name="company_name"]').value,
+                "project_role": form.querySelector('[name="project_role"]').value,
+                "industry": form.querySelector('[name="industry"]').value,
+                "support_type": form.querySelector('[name="support_type"]').value,
+                "timeline": form.querySelector('[name="timeline"]').value,
+                "source_page": "industries"
+            };
+
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+
+            try {
+                await fetch(`${API_BASE}/api/forms/client`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                submitBtn.textContent = 'Submitted ✓';
+                submitBtn.style.background = 'var(--success)';
+
+                setTimeout(() => {
+                    closeModal('clientModal');
+                    form.reset();
+                    submitBtn.textContent = originalText;
+                    submitBtn.style.background = '';
+                    submitBtn.disabled = false;
+                }, 2000);
+            } catch (error) {
+                submitBtn.textContent = 'Error - Try Again';
+                submitBtn.style.background = 'var(--danger)';
+                submitBtn.disabled = false;
+                setTimeout(() => { submitBtn.textContent = originalText; submitBtn.style.background = ''; }, 3000);
+            }
+        }
+
+        // Close modal on overlay click
+        document.querySelector('.modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) closeModal('clientModal');
+        });
+    </script>
+
+    <script src="js/aegis-chatbot.js"></script>
+</body>
+</html>
