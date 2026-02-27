@@ -176,6 +176,29 @@
 
         // Update disclaimer-active class based on disclaimer visibility
         updateDisclaimerState();
+
+        // Track header visibility to adjust chat top position
+        setupHeaderTracking();
+    }
+
+    // Adjust chat max-height based on header visibility
+    function setupHeaderTracking() {
+        const header = document.querySelector('header');
+        if (!header) return;
+
+        function updateChatMaxHeight() {
+            const chat = document.getElementById('aegis-chat');
+            if (!chat) return;
+            const headerRect = header.getBoundingClientRect();
+            const headerBottom = Math.max(0, headerRect.bottom);
+            // Available space = viewport - headerBottom - bottom(96px)
+            const available = window.innerHeight - headerBottom - 96;
+            chat.style.setProperty('--aegis-chat-maxh', available + 'px');
+        }
+
+        window.addEventListener('scroll', updateChatMaxHeight, { passive: true });
+        header.addEventListener('transitionend', updateChatMaxHeight);
+        updateChatMaxHeight();
     }
 
     // Update disclaimer active state
@@ -248,13 +271,12 @@
     // Add message to chat
     function addMessage(text, sender) {
         const inner = document.getElementById('aegis-messages-inner');
-        const scroller = document.getElementById('aegis-messages');
 
         const messageEl = document.createElement('div');
         messageEl.className = `aegis-message ${sender}`;
 
         const avatarSvg = sender === 'bot'
-            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>'
+            ? '<img src="/images/Aegis logo-15.png" alt="AEGIS" style="width: 24px; height: 24px; object-fit: contain;">'
             : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
 
         const formattedText = formatMessage(text);
@@ -265,6 +287,7 @@
         `;
 
         inner.appendChild(messageEl);
+        const scroller = document.getElementById('aegis-messages');
         scroller.scrollTop = scroller.scrollHeight;
 
         conversationHistory.push({ sender, text });
@@ -284,7 +307,6 @@
     function showTyping() {
         isTyping = true;
         const inner = document.getElementById('aegis-messages-inner');
-        const scroller = document.getElementById('aegis-messages');
 
         const typingEl = document.createElement('div');
         typingEl.className = 'aegis-message bot';
@@ -304,6 +326,7 @@
         `;
 
         inner.appendChild(typingEl);
+        const scroller = document.getElementById('aegis-messages');
         scroller.scrollTop = scroller.scrollHeight;
     }
 

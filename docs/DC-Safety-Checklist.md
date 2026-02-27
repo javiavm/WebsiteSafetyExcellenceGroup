@@ -369,6 +369,6 @@ Your custom proposal delivered within 48 hours.
 
 ---
 
-*Safety Excellence Group | 17+ Years | 50+ Fab Projects | 5 Continents*
+*Safety Excellence Group | 18+ Years | 50+ Fab Projects | 5 Continents*
 
 *This checklist provides general guidance only. It does not constitute professional safety consulting or site-specific advice. Verify all requirements against applicable local, state, and federal regulations. Consult qualified safety professionals before implementation.*

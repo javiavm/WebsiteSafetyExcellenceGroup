@@ -151,58 +151,97 @@
         }
 
         /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: var(--SEG-blue);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--SEG-blue); border-bottom: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        header.scrolled { box-shadow: var(--shadow-lg); }
+        header.header-hidden { transform: translateY(-100%); }
+        header.header-visible { transform: translateY(0); }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; max-width: 1400px; margin: 0 auto; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo-icon { height: 45px; width: auto; }
+        .logo-text { font-size: 0.9rem; font-weight: 600; color: var(--SEG-yellow); letter-spacing: 0.1em; text-transform: uppercase; }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.3s ease; position: relative; }
+        .nav-links a:hover, .nav-links a.active-page { color: var(--SEG-yellow); }
+        .nav-cta { display: flex; gap: 1rem; }
+        .nav-cta .btn { padding: 0.75rem 1.5rem; font-size: 0.875rem; }
+        .nav-links .dropdown { position: static; }
+
+        /* MEGA MENU */
+        .mega-menu {
+            position: absolute; top: calc(100% + 10px); left: 50%; width: 880px; max-width: calc(100vw - 2rem);
+            background: var(--SEG-blue); box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden;
+            opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(10px);
+            transition: all 0.3s cubic-bezier(0.22,1,0.36,1); z-index: 1000; border-top: 3px solid var(--SEG-yellow);
+        }
+        .nav-links .dropdown:hover .mega-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .mega-menu-inner { display: flex; min-height: 280px; }
+        .mega-menu-sidebar { width: 260px; padding: 1.5rem 0; flex-shrink: 0; }
+        .nav-links .mega-menu-item {
+            display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.5rem;
+            color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+            border-left: 3px solid transparent; transition: all 0.25s ease; cursor: pointer;
+        }
+        .nav-links .mega-menu-item:hover, .nav-links .mega-menu-item.active {
+            background: rgba(255,255,255,0.08); color: var(--white); border-left-color: var(--SEG-yellow); font-weight: 600;
+        }
+        .mega-menu-item svg { width: 22px; height: 22px; stroke: rgba(255,255,255,0.7); fill: none; stroke-width: 1.5; flex-shrink: 0; transition: stroke 0.25s ease; }
+        .mega-menu-item:hover svg, .mega-menu-item.active svg { stroke: var(--SEG-yellow); }
+        .mega-menu-content { flex: 1; padding: 2rem 2.5rem; display: flex; gap: 2rem; align-items: flex-start; background: var(--white); }
+        .mega-menu-preview { display: none; flex: 1; animation: megaFadeIn 0.3s ease forwards; }
+        .mega-menu-preview.active { display: block; }
+        @keyframes megaFadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+        .mega-menu-preview-image { width: 200px; height: 160px; border-radius: 12px; overflow: hidden; flex-shrink: 0; background: var(--SEG-blue); display: none; }
+        .mega-menu-preview-image svg { width: 60px; height: 60px; stroke: var(--SEG-yellow); fill: none; stroke-width: 1.5; }
+        .mega-menu-preview-text { flex: 1; }
+        .mega-menu-preview-text h4 { font-size: 1.25rem; color: var(--SEG-blue); margin-bottom: 0.25rem; }
+        .mega-menu-preview-text .mega-tagline { font-size: 0.85rem; color: var(--SEG-yellow); font-weight: 600; margin-bottom: 0.75rem; display: block; }
+        .mega-menu-preview-text p { font-size: 0.9rem; color: var(--SEG-dark-grey); line-height: 1.6; margin-bottom: 1rem; }
+        .mega-menu-preview-text ul { list-style: none; padding: 0; margin: 0 0 1.25rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem; }
+        .mega-menu-preview-text li { font-size: 0.85rem; color: var(--SEG-dark-grey); display: flex; align-items: center; gap: 0.4rem; }
+        .mega-menu-preview-text li::before { content: '✓'; color: var(--SEG-yellow); font-weight: 700; font-size: 0.75rem; }
+        .mega-menu-cta {
+            display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; font-weight: 600;
+            color: var(--SEG-blue); text-decoration: none; padding: 0.6rem 1.25rem;
+            background: var(--SEG-yellow); border-radius: 4px; transition: all 0.3s ease;
+        }
+        .mega-menu-cta:hover { background: #e6bb00; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,207,0,0.4); }
+        .nav-links .dropdown-menu { display: none; }
+
+        @media (max-width: 768px) {
+            .mega-menu { display: none; }
         }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        /* Mobile menu */
+        .mobile-toggle { display: none; background: none; border: none; z-index: 1002; cursor: pointer; padding: 0.5rem; }
+        .mobile-toggle span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px 0; transition: 0.3s; }
+        .mobile-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .mobile-toggle.active span:nth-child(2) { opacity: 0; }
+        .mobile-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        .mobile-menu-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .mobile-menu-overlay.active { opacity: 1; visibility: visible; }
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 100%; max-width: 320px; height: 100vh; height: 100dvh; background: var(--SEG-blue); z-index: 1001; transition: right 0.3s ease; overflow-y: auto; padding: 70px 0 2rem; }
+        .mobile-menu.active { right: 0; }
+        .mobile-menu-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--white); font-size: 2rem; cursor: pointer; padding: 0.5rem; line-height: 1; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+        .mobile-menu-close:hover { color: var(--SEG-yellow); }
+        .mobile-menu-links { list-style: none; padding: 0 1rem; margin: 0; }
+        .mobile-menu-links li { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .mobile-menu-links > li > a { display: block; padding: 0.875rem 0; color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.3s ease; }
+        .mobile-menu-links a:hover { color: var(--SEG-yellow); }
+        .mobile-menu-submenu { list-style: none; padding: 0 0 0.5rem 0.75rem; margin: 0; }
+        .mobile-menu-submenu li { border-bottom: none; }
+        .mobile-menu-submenu a { display: block; padding: 0.5rem 0; font-size: 0.85rem; color: var(--SEG-grey); text-decoration: none; }
+        .mobile-menu-submenu a:hover { color: var(--SEG-yellow); }
+        .mobile-menu-cta { padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; }
+        .mobile-menu-cta .btn { width: 100%; text-align: center; padding: 0.75rem 1rem; font-size: 0.9rem; white-space: nowrap; }
+        .mobile-menu-links > li > a { word-wrap: break-word; }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
-        .logo img {
-            height: 60px;
-            width: auto;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--SEG-yellow);
-        }
-
-        .nav-cta .btn {
-            padding: 0.75rem 1.5rem;
-            font-size: 0.875rem;
+        @media (max-width: 400px) {
+            .mobile-menu { max-width: 100%; width: 100%; }
+            .mobile-menu-links { padding: 0 0.75rem; }
+            .mobile-menu-links > li > a { font-size: 0.9rem; padding: 0.75rem 0; }
+            .mobile-menu-submenu a { font-size: 0.8rem; }
+            .mobile-menu-cta { padding: 0.75rem; }
+            .mobile-menu-cta .btn { font-size: 0.85rem; padding: 0.625rem 0.75rem; }
         }
 
         /* Hero Section */
@@ -691,30 +730,45 @@
 
         /* Footer */
         footer {
-            background: var(--SEG-blue);
+            background: linear-gradient(180deg, #0d1a30 0%, #080f1c 100%);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--SEG-grey);
+            font-size: 0.9rem;
+            max-width: 280px;
+        }
+
+        .footer-links h4 {
             color: var(--white);
-            padding: 3rem 0;
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
         }
 
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .footer-links ul {
+            list-style: none;
         }
 
-        .footer-logo img {
-            height: 75px;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 2rem;
+        .footer-links li {
+            margin-bottom: 0.6rem;
         }
 
         .footer-links a {
             color: var(--SEG-grey);
             text-decoration: none;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             transition: color 0.3s ease;
         }
 
@@ -722,15 +776,22 @@
             color: var(--SEG-yellow);
         }
 
-        .footer-copy {
-            color: var(--SEG-grey);
-            font-size: 0.8125rem;
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        /* Header scroll behavior */
-        header { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        header.header-hidden { transform: translateY(-100%); }
-        header.header-visible { transform: translateY(0); }
+        .footer-bottom p {
+            color: var(--SEG-grey);
+            font-size: 0.85rem;
+        }
+
+        /* Header scroll behavior already defined above */
 
         /* Hero enhancement - staggered entry animation */
         @keyframes heroFadeBlurUp {
@@ -836,17 +897,18 @@
                 max-width: 400px;
                 margin: 0 auto;
             }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         @media (max-width: 768px) {
-            nav {
-                padding: 1rem;
-            }
-
-            .nav-links,
-            .nav-cta {
-                display: none;
-            }
+            .nav-links, .nav-cta { display: none !important; }
+            .mobile-toggle { display: flex !important; width: 44px; height: 44px; align-items: center; justify-content: center; }
+            .mega-menu { display: none; }
+            nav { padding: 0.75rem 1rem; }
+            .mobile-menu { max-width: 100%; width: 100%; }
 
             .pain-grid {
                 grid-template-columns: 1fr;
@@ -864,9 +926,12 @@
                 padding: 2rem;
             }
 
-            .footer-content {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
                 flex-direction: column;
-                gap: 1.5rem;
                 text-align: center;
             }
         }
@@ -919,24 +984,241 @@
 </head>
 <body>
     <!-- Header -->
-    <header>
+    <header id="header">
         <nav>
             <a href="/" class="logo">
-                <img src="images/SEG Original Logo.png" alt="Safety Excellence Group">
+                <img src="images/SEG Original Logo.png" alt="Safety Excellence Group" class="logo-icon" style="height: 60px; width: auto;">
             </a>
 
             <ul class="nav-links">
-                <li><a href="/#industries">Industries</a></li>
-                <li><a href="/#services">Services</a></li>
+                <li class="dropdown">
+                    <a href="/industries.html" class="active-page">Industries ▾</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-inner">
+                            <div class="mega-menu-sidebar">
+                                <a class="mega-menu-item active" data-preview="semi" href="/industries.html#semiconductor">
+                                    <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Semiconductor
+                                </a>
+                                <a class="mega-menu-item" data-preview="dc" href="/data-centers.html">
+                                    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="20" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7" y="15" width="4" height="3" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="15" width="4" height="3" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Data Centers
+                                </a>
+                                <a class="mega-menu-item" data-preview="mfg" href="/industries.html#manufacturing">
+                                    <svg viewBox="0 0 24 24"><path d="M4 5h16M4 9h16M4 13h16M4 17h16M9 5v12M15 5v12" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Advanced Manufacturing
+                                </a>
+                                <a class="mega-menu-item" data-preview="const" href="/industries.html#construction">
+                                    <svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V10l6-4 6 4v10M8 20V14M12 20V8M16 20v-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Construction & Infrastructure
+                                </a>
+                            </div>
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-preview active" id="preview-semi">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Semiconductor</h4>
+                                        <span class="mega-tagline">Full Fab Lifecycle Support</span>
+                                        <p>SEMI S2/S8 compliance, tool install safety, and cleanroom protocols for 50+ fab projects across 5 continents.</p>
+                                        <ul>
+                                            <li>SEMI S2/S8 Compliance</li>
+                                            <li>Tool Install Safety</li>
+                                            <li>Cleanroom Protocols</li>
+                                            <li>Owner Rep Services</li>
+                                            <li>Fab Construction Support</li>
+                                            <li>Equipment Validation</li>
+                                        </ul>
+                                        <a href="/industries.html#semiconductor" class="mega-menu-cta">Explore Semiconductor →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-dc">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Data Centers</h4>
+                                        <span class="mega-tagline">Safety at Hyperscale Speed</span>
+                                        <p>NFPA 70E qualified specialists protecting your timeline and people during construction and operations.</p>
+                                        <ul>
+                                            <li>Arc Flash Safety (HECA)</li>
+                                            <li>LOTO Programs</li>
+                                            <li>24/7 Safety Coverage</li>
+                                            <li>Critical Infrastructure</li>
+                                            <li>Electrical Safety</li>
+                                            <li>Commissioning Support</li>
+                                        </ul>
+                                        <a href="/data-centers.html" class="mega-menu-cta">Explore Data Centers →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-mfg">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Advanced Manufacturing</h4>
+                                        <span class="mega-tagline">Reduce Incidents, Lower EMR</span>
+                                        <p>Ongoing EHS support and safety culture transformation for production facilities.</p>
+                                        <ul>
+                                            <li>Staff Augmentation</li>
+                                            <li>Program Development</li>
+                                            <li>EMR Turnaround</li>
+                                            <li>Commissioning Safety</li>
+                                            <li>Machine Safety</li>
+                                            <li>Process Safety</li>
+                                        </ul>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('clientModal', event)">Explore Manufacturing →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-const">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Construction & Infrastructure</h4>
+                                        <span class="mega-tagline">Proactive Safety That Prevents Delays</span>
+                                        <p>Ground-up builds, tenant improvements, shutdowns with multi-trade coordination.</p>
+                                        <ul>
+                                            <li>Fall Protection Programs</li>
+                                            <li>Crane & Rigging Oversight</li>
+                                            <li>HASP Development</li>
+                                            <li>Subcontractor Vetting</li>
+                                            <li>Heavy Equipment Safety</li>
+                                            <li>High-Risk Work Planning</li>
+                                        </ul>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('clientModal', event)">Explore Construction →</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="/services.html">Services ▾</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-inner">
+                            <div class="mega-menu-sidebar">
+                                <a class="mega-menu-item active" data-preview="staffing" href="/services.html#staffing">
+                                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Staffing Solutions
+                                </a>
+                                <a class="mega-menu-item" data-preview="assessments" href="/services.html#assessments">
+                                    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Assessments & Audits
+                                </a>
+                                <a class="mega-menu-item" data-preview="programs" href="/services.html#programs">
+                                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6M16 13H8M16 17H8M12 17H8M8 13h8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Program Development
+                                </a>
+                                <a class="mega-menu-item" data-preview="vetting" href="/services.html#vetting">
+                                    <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M22 4L12 14.01l-3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Subcontractor Vetting
+                                </a>
+                            </div>
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-preview active" id="preview-staffing">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Staffing Solutions</h4>
+                                        <span class="mega-tagline">Pre-vetted specialists, deployed fast</span>
+                                        <p>Safety Technicians to Senior Directors. Pre-vetted, certification-ready professionals for your environment.</p>
+                                        <ul>
+                                            <li>Embedded Placements</li>
+                                            <li>Project-Based Teams</li>
+                                            <li>Temp-to-Hire</li>
+                                            <li>Quick Response Team</li>
+                                            <li>Executive Search</li>
+                                            <li>Remote Staffing</li>
+                                        </ul>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('staffingModal', event)">Explore Staffing →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-assessments">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Assessments & Audits</h4>
+                                        <span class="mega-tagline">AI-powered insights, not shelf reports</span>
+                                        <p>AEGIS-powered assessments with actionable insights, clear priorities, and ROI projections.</p>
+                                        <ul>
+                                            <li>AI-Driven Loss Control</li>
+                                            <li>Risk Score Generation</li>
+                                            <li>EMR Turnaround</li>
+                                            <li>Executive Reporting</li>
+                                            <li>Gap Analysis</li>
+                                            <li>Trend Analysis</li>
+                                        </ul>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('assessmentModal', event)">Explore Assessments →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-programs">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Program Development</h4>
+                                        <span class="mega-tagline">Compliant documentation, built to last</span>
+                                        <p>Site-specific procedures that integrate with your operations--not generic templates.</p>
+                                        <ul>
+                                            <li>HASP Development</li>
+                                            <li>Fire & Chemical Plans</li>
+                                            <li>Emergency Response</li>
+                                            <li>Training Programs</li>
+                                            <li>Job Hazard Analysis</li>
+                                            <li>Policy Development</li>
+                                        </ul>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('haspModal', event)">Explore Programs →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-vetting">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Subcontractor Vetting</h4>
+                                        <span class="mega-tagline">Know your subs before they're on site</span>
+                                        <p>AEGIS-powered analysis with actionable insights on your subcontractors' safety performance.</p>
+                                        <ul>
+                                            <li>Performance Analysis</li>
+                                            <li>Compliance Verification</li>
+                                            <li>Gap Identification</li>
+                                            <li>Pre-Qualification</li>
+                                            <li>Ongoing Monitoring</li>
+                                            <li>Scorecards</li>
+                                        </ul>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('subScorerModal', event)">Explore Vetting →</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
                 <li><a href="/why-seg.html">Why S.E.G.</a></li>
                 <li><a href="/careers.html">Careers</a></li>
             </ul>
 
             <div class="nav-cta">
-                <a href="#" class="btn btn-primary" onclick="openClientModal(event)">Get a Proposal</a>
+                <a href="/careers.html" class="btn btn-secondary">Join Our Team</a>
+                <a href="#" class="btn btn-primary" onclick="openModal('clientModal', event)">Request Support</a>
             </div>
+
+            <button class="mobile-toggle" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </button>
         </nav>
     </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="closeMobileMenu()">&times;</button>
+        <ul class="mobile-menu-links">
+            <li>
+                <a href="/industries.html">Industries</a>
+                <ul class="mobile-menu-submenu">
+                    <li><a href="/industries.html#semiconductor" onclick="closeMobileMenu()">Semiconductor</a></li>
+                    <li><a href="/data-centers.html" onclick="closeMobileMenu()">Data Centers</a></li>
+                    <li><a href="/industries.html#manufacturing" onclick="closeMobileMenu()">Advanced Manufacturing</a></li>
+                    <li><a href="/industries.html#construction" onclick="closeMobileMenu()">Construction & Infrastructure</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/services.html">Services</a>
+                <ul class="mobile-menu-submenu">
+                    <li><a href="/services.html#staffing" onclick="closeMobileMenu()">Staffing Solutions</a></li>
+                    <li><a href="/services.html#assessments" onclick="closeMobileMenu()">Assessments & Audits</a></li>
+                    <li><a href="/services.html#programs" onclick="closeMobileMenu()">Program Development</a></li>
+                    <li><a href="/services.html#vetting" onclick="closeMobileMenu()">Subcontractor Vetting</a></li>
+                </ul>
+            </li>
+            <li><a href="/why-seg.html" onclick="closeMobileMenu()">Why S.E.G.</a></li>
+            <li><a href="/careers.html" onclick="closeMobileMenu()">Careers</a></li>
+        </ul>
+        <div class="mobile-menu-cta">
+            <a href="/careers.html" class="btn btn-secondary" onclick="closeMobileMenu()">Join Our Team</a>
+            <a href="#" class="btn btn-primary" onclick="closeMobileMenu(); openModal('clientModal', event)">Request Support</a>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -1118,7 +1400,7 @@
         <div class="container">
             <div class="proof-grid">
                 <div class="proof-item animate-on-scroll">
-                    <div class="proof-value" data-target="17" data-suffix="+">0</div>
+                    <div class="proof-value" data-target="18" data-suffix="+">0</div>
                     <div class="proof-label">Years Experience</div>
                 </div>
                 <div class="proof-item animate-on-scroll delay-1">
@@ -1194,19 +1476,48 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <a href="/" class="footer-logo">
-                    <img src="images/Transparent Logo.png" alt="Safety Excellence Group">
-                </a>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <img src="images/Transparent Logo.png" alt="Safety Excellence Group" class="logo-icon" style="height: 75px; width: auto;">
+                    </a>
+                    <p>AI-Powered. Expert-Delivered. Precision safety for semiconductor, data center, construction, and manufacturing operations.</p>
+                </div>
+
                 <div class="footer-links">
-                    <a href="/">Home</a>
-                    <a href="/why-seg.html">Why S.E.G.</a>
-                    <a href="/careers.html">Careers</a>
-                    <a href="/data-centers.html">Data Centers</a>
+                    <h4>Industries</h4>
+                    <ul>
+                        <li><a href="/industries.html#semiconductor">Semiconductor</a></li>
+                        <li><a href="/industries.html#datacenter">Data Centers</a></li>
+                        <li><a href="/industries.html#construction">Construction</a></li>
+                        <li><a href="/industries.html#manufacturing">Manufacturing</a></li>
+                    </ul>
                 </div>
-                <div class="footer-copy">
-                    &copy; 2026 Safety Excellence Group. All rights reserved.
+
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="/services.html#staffing">Staffing Solutions</a></li>
+                        <li><a href="/services.html#assessments">Assessments & Audits</a></li>
+                        <li><a href="/services.html#programs">Program Development</a></li>
+                        <li><a href="/services.html#vetting">Subcontractor Vetting</a></li>
+                    </ul>
                 </div>
+
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                        <li><a href="/careers.html">Careers</a></li>
+                        <li><a href="#" onclick="openModal('assessmentModal', event)">Safety Blind Spot Finder</a></li>
+                        <li><a href="#" onclick="openModal('clientModal', event)">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Safety Excellence Group. All rights reserved.</p>
+                <p><a href="/admin-dashboard.html" style="color: var(--SEG-grey); text-decoration: none; opacity: 0.5; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">Admin</a> · Powered by <a href="https://aegisai.co/" target="_blank" style="color: var(--SEG-yellow); text-decoration: none;">AEGIS AI</a></p>
             </div>
         </div>
     </footer>
@@ -1485,6 +1796,104 @@
         }
         .disclaimer-accept input { width: 18px; height: 18px; }
 
+        /* Service Modal Additions */
+        .btn-outline { background: transparent; color: var(--SEG-blue); border-color: var(--SEG-blue); }
+        .btn-outline:hover { background: var(--SEG-blue); color: var(--white); }
+        .modal.modal-lg { max-width: 700px; }
+        .form-section-title { font-size: 0.85rem; font-weight: 600; color: var(--SEG-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--SEG-yellow); }
+        .form-group textarea { width: 100%; padding: 0.875rem 1rem; border: 2px solid var(--SEG-grey-2); border-radius: 4px; font-family: inherit; font-size: 0.95rem; transition: border-color 0.3s ease; outline: none; background: var(--white); min-height: 100px; resize: vertical; }
+        .form-group textarea:focus { border-color: var(--SEG-yellow); }
+
+        /* Assessment Modal Styles */
+        .assessment-progress { margin-bottom: 2rem; }
+        .progress-bar { height: 6px; background: var(--SEG-grey-2); border-radius: 3px; overflow: hidden; margin-bottom: 1rem; }
+        .progress-fill { height: 100%; background: var(--SEG-yellow); border-radius: 3px; transition: width 0.5s ease; }
+        .progress-steps { display: flex; justify-content: space-between; }
+        .progress-steps .step { font-size: 0.7rem; color: var(--SEG-grey); font-weight: 500; }
+        .progress-steps .step.active { color: var(--SEG-blue); font-weight: 600; }
+        .progress-steps .step.completed { color: var(--SEG-yellow); }
+        .assessment-step { display: none; }
+        .assessment-step.active { display: block; animation: fadeInStep 0.3s ease; }
+        @keyframes fadeInStep { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .step-header { margin-bottom: 1.5rem; }
+        .step-header h4 { margin-bottom: 0.25rem; color: var(--SEG-blue); }
+        .step-header p { color: var(--SEG-grey); font-size: 0.9rem; margin: 0; }
+        .framework-ref { font-size: 0.8rem !important; color: var(--SEG-grey) !important; font-style: italic; }
+        .step-navigation { display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--SEG-grey-2); }
+        .industry-select-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+        .industry-option { cursor: pointer; }
+        .industry-option input { display: none; }
+        .industry-card-select { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem 1rem; background: var(--SEG-light-grey); border: 2px solid var(--SEG-grey-2); border-radius: 8px; transition: all 0.3s ease; text-align: center; }
+        .industry-card-select svg { width: 40px; height: 40px; margin-bottom: 0.75rem; stroke: var(--SEG-blue); }
+        .industry-card-select span { font-weight: 600; font-size: 0.9rem; color: var(--SEG-dark-grey); }
+        .industry-option:hover .industry-card-select { border-color: var(--SEG-yellow); }
+        .industry-option input:checked + .industry-card-select { border-color: var(--SEG-yellow); background: rgba(255, 207, 0, 0.1); }
+        .z10-questions { display: flex; flex-direction: column; gap: 1rem; }
+        .z10-question { padding: 1.25rem; background: var(--SEG-light-grey); border-radius: 8px; border-left: 4px solid var(--SEG-blue); }
+        .z10-question.industry-specific { border-left-color: var(--SEG-yellow); background: rgba(255, 207, 0, 0.08); }
+        .z10-question-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+        .z10-ref { font-size: 0.7rem; font-weight: 700; color: var(--white); background: var(--SEG-blue); padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase; }
+        .z10-question.industry-specific .z10-ref { background: var(--SEG-yellow); color: var(--SEG-blue); }
+        .z10-category { font-size: 0.8rem; color: var(--SEG-grey); font-weight: 500; }
+        .z10-question-text { font-size: 0.95rem; font-weight: 500; color: var(--SEG-dark-grey); margin-bottom: 1rem; }
+        .binary-options { display: flex; gap: 0.75rem; }
+        .binary-option { flex: 1; cursor: pointer; }
+        .binary-option input { display: none; }
+        .binary-option span { display: flex; align-items: center; justify-content: center; padding: 0.75rem 1rem; background: var(--white); border: 2px solid var(--SEG-grey-2); border-radius: 6px; font-weight: 600; font-size: 0.9rem; color: var(--SEG-dark-grey); transition: all 0.3s ease; }
+        .binary-option:hover span { border-color: var(--SEG-yellow); }
+        .binary-option input:checked + span { background: var(--SEG-yellow); border-color: var(--SEG-yellow); color: var(--SEG-blue); }
+        .results-disclaimer { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: #fef3c7; border-radius: 6px; font-size: 0.8rem; color: #92400e; margin-bottom: 1.5rem; }
+        .results-disclaimer svg { flex-shrink: 0; }
+        .results-container { display: grid; grid-template-columns: 200px 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .score-section { display: flex; flex-direction: column; align-items: center; }
+        .score-circle { position: relative; width: 160px; height: 160px; margin-bottom: 1rem; }
+        .score-circle svg { width: 100%; height: 100%; }
+        .score-circle .score-progress { transition: stroke-dashoffset 1.5s ease; }
+        .score-value { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .score-value span:first-child { font-size: 2.5rem; font-weight: 700; color: var(--SEG-blue); line-height: 1; }
+        .score-value .score-label { display: block; font-size: 0.9rem; color: var(--SEG-grey); }
+        .score-rating { font-size: 1rem; font-weight: 600; padding: 0.5rem 1rem; border-radius: 100px; text-align: center; }
+        .score-rating.critical { background: #fee2e2; color: #dc2626; }
+        .score-rating.needs-work { background: #fef3c7; color: #d97706; }
+        .score-rating.good { background: #d1fae5; color: #059669; }
+        .score-rating.excellent { background: #dbeafe; color: #2563eb; }
+        .score-note { font-size: 0.75rem; color: var(--SEG-grey); margin-top: 0.5rem; font-style: italic; }
+        .gaps-section h5, .recommendations-section h5 { font-size: 1rem; color: var(--SEG-blue); margin-bottom: 1rem; }
+        .gap-bars { display: flex; flex-direction: column; gap: 0.75rem; }
+        .gap-bar { display: flex; align-items: center; gap: 0.75rem; }
+        .gap-bar-label { width: 140px; font-size: 0.8rem; font-weight: 500; color: var(--SEG-dark-grey); }
+        .gap-bar-track { flex: 1; height: 12px; background: var(--SEG-grey-2); border-radius: 6px; overflow: hidden; }
+        .gap-bar-fill { height: 100%; border-radius: 6px; transition: width 1s ease; }
+        .gap-bar-fill.low { background: #ef4444; }
+        .gap-bar-fill.medium { background: #f59e0b; }
+        .gap-bar-fill.high { background: #22c55e; }
+        .gap-bar-value { width: 35px; text-align: right; font-size: 0.8rem; font-weight: 600; color: var(--SEG-dark-grey); }
+        .recommendations-section { background: var(--SEG-light-grey); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; }
+        .recommendations-note { font-size: 0.8rem; color: var(--SEG-grey); margin-bottom: 1rem; font-style: italic; }
+        .recommendations-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .recommendation-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem; background: var(--white); border-radius: 6px; border-left: 4px solid var(--SEG-yellow); }
+        .recommendation-item .priority { width: 28px; height: 28px; background: var(--SEG-yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: var(--SEG-blue); flex-shrink: 0; }
+        .recommendation-item div strong { display: block; font-size: 0.9rem; margin-bottom: 0.15rem; }
+        .recommendation-item div p { font-size: 0.8rem; color: var(--SEG-grey); margin: 0; }
+        .recommendation-item .z10-tag { font-size: 0.65rem; background: var(--SEG-blue); color: var(--white); padding: 0.15rem 0.4rem; border-radius: 3px; margin-left: 0.5rem; font-weight: 600; }
+        .results-cta { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem; background: var(--SEG-blue); border-radius: 8px; margin-bottom: 1rem; }
+        .results-cta-content h5 { color: var(--white); margin-bottom: 0.25rem; }
+        .results-cta-content p { color: var(--SEG-grey); font-size: 0.9rem; margin: 0; }
+        .results-cta-buttons { display: flex; gap: 0.75rem; }
+        .results-cta-buttons .btn-outline { border-color: var(--white); color: var(--white); }
+        .results-cta-buttons .btn-outline:hover { background: var(--white); color: var(--SEG-blue); }
+        .email-capture { padding: 1.5rem; background: var(--SEG-light-grey); border-radius: 8px; animation: fadeInStep 0.3s ease; }
+        @media (max-width: 768px) {
+            .industry-select-grid { grid-template-columns: 1fr 1fr; }
+            .binary-options { flex-direction: column; }
+            .results-container { grid-template-columns: 1fr; text-align: center; }
+            .score-section { margin-bottom: 1.5rem; }
+            .results-cta { flex-direction: column; text-align: center; gap: 1rem; }
+            .results-cta-buttons { flex-direction: column; width: 100%; }
+            .results-cta-buttons .btn { width: 100%; }
+            .gap-bar-label { width: 100px; font-size: 0.75rem; }
+        }
+
         /* Sliders */
         .dc-slider-group { margin-bottom: 1.5rem; }
         .dc-slider-group label { display: block; font-size: 0.9375rem; margin-bottom: 0.5rem; }
@@ -1544,7 +1953,7 @@
             border-radius: 12px;
             margin-bottom: 1.5rem;
         }
-        .dc-score-value { font-size: 4rem; font-weight: 700; color: var(--SEG-blue); line-height: 1; }
+        .dc-score-value { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; color: var(--SEG-blue); line-height: 1; }
         .dc-score-label { color: var(--SEG-grey); margin-top: 0.5rem; }
         .dc-score-rating {
             display: inline-block;
@@ -1566,7 +1975,7 @@
             margin-bottom: 1.5rem;
             text-align: center;
         }
-        .dc-roi-value { font-size: 3rem; font-weight: 700; color: var(--SEG-yellow); }
+        .dc-roi-value { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; color: var(--SEG-yellow); }
         .dc-roi-label { opacity: 0.8; margin-top: 0.25rem; }
         .dc-roi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; text-align: left; }
         .dc-roi-item { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; }
@@ -1609,7 +2018,7 @@
         .dc-actions .btn { flex: 1; }
         .dc-disclaimer-footer { font-size: 0.75rem; color: var(--SEG-grey); text-align: center; font-style: italic; }
 
-        @media (max-width: 600px) {
+        @media (max-width: 576px) {
             .modal-overlay { padding: 1rem; }
             .modal-body { padding: 1.5rem; }
             .dc-roi-grid { grid-template-columns: 1fr; }
@@ -2150,7 +2559,7 @@ ${sectionsHTML}
         <div class="modal" style="max-width: 600px;">
             <div class="modal-header">
                 <div>
-                    <h3>Book a Discovery Call</h3>
+                    <h3>Book a Call</h3>
                     <p>Schedule 15 minutes to discuss your safety needs</p>
                 </div>
                 <button class="modal-close" onclick="closeBookingModal()">
@@ -2160,7 +2569,7 @@ ${sectionsHTML}
                     </svg>
                 </button>
             </div>
-            <div class="modal-body" style="min-height: 600px; padding: 0;">
+            <div class="modal-body" style="min-height: min(600px, 70vh); padding: 0;">
                 <iframe
                     src="https://api.leadconnectorhq.com/widget/booking/56IkA4NNqXU4MQAnpmAh"
                     style="width: 100%; height: 550px; border: none; overflow: hidden;"
@@ -2255,6 +2664,259 @@ ${sectionsHTML}
         </div>
     </div>
 
+    <!-- ASSESSMENT MODAL (Safety Blind Spot Finder) -->
+    <div class="modal-overlay" id="assessmentModal" role="dialog" aria-modal="true" onclick="if(event.target === this) closeModal('assessmentModal')">
+        <div class="modal" style="max-width: 800px;">
+            <div class="modal-header">
+                <div>
+                    <h3>Safety Blind Spot Finder&trade;</h3>
+                    <p>ANSI/ASSP Z10-2019 Aligned Framework</p>
+                </div>
+                <button class="modal-close" onclick="closeModal('assessmentModal')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="assessment-progress">
+                    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 0%"></div></div>
+                    <div class="progress-steps">
+                        <span class="step active" data-step="0">Start</span>
+                        <span class="step" data-step="1">Context</span>
+                        <span class="step" data-step="2">Leadership</span>
+                        <span class="step" data-step="3">Implementation</span>
+                        <span class="step" data-step="4">Evaluation</span>
+                        <span class="step" data-step="5">Results</span>
+                    </div>
+                </div>
+                <!-- Step 0: Disclaimer -->
+                <div class="assessment-step active" id="step0">
+                    <div class="disclaimer-box">
+                        <div class="disclaimer-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FFCF00" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        </div>
+                        <h4>Important Disclaimer</h4>
+                        <div class="disclaimer-content">
+                            <p>This Safety Blind Spot Finder&trade; is provided by Safety Excellence Group for <strong>educational and informational purposes only</strong>.</p>
+                            <p><strong>This tool does NOT constitute:</strong></p>
+                            <ul>
+                                <li>A professional safety audit, inspection, or compliance assessment</li>
+                                <li>Legal, regulatory, or professional advice</li>
+                                <li>Certification of compliance with OSHA, ANSI, ASSP, or any regulatory standard</li>
+                                <li>A substitute for consultation with qualified safety professionals</li>
+                            </ul>
+                            <p><strong>Results are indicative only.</strong> The score generated is based solely on self-reported responses and should not be relied upon as an accurate measure of your organization's safety compliance or program effectiveness.</p>
+                            <p><strong>No liability.</strong> Safety Excellence Group assumes no responsibility or liability for any errors, omissions, or outcomes resulting from the use of this tool.</p>
+                            <p><strong>Recommendation:</strong> We strongly encourage all users to engage qualified safety professionals to conduct comprehensive assessments.</p>
+                        </div>
+                        <label class="disclaimer-accept"><input type="checkbox" id="disclaimerAccept" required><span>I have read, understand, and agree to this disclaimer</span></label>
+                    </div>
+                    <div class="step-navigation"><div></div><button type="button" class="btn btn-primary" onclick="acceptDisclaimer()">I Agree — Continue →</button></div>
+                </div>
+                <!-- Step 1: Context -->
+                <div class="assessment-step" id="step1">
+                    <div class="step-header"><h4>Step 1: Your Operation</h4><p>This determines which industry-specific requirements apply.</p></div>
+                    <div class="form-group">
+                        <label>What industry are you in? <span class="required">*</span></label>
+                        <div class="industry-select-grid">
+                            <label class="industry-option"><input type="radio" name="industry" value="semiconductor" required><div class="industry-card-select"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="15" x2="22" y2="15"/></svg><span>Semiconductor</span></div></label>
+                            <label class="industry-option"><input type="radio" name="industry" value="datacenter"><div class="industry-card-select"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="6" rx="1"/><rect x="2" y="11" width="20" height="6" rx="1"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="14" r="1"/><line x1="10" y1="6" x2="18" y2="6"/><line x1="10" y1="14" x2="18" y2="14"/></svg><span>Data Center</span></div></label>
+                            <label class="industry-option"><input type="radio" name="industry" value="construction"><div class="industry-card-select"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 20h20M5 20V8l7-5 7 5v12"/><rect x="9" y="12" width="6" height="8"/><line x1="9" y1="8" x2="15" y2="8"/></svg><span>Construction</span></div></label>
+                            <label class="industry-option"><input type="radio" name="industry" value="manufacturing"><div class="industry-card-select"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V11l4-2v12M13 21V7l4-2v16M17 21V5l4-2v18"/></svg><span>Manufacturing</span></div></label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Project/Site Phase <span class="required">*</span></label><select required id="projectPhase"><option value="">Select phase</option><option value="construction">Construction / Greenfield</option><option value="equipping">Equipping / Tool Install</option><option value="operations">Operations / Steady State</option><option value="expansion">Expansion / Renovation</option></select></div>
+                        <div class="form-group"><label>Workers On-Site <span class="required">*</span></label><select required id="teamSize"><option value="">Select size</option><option value="1-25">1-25 workers</option><option value="26-100">26-100 workers</option><option value="101-500">101-500 workers</option><option value="500+">500+ workers</option></select></div>
+                    </div>
+                    <div class="step-navigation"><button type="button" class="btn btn-outline" onclick="prevStep(0)">&larr; Back</button><button type="button" class="btn btn-primary" onclick="nextStep(2)">Continue →</button></div>
+                </div>
+                <!-- Step 2: Leadership -->
+                <div class="assessment-step" id="step2">
+                    <div class="step-header"><h4>Step 2: Leadership &amp; Planning</h4><p class="framework-ref">ANSI/ASSP Z10 Sections 4.1, 4.2, 5.1, 5.2</p></div>
+                    <div class="z10-questions">
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §4.1</span><span class="z10-category">Management Leadership</span></div><p class="z10-question-text">Does senior management actively participate in safety activities?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_leadership" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_leadership" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_leadership" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §4.2</span><span class="z10-category">Employee Participation</span></div><p class="z10-question-text">Are workers empowered to report hazards and stop unsafe work without fear of retaliation?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_participation" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_participation" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_participation" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §5.1</span><span class="z10-category">Hazard Assessment</span></div><p class="z10-question-text">Do you conduct documented hazard assessments (JHA/JSA) before work begins?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_jha" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_jha" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_jha" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §5.2</span><span class="z10-category">Legal Requirements</span></div><p class="z10-question-text">Are OSHA recordkeeping requirements (300 logs, postings) current and accessible?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_osha" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_osha" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_osha" value="unknown"><span>Unknown</span></label></div></div>
+                    </div>
+                    <div class="step-navigation"><button type="button" class="btn btn-outline" onclick="prevStep(1)">&larr; Back</button><button type="button" class="btn btn-primary" onclick="nextStep(3)">Continue →</button></div>
+                </div>
+                <!-- Step 3: Implementation -->
+                <div class="assessment-step" id="step3">
+                    <div class="step-header"><h4>Step 3: Implementation &amp; Controls</h4><p class="framework-ref">ANSI/ASSP Z10 Sections 6.1 – 6.5</p></div>
+                    <div class="z10-questions">
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §6.1</span><span class="z10-category">Resources</span></div><p class="z10-question-text">Is there a dedicated safety professional assigned to this project or site?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_staffing" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_staffing" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_staffing" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §6.2</span><span class="z10-category">Competence &amp; Training</span></div><p class="z10-question-text">Do all workers receive documented, task-specific safety training before starting work?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_training" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_training" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_training" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §6.3</span><span class="z10-category">Documentation</span></div><p class="z10-question-text" id="q_hasp_text">Do you have a site-specific HASP or written safety program for this project/facility?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_hasp" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_hasp" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_hasp" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §6.4</span><span class="z10-category">Hazard Controls</span></div><p class="z10-question-text">Is there a written Lockout/Tagout (LOTO) program with trained, authorized employees?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_loto" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_loto" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_loto" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §6.5</span><span class="z10-category">Contractor Management</span></div><p class="z10-question-text">Are subcontractors pre-qualified for safety and monitored during work?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_contractor" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_contractor" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_contractor" value="unknown"><span>Unknown</span></label></div></div>
+                        <!-- Industry-Specific -->
+                        <div class="z10-question industry-specific" id="q_semi_container" style="display:none;"><div class="z10-question-header"><span class="z10-ref">SEMI S2/S8</span><span class="z10-category">Semiconductor-Specific</span></div><p class="z10-question-text">Is SEMI S2/S8 compliance documented and maintained for equipment safety?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_semi" value="yes"><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_semi" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_semi" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question industry-specific" id="q_nfpa_container" style="display:none;"><div class="z10-question-header"><span class="z10-ref">NFPA 70E</span><span class="z10-category">Electrical Safety</span></div><p class="z10-question-text">Is there a written electrical safety program (NFPA 70E) with arc flash assessments?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_nfpa" value="yes"><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_nfpa" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_nfpa" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question industry-specific" id="q_fall_container" style="display:none;"><div class="z10-question-header"><span class="z10-ref">OSHA 1926</span><span class="z10-category">Construction-Specific</span></div><p class="z10-question-text">Is there a written fall protection program with competent person designation?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_fall" value="yes"><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_fall" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_fall" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question industry-specific" id="q_confined_container" style="display:none;"><div class="z10-question-header"><span class="z10-ref">OSHA 1910.146</span><span class="z10-category">Confined Space</span></div><p class="z10-question-text">Is there a written confined space entry program with trained entrants and attendants?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_confined" value="yes"><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_confined" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_confined" value="unknown"><span>Unknown</span></label></div></div>
+                    </div>
+                    <div class="step-navigation"><button type="button" class="btn btn-outline" onclick="prevStep(2)">&larr; Back</button><button type="button" class="btn btn-primary" onclick="nextStep(4)">Continue →</button></div>
+                </div>
+                <!-- Step 4: Evaluation -->
+                <div class="assessment-step" id="step4">
+                    <div class="step-header"><h4>Step 4: Evaluation &amp; Improvement</h4><p class="framework-ref">ANSI/ASSP Z10 Sections 7.1 – 7.3</p></div>
+                    <div class="z10-questions">
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §7.1</span><span class="z10-category">Inspections &amp; Audits</span></div><p class="z10-question-text">Are regular safety inspections conducted and documented with corrective action follow-up?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_inspections" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_inspections" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_inspections" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §7.2</span><span class="z10-category">Incident Investigation</span></div><p class="z10-question-text">Do you have a formal incident investigation process that identifies root causes?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_incident" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_incident" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_incident" value="unknown"><span>Unknown</span></label></div></div>
+                        <div class="z10-question"><div class="z10-question-header"><span class="z10-ref">Z10 §7.3</span><span class="z10-category">Corrective Action</span></div><p class="z10-question-text">Are near-misses tracked, investigated, and reviewed alongside recordable incidents?</p><div class="binary-options"><label class="binary-option"><input type="radio" name="q_nearmiss" value="yes" required><span>Yes</span></label><label class="binary-option"><input type="radio" name="q_nearmiss" value="no"><span>No</span></label><label class="binary-option"><input type="radio" name="q_nearmiss" value="unknown"><span>Unknown</span></label></div></div>
+                    </div>
+                    <div class="form-group" style="margin-top:1.5rem;"><label>What's your biggest safety challenge right now? <span style="font-weight:normal;color:var(--SEG-grey);">(Optional)</span></label><textarea id="challenge" placeholder="This helps us provide more specific recommendations..." rows="3"></textarea></div>
+                    <div class="step-navigation"><button type="button" class="btn btn-outline" onclick="prevStep(3)">&larr; Back</button><button type="button" class="btn btn-primary" onclick="calculateResults()">Get My Results →</button></div>
+                </div>
+                <!-- Step 5: Results -->
+                <div class="assessment-step" id="step5">
+                    <div class="step-header"><h4>Your Safety Blind Spots Revealed</h4><p class="framework-ref">Based on ANSI/ASSP Z10-2019 Framework</p></div>
+                    <div class="results-disclaimer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>These results are for informational purposes only and do not constitute a professional safety assessment.</span></div>
+                    <div class="results-container">
+                        <div class="score-section">
+                            <div class="score-circle" id="scoreCircle"><svg viewBox="0 0 120 120"><circle class="score-bg" cx="60" cy="60" r="54" fill="none" stroke="#DDDDDD" stroke-width="8"/><circle class="score-progress" cx="60" cy="60" r="54" fill="none" stroke="#FFCF00" stroke-width="8" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292" transform="rotate(-90 60 60)"/></svg><div class="score-value"><span id="scoreNumber">0</span><span class="score-label">/ 100</span></div></div>
+                            <div class="score-rating" id="scoreRating">Calculating...</div>
+                            <p class="score-note">Indicative Score Only</p>
+                        </div>
+                        <div class="gaps-section"><h5>Gap Analysis by Z10 Section</h5><div class="gap-bars" id="gapBars"></div></div>
+                    </div>
+                    <div class="recommendations-section"><h5>Potential Focus Areas</h5><p class="recommendations-note">Based on your self-reported responses.</p><div class="recommendations-list" id="recommendations"></div></div>
+                    <div class="results-cta"><div class="results-cta-content"><h5>Want a professional assessment?</h5><p>Book a call with our team to discuss your results.</p></div><div class="results-cta-buttons"><a href="#" class="btn btn-primary" onclick="closeModal('assessmentModal'); openModal('clientModal', event);">Contact Us →</a><button type="button" class="btn btn-outline" onclick="emailResults()">Email My Results</button></div></div>
+                    <div class="email-capture" id="emailCapture" style="display:none;"><div class="form-row"><div class="form-group"><label>Your Email <span class="required">*</span></label><input type="email" id="resultsEmail" placeholder="you@company.com" required></div><div class="form-group"><label>Your Name</label><input type="text" id="resultsName" placeholder="Your name"></div></div><button type="button" class="btn btn-primary" onclick="sendResults()" style="width:100%;">Send My Results →</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAFFING MODAL -->
+    <div class="modal-overlay" id="staffingModal" role="dialog" aria-modal="true" onclick="if(event.target === this) closeModal('staffingModal')">
+        <div class="modal">
+            <div class="modal-header">
+                <div><h3>Get Matched in Seconds</h3><p>Tell us about your staffing needs</p></div>
+                <button class="modal-close" onclick="closeModal('staffingModal')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+            </div>
+            <div class="modal-body">
+                <form id="staffingForm" onsubmit="event.preventDefault(); submitStaffingForm();">
+                    <div class="form-group"><label>Industry <span class="required">*</span></label><select name="industry" required><option value="">Select industry</option><option value="semiconductor">Semiconductor</option><option value="datacenter" selected>Data Center</option><option value="construction">Construction</option><option value="manufacturing">Manufacturing</option><option value="other">Other</option></select></div>
+                    <div class="form-group"><label>Role Level Needed <span class="required">*</span></label><select name="role_level" required><option value="">Select role level</option><option value="technician">Safety Technician</option><option value="coordinator">Safety Coordinator</option><option value="specialist">Safety Specialist</option><option value="lead">Safety Lead</option><option value="manager">Safety Manager</option><option value="director">Safety Director</option><option value="multiple">Multiple Levels</option></select></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>How Soon? <span class="required">*</span></label><select name="timeline" required><option value="">Select timeline</option><option value="immediate">Immediate (within days)</option><option value="2weeks">Within 2 weeks</option><option value="30days">Within 30 days</option><option value="planning">Just planning</option></select></div>
+                        <div class="form-group"><label>Duration <span class="required">*</span></label><select name="duration" required><option value="">Select duration</option><option value="shortterm">Short-term (&lt;3 months)</option><option value="project">Project-based (3-12 months)</option><option value="longterm">Long-term (12+ months)</option><option value="temptohire">Temp-to-hire</option></select></div>
+                    </div>
+                    <div class="form-group"><label>Site Location <span class="required">*</span></label><input type="text" name="location" required placeholder="City, State"></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Your Name <span class="required">*</span></label><input type="text" name="full_name" required placeholder="Full name"></div>
+                        <div class="form-group"><label>Email <span class="required">*</span></label><input type="email" name="company_email" required placeholder="work@company.com"></div>
+                    </div>
+                    <div class="form-group"><label>Phone</label><input type="tel" name="phone" placeholder="(555) 123-4567"></div>
+                    <div class="form-submit"><button type="submit" class="btn btn-primary">Find My Match →</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- HASP TEMPLATE GENERATOR MODAL -->
+    <div class="modal-overlay" id="haspModal" role="dialog" aria-modal="true" onclick="if(event.target === this) closeModal('haspModal')">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <div><h3>Free HASP Template</h3><p>Generic OSHA-compliant Health and Safety Plan</p></div>
+                <button class="modal-close" onclick="closeModal('haspModal')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+            </div>
+            <div class="modal-body">
+                <div id="haspDisclaimer">
+                    <div class="disclaimer-box">
+                        <div class="disclaimer-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FFCF00" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                        <h4>Important Legal Notice</h4>
+                        <div class="disclaimer-content" style="max-height:300px;">
+                            <p><strong>PLEASE READ CAREFULLY BEFORE PROCEEDING</strong></p>
+                            <p>This HASP template is provided by Safety Excellence Group, LLC for general informational and educational purposes. By using this template, you agree to the following:</p>
+                            <p><strong>NO PROFESSIONAL RELATIONSHIP.</strong> Use of this template does not create a consultant-client or advisory relationship.</p>
+                            <p><strong>NOT LEGAL OR PROFESSIONAL ADVICE.</strong> This is a generic document that may not address your specific hazards, conditions, or regulatory requirements.</p>
+                            <p><strong>USER RESPONSIBILITY.</strong> You are solely responsible for customizing all content, ensuring regulatory compliance, and obtaining qualified professional review before implementation.</p>
+                            <p><strong>NO WARRANTY.</strong> Provided "AS IS" without warranty of any kind.</p>
+                            <p><strong>LIMITATION OF LIABILITY.</strong> S.E.G. shall not be liable for any damages arising from use of this template.</p>
+                            <p><strong>GOVERNING LAW.</strong> Governed by the laws of the State of Texas.</p>
+                        </div>
+                        <label class="disclaimer-accept" style="margin-top:1rem;"><input type="checkbox" id="haspDisclaimerAccept" required><span>I have read, understand, and agree to these terms</span></label>
+                    </div>
+                    <div style="text-align:center;margin-top:1.5rem;"><button type="button" class="btn btn-primary" onclick="acceptHaspDisclaimer()">I Accept — Continue →</button></div>
+                </div>
+                <div id="haspForm" style="display:none;">
+                    <form onsubmit="event.preventDefault(); generateHASP();" style="max-height:60vh;overflow-y:auto;padding-right:0.5rem;">
+                        <p style="font-size:0.85rem;color:var(--SEG-grey);margin-bottom:1rem;">Fields marked * are required. All values can be edited in the final Word document.</p>
+                        <div class="form-group"><label>Regulatory Framework <span class="required">*</span></label><select name="framework" id="haspFramework" required><option value="">Select applicable standard</option><option value="1926">29 CFR 1926 - Construction</option><option value="1910">29 CFR 1910 - General Industry</option></select></div>
+                        <div class="form-row"><div class="form-group"><label>Company Name <span class="required">*</span></label><input type="text" id="haspCompany" required placeholder="Your company name"></div><div class="form-group"><label>Project/Site Name <span class="required">*</span></label><input type="text" id="haspProject" required placeholder="Project or facility name"></div></div>
+                        <div class="form-group"><label>Project Address <span class="required">*</span></label><input type="text" id="haspAddress" required placeholder="Full site address"></div>
+                        <div class="form-row"><div class="form-group"><label>Project Manager <span class="required">*</span></label><input type="text" id="haspPM" required placeholder="Name"></div><div class="form-group"><label>Site Safety Supervisor <span class="required">*</span></label><input type="text" id="haspSafetySup" required placeholder="Name"></div></div>
+                        <div class="form-group"><label>Scope of Work <span class="required">*</span></label><textarea id="haspScope" rows="3" required placeholder="Describe the work being performed..."></textarea></div>
+                        <div class="form-group"><label>Primary Hazards <span class="required">*</span></label><textarea id="haspHazards" rows="2" required placeholder="Falls, electrical, excavation, confined spaces, etc."></textarea></div>
+                        <div class="form-row"><div class="form-group"><label>Emergency Contact</label><input type="text" id="haspEmergencyName" placeholder="Name and phone"></div><div class="form-group"><label>Nearest Hospital</label><input type="text" id="haspHospital" placeholder="Name and address"></div></div>
+                        <hr style="margin:1rem 0;border:none;border-top:1px solid #eee;">
+                        <div class="form-row"><div class="form-group"><label>Your Name <span class="required">*</span></label><input type="text" id="haspName" required placeholder="Full name"></div><div class="form-group"><label>Email <span class="required">*</span></label><input type="email" id="haspEmail" required placeholder="work@company.com"></div></div>
+                        <div class="form-submit" style="position:sticky;bottom:0;background:white;padding:1rem 0;margin:0;"><button type="submit" class="btn btn-primary">Generate HASP →</button></div>
+                    </form>
+                </div>
+                <div id="haspSuccess" style="display:none;text-align:center;padding:1.5rem 0;">
+                    <div style="font-size:2.5rem;color:var(--success);margin-bottom:0.5rem;">&#10003;</div>
+                    <h3 style="color:var(--SEG-blue);margin-bottom:0.5rem;">HASP Ready!</h3>
+                    <p id="haspSuccessText" style="color:var(--SEG-grey);font-size:0.9rem;margin-bottom:1rem;"></p>
+                    <button class="btn btn-primary" onclick="downloadHASP()">Download Word Document →</button>
+                    <p style="font-size:0.85rem;color:var(--SEG-grey);margin-top:1rem;">Need help customizing? <a href="#" onclick="closeModal('haspModal');openModal('clientModal',event)" style="color:var(--SEG-blue);font-weight:600;">Contact our team →</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUBCONTRACTOR SCORER MODAL -->
+    <div class="modal-overlay" id="subScorerModal" role="dialog" aria-modal="true" onclick="if(event.target === this) closeModal('subScorerModal')">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <div><h3>Quick Sub Safety Score</h3><p>Preliminary risk assessment tool</p></div>
+                <button class="modal-close" onclick="closeModal('subScorerModal')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+            </div>
+            <div class="modal-body">
+                <div id="subScorerDisclaimer">
+                    <div class="disclaimer-box">
+                        <div class="disclaimer-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FFCF00" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                        <h4>Important Legal Notice</h4>
+                        <div class="disclaimer-content" style="max-height:300px;">
+                            <p><strong>PLEASE READ CAREFULLY BEFORE PROCEEDING</strong></p>
+                            <p>This Subcontractor Safety Scoring Tool is provided by Safety Excellence Group, LLC for general informational and preliminary screening purposes.</p>
+                            <p><strong>INFORMATIONAL PURPOSES ONLY.</strong> The score generated does not constitute a comprehensive safety evaluation or professional recommendation.</p>
+                            <p><strong>NOT A HIRING RECOMMENDATION.</strong> All contractor qualification and selection decisions remain your sole responsibility.</p>
+                            <p><strong>SELF-REPORTED DATA.</strong> Scores are based on user-provided information that has not been independently verified.</p>
+                            <p><strong>NO WARRANTY.</strong> Provided "AS IS" without warranty of any kind.</p>
+                            <p><strong>LIMITATION OF LIABILITY.</strong> S.E.G. shall not be liable for any damages arising from use of this tool.</p>
+                            <p><strong>PROFESSIONAL CONSULTATION RECOMMENDED.</strong> Engage qualified safety professionals for thorough contractor pre-qualification assessments.</p>
+                        </div>
+                        <label class="disclaimer-accept" style="margin-top:1rem;"><input type="checkbox" id="subScorerDisclaimerAccept" required><span>I have read, understand, and agree to these terms</span></label>
+                    </div>
+                    <div style="text-align:center;margin-top:1.5rem;"><button type="button" class="btn btn-primary" onclick="acceptSubScorerDisclaimer()">I Accept — Continue →</button></div>
+                </div>
+                <div id="subScorerForm" style="display:none;">
+                    <form onsubmit="event.preventDefault(); calculateSubScore();">
+                        <div class="form-row"><div class="form-group"><label>EMR (Experience Mod Rate) <span class="required">*</span></label><input type="number" name="emr" step="0.01" min="0" max="5" required placeholder="e.g., 0.85"><small style="color:var(--SEG-grey);font-size:0.75rem;">&lt;1.0 = better than average</small></div><div class="form-group"><label>TRIR (Total Recordable Rate) <span class="required">*</span></label><input type="number" name="trir" step="0.1" min="0" max="50" required placeholder="e.g., 2.5"><small style="color:var(--SEG-grey);font-size:0.75rem;font-style:italic;">We know this number lies more than a resume—but insurers still ask for it</small></div></div>
+                        <div class="form-row"><div class="form-group"><label>DART Rate</label><input type="number" name="dart" step="0.1" min="0" max="50" placeholder="e.g., 1.2"><small style="color:var(--SEG-grey);font-size:0.75rem;">Days Away, Restricted, Transfer rate</small></div><div class="form-group"><label>Years in Business <span class="required">*</span></label><select name="years" required><option value="">Select</option><option value="1">Less than 1 year</option><option value="3">1-3 years</option><option value="5">3-5 years</option><option value="10">5-10 years</option><option value="15">10+ years</option></select></div></div>
+                        <div class="form-group"><label>OSHA Citations (last 3 years) <span class="required">*</span></label><select name="citations" required><option value="">Select</option><option value="none">None</option><option value="other">Other-than-Serious only</option><option value="serious">1+ Serious citations</option><option value="willful">Willful or Repeat citations</option></select></div>
+                        <div class="form-row"><div class="form-group"><label>Written Safety Program? <span class="required">*</span></label><select name="written_program" required><option value="">Select</option><option value="yes">Yes</option><option value="no">No</option><option value="unknown">Unknown</option></select></div><div class="form-group"><label>ISNetworld / Avetta / BROWZ?</label><select name="prequalification"><option value="">Select</option><option value="yes">Yes, active</option><option value="no">No</option><option value="unknown">Unknown</option></select></div></div>
+                        <div class="form-submit"><button type="submit" class="btn btn-primary">Calculate Score →</button></div>
+                    </form>
+                </div>
+                <div id="subScorerResults" style="display:none;">
+                    <div style="text-align:center;padding:2rem 0;">
+                        <div id="subScoreDisplay" style="width:150px;height:150px;border-radius:50%;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;flex-direction:column;border:8px solid var(--SEG-grey-2);"><span id="subScoreValue" style="font-size:2.5rem;font-weight:700;color:var(--SEG-blue);">--</span><span style="font-size:0.8rem;color:var(--SEG-grey);">Risk Score</span></div>
+                        <h4 id="subScoreLabel" style="margin-bottom:0.5rem;">Calculating...</h4>
+                        <p id="subScoreSummary" style="color:var(--SEG-grey);margin-bottom:1.5rem;">Please wait</p>
+                        <div id="subScoreFlags" style="text-align:left;background:var(--SEG-light-grey);padding:1.5rem;border-radius:8px;margin-bottom:1.5rem;"><h5 style="margin-bottom:0.75rem;color:var(--SEG-blue);">Key Findings:</h5><ul id="subScoreFlagsList" style="margin:0;padding-left:1.25rem;"></ul></div>
+                        <div class="results-disclaimer" style="margin-bottom:1.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>This is a preliminary screening score only. Comprehensive vetting requires professional assessment.</span></div>
+                        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;"><button type="button" class="btn btn-outline" onclick="resetSubScorer()">Score Another Sub</button><a href="#" class="btn btn-primary" onclick="closeModal('subScorerModal'); openModal('clientModal', event);">Get Full Vetting Service →</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openClientModal(event) {
             if (event) event.preventDefault();
@@ -2264,6 +2926,39 @@ ${sectionsHTML}
         function closeClientModal() {
             document.getElementById('clientModal').classList.remove('open');
             document.body.style.overflow = '';
+        }
+        // Generic modal open/close (uses .open class)
+        function openModal(modalId, event) {
+            if (event) event.preventDefault();
+            document.getElementById(modalId).classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('open');
+            document.body.style.overflow = '';
+            if (modalId === 'haspModal') {
+                document.getElementById('haspDisclaimer').style.display = 'block';
+                document.getElementById('haspForm').style.display = 'none';
+                document.getElementById('haspSuccess').style.display = 'none';
+                document.getElementById('haspDisclaimerAccept').checked = false;
+                document.querySelector('#haspForm form').reset();
+            }
+            if (modalId === 'subScorerModal') {
+                document.getElementById('subScorerDisclaimer').style.display = 'block';
+                document.getElementById('subScorerForm').style.display = 'none';
+                document.getElementById('subScorerResults').style.display = 'none';
+                document.getElementById('subScorerDisclaimerAccept').checked = false;
+            }
+            if (modalId === 'assessmentModal') {
+                currentStep = 0;
+                document.querySelectorAll('.assessment-step').forEach(s => s.classList.remove('active'));
+                var step0 = document.getElementById('step0');
+                if (step0) step0.classList.add('active');
+                var pf = document.getElementById('progressFill');
+                if (pf) pf.style.width = '0%';
+                var da = document.getElementById('disclaimerAccept');
+                if (da) da.checked = false;
+            }
         }
         async function submitClientForm() {
             const form = document.querySelector('#clientModal form');
@@ -2309,6 +3004,143 @@ ${sectionsHTML}
         }
     </script>
 
+<!-- Service Modal Functions -->
+<script>
+    // Staffing Form
+    async function submitStaffingForm() {
+        var form = document.getElementById('staffingForm');
+        var submitBtn = form.querySelector('button[type="submit"]');
+        var originalText = submitBtn.textContent;
+        var formData = new FormData(form);
+        var data = { form_type: 'staffing_qualifier', industry: formData.get('industry'), role_level: formData.get('role_level'), timeline: formData.get('timeline'), duration: formData.get('duration'), location: formData.get('location'), full_name: formData.get('full_name'), company_email: formData.get('company_email'), phone: formData.get('phone') || '', timestamp: new Date().toISOString() };
+        submitBtn.textContent = 'Submitting...'; submitBtn.disabled = true;
+        try {
+            await fetch('https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/dd8498d0-c790-48af-a7e7-28de6a3a0def', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            submitBtn.textContent = 'Request Submitted!'; submitBtn.style.background = 'var(--success)';
+            setTimeout(function() { closeModal('staffingModal'); form.reset(); submitBtn.textContent = originalText; submitBtn.style.background = ''; submitBtn.disabled = false; }, 2000);
+        } catch (e) { submitBtn.textContent = 'Error - Try Again'; submitBtn.style.background = 'var(--danger)'; submitBtn.disabled = false; setTimeout(function() { submitBtn.textContent = originalText; submitBtn.style.background = ''; }, 3000); }
+    }
+
+    // HASP Functions
+    function acceptHaspDisclaimer() { var cb = document.getElementById('haspDisclaimerAccept'); if (!cb.checked) { alert('Please accept the disclaimer to continue.'); return; } document.getElementById('haspDisclaimer').style.display = 'none'; document.getElementById('haspForm').style.display = 'block'; }
+    function generateHASP() {
+        var data = { framework: document.getElementById('haspFramework').value, company: document.getElementById('haspCompany').value, project: document.getElementById('haspProject').value, address: document.getElementById('haspAddress').value, pm: document.getElementById('haspPM').value, safetySup: document.getElementById('haspSafetySup').value, scope: document.getElementById('haspScope').value, hazards: document.getElementById('haspHazards').value, emergencyContact: document.getElementById('haspEmergencyName').value || '[Emergency Contact Name/Phone]', hospital: document.getElementById('haspHospital').value || '[Nearest Hospital Name/Address]', name: document.getElementById('haspName').value, email: document.getElementById('haspEmail').value, date: new Date().toLocaleDateString() };
+        fetch('https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/dd8498d0-c790-48af-a7e7-28de6a3a0def', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ form_type: 'hasp_generator', ...data, timestamp: new Date().toISOString() }) }).catch(function(){});
+        var sections = data.framework === '1926' ? get1926Sections(data) : get1910Sections(data);
+        var regTitle = data.framework === '1926' ? '29 CFR 1926 - Construction' : '29 CFR 1910 - General Industry';
+        var html = '<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="UTF-8"><title>HASP - ' + data.project + '</title><style>body{font-family:Arial,sans-serif;max-width:8.5in;margin:0 auto;padding:0.5in;line-height:1.6;color:#333}h1{color:#132544;border-bottom:3px solid #FFCF00;padding-bottom:0.5rem}h2{color:#132544;margin-top:1.5rem}h3{color:#132544;margin-top:1rem}.disclaimer{background:#fff3f3;border:2px solid #d32f2f;padding:1rem;margin:1rem 0}.disclaimer h2{color:#d32f2f;margin-top:0}table{width:100%;border-collapse:collapse;margin:1rem 0}th,td{border:1px solid #999;padding:0.5rem;text-align:left}th{background:#132544;color:#fff}.edit{background:#fffde7;border:1px dashed #999;padding:2px 6px}.section{margin:1.5rem 0;padding:1rem;border-left:4px solid #132544;background:#f8f9fa}p{margin:0.5rem 0}</style></head><body>';
+        html += '<h1>Health and Safety Plan (HASP)</h1><p><strong>Regulatory Framework:</strong> ' + regTitle + '</p>';
+        html += '<table><tr><td width="30%"><strong>Company:</strong></td><td>' + data.company + '</td></tr><tr><td><strong>Project/Site:</strong></td><td>' + data.project + '</td></tr><tr><td><strong>Address:</strong></td><td>' + data.address + '</td></tr><tr><td><strong>Prepared By:</strong></td><td>' + data.name + '</td></tr><tr><td><strong>Date:</strong></td><td>' + data.date + '</td></tr><tr><td><strong>Revision:</strong></td><td>0 - Initial Draft</td></tr></table>';
+        html += '<div class="disclaimer"><h2>IMPORTANT LEGAL DISCLAIMER</h2><p><strong>READ BEFORE USE:</strong> This template is provided by Safety Excellence Group, LLC for <strong>informational purposes only</strong>.</p><p><strong>THIS DOCUMENT IS NOT:</strong> A site-specific safety plan ready for implementation; Legal, regulatory, or professional advice; A guarantee of OSHA compliance.</p><p><strong>USER REQUIREMENTS:</strong> This document MUST be customized for your specific site. MUST be reviewed by qualified safety professionals before use.</p><p><strong>LIMITATION OF LIABILITY:</strong> S.E.G. assumes no liability for injuries, damages, citations, or losses arising from use of this template.</p><p style="margin-top:1rem"><strong>Acknowledgment:</strong> ' + data.name + ' | ' + data.date + '</p></div>';
+        html += sections;
+        html += '<div class="section"><h2>Document Control</h2><table><tr><th>Rev</th><th>Date</th><th>Description</th><th>Approved By</th></tr><tr><td>0</td><td>' + data.date + '</td><td>Initial Draft</td><td><span class="edit">[Approver]</span></td></tr></table></div>';
+        html += '<p style="text-align:center;color:#666;font-size:0.8rem;margin-top:2rem">Template generated by Safety Excellence Group | www.safety-excellence.com</p></body></html>';
+        window.haspBlob = new Blob([html], { type: 'application/msword' });
+        window.haspFilename = 'HASP-' + data.project.replace(/[^a-z0-9]/gi, '-') + '.doc';
+        document.getElementById('haspForm').style.display = 'none';
+        document.getElementById('haspSuccessText').textContent = 'Your ' + regTitle + ' template is ready as a Word document.';
+        document.getElementById('haspSuccess').style.display = 'block';
+    }
+    function downloadHASP() { if (window.haspBlob && window.haspFilename) { var url = URL.createObjectURL(window.haspBlob); var a = document.createElement('a'); a.href = url; a.download = window.haspFilename; a.click(); URL.revokeObjectURL(url); } }
+    function get1926Sections(d) {
+        return '<h2>Site-Specific Safety and Health Plan</h2><h3>29 CFR 1926 - Construction Standards</h3>' +
+        '<div class="section"><h2>Section 1: Statement of Company Policy</h2><p>' + d.company + ' is dedicated to the protection of its employees from on-the-job injuries and illnesses. All employees shall comply with this Site-Specific Safety and Health Plan and all applicable OSHA standards contained in 29 CFR 1926.</p></div>' +
+        '<div class="section"><h2>Section 2: Responsibilities</h2><h3>2.1 Project Management</h3><p>It is the responsibility of ' + d.pm + ' to implement this plan.</p><h3>2.2 Site Safety Supervisor</h3><p>The Site Safety Supervisor, ' + d.safetySup + ', is responsible for monitoring the effectiveness of this plan.</p><h3>2.3 Employees</h3><p>Each employee shall comply with all applicable safety rules and perform work in a safe manner.</p></div>' +
+        '<div class="section"><h2>Section 3: Scope of Work and Hazard Analysis</h2><p>This plan applies to all construction activities at ' + d.project + ', ' + d.address + '.</p><p><strong>Description of Work:</strong></p><p><span class="edit">' + d.scope + '</span></p><p><strong>Hazards Identified:</strong></p><p><span class="edit">' + d.hazards + '</span></p></div>' +
+        '<div class="section"><h2>Section 4: Fall Protection Procedures</h2><p>Employees shall be protected from falling whenever working at heights of six (6) feet or more above a lower level.</p><p><span class="edit">[Describe specific fall protection methods for each work activity.]</span></p></div>' +
+        '<div class="section"><h2>Section 5: Excavation and Trenching</h2><p>All excavations shall be conducted in accordance with 29 CFR 1926 Subpart P.</p><p><span class="edit">[Describe protective systems to be used.]</span></p></div>' +
+        '<div class="section"><h2>Section 6: Personal Protective Equipment</h2><p>' + d.company + ' shall provide PPE at no cost. All PPE shall meet applicable ANSI or ASTM standards.</p><p><span class="edit">[List required PPE.]</span></p></div>' +
+        '<div class="section"><h2>Section 7: Training</h2><p>All employees shall complete site-specific safety orientation before beginning work.</p></div>' +
+        '<div class="section"><h2>Section 8: Emergency Response Plan</h2><p>Emergency Services: <strong>911</strong></p><p>Site Emergency Coordinator: <span class="edit">' + d.emergencyContact + '</span></p><p>Nearest Hospital: <span class="edit">' + d.hospital + '</span></p></div>' +
+        '<div class="section"><h2>Section 9: Accident Investigation and Reporting</h2><p>All accidents shall be investigated and reported. Fatalities reported to OSHA within 8 hours. Hospitalizations, amputations, or loss of eye within 24 hours.</p></div>' +
+        '<div class="section"><h2>Section 10: Enforcement</h2><p><span class="edit">[Describe disciplinary procedures.]</span></p></div>' +
+        '<div class="section"><h2>Section 11: Plan Review</h2><p>This plan shall be reviewed periodically as the job progresses.</p></div>';
+    }
+    function get1910Sections(d) {
+        return '<h2>Safety and Health Program</h2><h3>29 CFR 1910 - General Industry Standards</h3>' +
+        '<div class="section"><h2>Section 1: Statement of Company Policy</h2><p>' + d.company + ' is committed to the safety and health of all employees.</p></div>' +
+        '<div class="section"><h2>Section 2: Responsibilities</h2><h3>2.1 Management</h3><p>' + d.safetySup + ' is responsible for coordinating the safety program.</p><h3>2.2 Supervisors</h3><p>Supervisors are responsible for the safety of employees under their direction.</p><h3>2.3 Employees</h3><p>Employees are responsible for following safety rules and reporting unsafe conditions.</p></div>' +
+        '<div class="section"><h2>Section 3: Hazard Assessment and Control</h2><p>The following hazards have been identified:</p><p><span class="edit">' + d.hazards + '</span></p></div>' +
+        '<div class="section"><h2>Section 4: Control of Hazardous Energy (LOTO)</h2><p>This section establishes requirements for lockout of energy isolating devices during maintenance or servicing.</p><p><span class="edit">[Add machine-specific lockout procedures.]</span></p></div>' +
+        '<div class="section"><h2>Section 5: Permit-Required Confined Space Entry</h2><p><span class="edit">[List all permit-required confined spaces.]</span></p></div>' +
+        '<div class="section"><h2>Section 6: Hazard Communication</h2><p>' + d.company + ' has developed a Hazard Communication Program including container labeling, Safety Data Sheets, and employee training.</p></div>' +
+        '<div class="section"><h2>Section 7: Personal Protective Equipment</h2><p>' + d.company + ' shall provide PPE at no cost. <span class="edit">[Describe PPE requirements.]</span></p></div>' +
+        '<div class="section"><h2>Section 8: Emergency Action Plan</h2><p>Emergency Services: <strong>911</strong></p><p>Emergency Coordinator: <span class="edit">' + d.emergencyContact + '</span></p><p>Nearest Hospital: <span class="edit">' + d.hospital + '</span></p></div>' +
+        '<div class="section"><h2>Section 9: Fire Prevention</h2><p>' + d.company + ' is committed to minimizing fire threats. <span class="edit">[List major fire hazards.]</span></p></div>' +
+        '<div class="section"><h2>Section 10: Training</h2><p>All employees shall receive safety training appropriate to their job duties.</p></div>' +
+        '<div class="section"><h2>Section 11: Recordkeeping and Program Review</h2><p>' + d.company + ' maintains records per 29 CFR 1904. Program reviewed annually.</p></div>';
+    }
+
+    // Subcontractor Scorer
+    function acceptSubScorerDisclaimer() { var cb = document.getElementById('subScorerDisclaimerAccept'); if (!cb.checked) { alert('Please accept the disclaimer to continue.'); return; } document.getElementById('subScorerDisclaimer').style.display = 'none'; document.getElementById('subScorerForm').style.display = 'block'; }
+    function calculateSubScore() {
+        var form = document.querySelector('#subScorerForm form'); var formData = new FormData(form);
+        var emr = parseFloat(formData.get('emr')), trir = parseFloat(formData.get('trir')), dart = parseFloat(formData.get('dart')) || 0;
+        var years = formData.get('years'), citations = formData.get('citations'), writtenProgram = formData.get('written_program'), prequalification = formData.get('prequalification');
+        var score = 100, flags = [];
+        if (emr < 0.7) { score += 5; flags.push({type:'good',text:'Excellent EMR ('+emr+') - significantly better than industry average'}); } else if (emr <= 0.9) { flags.push({type:'good',text:'Good EMR ('+emr+') - better than industry average'}); } else if (emr <= 1.0) { score -= 5; flags.push({type:'neutral',text:'EMR ('+emr+') at industry average'}); } else if (emr <= 1.3) { score -= 15; flags.push({type:'warning',text:'Elevated EMR ('+emr+') - above industry average'}); } else { score -= 30; flags.push({type:'critical',text:'High EMR ('+emr+') - significant concern'}); }
+        if (trir <= 1.5) { flags.push({type:'good',text:'Low TRIR ('+trir+')'}); } else if (trir <= 3.0) { score -= 5; flags.push({type:'neutral',text:'Moderate TRIR ('+trir+')'}); } else if (trir <= 5.0) { score -= 15; flags.push({type:'warning',text:'Elevated TRIR ('+trir+')'}); } else { score -= 25; flags.push({type:'critical',text:'High TRIR ('+trir+') - requires investigation'}); }
+        if (dart > 0) { if (dart <= 1.0) { flags.push({type:'neutral',text:'DART rate ('+dart+') within acceptable range'}); } else if (dart <= 2.5) { score -= 10; flags.push({type:'warning',text:'Elevated DART rate ('+dart+')'}); } else { score -= 20; flags.push({type:'critical',text:'High DART rate ('+dart+') - severity concern'}); } }
+        if (citations === 'none') { flags.push({type:'good',text:'No OSHA citations in past 3 years'}); } else if (citations === 'other') { score -= 10; flags.push({type:'warning',text:'Other-than-Serious citations on record'}); } else if (citations === 'serious') { score -= 25; flags.push({type:'critical',text:'Serious OSHA citation(s) - requires detailed review'}); } else if (citations === 'willful') { score -= 40; flags.push({type:'critical',text:'Willful/Repeat citations - major red flag'}); }
+        if (writtenProgram === 'no') { score -= 20; flags.push({type:'critical',text:'No written safety program - fundamental gap'}); } else if (writtenProgram === 'unknown') { score -= 10; flags.push({type:'warning',text:'Written safety program status unknown'}); } else { flags.push({type:'good',text:'Written safety program in place'}); }
+        if (years === '1') { score -= 15; flags.push({type:'warning',text:'Less than 1 year in business - limited track record'}); } else if (years === '3') { score -= 5; flags.push({type:'neutral',text:'1-3 years in business'}); } else if (years === '15') { score += 5; flags.push({type:'good',text:'10+ years in business - established track record'}); }
+        if (prequalification === 'yes') { score += 5; flags.push({type:'good',text:'Active in ISNetworld/Avetta/BROWZ'}); } else if (prequalification === 'no') { score -= 5; flags.push({type:'neutral',text:'Not registered with prequalification services'}); }
+        score = Math.max(0, Math.min(100, score));
+        var label, color, summary;
+        if (score >= 85) { label = 'Low Risk'; color = '#22c55e'; summary = 'This subcontractor shows strong safety indicators.'; } else if (score >= 70) { label = 'Moderate Risk'; color = '#f59e0b'; summary = 'Some areas of concern identified. Enhanced due diligence recommended.'; } else if (score >= 50) { label = 'Elevated Risk'; color = '#f97316'; summary = 'Multiple risk factors present. Comprehensive vetting required.'; } else { label = 'High Risk'; color = '#ef4444'; summary = 'Significant safety concerns identified. Professional assessment recommended.'; }
+        document.getElementById('subScorerForm').style.display = 'none'; document.getElementById('subScorerResults').style.display = 'block';
+        document.getElementById('subScoreValue').textContent = score; document.getElementById('subScoreDisplay').style.borderColor = color; document.getElementById('subScoreValue').style.color = color; document.getElementById('subScoreLabel').textContent = label; document.getElementById('subScoreLabel').style.color = color; document.getElementById('subScoreSummary').textContent = summary;
+        var flagsList = document.getElementById('subScoreFlagsList');
+        flagsList.innerHTML = flags.map(function(f) { var icon = f.type === 'good' ? '✓' : f.type === 'critical' ? '✗' : '⚠'; var iconColor = f.type === 'good' ? '#22c55e' : f.type === 'critical' ? '#ef4444' : '#f59e0b'; return '<li style="margin-bottom:0.5rem;"><span style="color:'+iconColor+';font-weight:bold;margin-right:0.5rem;">'+icon+'</span>'+f.text+'</li>'; }).join('');
+    }
+    function resetSubScorer() { document.getElementById('subScorerResults').style.display = 'none'; document.getElementById('subScorerForm').style.display = 'block'; document.querySelector('#subScorerForm form').reset(); }
+
+    // Assessment Functions
+    var currentStep = 0; var totalSteps = 6; var selectedIndustry = null;
+    function updateProgress() { var progress = (currentStep / (totalSteps - 1)) * 100; document.getElementById('progressFill').style.width = progress + '%'; document.querySelectorAll('.progress-steps .step').forEach(function(step, index) { step.classList.remove('active', 'completed'); if (index < currentStep) { step.classList.add('completed'); } else if (index === currentStep) { step.classList.add('active'); } }); }
+    function acceptDisclaimer() { var cb = document.getElementById('disclaimerAccept'); if (!cb.checked) { alert('Please accept the disclaimer to continue.'); return; } nextStep(1); }
+    function nextStep(step) { if (!validateStep(currentStep)) return; document.getElementById('step' + currentStep).classList.remove('active'); currentStep = step; document.getElementById('step' + currentStep).classList.add('active'); updateProgress(); if (step === 3) showIndustryQuestions(); }
+    function prevStep(step) { document.getElementById('step' + currentStep).classList.remove('active'); currentStep = step; document.getElementById('step' + currentStep).classList.add('active'); updateProgress(); }
+    function validateStep(step) { if (step === 1) { var industry = document.querySelector('input[name="industry"]:checked'); var phase = document.getElementById('projectPhase').value; var teamSize = document.getElementById('teamSize').value; if (!industry || !phase || !teamSize) { alert('Please complete all required fields.'); return false; } selectedIndustry = industry.value; var haspText = document.getElementById('q_hasp_text'); if (phase === 'operations') { haspText.textContent = 'Do you have a written safety program for this facility?'; } else { haspText.textContent = 'Do you have a site-specific HASP or written safety program for this project?'; } } return true; }
+    function showIndustryQuestions() { document.querySelectorAll('.industry-specific').forEach(function(q) { q.style.display = 'none'; }); if (selectedIndustry === 'semiconductor') { document.getElementById('q_semi_container').style.display = 'block'; document.getElementById('q_nfpa_container').style.display = 'block'; document.getElementById('q_confined_container').style.display = 'block'; } else if (selectedIndustry === 'datacenter') { document.getElementById('q_nfpa_container').style.display = 'block'; document.getElementById('q_confined_container').style.display = 'block'; } else if (selectedIndustry === 'construction') { document.getElementById('q_fall_container').style.display = 'block'; document.getElementById('q_confined_container').style.display = 'block'; } else if (selectedIndustry === 'manufacturing') { document.getElementById('q_confined_container').style.display = 'block'; document.getElementById('q_nfpa_container').style.display = 'block'; } }
+    function calculateResults() {
+        var coreQuestions = ['q_leadership','q_participation','q_jha','q_osha','q_staffing','q_training','q_hasp','q_loto','q_contractor','q_inspections','q_incident','q_nearmiss'];
+        var industryQuestions = { semiconductor: ['q_semi','q_nfpa','q_confined'], datacenter: ['q_nfpa','q_confined'], construction: ['q_fall','q_confined'], manufacturing: ['q_confined','q_nfpa'] };
+        var yesCount = 0, totalQuestions = coreQuestions.length;
+        coreQuestions.forEach(function(q) { var answer = document.querySelector('input[name="'+q+'"]:checked'); if (answer && answer.value === 'yes') yesCount++; });
+        var industryQs = industryQuestions[selectedIndustry] || [];
+        industryQs.forEach(function(q) { var answer = document.querySelector('input[name="'+q+'"]:checked'); if (answer) { totalQuestions++; if (answer.value === 'yes') yesCount++; } });
+        var totalScore = Math.round((yesCount / totalQuestions) * 100);
+        document.getElementById('step' + currentStep).classList.remove('active'); currentStep = 5; document.getElementById('step5').classList.add('active'); updateProgress();
+        animateScore(totalScore); generateGapBars(); generateRecommendations();
+    }
+    function animateScore(score) {
+        var circle = document.querySelector('.score-progress'); var scoreNum = document.getElementById('scoreNumber'); var scoreRating = document.getElementById('scoreRating');
+        var circumference = 339.292; var offset = circumference - (score / 100) * circumference;
+        setTimeout(function() { circle.style.strokeDashoffset = offset; }, 100);
+        var current = 0; var increment = score / 50;
+        var timer = setInterval(function() { current += increment; if (current >= score) { current = score; clearInterval(timer); } scoreNum.textContent = Math.round(current); }, 30);
+        if (score < 40) { scoreRating.textContent = 'Significant Gaps Indicated'; scoreRating.className = 'score-rating critical'; } else if (score < 60) { scoreRating.textContent = 'Improvement Opportunities'; scoreRating.className = 'score-rating needs-work'; } else if (score < 80) { scoreRating.textContent = 'Good Foundation'; scoreRating.className = 'score-rating good'; } else { scoreRating.textContent = 'Strong Indicators'; scoreRating.className = 'score-rating excellent'; }
+    }
+    function generateGapBars() {
+        var gapBars = document.getElementById('gapBars');
+        var sections = { 'Leadership (§4)': ['q_leadership','q_participation'], 'Planning (§5)': ['q_jha','q_osha'], 'Implementation (§6)': ['q_staffing','q_training','q_hasp','q_loto','q_contractor'], 'Evaluation (§7)': ['q_inspections','q_incident','q_nearmiss'] };
+        var gaps = [];
+        Object.keys(sections).forEach(function(sectionName) { var questions = sections[sectionName]; var yesCount = 0; var answered = 0; questions.forEach(function(q) { var answer = document.querySelector('input[name="'+q+'"]:checked'); if (answer) { answered++; if (answer.value === 'yes') yesCount++; } }); var percent = answered > 0 ? Math.round((yesCount / answered) * 100) : 0; gaps.push({ label: sectionName, value: percent }); });
+        gapBars.innerHTML = gaps.map(function(gap) { var fillClass = gap.value < 40 ? 'low' : gap.value < 70 ? 'medium' : 'high'; return '<div class="gap-bar"><div class="gap-bar-label">'+gap.label+'</div><div class="gap-bar-track"><div class="gap-bar-fill '+fillClass+'" style="width:'+gap.value+'%"></div></div><div class="gap-bar-value">'+gap.value+'%</div></div>'; }).join('');
+    }
+    function generateRecommendations() {
+        var recommendations = document.getElementById('recommendations');
+        var recMap = { q_leadership:{title:'Strengthen Management Leadership',desc:'Active management participation drives safety culture.',ref:'Z10 §4.1'}, q_participation:{title:'Enhance Worker Engagement',desc:'Empower workers to report hazards without fear of retaliation.',ref:'Z10 §4.2'}, q_jha:{title:'Implement JHA/JSA Process',desc:'Documented hazard assessments before work begins are fundamental.',ref:'Z10 §5.1'}, q_osha:{title:'Address OSHA Recordkeeping',desc:'Ensure 300 logs and required postings are current and accessible.',ref:'Z10 §5.2'}, q_staffing:{title:'Evaluate Safety Staffing',desc:'Dedicated safety professionals provide focused expertise.',ref:'Z10 §6.1'}, q_training:{title:'Strengthen Training Documentation',desc:'Task-specific, documented training ensures competency.',ref:'Z10 §6.2'}, q_hasp:{title:'Develop Written Safety Program',desc:'A site-specific HASP documents expectations and controls.',ref:'Z10 §6.3'}, q_loto:{title:'Formalize LOTO Program',desc:'Written lockout/tagout procedures prevent serious injuries.',ref:'Z10 §6.4'}, q_contractor:{title:'Improve Contractor Management',desc:'Pre-qualification and monitoring reduces third-party risk.',ref:'Z10 §6.5'}, q_inspections:{title:'Enhance Inspection Program',desc:'Regular documented inspections catch hazards early.',ref:'Z10 §7.1'}, q_incident:{title:'Strengthen Incident Investigation',desc:'Root cause analysis prevents recurrence.',ref:'Z10 §7.2'}, q_nearmiss:{title:'Implement Near-Miss Tracking',desc:'Near-miss reporting provides leading indicators.',ref:'Z10 §7.3'}, q_semi:{title:'Address SEMI S2/S8 Compliance',desc:'Equipment safety documentation is critical.',ref:'SEMI S2/S8'}, q_nfpa:{title:'Implement Electrical Safety Program',desc:'NFPA 70E compliance protects against electrical hazards.',ref:'NFPA 70E'}, q_fall:{title:'Formalize Fall Protection Program',desc:'Written program with competent person is required.',ref:'OSHA 1926'}, q_confined:{title:'Develop Confined Space Program',desc:'Permit-required entry requires trained entrants.',ref:'OSHA 1910.146'} };
+        var recs = [];
+        Object.keys(recMap).forEach(function(q) { var answer = document.querySelector('input[name="'+q+'"]:checked'); if (answer && answer.value !== 'yes') recs.push(recMap[q]); });
+        var topRecs = recs.slice(0, 5);
+        recommendations.innerHTML = topRecs.length > 0 ? topRecs.map(function(rec, i) { return '<div class="recommendation-item"><div class="priority">'+(i+1)+'</div><div><strong>'+rec.title+'<span class="z10-tag">'+rec.ref+'</span></strong><p>'+rec.desc+'</p></div></div>'; }).join('') : '<div class="recommendation-item"><div class="priority">✓</div><div><strong>Strong Self-Reported Foundation</strong><p>Your responses indicate solid safety program elements. A professional assessment can identify optimization opportunities.</p></div></div>';
+    }
+    function emailResults() { document.getElementById('emailCapture').style.display = 'block'; }
+    function sendResults() { var email = document.getElementById('resultsEmail').value; if (!email) { alert('Please enter your email address.'); return; } document.getElementById('emailCapture').innerHTML = '<div style="text-align:center;padding:1rem;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="margin-bottom:0.5rem;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><p style="font-weight:600;color:var(--SEG-blue);">Results sent to ' + email + '</p></div>'; }
+</script>
+
 <!-- Scroll Animations -->
 <script>
 (function() {
@@ -2351,6 +3183,62 @@ ${sectionsHTML}
         });
     }, { threshold: 0.3 });
     document.querySelectorAll('.proof-value[data-target]').forEach(el => counterObserver.observe(el));
+})();
+</script>
+
+<!-- Mobile Menu Functions -->
+<script>
+    function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const overlay = document.querySelector('.mobile-menu-overlay');
+        mobileMenu.classList.toggle('active');
+        mobileToggle.classList.toggle('active');
+        overlay.classList.toggle('active');
+        if (mobileMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+    function closeMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const overlay = document.querySelector('.mobile-menu-overlay');
+        mobileMenu.classList.remove('active');
+        mobileToggle.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeMobileMenu();
+    });
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) closeMobileMenu();
+    });
+</script>
+
+<!-- Mega Menu Hover Interaction -->
+<script>
+(function() {
+    document.querySelectorAll('.mega-menu').forEach(menu => {
+        const items = menu.querySelectorAll('.mega-menu-item');
+        const previews = menu.querySelectorAll('.mega-menu-preview');
+        items.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                const previewId = 'preview-' + this.getAttribute('data-preview');
+                items.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                previews.forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
+                const target = document.getElementById(previewId);
+                if (target) {
+                    target.style.display = 'flex';
+                    void target.offsetWidth;
+                    target.classList.add('active');
+                }
+            });
+        });
+    });
 })();
 </script>
 

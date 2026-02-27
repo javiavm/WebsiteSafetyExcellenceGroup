@@ -32,7 +32,7 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(19,37,68,0.25); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(19,37,68,0.45); border: 2px solid transparent; background-clip: padding-box; }
-        body { font-family: 'Poppins', sans-serif; color: var(--SEG-dark-grey); line-height: 1.6; background: var(--white); }
+        body { font-family: 'Poppins', sans-serif; color: var(--SEG-dark-grey); line-height: 1.6; background: var(--white); overflow-x: hidden; width: 100%; }
 
         h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--SEG-blue); line-height: 1.2; }
         h2 { font-size: clamp(2.25rem, 4.5vw, 3.25rem); letter-spacing: -0.01em; }
@@ -65,14 +65,17 @@
         header {
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             background: var(--SEG-blue); border-bottom: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        header.scrolled { box-shadow: var(--shadow-lg); }
         header.header-hidden { transform: translateY(-100%); }
+        header.header-visible { transform: translateY(0); }
         nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; max-width: 1400px; margin: 0 auto; }
-        .logo { display: flex; align-items: center; text-decoration: none; }
-        .logo-icon { height: 60px; width: auto; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo-icon { height: 45px; width: auto; }
+        .logo-text { font-size: 0.9rem; font-weight: 600; color: var(--SEG-yellow); letter-spacing: 0.1em; text-transform: uppercase; }
         .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
-        .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.3s ease; }
+        .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.3s ease; position: relative; }
         .nav-links a:hover, .nav-links a.active-page { color: var(--SEG-yellow); }
         .nav-cta { display: flex; gap: 1rem; }
         .nav-cta .btn { padding: 0.75rem 1.5rem; font-size: 0.875rem; }
@@ -123,7 +126,13 @@
         .mega-menu-cta:hover { background: #e6bb00; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,207,0,0.4); }
         .nav-links .dropdown-menu { display: none; }
 
+        @media (max-width: 768px) {
+            .mega-menu { display: none; }
+        }
+
         /* Mobile menu */
+        .mobile-toggle { display: none; background: none; border: none; z-index: 1002; cursor: pointer; padding: 0.5rem; }
+        .mobile-toggle span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px 0; transition: 0.3s; }
         .mobile-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
         .mobile-toggle.active span:nth-child(2) { opacity: 0; }
         .mobile-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
@@ -143,6 +152,16 @@
         .mobile-menu-submenu a:hover { color: var(--SEG-yellow); }
         .mobile-menu-cta { padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; }
         .mobile-menu-cta .btn { width: 100%; text-align: center; padding: 0.75rem 1rem; font-size: 0.9rem; white-space: nowrap; }
+        .mobile-menu-links > li > a { word-wrap: break-word; }
+
+        @media (max-width: 400px) {
+            .mobile-menu { max-width: 100%; width: 100%; }
+            .mobile-menu-links { padding: 0 0.75rem; }
+            .mobile-menu-links > li > a { font-size: 0.9rem; padding: 0.75rem 0; }
+            .mobile-menu-submenu a { font-size: 0.8rem; }
+            .mobile-menu-cta { padding: 0.75rem; }
+            .mobile-menu-cta .btn { font-size: 0.85rem; padding: 0.625rem 0.75rem; }
+        }
 
         /* Hero Banner */
         .page-hero {
@@ -229,12 +248,12 @@
         .service-nav-btn.active:hover { box-shadow: 0 8px 25px rgba(19,37,68,0.3); transform: translateY(-2px); }
 
         @media (max-width: 768px) {
-            .service-nav .container { padding: 0 0.75rem; }
-            .service-nav-track { gap: 0.4rem; padding: 0 0.5rem; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; -ms-overflow-style: none; }
-            .service-nav-track::-webkit-scrollbar { display: none; }
-            .service-nav-btn { padding: 0.6rem 1rem; font-size: 0.8rem; }
-            .service-nav-arrow { width: 34px; height: 34px; }
-            .service-nav-arrow svg { width: 15px; height: 15px; }
+            .service-nav .container {
+                padding: 0 0.75rem; flex-wrap: wrap; gap: 0.4rem; justify-content: center;
+            }
+            .service-nav-arrow { display: none; }
+            .service-nav-track { display: contents; }
+            .service-nav-btn { padding: 0.5rem 0.9rem; font-size: 0.75rem; flex-shrink: 1; white-space: nowrap; }
         }
 
         /* Tab Content Show/Hide */
@@ -290,9 +309,8 @@
         .tab-arrow-next { right: 0; }
         @media (max-width: 768px) {
             .tab-content-wrapper { padding: 0 15px; }
-            .tab-arrow { width: 36px; height: 36px; position: static; transform: none; }
-            .tab-arrow:hover { transform: scale(1.1); }
-            .tab-arrows-mobile { display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
+            .tab-arrow { display: none; }
+            .tab-arrows-mobile { display: none; }
         }
         @media (min-width: 769px) {
             .tab-arrows-mobile { display: none; }
@@ -317,10 +335,20 @@
             width: 64px; height: 64px; background: linear-gradient(135deg, var(--SEG-blue) 0%, #1a3560 100%); border-radius: 14px;
             display: flex; align-items: center; justify-content: center; flex-shrink: 0;
             transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
         }
         .service-detail:hover .service-detail-icon {
+            animation: iconFloat 3s ease-in-out infinite, iconGlow 1.5s ease-in-out infinite alternate;
             transform: scale(1.08) rotate(-3deg);
             box-shadow: 0 8px 20px rgba(19,37,68,0.2);
+        }
+        @keyframes iconGlow {
+            from { box-shadow: 0 4px 12px rgba(255,207,0,0.15); }
+            to { box-shadow: 0 8px 25px rgba(255,207,0,0.35); }
         }
         .service-detail-icon svg { width: 32px; height: 32px; stroke: var(--SEG-yellow); fill: none; stroke-width: 2; }
         .service-detail h3 { font-size: 1.75rem; margin-bottom: 0.5rem; }
@@ -380,8 +408,75 @@
         .animate-on-scroll.animated { opacity: 1; transform: translateY(0); filter: blur(0); }
         .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; }
 
+        /* Zoom Reveal for Service Detail Cards */
+        .service-detail.animate-on-scroll {
+            opacity: 0;
+            transform: scale(0.88) translateY(50px);
+            filter: blur(12px);
+            transition: opacity 1.2s cubic-bezier(0.22,1,0.36,1), transform 1.2s cubic-bezier(0.22,1,0.36,1), filter 1.2s cubic-bezier(0.22,1,0.36,1);
+        }
+        .service-detail.animate-on-scroll.animated {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            filter: blur(0);
+        }
+
+        /* Staggered content reveal inside cards */
+        .service-detail.animated .tagline {
+            opacity: 0;
+            animation: svcFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.3s forwards;
+        }
+        .service-detail.animated .description {
+            opacity: 0;
+            animation: svcFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.5s forwards;
+        }
+        .service-detail.animated .service-features li {
+            opacity: 0;
+            transform: translateX(-15px);
+            animation: svcListReveal 0.6s cubic-bezier(0.22,1,0.36,1) forwards;
+        }
+        .service-detail.animated .service-features li:nth-child(1) { animation-delay: 0.7s; }
+        .service-detail.animated .service-features li:nth-child(2) { animation-delay: 0.85s; }
+        .service-detail.animated .service-features li:nth-child(3) { animation-delay: 1.0s; }
+        .service-detail.animated .service-features li:nth-child(4) { animation-delay: 1.15s; }
+        .service-detail.animated .service-features li:nth-child(5) { animation-delay: 1.3s; }
+        .service-detail.animated .service-features li:nth-child(6) { animation-delay: 1.45s; }
+        .service-detail.animated .service-cta-box {
+            opacity: 0;
+            animation: svcFadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.6s forwards;
+        }
+        @keyframes svcListReveal {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes svcFadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Zoom reveal for section headers inside tabs */
+        .tab-section .section-header.animate-on-scroll {
+            opacity: 0;
+            transform: scale(0.92);
+            filter: blur(8px);
+            transition: opacity 1s cubic-bezier(0.22,1,0.36,1), transform 1s cubic-bezier(0.22,1,0.36,1), filter 1s cubic-bezier(0.22,1,0.36,1);
+        }
+        .tab-section .section-header.animate-on-scroll.animated {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+        }
+
+        /* Icon zoom on card reveal */
+        .service-detail.animated .service-detail-icon {
+            animation: iconPop 0.8s cubic-bezier(0.22,1,0.36,1) 0.4s both;
+        }
+        @keyframes iconPop {
+            from { transform: scale(0.3) rotate(-15deg); opacity: 0; }
+            to { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
-            .animate-on-scroll, .page-hero .container > * { transition: none !important; animation: none !important; transform: none !important; opacity: 1 !important; filter: none !important; }
+            .animate-on-scroll, .page-hero .container > *, .service-detail.animate-on-scroll, .service-detail.animated .service-features li, .service-detail.animated .service-detail-icon, .service-detail.animated .tagline, .service-detail.animated .description, .service-detail.animated .service-cta-box { transition: none !important; animation: none !important; transform: none !important; opacity: 1 !important; filter: none !important; }
         }
 
         /* Mobile */
@@ -398,24 +493,40 @@
             .mobile-toggle { display: flex !important; width: 44px; height: 44px; align-items: center; justify-content: center; }
             .mega-menu { display: none; }
             nav { padding: 0.75rem 1rem; }
-            .footer-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
             section { padding: 3.5rem 0; }
-            .container { padding: 0 1.25rem; }
+            .container { padding: 0 1.25rem; max-width: 100%; }
             img { max-width: 100%; height: auto; }
             .modal-overlay { padding: 0.5rem; }
             .modal-header { padding: 1.25rem; }
             .modal-body { padding: 1.25rem; }
             .footer-bottom { flex-direction: column; text-align: center; gap: 0.5rem; }
+            .page-hero { padding: 6rem 0 3rem; }
+            .page-hero p { font-size: 1rem; }
+            .service-detail h3 { font-size: 1.35rem; }
+            .section-header { margin-bottom: 2rem; }
         }
         @media (max-width: 576px) {
             section { padding: 2.5rem 0; }
             .container { padding: 0 1rem; }
             header .logo-icon { height: 45px !important; }
-            .service-detail { padding: 2rem 1rem; }
+            .service-detail { padding: 1.5rem 0.75rem; }
+            .service-detail-header { gap: 1rem; }
+            .service-detail-icon { width: 52px; height: 52px; }
+            .service-detail-icon svg { width: 26px; height: 26px; }
+            .service-detail h3 { font-size: 1.2rem; }
+            .service-detail .tagline { font-size: 0.95rem; }
+            .service-detail .description { font-size: 0.9rem; }
+            .service-cta-box { padding: 1.5rem; }
+            .service-cta-box h4 { font-size: 1.1rem; }
+            .service-cta-box p { font-size: 0.875rem; }
+            .tab-content-wrapper { padding: 0 10px; }
         }
         @media (max-width: 400px) {
             .mobile-menu { max-width: 100%; width: 100%; }
             .container { padding: 0 0.75rem; }
+            .tab-content-wrapper { padding: 0 5px; }
+            .service-detail { padding: 1.25rem 0.5rem; }
         }
 
         /* Modal Styles */
@@ -647,7 +758,7 @@
                                             <li>Machine Safety</li>
                                             <li>Process Safety</li>
                                         </ul>
-                                        <a href="/industries.html#manufacturing" class="mega-menu-cta">Explore Manufacturing →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('clientModal', event)">Explore Manufacturing →</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-const">
@@ -666,7 +777,7 @@
                                             <li>Heavy Equipment Safety</li>
                                             <li>High-Risk Work Planning</li>
                                         </ul>
-                                        <a href="/industries.html#construction" class="mega-menu-cta">Explore Construction →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('clientModal', event)">Explore Construction →</a>
                                     </div>
                                 </div>
                             </div>
@@ -712,7 +823,7 @@
                                             <li>Executive Search</li>
                                             <li>Remote Staffing</li>
                                         </ul>
-                                        <a href="/services.html#staffing" class="mega-menu-cta">Explore Staffing →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('staffingModal', event)">Explore Staffing →</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-assessments">
@@ -731,7 +842,7 @@
                                             <li>Gap Analysis</li>
                                             <li>Trend Analysis</li>
                                         </ul>
-                                        <a href="/services.html#assessments" class="mega-menu-cta">Explore Assessments →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('assessmentModal', event)">Explore Assessments →</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-programs">
@@ -750,7 +861,7 @@
                                             <li>Job Hazard Analysis</li>
                                             <li>Policy Development</li>
                                         </ul>
-                                        <a href="/services.html#programs" class="mega-menu-cta">Explore Programs →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('haspModal', event)">Explore Programs →</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-vetting">
@@ -769,7 +880,7 @@
                                             <li>Ongoing Monitoring</li>
                                             <li>Scorecards</li>
                                         </ul>
-                                        <a href="/services.html#vetting" class="mega-menu-cta">Explore Vetting →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('subScorerModal', event)">Explore Vetting →</a>
                                     </div>
                                 </div>
                             </div>
@@ -2058,6 +2169,20 @@
                     });
                 });
             });
+
+            // Close mega menu and switch tab/open modal on click (same-page service links)
+            document.querySelectorAll('.mega-menu-item[href*="services.html#"], .mega-menu-cta[href*="services.html#"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const hash = this.getAttribute('href').split('#')[1];
+                    if (hash && window.location.pathname.includes('services')) {
+                        e.preventDefault();
+                        window.location.hash = hash;
+                        // Force close dropdown by removing hover
+                        const dropdown = this.closest('.dropdown');
+                        if (dropdown) dropdown.querySelector('a').blur();
+                    }
+                });
+            });
         })();
     </script>
 
@@ -2138,12 +2263,43 @@
                 else serviceNav.classList.remove('scrolled');
             });
 
-            // Handle hash on load
-            const hash = window.location.hash.substring(1);
-            if (hash) {
-                const idx = serviceIds.indexOf(hash);
-                if (idx !== -1) goToTab(idx);
+            // Hash → tab + modal mapping
+            const formToModal = {
+                'staffing-form': 'staffingModal',
+                'assessments-form': 'assessmentModal',
+                'programs-form': 'haspModal',
+                'vetting-form': 'subScorerModal'
+            };
+
+            // Handle hash on load and on change (mega-menu same-page links)
+            function handleHash() {
+                const h = window.location.hash.substring(1);
+                if (!h) return;
+
+                // Check if it's a -form hash (open tab + modal)
+                if (formToModal[h]) {
+                    const tabId = h.replace('-form', '');
+                    const idx = serviceIds.indexOf(tabId);
+                    if (idx !== -1) goToTab(idx);
+                    serviceNav.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Open modal after a short delay to allow tab transition
+                    setTimeout(() => {
+                        if (typeof openModal === 'function') {
+                            openModal(formToModal[h]);
+                        }
+                    }, 400);
+                } else {
+                    // Regular tab hash
+                    const idx = serviceIds.indexOf(h);
+                    if (idx !== -1) {
+                        goToTab(idx);
+                        serviceNav.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
             }
+
+            handleHash();
+            window.addEventListener('hashchange', handleHash);
         })();
     </script>
 

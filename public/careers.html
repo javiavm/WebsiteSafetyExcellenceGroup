@@ -96,12 +96,13 @@
             background: var(--SEG-blue); border-bottom: 1px solid rgba(255,255,255,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        header.scrolled { box-shadow: 0 4px 6px rgba(19,37,68,0.1); }
+        header.scrolled { box-shadow: var(--shadow-lg); }
         header.header-hidden { transform: translateY(-100%); }
         header.header-visible { transform: translateY(0); }
         nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; max-width: 1400px; margin: 0 auto; }
-        .logo { display: flex; align-items: center; text-decoration: none; }
-        .logo-icon { height: 60px; width: auto; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo-icon { height: 45px; width: auto; }
+        .logo-text { font-size: 0.9rem; font-weight: 600; color: var(--SEG-yellow); letter-spacing: 0.1em; text-transform: uppercase; }
         .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
         .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.3s ease; position: relative; }
         .nav-links a:hover, .nav-links a.active-page { color: var(--SEG-yellow); }
@@ -174,6 +175,19 @@
         .mobile-menu-submenu a:hover { color: var(--SEG-yellow); }
         .mobile-menu-cta { padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; }
         .mobile-menu-cta .btn { width: 100%; text-align: center; padding: 0.75rem 1rem; font-size: 0.9rem; white-space: nowrap; }
+        .mobile-menu-links > li > a { word-wrap: break-word; }
+
+        @media (max-width: 768px) {
+            .mega-menu { display: none; }
+        }
+        @media (max-width: 400px) {
+            .mobile-menu { max-width: 100%; width: 100%; }
+            .mobile-menu-links { padding: 0 0.75rem; }
+            .mobile-menu-links > li > a { font-size: 0.9rem; padding: 0.75rem 0; }
+            .mobile-menu-submenu a { font-size: 0.8rem; }
+            .mobile-menu-cta { padding: 0.75rem; }
+            .mobile-menu-cta .btn { font-size: 0.85rem; padding: 0.625rem 0.75rem; }
+        }
 
         .nav-links .dropdown-menu { display: none; }
 
@@ -747,7 +761,7 @@
                                             <li>Machine Safety</li>
                                             <li>Process Safety</li>
                                         </ul>
-                                        <a href="/industries.html#manufacturing" class="mega-menu-cta">Explore Manufacturing &#8594;</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('clientModal', event)">Explore Manufacturing &#8594;</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-const">
@@ -766,7 +780,7 @@
                                             <li>Heavy Equipment Safety</li>
                                             <li>High-Risk Work Planning</li>
                                         </ul>
-                                        <a href="/industries.html#construction" class="mega-menu-cta">Explore Construction &#8594;</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('clientModal', event)">Explore Construction &#8594;</a>
                                     </div>
                                 </div>
                             </div>
@@ -812,7 +826,7 @@
                                             <li>Executive Search</li>
                                             <li>Remote Staffing</li>
                                         </ul>
-                                        <a href="/services.html#staffing" class="mega-menu-cta">Explore Staffing &#8594;</a>
+                                        <a href="/services.html#staffing-form" class="mega-menu-cta">Explore Staffing &#8594;</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-assessments">
@@ -831,7 +845,7 @@
                                             <li>Gap Analysis</li>
                                             <li>Trend Analysis</li>
                                         </ul>
-                                        <a href="/services.html#assessments" class="mega-menu-cta">Explore Assessments &#8594;</a>
+                                        <a href="/services.html#assessments-form" class="mega-menu-cta">Explore Assessments &#8594;</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-programs">
@@ -850,7 +864,7 @@
                                             <li>Job Hazard Analysis</li>
                                             <li>Policy Development</li>
                                         </ul>
-                                        <a href="/services.html#programs" class="mega-menu-cta">Explore Programs &#8594;</a>
+                                        <a href="/services.html#programs-form" class="mega-menu-cta">Explore Programs &#8594;</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-vetting">
@@ -869,7 +883,7 @@
                                             <li>Ongoing Monitoring</li>
                                             <li>Scorecards</li>
                                         </ul>
-                                        <a href="/services.html#vetting" class="mega-menu-cta">Explore Vetting &#8594;</a>
+                                        <a href="/services.html#vetting-form" class="mega-menu-cta">Explore Vetting &#8594;</a>
                                     </div>
                                 </div>
                             </div>

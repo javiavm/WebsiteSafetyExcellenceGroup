@@ -1302,11 +1302,13 @@
             50% { opacity: 1; transform: scaleY(1); }
         }
         @media (max-width: 768px) {
-            .hero-stats-bar { padding: 1.5rem 0 1rem !important; }
-            .hero-stats-inner { flex-wrap: wrap; gap: 1.5rem; }
-            .hero-stat { flex: none; width: 40%; }
-            .hero-stat-divider { display: none; }
-            .scroll-indicator { margin-top: 0.75rem; width: 100%; }
+            .hero-stats-bar { padding: 1.25rem 0 0.75rem !important; }
+            .hero-stats-inner { flex-wrap: nowrap; gap: 0; padding: 0 1rem; }
+            .hero-stat { flex: 1; padding: 0 0.5rem; }
+            .hero-stat-divider { height: 36px; }
+            .scroll-indicator { display: none; }
+            .hero-stat-number { font-size: clamp(1.5rem, 5vw, 2rem); }
+            .hero-stat-label { font-size: 0.6rem; letter-spacing: 0.08em; }
         }
 
         /* AEGIS Preview Card */
@@ -1474,7 +1476,7 @@
            ======================================== */
         .logos-section {
             background: var(--SEG-light-grey);
-            padding: 3.5rem 0;
+            padding: 1.5rem 0;
             border-bottom: 1px solid var(--SEG-grey-2);
         }
 
@@ -1522,6 +1524,11 @@
         .logo-item:hover img {
             filter: grayscale(0%);
             opacity: 1;
+            transform: scale(1.25);
+        }
+
+        .logo-slac:hover img {
+            transform: scale(1.6);
         }
 
         .logo-item:hover {
@@ -1534,7 +1541,7 @@
             justify-content: center;
             gap: 2rem;
             flex-wrap: wrap;
-            padding-top: 1.5rem;
+            padding-top: 1rem;
             border-top: 1px solid var(--SEG-grey-2);
         }
 
@@ -1583,7 +1590,7 @@
         }
 
         .trust-badge .badge-logo {
-            height: 30px;
+            height: 35px;
             width: auto;
             object-fit: contain;
         }
@@ -2477,6 +2484,8 @@
             position: relative;
             border: 1px solid rgba(19, 37, 68, 0.06);
             transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            flex-direction: column;
         }
 
         .testimonial-card::before {
@@ -2484,7 +2493,7 @@
             position: absolute;
             top: 1rem;
             left: 1.5rem;
-            font-size: 4rem;
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-family: Georgia, serif;
             color: var(--SEG-yellow);
             opacity: 0.2;
@@ -2494,6 +2503,9 @@
         .testimonial-content {
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
         .testimonial-text {
@@ -2508,6 +2520,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            margin-top: auto;
         }
 
         .testimonial-avatar {
@@ -4070,6 +4083,9 @@
             overflow: hidden;
             position: relative;
             padding: 1rem 0;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .logos-marquee::before,
@@ -4078,7 +4094,7 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            width: 120px;
+            width: 80px;
             z-index: 2;
             pointer-events: none;
         }
@@ -4096,8 +4112,8 @@
         .logos-track {
             display: flex;
             align-items: center;
-            gap: 3rem;
-            animation: marqueeScroll 25s linear infinite;
+            gap: 4rem;
+            animation: marqueeScroll 12s linear infinite;
             width: max-content;
         }
 
@@ -4106,6 +4122,7 @@
         }
 
         .logos-track .logo-item {
+            flex-shrink: 0;
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
@@ -4593,8 +4610,11 @@
             }
 
             /* Logo marquee */
+            .logos-marquee {
+                max-width: 500px;
+            }
             .logos-track {
-                gap: 2.5rem;
+                gap: 3rem;
             }
             .logos-marquee::before,
             .logos-marquee::after {
@@ -4663,16 +4683,16 @@
             }
 
             .hero-stats-inner {
-                padding: 0 1rem;
+                padding: 0 0.5rem;
             }
             .hero-stat {
-                padding: 0 0.75rem;
+                padding: 0 0.35rem;
             }
             .hero-stat-number {
-                font-size: clamp(1.4rem, 5vw, 1.8rem);
+                font-size: clamp(1.3rem, 4.5vw, 1.6rem);
             }
             .hero-stat-divider {
-                height: 35px;
+                height: 30px;
             }
 
             .newsletter {
@@ -4694,13 +4714,20 @@
                 padding: 0 0.75rem;
             }
             .hero-stat-number {
-                font-size: 1.25rem;
+                font-size: 1.15rem;
             }
             .hero-stat-label {
-                font-size: 0.6rem;
+                font-size: 0.55rem;
+                letter-spacing: 0.06em;
+            }
+            .hero-stat-divider {
+                height: 25px;
+            }
+            .logos-marquee {
+                max-width: 100%;
             }
             .logos-track {
-                gap: 1.5rem;
+                gap: 2.5rem;
             }
         }
     </style>
@@ -4793,7 +4820,7 @@
                                             <li>Machine Safety</li>
                                             <li>Process Safety</li>
                                         </ul>
-                                        <a href="/industries.html#manufacturing" class="mega-menu-cta">Explore Manufacturing →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('clientModal', event)">Explore Manufacturing →</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-const">
@@ -4812,7 +4839,7 @@
                                             <li>Heavy Equipment Safety</li>
                                             <li>High-Risk Work Planning</li>
                                         </ul>
-                                        <a href="/industries.html#construction" class="mega-menu-cta">Explore Construction →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('clientModal', event)">Explore Construction →</a>
                                     </div>
                                 </div>
                             </div>
@@ -4858,7 +4885,7 @@
                                             <li>Executive Search</li>
                                             <li>Remote Staffing</li>
                                         </ul>
-                                        <a href="/services.html#staffing" class="mega-menu-cta">Explore Staffing →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('staffingModal', event)">Explore Staffing →</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-assessments">
@@ -4877,7 +4904,7 @@
                                             <li>Gap Analysis</li>
                                             <li>Trend Analysis</li>
                                         </ul>
-                                        <a href="/services.html#assessments" class="mega-menu-cta">Explore Assessments →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('assessmentModal', event)">Explore Assessments →</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-programs">
@@ -4896,7 +4923,7 @@
                                             <li>Job Hazard Analysis</li>
                                             <li>Policy Development</li>
                                         </ul>
-                                        <a href="/services.html#programs" class="mega-menu-cta">Explore Programs →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('haspModal', event)">Explore Programs →</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-vetting">
@@ -4915,7 +4942,7 @@
                                             <li>Ongoing Monitoring</li>
                                             <li>Scorecards</li>
                                         </ul>
-                                        <a href="/services.html#vetting" class="mega-menu-cta">Explore Vetting →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('subScorerModal', event)">Explore Vetting →</a>
                                     </div>
                                 </div>
                             </div>
@@ -5045,32 +5072,21 @@
                 <span class="logos-label">Trusted by Fortune 100 chipmakers, global insurers, and Tier-1 contractors</span>
                 <div class="logos-marquee">
                     <div class="logos-track">
-                        <!-- Set 1 (repeated 3x to fill viewport) -->
-                        <div class="logo-item"><img src="images/icons/SLAC.png" alt="SLAC National Accelerator Laboratory"></div>
+                        <!-- Set 1 -->
                         <div class="logo-item"><img src="images/icons/jedunn.png" alt="JE Dunn Construction"></div>
                         <div class="logo-item"><img src="images/icons/MURATEC.png" alt="Muratec"></div>
-                        <div class="logo-item"><img src="images/icons/SLAC.png" alt="SLAC National Accelerator Laboratory"></div>
-                        <div class="logo-item"><img src="images/icons/jedunn.png" alt="JE Dunn Construction"></div>
-                        <div class="logo-item"><img src="images/icons/MURATEC.png" alt="Muratec"></div>
-                        <div class="logo-item"><img src="images/icons/SLAC.png" alt="SLAC National Accelerator Laboratory"></div>
-                        <div class="logo-item"><img src="images/icons/jedunn.png" alt="JE Dunn Construction"></div>
-                        <div class="logo-item"><img src="images/icons/MURATEC.png" alt="Muratec"></div>
+                        <div class="logo-item logo-slac"><img src="images/icons/SLAC.png" alt="SLAC National Accelerator Laboratory"></div>
                         <!-- Set 2 (duplicate for seamless loop) -->
-                        <div class="logo-item"><img src="images/icons/SLAC.png" alt="SLAC National Accelerator Laboratory"></div>
                         <div class="logo-item"><img src="images/icons/jedunn.png" alt="JE Dunn Construction"></div>
                         <div class="logo-item"><img src="images/icons/MURATEC.png" alt="Muratec"></div>
-                        <div class="logo-item"><img src="images/icons/SLAC.png" alt="SLAC National Accelerator Laboratory"></div>
-                        <div class="logo-item"><img src="images/icons/jedunn.png" alt="JE Dunn Construction"></div>
-                        <div class="logo-item"><img src="images/icons/MURATEC.png" alt="Muratec"></div>
-                        <div class="logo-item"><img src="images/icons/SLAC.png" alt="SLAC National Accelerator Laboratory"></div>
-                        <div class="logo-item"><img src="images/icons/jedunn.png" alt="JE Dunn Construction"></div>
-                        <div class="logo-item"><img src="images/icons/MURATEC.png" alt="Muratec"></div>
+                        <div class="logo-item logo-slac"><img src="images/icons/SLAC.png" alt="SLAC National Accelerator Laboratory"></div>
                     </div>
                 </div>
             </div>
             <div class="trust-badges">
                 <div class="trust-badge">
-                    <img src="/images/icons/assp.png" alt="ASSP Member" class="badge-logo">
+                    <img src="/images/icons/assp.png" alt="ASSP Member" class="badge-logo" style="height: 45px;">
+                    <span style="font-weight: 600; color: #333; font-size: 0.85rem;">ASSP Member</span>
                 </div>
                 <div class="trust-badge">
                     <img src="/images/icons/bcsp.png" alt="BCSP Certified" class="badge-logo">
@@ -5079,7 +5095,7 @@
                     <img src="/images/icons/logo_semi.png" alt="SEMI Partner" class="badge-logo">
                 </div>
                 <div class="trust-badge">
-                    <img src="/images/icons/colombia.png" alt="Columbia Southern University Partner" class="badge-logo">
+                    <img src="/images/icons/colombia.png" alt="Columbia Southern University Partner" class="badge-logo" style="height: 55px;">
                 </div>
             </div>
         </div>
@@ -5152,7 +5168,7 @@
                         </div>
 
                         <div class="case-study-image">
-                            <img src="images/Safety Program Turnaround.png" alt="NYC headquarters building - Global EHS Audit project location" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">
+                            <img src="images/safety inspection.png" alt="NYC headquarters building - Global EHS Audit project location" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">
                         </div>
                     </div>
 
@@ -5936,14 +5952,14 @@
         <div class="modal">
             <div class="modal-header">
                 <div>
-                    <h3>Book a Discovery Call</h3>
+                    <h3>Book a Call</h3>
                     <p>Schedule 15 minutes to discuss your safety needs</p>
                 </div>
                 <button class="modal-close" onclick="closeModal('bookingModal')">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
                 </button>
             </div>
-            <div class="modal-body" style="min-height: 600px;">
+            <div class="modal-body" style="min-height: min(600px, 70vh);">
                 <iframe src="https://api.leadconnectorhq.com/widget/booking/56IkA4NNqXU4MQAnpmAh" style="width: 100%; height: 550px; border: none; overflow: hidden;" scrolling="no" id="ghl-calendar-embed"></iframe>
                 <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
             </div>
