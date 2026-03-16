@@ -300,13 +300,13 @@ app.post('/api/forms/client', async (req, res) => {
 
         console.log('=== CLIENT FORM SUBMISSION ===');
         console.log('Name:', formData.full_name);
-        console.log('Email:', formData.email);
+        console.log('Email:', formData.email || formData.company_email);
         console.log('Company:', formData.company_name);
 
         // Run lead scoring algorithm
         const scoreResult = scoreClientLead({
             full_name: formData.full_name || formData['full name'] || formData.name,
-            email: formData.email || formData['company email'],
+            email: formData.email || formData.company_email || formData['company email'],
             phone: formData.phone,
             company_name: formData.company_name || formData['company name'] || formData.company,
             project_role: formData.project_role || formData['Your_Role_on_This_Project'],
@@ -327,7 +327,7 @@ app.post('/api/forms/client', async (req, res) => {
         const dbResult = await db.insertClient({
             full_name: formData.full_name || formData['full name'] || formData.name,
             phone: formData.phone,
-            email: formData.email || formData['company email'],
+            email: formData.email || formData.company_email || formData['company email'],
             company_name: formData.company_name || formData['company name'] || formData.company,
             project_role: formData.project_role || formData['Your_Role_on_This_Project'],
             industry: formData.industry,
