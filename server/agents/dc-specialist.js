@@ -52,11 +52,11 @@ async function respond(query, options = {}) {
     const fallCitations = citationEngine.getCitationsByHazard('fall_protection');
 
     const citationContext = `
-Available citations for data center context:
-Electrical/Arc Flash: ${[...electricalCitations, ...arcFlashCitations].map(c => c.fullRef).join(', ')}
-LOTO: ${lotoCitations.map(c => c.fullRef).join(', ')}
-Fall Protection: ${fallCitations.map(c => c.fullRef).join(', ')}
-`;
+      Available citations for data center context:
+      Electrical/Arc Flash: ${[...electricalCitations, ...arcFlashCitations].map(c => c.fullRef).join(', ')}
+      LOTO: ${lotoCitations.map(c => c.fullRef).join(', ')}
+      Fall Protection: ${fallCitations.map(c => c.fullRef).join(', ')}
+      `;
 
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',

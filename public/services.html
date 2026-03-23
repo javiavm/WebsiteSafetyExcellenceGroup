@@ -785,7 +785,7 @@
                     </div>
                 </li>
                 <li class="dropdown">
-                    <a href="/services.html" class="active-page">Services ▾</a>
+                    <a href="/services.html">Services ▾</a>
                     <div class="mega-menu">
                         <div class="mega-menu-inner">
                             <div class="mega-menu-sidebar">
@@ -852,7 +852,7 @@
                                     <div class="mega-menu-preview-text">
                                         <h4>Program Development</h4>
                                         <span class="mega-tagline">Compliant documentation, built to last</span>
-                                        <p>Site-specific procedures that integrate with your operations--not generic templates.</p>
+                                        <p>Site-specific procedures that integrate with your operations—not generic templates.</p>
                                         <ul>
                                             <li>HASP Development</li>
                                             <li>Fire & Chemical Plans</li>
@@ -892,7 +892,7 @@
             </ul>
 
             <div class="nav-cta">
-                <a href="/careers.html" class="btn btn-secondary">Join Our Team</a>
+                <a href="#" class="btn btn-secondary" onclick="openModal('candidateModal', event)">Join Our Team</a>
                 <a href="#" class="btn btn-primary" onclick="openModal('clientModal', event)">Request Support</a>
             </div>
 
@@ -929,7 +929,7 @@
             <li><a href="/careers.html" onclick="closeMobileMenu()">Careers</a></li>
         </ul>
         <div class="mobile-menu-cta">
-            <a href="/careers.html" class="btn btn-secondary" onclick="closeMobileMenu()">Join Our Team</a>
+            <a href="#" class="btn btn-secondary" onclick="closeMobileMenu(); openModal('candidateModal', event)">Join Our Team</a>
             <a href="#" class="btn btn-primary" onclick="closeMobileMenu(); openModal('clientModal', event)">Request Support</a>
         </div>
     </div>
@@ -3286,5 +3286,43 @@ ${sections}
     </script>
 
     <script src="js/aegis-chatbot.js"></script>
+
+    <!-- Dropdown nav fix: open on hover, close on click outside or other nav item -->
+    <script>
+    (function() {
+        function showMenu(menu) {
+            menu.style.opacity = '1';
+            menu.style.visibility = 'visible';
+            menu.style.transform = 'translateX(-50%) translateY(0)';
+        }
+        function hideAll() {
+            document.querySelectorAll('.nav-links .dropdown .mega-menu').forEach(function(m) {
+                m.style.opacity = '';
+                m.style.visibility = '';
+                m.style.transform = '';
+            });
+        }
+        document.querySelectorAll('.nav-links .dropdown').forEach(function(dropdown) {
+            var menu = dropdown.querySelector('.mega-menu');
+            if (!menu) return;
+            dropdown.addEventListener('mouseenter', function() { hideAll(); showMenu(menu); });
+        });
+        document.addEventListener('click', function(e) {
+            var insideDropdown = e.target.closest('.nav-links .dropdown');
+            if (!insideDropdown) {
+                hideAll();
+            } else {
+                document.querySelectorAll('.nav-links .dropdown').forEach(function(d) {
+                    if (d !== insideDropdown) {
+                        var m = d.querySelector('.mega-menu');
+                        if (m) { m.style.opacity = ''; m.style.visibility = ''; m.style.transform = ''; }
+                    }
+                });
+            }
+        });
+    })();
+    </script>
+
+    <script src="js/candidate-modal.js"></script>
 </body>
 </html>

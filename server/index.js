@@ -178,10 +178,6 @@ GOAL: Short answers. Cite standards. Qualify fast. Book calls using the in-chat 
 // Store conversation history (in production, use Redis or database)
 const conversations = new Map();
 
-// ========================================
-// CHATBOT ENDPOINTS
-// ========================================
-
 // Chat endpoint
 app.post('/api/chat', async (req, res) => {
     try {
@@ -287,16 +283,49 @@ app.post('/api/lead', async (req, res) => {
 });
 
 // ========================================
+// RECAPTCHA VERIFICATION
+// ========================================
+
+async function verifyCaptcha(token) {
+    const secret = process.env.RECAPTCHA_SECRET_KEY;
+    if (!secret) {
+        console.warn('[reCAPTCHA] RECAPTCHA_SECRET_KEY not set — skipping verification');
+        return true;
+    }
+    if (!token) {
+        console.warn('[reCAPTCHA] No token provided');
+        return false;
+    }
+    try {
+        const resp = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`
+        });
+        const data = await resp.json();
+        console.log(`[reCAPTCHA] success=${data.success} score=${data.score} action=${data.action}`);
+        return data.success === true && (data.score === undefined || data.score >= 0.5);
+    } catch (err) {
+        console.error('[reCAPTCHA] Verification error:', err.message);
+        return false; // fail closed on network errors
+    }
+}
+
+// Public config endpoint — exposes the reCAPTCHA site key to the frontend
+app.get('/api/public-config', (req, res) => {
+    res.json({ recaptchaSiteKey: process.env.RECAPTCHA_SITE_KEY || '' });
+});
+
+// ========================================
 // FORM SUBMISSION ENDPOINTS
 // ========================================
 
-/**
- * Client Form - "Request Safety Support"
- * Scores the lead and saves to database
- */
 app.post('/api/forms/client', async (req, res) => {
     try {
-        const formData = req.body;
+        const { captcha_token, ...formData } = req.body;
+        if (!await verifyCaptcha(captcha_token)) {
+            return res.status(400).json({ error: 'CAPTCHA verification failed. Please try again.' });
+        }
 
         console.log('=== CLIENT FORM SUBMISSION ===');
         console.log('Name:', formData.full_name);
@@ -395,7 +424,10 @@ app.post('/api/forms/client', async (req, res) => {
  */
 app.post('/api/forms/candidate', async (req, res) => {
     try {
-        const formData = req.body;
+        const { captcha_token, ...formData } = req.body;
+        if (!await verifyCaptcha(captcha_token)) {
+            return res.status(400).json({ error: 'CAPTCHA verification failed. Please try again.' });
+        }
 
         console.log('=== CANDIDATE FORM SUBMISSION ===');
         console.log('Name:', formData.full_name);
@@ -484,7 +516,10 @@ app.post('/api/forms/candidate', async (req, res) => {
  */
 app.post('/api/forms/newsletter', async (req, res) => {
     try {
-        const { name, company, email } = req.body;
+        const { captcha_token, name, company, email } = req.body;
+        if (!await verifyCaptcha(captcha_token)) {
+            return res.status(400).json({ error: 'CAPTCHA verification failed. Please try again.' });
+        }
 
         console.log('=== NEWSLETTER SIGNUP ===');
         console.log('Name:', name);
@@ -523,7 +558,10 @@ app.post('/api/forms/newsletter', async (req, res) => {
  */
 app.post('/api/forms/assessment', async (req, res) => {
     try {
-        const { email, name, company, industry, project_phase, team_size, answers, score, risk_level, gaps, recommendations } = req.body;
+        const { captcha_token, email, name, company, industry, project_phase, team_size, answers, score, risk_level, gaps, recommendations } = req.body;
+        if (!await verifyCaptcha(captcha_token)) {
+            return res.status(400).json({ error: 'CAPTCHA verification failed. Please try again.' });
+        }
 
         console.log('=== ASSESSMENT SUBMISSION ===');
         console.log('Name:', name);

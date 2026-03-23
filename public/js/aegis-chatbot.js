@@ -1,9 +1,17 @@
 /**
  * AEGIS AI Chatbot
  * Safety Excellence Group
- * 
+ *
  * Frontend chatbot widget that connects to Claude API via backend server.
  */
+
+// Load reCAPTCHA helper (auto-injects captcha tokens into all /api/forms/ requests)
+(function() {
+    var s = document.createElement('script');
+    s.src = '/js/recaptcha-helper.js';
+    s.async = true;
+    document.head.appendChild(s);
+})();
 
 (function() {
     'use strict';
@@ -162,9 +170,8 @@
             }
         });
 
-        // Close chat when clicking outside (desktop only)
+        // Close chat when clicking outside (all screen sizes — backdrop tap on mobile)
         document.addEventListener('click', function(e) {
-            if (window.innerWidth <= 768) return; // Skip on mobile/tablet (full-screen mode)
             const widget = document.getElementById('aegis-widget');
             const chat = document.getElementById('aegis-chat');
             const trigger = widget.querySelector('.aegis-trigger');

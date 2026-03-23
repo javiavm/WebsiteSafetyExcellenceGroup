@@ -8701,6 +8701,43 @@ ${sections}
     <!-- AEGIS AI Chatbot -->
     <script src="js/aegis-chatbot.js"></script>
 
+    <!-- Dropdown nav fix: open on hover, close on click outside or other nav item -->
+    <script>
+    (function() {
+        function showMenu(menu) {
+            menu.style.opacity = '1';
+            menu.style.visibility = 'visible';
+            menu.style.transform = 'translateX(-50%) translateY(0)';
+        }
+        function hideAll() {
+            document.querySelectorAll('.nav-links .dropdown .mega-menu').forEach(function(m) {
+                m.style.opacity = '';
+                m.style.visibility = '';
+                m.style.transform = '';
+            });
+        }
+        document.querySelectorAll('.nav-links .dropdown').forEach(function(dropdown) {
+            var menu = dropdown.querySelector('.mega-menu');
+            if (!menu) return;
+            dropdown.addEventListener('mouseenter', function() { hideAll(); showMenu(menu); });
+        });
+        document.addEventListener('click', function(e) {
+            var insideDropdown = e.target.closest('.nav-links .dropdown');
+            if (!insideDropdown) {
+                hideAll();
+            } else {
+                var allDropdowns = document.querySelectorAll('.nav-links .dropdown');
+                allDropdowns.forEach(function(d) {
+                    if (d !== insideDropdown) {
+                        var m = d.querySelector('.mega-menu');
+                        if (m) { m.style.opacity = ''; m.style.visibility = ''; m.style.transform = ''; }
+                    }
+                });
+            }
+        });
+    })();
+    </script>
+
     <!-- GHL External Tracking -->
     <script src="https://link.msgsndr.com/js/external-tracking.js" data-tracking-id="tk_fdb8d3e5921e4482a9d815a4d73afa6a"></script>
 </body>
