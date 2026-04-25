@@ -188,24 +188,9 @@
         setupHeaderTracking();
     }
 
-    // Adjust chat max-height based on header visibility
+    // Header tracking removed - chat uses fixed max-height via CSS
     function setupHeaderTracking() {
-        const header = document.querySelector('header');
-        if (!header) return;
-
-        function updateChatMaxHeight() {
-            const chat = document.getElementById('aegis-chat');
-            if (!chat) return;
-            const headerRect = header.getBoundingClientRect();
-            const headerBottom = Math.max(0, headerRect.bottom);
-            // Available space = viewport - headerBottom - bottom(96px)
-            const available = window.innerHeight - headerBottom - 96;
-            chat.style.setProperty('--aegis-chat-maxh', available + 'px');
-        }
-
-        window.addEventListener('scroll', updateChatMaxHeight, { passive: true });
-        header.addEventListener('transitionend', updateChatMaxHeight);
-        updateChatMaxHeight();
+        // No-op: widget size is now stable via CSS max-height
     }
 
     // Update disclaimer active state

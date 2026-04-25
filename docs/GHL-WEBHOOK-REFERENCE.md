@@ -17,13 +17,84 @@
 
 ---
 
-## NEW Webhooks Needed
+## Assessment Lead Scoring (NEW — via Client Inquiry webhook `dd8498d0`)
+
+These use the existing Client Inquiry webhook with `form_type` to differentiate:
+
+### Z10 Assessment (`form_type: 'z10_assessment'`)
+Sent from all 6 pages when user clicks "Email My Results".
+
+| Field | Type | Example |
+|-------|------|---------|
+| `form_type` | string | `z10_assessment` |
+| `full_name` | string | `John Doe` |
+| `email` | string | `john@company.com` |
+| `assessment_score` | number | `45` |
+| `assessment_rating` | string | `Improvement Opportunities` |
+| `lead_classification` | string | `HOT` / `WARM` / `NURTURE` / `LOW` |
+| `industry` | string | `semiconductor` / `datacenter` / `construction` / `manufacturing` |
+| `gap_summary` | string | `Leadership (§4): 50% \| Planning (§5): 0% \| ...` |
+| `source_page` | string | `index.html` |
+| `timestamp` | ISO string | `2026-04-22T...` |
+
+**Lead Classification (Z10):**
+- `HOT` — Score < 40 (Significant Gaps — urgent need)
+- `WARM` — Score 40-59 (Improvement Opportunities)
+- `NURTURE` — Score 60-79 (Good Foundation)
+- `LOW` — Score 80+ (Strong Indicators)
+
+### Sub-Contractor Scorer (`form_type: 'sub_scorer'`)
+Sent from all 6 pages when user clicks "Email These Results" after scoring.
+
+| Field | Type | Example |
+|-------|------|---------|
+| `form_type` | string | `sub_scorer` |
+| `email` | string | `john@company.com` |
+| `company_name` | string | `Acme Corp` |
+| `sub_score` | number | `62` |
+| `sub_risk_label` | string | `Elevated Risk` |
+| `lead_classification` | string | `WARM` |
+| `key_findings` | string | `✓ Good EMR (0.85) \| ⚠ Elevated TRIR (3.2) \| ...` |
+| `source_page` | string | `index.html` |
+| `timestamp` | ISO string | `2026-04-22T...` |
+
+**Lead Classification (Sub-Scorer):**
+- `HOT` — Score < 50 (High Risk sub — needs vetting help)
+- `WARM` — Score 50-69 (Elevated Risk)
+- `NURTURE` — Score 70-84 (Moderate Risk)
+- `LOW` — Score 85+ (Low Risk)
+
+---
+
+## GHL Workflow Setup Required
+
+To use the lead classification data, configure in GHL:
+
+1. **Custom Fields** (Settings > Custom Fields > Contact):
+   - `assessment_score` (Number)
+   - `assessment_rating` (Text)
+   - `lead_classification` (Dropdown: HOT, WARM, NURTURE, LOW)
+   - `form_type` (Text)
+
+2. **Workflow Trigger**: Inbound Webhook on `dd8498d0` webhook
+   - Branch by `form_type`:
+     - `request_safety_support` → existing client flow
+     - `z10_assessment` → assessment lead flow
+     - `sub_scorer` → sub-scorer lead flow
+   - Branch by `lead_classification`:
+     - HOT → immediate notification + assign to sales
+     - WARM → 24hr follow-up email sequence
+     - NURTURE → drip campaign
+     - LOW → tag only, no sequence
+
+---
+
+## Still Needed (Dedicated Webhooks)
 
 | Form/Feature | Fields | Notes |
 |--------------|--------|-------|
 | **Staffing Qualifier** (Get Matched in Seconds) | `full_name`, `company_email`, `phone`, `industry`, `role_level`, `timeline`, `duration`, `location`, `form_type` | Currently using STKY webhook as placeholder. Needs dedicated webhook. |
 | **HASP Generator** | `full_name`, `company_email`, `framework`, `company`, `project`, `address` | Currently using STKY webhook as placeholder. Needs dedicated webhook. |
-| **Sub Scorer** | `company_name`, `emr`, `trir`, `dart`, `years`, `citations`, `written_program`, `prequalification` | Currently no webhook. Needs dedicated webhook if lead capture desired. |
 
 ---
 
@@ -53,5 +124,6 @@ https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/
 ## Action Items
 1. Create new GHL webhook for **Staffing Qualifier**
 2. Create new GHL webhook for **HASP Generator**
-3. (Optional) Create webhook for **Sub Scorer** if lead capture needed
-4. Update `public/index.html` with new webhook URLs once created
+3. ~~(Optional) Create webhook for **Sub Scorer** if lead capture needed~~ DONE — uses Client webhook with `form_type: 'sub_scorer'`
+4. Create GHL Custom Fields for assessment data (see Workflow Setup above)
+5. Build GHL Workflow that branches on `form_type` and `lead_classification`
