@@ -1,8 +1,11 @@
 [phases.setup]
-nixPkgs = ["nodejs_22", "npm-9_x"]
+nixPkgs = ["nodejs_22", "npm-9_x", "python3", "gcc"]
 
 [phases.install]
-cmds = ["npm install && cd server && npm install"]
+cmds = [
+  "npm install --no-package-lock",
+  "cd server && npm install --no-package-lock"
+]
 
 [start]
-cmd = "cd server && npm start"
+cmd = "node server/index.js"
