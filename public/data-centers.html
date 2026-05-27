@@ -29,6 +29,7 @@
 
     <!-- AEGIS Chatbot Styles -->
     <link rel="stylesheet" href="css/aegis-chatbot.css">
+    <link rel="stylesheet" href="css/aegis-call-widget.css">
 
     <style>
         :root {
@@ -899,13 +900,19 @@
             }
 
             .footer-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 1.25rem 1rem;
             }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-links h4 { font-size: 0.95rem; margin-bottom: 0.5rem; }
+            .footer-links ul li { margin-bottom: 0.4rem; }
+            .footer-links a { font-size: 0.85rem; }
         }
 
         @media (max-width: 768px) {
             .nav-links, .nav-cta { display: none !important; }
-            .mobile-toggle { display: flex !important; width: 44px; height: 44px; align-items: center; justify-content: center; }
+            .mobile-toggle { display: flex !important; flex-direction: column; width: 44px; height: 44px; align-items: center; justify-content: center; gap: 5px; }
+            .mobile-toggle span { margin: 0 !important; }
             .mega-menu { display: none; }
             nav { padding: 0.75rem 1rem; }
             .mobile-menu { max-width: 100%; width: 100%; }
@@ -927,8 +934,12 @@
             }
 
             .footer-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr 1fr !important;
+                gap: 1rem 0.75rem !important;
             }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-links h4 { font-size: 0.85rem !important; }
+            .footer-links a { font-size: 0.78rem !important; }
 
             .footer-bottom {
                 flex-direction: column;
@@ -1198,6 +1209,7 @@
                     </div>
                 </li>
                 <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                <li><a href="/about-us.html">About Us</a></li>
                 <li><a href="/careers.html">Careers</a></li>
             </ul>
 
@@ -1236,6 +1248,7 @@
                 </ul>
             </li>
             <li><a href="/why-seg.html" onclick="closeMobileMenu()">Why S.E.G.</a></li>
+            <li><a href="/about-us.html" onclick="closeMobileMenu()">About Us</a></li>
             <li><a href="/careers.html" onclick="closeMobileMenu()">Careers</a></li>
         </ul>
         <div class="mobile-menu-cta">
@@ -1532,6 +1545,7 @@
                     <h4>Company</h4>
                     <ul>
                         <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                        <li><a href="/about-us.html">About Us</a></li>
                         <li><a href="/careers.html">Careers</a></li>
                         <li><a href="#" onclick="openModal('assessmentModal', event)">Safety Blind Spot Finder</a></li>
                         <li><a href="#" onclick="openModal('clientModal', event)">Contact</a></li>
@@ -2047,6 +2061,7 @@
 
     <!-- AEGIS Chatbot -->
     <script src="js/aegis-chatbot.js"></script>
+    <script src="js/aegis-call-widget.js"></script>
 
     <script>
         // DC Checklist Data (embedded for speed)
@@ -2930,7 +2945,7 @@ ${sectionsHTML}
                         <div id="subScoreFlags" style="text-align:left;background:var(--SEG-light-grey);padding:1.5rem;border-radius:8px;margin-bottom:1.5rem;"><h5 style="margin-bottom:0.75rem;color:var(--SEG-blue);">Key Findings:</h5><ul id="subScoreFlagsList" style="margin:0;padding-left:1.25rem;"></ul></div>
                         <div class="results-disclaimer" style="margin-bottom:1.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>This is a preliminary screening score only. Comprehensive vetting requires professional assessment.</span></div>
                         <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;"><button type="button" class="btn btn-outline" onclick="resetSubScorer()">Score Another Sub</button><button type="button" class="btn btn-outline" onclick="document.getElementById('subScorerEmailCapture').style.display='block'">Email These Results</button><a href="#" class="btn btn-primary" onclick="closeModal('subScorerModal'); openModal('clientModal', event);">Get Full Vetting Service →</a></div>
-                        <div id="subScorerEmailCapture" style="display:none;margin-top:1.5rem;padding:1.5rem;background:var(--SEG-light-grey);border-radius:8px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;"><div><label style="font-size:0.8rem;font-weight:600;color:var(--SEG-blue);display:block;margin-bottom:0.25rem;">Your Email <span style="color:#ef4444;">*</span></label><input type="email" id="subScorerEmail" placeholder="you@company.com" style="width:100%;padding:0.6rem 0.75rem;border:1px solid #ddd;border-radius:6px;font-size:0.9rem;" required></div><div><label style="font-size:0.8rem;font-weight:600;color:var(--SEG-blue);display:block;margin-bottom:0.25rem;">Company Name</label><input type="text" id="subScorerCompany" placeholder="Your company" style="width:100%;padding:0.6rem 0.75rem;border:1px solid #ddd;border-radius:6px;font-size:0.9rem;"></div></div><button type="button" class="btn btn-primary" onclick="sendSubScorerResults()" style="width:100%;">Send Results →</button></div>
+                        <div id="subScorerEmailCapture" style="display:none;margin-top:1.5rem;padding:1.5rem;background:var(--SEG-light-grey);border-radius:8px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;"><div><label style="font-size:0.8rem;font-weight:600;color:var(--SEG-blue);display:block;margin-bottom:0.25rem;">Your Email <span style="color:#ef4444;">*</span></label><input type="email" id="subScorerEmail" placeholder="you@company.com" style="width:100%;padding:0.6rem 0.75rem;border:1px solid #ddd;border-radius:6px;font-size:0.9rem;" required></div><div><label style="font-size:0.8rem;font-weight:600;color:var(--SEG-blue);display:block;margin-bottom:0.25rem;">Your Name</label><input type="text" id="subScorerName" placeholder="Your name" style="width:100%;padding:0.6rem 0.75rem;border:1px solid #ddd;border-radius:6px;font-size:0.9rem;"></div></div><div style="margin-bottom:0.75rem;"><label style="font-size:0.8rem;font-weight:600;color:var(--SEG-blue);display:block;margin-bottom:0.25rem;">Company Name</label><input type="text" id="subScorerCompany" placeholder="Your company" style="width:100%;padding:0.6rem 0.75rem;border:1px solid #ddd;border-radius:6px;font-size:0.9rem;"></div><button type="button" class="btn btn-primary" onclick="sendSubScorerResults()" style="width:100%;">Send My Results →</button></div>
                     </div>
                 </div>
             </div>
@@ -3118,7 +3133,7 @@ ${sectionsHTML}
         flagsList.innerHTML = flags.map(function(f) { var icon = f.type === 'good' ? '✓' : f.type === 'critical' ? '✗' : '⚠'; var iconColor = f.type === 'good' ? '#22c55e' : f.type === 'critical' ? '#ef4444' : '#f59e0b'; return '<li style="margin-bottom:0.5rem;"><span style="color:'+iconColor+';font-weight:bold;margin-right:0.5rem;">'+icon+'</span>'+f.text+'</li>'; }).join('');
     }
     function classifySubScorerLead(score) { if (score < 50) return 'HOT'; if (score < 70) return 'WARM'; if (score < 85) return 'NURTURE'; return 'LOW'; }
-    async function sendSubScorerResults() { var email = document.getElementById('subScorerEmail').value; var company = document.getElementById('subScorerCompany').value || ''; if (!email) { alert('Please enter your email address.'); return; } var score = parseInt(document.getElementById('subScoreValue').textContent) || 0; var label = document.getElementById('subScoreLabel').textContent || ''; var flags = []; document.querySelectorAll('#subScoreFlagsList li').forEach(function(li) { flags.push(li.textContent.trim()); }); var payload = { form_type: 'sub_scorer', email: email, company_name: company, sub_score: score, sub_risk_label: label, lead_classification: classifySubScorerLead(score), key_findings: flags.join(' | '), source_page: 'data-centers.html', timestamp: new Date().toISOString() }; var btn = document.querySelector('#subScorerEmailCapture .btn-primary'); btn.textContent = 'Sending...'; btn.disabled = true; try { await fetch('https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/dd8498d0-c790-48af-a7e7-28de6a3a0def', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); document.getElementById('subScorerEmailCapture').innerHTML = '<div style="text-align:center;padding:0.75rem;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="margin-bottom:0.5rem;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><p style="font-weight:600;color:var(--SEG-blue);">Results sent to ' + email + '</p></div>'; } catch (error) { btn.textContent = 'Error — Try Again'; btn.style.background = '#ef4444'; btn.disabled = false; setTimeout(function() { btn.textContent = 'Send Results →'; btn.style.background = ''; }, 3000); } }
+    async function sendSubScorerResults() { var email = document.getElementById('subScorerEmail').value; var name = document.getElementById('subScorerName') ? document.getElementById('subScorerName').value : ''; var company = document.getElementById('subScorerCompany').value || ''; if (!email) { alert('Please enter your email address.'); return; } var score = parseInt(document.getElementById('subScoreValue').textContent) || 0; var label = document.getElementById('subScoreLabel').textContent || ''; var flags = []; document.querySelectorAll('#subScoreFlagsList li').forEach(function(li) { flags.push(li.textContent.trim()); }); var payload = { form_type: 'sub_scorer', full_name: name, email: email, company_name: company, sub_score: score, sub_risk_label: label, lead_classification: classifySubScorerLead(score), key_findings: flags.join(' | '), source_page: 'data-centers.html', timestamp: new Date().toISOString() }; var btn = document.querySelector('#subScorerEmailCapture .btn-primary'); btn.textContent = 'Sending...'; btn.disabled = true; try { await fetch('https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/dd8498d0-c790-48af-a7e7-28de6a3a0def', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); document.getElementById('subScorerEmailCapture').innerHTML = '<div style="text-align:center;padding:0.75rem;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="margin-bottom:0.5rem;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><p style="font-weight:600;color:var(--SEG-blue);">Results sent to ' + email + '</p></div>'; } catch (error) { btn.textContent = 'Error — Try Again'; btn.style.background = '#ef4444'; btn.disabled = false; setTimeout(function() { btn.textContent = 'Send My Results →'; btn.style.background = ''; }, 3000); } }
     function resetSubScorer() { document.getElementById('subScorerResults').style.display = 'none'; document.getElementById('subScorerForm').style.display = 'block'; document.querySelector('#subScorerForm form').reset(); }
 
     // Assessment Functions
@@ -3165,7 +3180,7 @@ ${sectionsHTML}
     }
     function emailResults() { document.getElementById('emailCapture').style.display = 'block'; }
     function classifyAssessmentLead(score) { if (score < 40) return 'HOT'; if (score < 60) return 'WARM'; if (score < 80) return 'NURTURE'; return 'LOW'; }
-    async function sendResults() { var email = document.getElementById('resultsEmail').value; var name = document.getElementById('resultsName') ? document.getElementById('resultsName').value : ''; if (!email) { alert('Please enter your email address.'); return; } var score = parseInt(document.getElementById('scoreNumber').textContent) || 0; var rating = document.getElementById('scoreRating') ? document.getElementById('scoreRating').textContent : ''; var classification = classifyAssessmentLead(score); var gapBars = document.querySelectorAll('#gapBars .gap-bar'); var gaps = []; gapBars.forEach(function(bar) { var l = bar.querySelector('.gap-bar-label') ? bar.querySelector('.gap-bar-label').textContent : ''; var p = bar.querySelector('.gap-bar-value') ? bar.querySelector('.gap-bar-value').textContent : ''; gaps.push(l + ': ' + p); }); var payload = { form_type: 'z10_assessment', full_name: name, email: email, assessment_score: score, assessment_rating: rating, lead_classification: classification, industry: 'datacenter', gap_summary: gaps.join(' | '), source_page: 'data-centers.html', timestamp: new Date().toISOString() }; var btn = document.querySelector('#emailCapture .btn-primary'); var originalText = btn.textContent; btn.textContent = 'Sending...'; btn.disabled = true; try { await fetch('https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/dd8498d0-c790-48af-a7e7-28de6a3a0def', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); document.getElementById('emailCapture').innerHTML = '<div style="text-align:center;padding:1rem;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="margin-bottom:0.5rem;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><p style="font-weight:600;color:var(--SEG-blue);">Results sent to ' + email + '</p><p style="font-size:0.85rem;color:var(--SEG-grey);margin-top:0.5rem;">Our team will follow up based on your assessment results.</p></div>'; } catch (error) { btn.textContent = 'Error — Try Again'; btn.style.background = '#ef4444'; btn.disabled = false; setTimeout(function() { btn.textContent = originalText; btn.style.background = ''; }, 3000); } }
+    async function sendResults() { var email = document.getElementById('resultsEmail').value; var name = document.getElementById('resultsName') ? document.getElementById('resultsName').value : ''; if (!email) { alert('Please enter your email address.'); return; } var score = parseInt(document.getElementById('scoreNumber').textContent) || 0; var rating = document.getElementById('scoreRating') ? document.getElementById('scoreRating').textContent : ''; var classification = classifyAssessmentLead(score); var gapBars = document.querySelectorAll('#gapBars .gap-bar'); var gaps = []; gapBars.forEach(function(bar) { var l = bar.querySelector('.gap-bar-label') ? bar.querySelector('.gap-bar-label').textContent : ''; var p = bar.querySelector('.gap-bar-value') ? bar.querySelector('.gap-bar-value').textContent : ''; gaps.push(l + ': ' + p); }); var payload = { form_type: 'z10_assessment', full_name: name, email: email, assessment_score: score, assessment_rating: rating, lead_classification: classification, industry: 'datacenter', gap_summary: gaps.join(' | '), biggest_challenge: (document.getElementById('challenge') ? document.getElementById('challenge').value.trim() : ''), source_page: 'data-centers.html', timestamp: new Date().toISOString() }; var btn = document.querySelector('#emailCapture .btn-primary'); var originalText = btn.textContent; btn.textContent = 'Sending...'; btn.disabled = true; try { await fetch('https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/dd8498d0-c790-48af-a7e7-28de6a3a0def', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); document.getElementById('emailCapture').innerHTML = '<div style="text-align:center;padding:1rem;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="margin-bottom:0.5rem;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><p style="font-weight:600;color:var(--SEG-blue);">Results sent to ' + email + '</p><p style="font-size:0.85rem;color:var(--SEG-grey);margin-top:0.5rem;">Our team will follow up based on your assessment results.</p></div>'; } catch (error) { btn.textContent = 'Error — Try Again'; btn.style.background = '#ef4444'; btn.disabled = false; setTimeout(function() { btn.textContent = originalText; btn.style.background = ''; }, 3000); } }
 </script>
 
 <!-- Scroll Animations -->

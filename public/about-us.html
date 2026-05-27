@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Safety Excellence Group</title>
+    <meta name="description" content="Shaping a safer tomorrow through innovation, execution, and people-first culture. Learn about Safety Excellence Group's mission, vision, and founder's story.">
+    <link rel="canonical" href="https://safety-excellence.com/about-us.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://safety-excellence.com/about-us.html">
+    <meta property="og:title" content="About Safety Excellence Group">
+    <meta property="og:description" content="Shaping a safer tomorrow through innovation, execution, and people-first culture.">
+    <meta property="og:image" content="https://safety-excellence.com/images/SEG Original Logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/SEG Favicon Original.png">
+    <link rel="stylesheet" href="css/aegis-chatbot.css">
+    <link rel="stylesheet" href="css/aegis-call-widget.css">
+
+    <style>
+        :root {
+            --SEG-yellow: #FFCF00;
+            --SEG-blue: #132544;
+            --SEG-dark-grey: #333333;
+            --SEG-grey: #BABABA;
+            --SEG-grey-2: #DDDDDD;
+            --SEG-light-grey: #F4F4F4;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px rgba(19,37,68,0.05);
+            --shadow-md: 0 4px 6px rgba(19,37,68,0.1);
+            --shadow-lg: 0 10px 25px rgba(19,37,68,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--SEG-dark-grey);
+            line-height: 1.6;
+            background: var(--SEG-blue);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; line-height: 1.2; color: var(--SEG-blue); }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.01em; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem 2rem;
+            font-family: inherit; font-size: 1rem; font-weight: 600; text-decoration: none;
+            border-radius: 6px; cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+            border: 2px solid transparent; position: relative; overflow: hidden;
+        }
+        .btn::after {
+            content: ''; position: absolute; top: -50%; left: -100%; width: 60%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg); transition: left 0.5s ease; pointer-events: none;
+        }
+        .btn:hover::after { left: 150%; }
+        .btn-primary { background: var(--SEG-yellow); color: var(--SEG-blue); border-color: var(--SEG-yellow); }
+        .btn-primary:hover { background: #e6bb00; border-color: #e6bb00; transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .btn-secondary { background: transparent; color: var(--white); border-color: var(--white); }
+        .btn-secondary:hover { background: var(--white); color: var(--SEG-blue); }
+        .btn-outline { background: transparent; color: var(--SEG-blue); border-color: var(--SEG-blue); }
+        .btn-outline:hover { background: var(--SEG-blue); color: var(--white); }
+        .btn-white { background: var(--white); color: var(--SEG-blue); border-color: var(--white); }
+        .btn-white:hover { background: var(--SEG-yellow); border-color: var(--SEG-yellow); }
+
+        /* ============== HEADER ============== */
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: var(--SEG-blue); border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        header.scrolled { box-shadow: var(--shadow-lg); }
+        header.header-hidden { transform: translateY(-100%); }
+        header.header-visible { transform: translateY(0); }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; max-width: 1400px; margin: 0 auto; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo-icon { height: 45px; width: auto; }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.3s ease; position: relative; }
+        .nav-links a:hover, .nav-links a.active-page { color: var(--SEG-yellow); }
+        .nav-links a.active-page::after { content: ''; position: absolute; bottom: -6px; left: 0; right: 0; height: 2px; background: var(--SEG-yellow); }
+        .nav-links .dropdown { position: static; }
+        .nav-cta { display: flex; gap: 1rem; }
+        .nav-cta .btn { padding: 0.75rem 1.5rem; font-size: 0.875rem; }
+
+        /* MEGA MENU */
+        .mega-menu {
+            position: absolute; top: calc(100% + 10px);
+            left: 50%; width: 880px; max-width: calc(100vw - 2rem);
+            background: var(--SEG-blue);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.05);
+            opacity: 0; visibility: hidden;
+            transform: translateX(-50%) translateY(10px);
+            transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+            z-index: 1000; border-top: 3px solid var(--SEG-yellow);
+            border-radius: 12px; overflow: hidden;
+        }
+        .nav-links .dropdown:hover .mega-menu {
+            opacity: 1; visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .mega-menu-inner { display: flex; min-height: 280px; }
+        .mega-menu-sidebar { width: 260px; padding: 1.5rem 0; flex-shrink: 0; }
+        .nav-links .mega-menu-item {
+            display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.5rem;
+            color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+            border-left: 3px solid transparent; transition: all 0.25s ease; cursor: pointer;
+        }
+        .nav-links .mega-menu-item:hover, .nav-links .mega-menu-item.active {
+            background: rgba(255,255,255,0.08); color: var(--white);
+            border-left-color: var(--SEG-yellow); font-weight: 600;
+        }
+        .mega-menu-item svg { width: 22px; height: 22px; stroke: rgba(255,255,255,0.7); fill: none; stroke-width: 1.5; flex-shrink: 0; transition: stroke 0.25s ease; }
+        .mega-menu-item:hover svg, .mega-menu-item.active svg { stroke: var(--SEG-yellow); }
+        .mega-menu-content {
+            flex: 1; padding: 2rem 2.5rem; display: flex; gap: 2rem; align-items: flex-start;
+            background: var(--white);
+        }
+        .mega-menu-preview { display: none; flex: 1; animation: megaFadeIn 0.3s ease forwards; }
+        .mega-menu-preview.active { display: block; }
+        @keyframes megaFadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+        .mega-menu-preview-text { flex: 1; }
+        .mega-menu-preview-text h4 { font-size: 1.25rem; color: var(--SEG-blue); margin-bottom: 0.25rem; }
+        .mega-menu-preview-text .mega-tagline { font-size: 0.85rem; color: var(--SEG-yellow); font-weight: 600; margin-bottom: 0.75rem; display: block; }
+        .mega-menu-preview-text p { font-size: 0.9rem; color: var(--SEG-dark-grey); line-height: 1.6; margin-bottom: 1rem; }
+        .mega-menu-preview-text ul { list-style: none; padding: 0; margin: 0 0 1.25rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem; }
+        .mega-menu-preview-text li { font-size: 0.85rem; color: var(--SEG-dark-grey); display: flex; align-items: center; gap: 0.4rem; }
+        .mega-menu-preview-text li::before { content: '✓'; color: var(--SEG-yellow); font-weight: 700; font-size: 0.75rem; }
+        .mega-menu-cta {
+            display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; font-weight: 600;
+            color: var(--SEG-blue); text-decoration: none; padding: 0.6rem 1.25rem;
+            background: var(--SEG-yellow); border-radius: 4px; transition: all 0.3s ease;
+        }
+        .mega-menu-cta:hover { background: #e6bb00; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,207,0,0.4); }
+
+        @media (max-width: 968px) { .mega-menu { display: none; } }
+
+        /* Mobile menu */
+        .mobile-toggle { display: none; background: none; border: none; z-index: 1002; cursor: pointer; padding: 0.5rem; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+        .mobile-toggle span { display: block; width: 24px; height: 2px; background: var(--white); margin: 0; transition: 0.3s; }
+        .mobile-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .mobile-toggle.active span:nth-child(2) { opacity: 0; }
+        .mobile-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        .mobile-menu-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .mobile-menu-overlay.active { opacity: 1; visibility: visible; }
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 100%; max-width: 320px; height: 100vh; height: 100dvh; background: var(--SEG-blue); z-index: 1001; transition: right 0.3s ease; overflow-y: auto; padding: 70px 0 2rem; }
+        .mobile-menu.active { right: 0; }
+        .mobile-menu-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--white); font-size: 2rem; cursor: pointer; padding: 0.5rem; line-height: 1; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+        .mobile-menu-close:hover { color: var(--SEG-yellow); }
+        .mobile-menu-links { list-style: none; padding: 0 1rem; margin: 0; }
+        .mobile-menu-links li { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .mobile-menu-links > li > a { display: block; padding: 0.875rem 0; color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.3s ease; }
+        .mobile-menu-links a:hover { color: var(--SEG-yellow); }
+        .mobile-menu-submenu { list-style: none; padding: 0 0 0.5rem 0.75rem; margin: 0; }
+        .mobile-menu-submenu li { border-bottom: none; }
+        .mobile-menu-submenu a { display: block; padding: 0.5rem 0; font-size: 0.85rem; color: var(--SEG-grey); text-decoration: none; }
+        .mobile-menu-submenu a:hover { color: var(--SEG-yellow); }
+        .mobile-menu-cta { padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; }
+        .mobile-menu-cta .btn { width: 100%; text-align: center; padding: 0.75rem 1rem; font-size: 0.9rem; white-space: nowrap; }
+
+        /* ============== HERO ============== */
+        .about-hero {
+            position: relative;
+            margin-top: 76px;
+            background-color: var(--SEG-blue);
+            min-height: 440px;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: stretch;
+        }
+        .about-hero-image {
+            position: absolute;
+            inset: 0;
+            background-image: url('images/INTL Data Center Project 2023_3.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1;
+        }
+        .about-hero-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--SEG-blue) 0%, var(--SEG-blue) 25%, rgba(19,37,68,0.85) 45%, rgba(19,37,68,0.35) 75%, rgba(19,37,68,0) 100%);
+            z-index: 1;
+        }
+        .about-hero-text {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            padding: 4rem 3rem 4rem 4rem;
+            width: 50%;
+        }
+        .about-hero-content { max-width: 560px; width: 100%; }
+        .about-hero h1 {
+            color: var(--white);
+            font-size: clamp(2.25rem, 4.2vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+        .about-hero h1 .highlight { color: var(--SEG-yellow); }
+        .about-hero .hero-subtitle {
+            color: var(--white);
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 460px;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        .about-hero .hero-subtitle .highlight { color: var(--SEG-yellow); font-weight: 600; }
+
+        /* ============== MISSION & VISION ============== */
+        .mission-vision {
+            padding: 5rem 0;
+            background: var(--white);
+        }
+        .mv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .mv-block { padding-left: 2rem; position: relative; }
+        .mv-block::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 24px;
+            border-left: 3px solid var(--SEG-blue);
+            border-top: 3px solid var(--SEG-blue);
+            border-bottom: 3px solid var(--SEG-blue);
+        }
+        .mv-block h2 {
+            color: var(--SEG-yellow);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .mv-block p {
+            color: var(--SEG-dark-grey);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* ============== FOUNDER ============== */
+        .founder-section {
+            position: relative;
+            min-height: 520px;
+            display: flex;
+            align-items: stretch;
+            background: url('images/font.png') center/cover no-repeat;
+            overflow: hidden;
+        }
+        .founder-section::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(90deg, rgba(19,37,68,0.2) 0%, rgba(19,37,68,0.45) 50%, rgba(19,37,68,0.85) 100%);
+        }
+        .founder-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            align-items: center;
+            min-height: 520px;
+        }
+        .founder-image {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            padding: 0 2rem;
+            height: 100%;
+        }
+        .founder-image img {
+            max-height: 520px;
+            width: auto;
+            object-fit: contain;
+            object-position: bottom;
+        }
+        .founder-content {
+            padding: 3rem 2rem;
+            color: var(--white);
+            max-width: 520px;
+        }
+        .founder-icon { margin-bottom: 1rem; }
+        .founder-icon img { width: 56px; height: auto; }
+        .founder-content h2 {
+            color: var(--SEG-yellow);
+            font-size: 2.25rem;
+            margin-bottom: 1.25rem;
+        }
+        .founder-content h2 .white { color: var(--white); }
+        .founder-content p {
+            color: var(--white);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.75rem;
+            max-width: 460px;
+        }
+        .founder-content p .highlight { color: var(--SEG-yellow); font-weight: 600; }
+
+        /* ============== HOW WE SUPPORT YOU ============== */
+        .support-section {
+            padding: 5rem 0;
+            background: var(--white);
+        }
+        .support-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+        .support-header h2 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+        }
+        .support-header h2 .yellow { color: var(--SEG-yellow); display: block; }
+        .support-header .right {
+            position: relative;
+            padding-top: 1.5rem;
+        }
+        .support-header .right::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 80px; height: 3px;
+            background: var(--SEG-yellow);
+        }
+        .support-header .right p { color: var(--SEG-blue); font-size: 1rem; line-height: 1.6; }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .support-card {
+            background: var(--SEG-blue);
+            padding: 2.5rem 2rem 2rem;
+            position: relative;
+            color: var(--white);
+            min-height: 260px;
+        }
+        .support-card-icon {
+            position: absolute;
+            top: -24px;
+            left: 24px;
+            width: 56px;
+            height: 56px;
+            background: var(--SEG-yellow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-card-icon svg { width: 32px; height: 32px; color: var(--SEG-blue); }
+        .support-card h3 {
+            color: var(--SEG-yellow);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+        .support-card p {
+            color: var(--white);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ============== WHAT SETS US APART ============== */
+        .sets-apart {
+            padding: 5rem 0;
+            background: var(--SEG-light-grey);
+            text-align: center;
+        }
+        .sets-apart h2 {
+            font-size: 2.25rem;
+            color: var(--SEG-blue);
+            margin-bottom: 1.5rem;
+        }
+        .sets-apart h2 .highlight {
+            background: var(--SEG-blue);
+            color: var(--SEG-yellow);
+            padding: 2px 12px;
+            display: inline-block;
+        }
+        .sets-apart .intro {
+            max-width: 880px;
+            margin: 0 auto 3rem;
+            color: var(--SEG-dark-grey);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        .sets-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .sets-card {
+            background: var(--white);
+            border: 1px solid #cbd5e1;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .sets-card:hover { border-color: var(--SEG-blue); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        .sets-card-icon {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+        .sets-card-icon svg { width: 56px; height: 56px; color: var(--SEG-blue); }
+        .sets-card h4 {
+            color: var(--SEG-blue);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        /* ============== QUOTE CTA ============== */
+        .quote-cta {
+            position: relative;
+            display: grid;
+            grid-template-columns: 45% 55%;
+            background: var(--SEG-blue);
+            overflow: hidden;
+            min-height: 520px;
+        }
+        .quote-cta-left {
+            background: var(--SEG-blue);
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem 4rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+        .quote-cta-right {
+            position: relative;
+            background: var(--SEG-blue);
+            overflow: hidden;
+        }
+        .quote-cta-right img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+        .quote-cta-right::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 0;
+            width: 30%;
+            background: linear-gradient(90deg, var(--SEG-blue) 0%, rgba(19,37,68,0) 100%);
+            z-index: 1;
+        }
+        .quote-cta::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 36px;
+            background: var(--SEG-blue);
+            z-index: 3;
+        }
+        .quote-content { max-width: 520px; padding-left: 2rem; }
+        .quote-icon { margin-bottom: 1.5rem; }
+        .quote-icon img { width: 56px; height: auto; }
+        .quote-content blockquote {
+            color: var(--white);
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 2rem;
+            font-style: normal;
+        }
+        .quote-content .btn-primary { padding: 0.85rem 2rem; }
+
+        /* ============== FOOTER ============== */
+        footer {
+            background: var(--SEG-blue);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        .footer-brand p { color: var(--SEG-grey); font-size: 0.9rem; margin-top: 1rem; line-height: 1.6; }
+        .footer-links h4 { color: var(--SEG-yellow); font-size: 0.95rem; margin-bottom: 1rem; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 0.5rem; }
+        .footer-links a { color: var(--white); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+        .footer-links a:hover { color: var(--SEG-yellow); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .footer-bottom p { color: var(--SEG-grey); font-size: 0.85rem; }
+
+        /* ============== MODAL ============== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(19,37,68,0.7); z-index: 2000;
+            display: none; align-items: center; justify-content: center;
+            padding: 2rem;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--white);
+            border-radius: 12px;
+            max-width: 600px; width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--SEG-grey-2);
+            display: flex; justify-content: space-between; align-items: start;
+        }
+        .modal-header h3 { color: var(--SEG-blue); }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--SEG-grey); }
+        .modal-body { padding: 0; }
+        .modal-body iframe { width: 100%; height: 600px; border: none; }
+
+        /* ============== SCROLL ANIMATIONS ============== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+            will-change: opacity, transform;
+        }
+        .reveal.in-view { opacity: 1; transform: translateY(0); }
+        .reveal-left { transform: translateX(-40px); }
+        .reveal-left.in-view { transform: translateX(0); }
+        .reveal-right { transform: translateX(40px); }
+        .reveal-right.in-view { transform: translateX(0); }
+        .reveal-zoom { transform: scale(0.92); }
+        .reveal-zoom.in-view { transform: scale(1); }
+        .delay-1 { transition-delay: 0.15s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.45s; }
+
+        /* Hero parallax-style entrance */
+        .about-hero h1, .about-hero .hero-subtitle, .about-hero .btn {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) forwards;
+        }
+        .about-hero h1 { animation-delay: 0.1s; }
+        .about-hero .hero-subtitle { animation-delay: 0.3s; }
+        .about-hero .btn { animation-delay: 0.5s; }
+        @keyframes heroFadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Founder image - static, no float */
+        .founder-image img { transition: transform 1.2s cubic-bezier(0.22,1,0.36,1); }
+
+        /* Card hover lift for support cards */
+        .support-card {
+            transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease;
+        }
+        .support-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(19,37,68,0.25);
+        }
+        .support-card-icon { transition: transform 0.4s ease; }
+        .support-card:hover .support-card-icon { transform: rotate(-6deg) scale(1.08); }
+
+        /* Mission/Vision bracket draw */
+        .mv-block::before {
+            transition: all 0.8s cubic-bezier(0.22,1,0.36,1);
+        }
+        .mv-block.reveal:not(.in-view)::before {
+            border-color: transparent;
+        }
+
+        /* ============== RESPONSIVE ============== */
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .container { padding: 0 1.5rem; }
+            .support-grid { grid-template-columns: repeat(2, 1fr); }
+            .sets-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+            .founder-grid { gap: 2rem; }
+            .founder-content { padding: 2rem 1.5rem; }
+            .footer-grid { grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 2rem; }
+        }
+
+        /* Mobile breakpoint - hide desktop nav */
+        @media (max-width: 968px) {
+            .nav-links, .nav-cta { display: none !important; }
+            .mobile-toggle { display: flex; }
+            header nav { padding: 0.5rem 1.25rem; }
+
+            /* Hero — image full-bleed behind, text overlays left with gradient fade */
+            .about-hero { min-height: 360px; margin-top: 62px; }
+            .about-hero-text { padding: 2rem 1.25rem 2rem 1.5rem; width: 55%; }
+            .about-hero-image { background-position: center right; }
+            .about-hero-image::before {
+                background: linear-gradient(90deg, var(--SEG-blue) 0%, var(--SEG-blue) 20%, rgba(19,37,68,0.88) 40%, rgba(19,37,68,0.4) 70%, rgba(19,37,68,0) 100%);
+            }
+            .about-hero-content { max-width: 100%; }
+            .about-hero h1 { font-size: clamp(1.4rem, 4.5vw, 2rem); margin-bottom: 0.75rem; line-height: 1.15; }
+            .about-hero .hero-subtitle { font-size: 0.85rem; line-height: 1.5; margin-bottom: 1.25rem; max-width: 100%; }
+            .about-hero .btn { padding: 0.7rem 1.1rem; font-size: 0.78rem; }
+
+            /* Mission/Vision */
+            .mission-vision { padding: 3.5rem 0; }
+            .mv-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .mv-block { padding-left: 1.5rem; }
+            .mv-block::before { width: 16px; }
+            .mv-block h2 { font-size: 1.6rem; }
+
+            /* Founder — mobile keeps desktop layout (photo left, content right) */
+            .founder-section {
+                min-height: auto;
+                background: url('images/font.png') center/cover no-repeat;
+            }
+            .founder-section::before {
+                background: linear-gradient(90deg, rgba(19,37,68,0.25) 0%, rgba(19,37,68,0.5) 50%, rgba(19,37,68,0.9) 100%);
+            }
+            .founder-grid {
+                grid-template-columns: 0.85fr 1.15fr;
+                gap: 0;
+                min-height: auto;
+                align-items: end;          /* anchor cells to section bottom */
+                padding: 2.5rem 0 0;       /* top padding only — image touches bottom */
+            }
+            .founder-image {
+                padding: 0 0 0 0.5rem;
+                height: auto;
+                position: relative;
+                display: flex;
+                align-items: end;
+                justify-content: center;
+                align-self: end;            /* image cell sits at section bottom */
+            }
+            .founder-content {
+                align-self: center;         /* text content vertically centered */
+            }
+            .founder-image::after {
+                content: '';
+                position: absolute;
+                bottom: 0; left: 50%;
+                transform: translateX(-50%);
+                width: 80%;
+                height: 50px;
+                background: radial-gradient(ellipse at center, rgba(255, 207, 0, 0.25) 0%, transparent 70%);
+                pointer-events: none;
+            }
+            .founder-image img {
+                max-height: 360px;
+                width: auto;
+                max-width: 100%;
+                object-position: bottom;
+                filter: drop-shadow(0 12px 35px rgba(0, 0, 0, 0.5));
+            }
+            .founder-content {
+                padding: 1rem 1rem 1rem 0.75rem;
+                text-align: left;
+                max-width: 100%;
+            }
+            .founder-icon { margin-bottom: 0.75rem; }
+            .founder-icon img { width: 36px; }
+            .founder-content h2 {
+                font-size: 1.35rem;
+                margin-bottom: 0.75rem;
+                line-height: 1.15;
+            }
+            .founder-content p {
+                font-size: 0.78rem;
+                margin: 0 0 1rem;
+                max-width: 100%;
+                line-height: 1.55;
+            }
+            .founder-content .btn {
+                padding: 0.65rem 1rem;
+                font-size: 0.78rem;
+            }
+
+            /* How We Support */
+            .support-section { padding: 3.5rem 0; }
+            .support-header { grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2.5rem; }
+            .support-header h2 { font-size: 1.85rem; }
+            .support-header .right { padding-top: 1rem; }
+            .support-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .support-card { padding: 2rem 1.5rem 1.5rem; min-height: auto; }
+            .support-card h3 { font-size: 1.15rem; }
+
+            /* Sets Apart */
+            .sets-apart { padding: 3.5rem 0; }
+            .sets-apart h2 { font-size: 1.75rem; }
+            .sets-apart .intro { font-size: 0.9rem; margin-bottom: 2rem; }
+            .sets-grid { grid-template-columns: 1fr; gap: 1rem; max-width: 420px; }
+            .sets-card { padding: 2rem 1.25rem; }
+            .sets-card-icon svg { width: 44px; height: 44px; }
+
+            /* Quote CTA — keep side-by-side like desktop */
+            .quote-cta { grid-template-columns: 0.95fr 1.05fr; min-height: 360px; }
+            .quote-cta-left { padding: 2rem 1rem 2rem 1.25rem; }
+            .quote-cta-right { min-height: 360px; }
+            .quote-cta-right::before { width: 40%; }
+            .quote-content { padding-left: 0; max-width: 100%; }
+            .quote-content blockquote { font-size: 1.05rem; line-height: 1.3; margin-bottom: 1.25rem; }
+            .quote-icon { margin-bottom: 0.85rem; }
+            .quote-icon img { width: 38px; }
+            .quote-content .btn-primary { padding: 0.7rem 1.1rem; font-size: 0.78rem; }
+
+            /* Footer */
+            footer { padding: 3rem 0 1.5rem; }
+            .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem 1rem; margin-bottom: 2rem; }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-links h4 { font-size: 0.95rem; margin-bottom: 0.5rem; }
+            .footer-links ul li { margin-bottom: 0.4rem; }
+            .footer-links a { font-size: 0.85rem; }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
+
+            /* Modal */
+            .modal-overlay { padding: 1rem; }
+            .modal { max-height: 85vh; }
+            .modal-body iframe { height: 480px; }
+        }
+
+        /* Small mobile */
+        @media (max-width: 480px) {
+            .container { padding: 0 1.25rem; }
+            header { padding: 0.5rem 0; }
+            header .logo img { height: 44px !important; }
+
+            /* Hero — tighter for small phones (image full-bleed, text overlay) */
+            .about-hero { min-height: 320px; margin-top: 61px; }
+            .about-hero-text { padding: 1.25rem 0.85rem 1.25rem 1rem; width: 58%; }
+            .about-hero-image { background-position: center right; }
+            .about-hero-image::before {
+                background: linear-gradient(90deg, var(--SEG-blue) 0%, var(--SEG-blue) 18%, rgba(19,37,68,0.88) 38%, rgba(19,37,68,0.45) 68%, rgba(19,37,68,0) 100%);
+            }
+            .about-hero h1 { font-size: 1.05rem; margin-bottom: 0.5rem; line-height: 1.15; }
+            .about-hero .hero-subtitle { font-size: 0.7rem; line-height: 1.4; margin-bottom: 0.85rem; }
+            .about-hero .btn { padding: 0.5rem 0.75rem; font-size: 0.7rem; }
+
+            .mission-vision { padding: 2.5rem 0; }
+            .mv-block h2 { font-size: 1.4rem; }
+            .mv-block p { font-size: 0.875rem; }
+
+            /* Founder — keep side-by-side, tighten further */
+            .founder-grid { grid-template-columns: 0.85fr 1.15fr; padding: 1.5rem 0; }
+            .founder-image img { max-height: 260px; }
+            .founder-content { padding: 0.5rem 0.75rem 0.5rem 0.5rem; }
+            .founder-icon img { width: 32px; }
+            .founder-content h2 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+            .founder-content p { font-size: 0.72rem; margin-bottom: 0.85rem; line-height: 1.5; }
+            .founder-content .btn { padding: 0.55rem 0.85rem; font-size: 0.72rem; }
+
+            .support-section { padding: 2.5rem 0; }
+            .support-header h2 { font-size: 1.5rem; }
+            .support-card { padding: 2rem 1.25rem 1.5rem; }
+
+            .sets-apart { padding: 2.5rem 0; }
+            .sets-apart h2 { font-size: 1.5rem; }
+
+            /* Quote CTA — tighter side-by-side for small phones */
+            .quote-cta { grid-template-columns: 0.95fr 1.05fr; min-height: 300px; }
+            .quote-cta-left { padding: 1.25rem 0.75rem 1.25rem 1rem; }
+            .quote-cta-right { min-height: 300px; }
+            .quote-cta-right::before { width: 50%; }
+            .quote-icon { margin-bottom: 0.6rem; }
+            .quote-icon img { width: 30px; }
+            .quote-content blockquote { font-size: 0.85rem; line-height: 1.25; margin-bottom: 0.85rem; }
+            .quote-content .btn-primary { padding: 0.55rem 0.8rem; font-size: 0.7rem; }
+
+            .footer-grid { grid-template-columns: 1fr 1fr 1fr !important; gap: 1rem 0.75rem !important; }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-links h4 { font-size: 0.85rem !important; }
+            .footer-links a { font-size: 0.78rem !important; }
+            .footer-brand { grid-column: 1; }
+
+            .btn { padding: 0.85rem 1.5rem; font-size: 0.85rem; }
+
+            .mobile-menu { width: min(280px, 90vw); }
+        }
+
+        /* Letter drop-in for hero h1 (used by JS) */
+        @keyframes letterDropIn {
+            0%   { opacity: 0; transform: translateY(12px) rotate(-4deg); }
+            100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+        }
+    </style>
+
+    <!-- SEO: JSON-LD structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://safety-excellence.com/#organization",
+          "name": "Safety Excellence Group",
+          "alternateName": "S.E.G.",
+          "url": "https://safety-excellence.com",
+          "logo": "https://safety-excellence.com/images/SEG Original Logo.png",
+          "slogan": "Safe. Fast. Precise.",
+          "description": "Shaping a safer tomorrow through innovation, execution, and people-first culture."
+        },
+        {
+          "@type": "AboutPage",
+          "@id": "https://safety-excellence.com/about-us.html#about",
+          "url": "https://safety-excellence.com/about-us.html",
+          "name": "About Safety Excellence Group",
+          "description": "Learn about S.E.G.'s mission, vision, and founder's story. Precision safety consulting for advanced industries.",
+          "mainEntity": { "@id": "https://safety-excellence.com/#organization" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home",     "item": "https://safety-excellence.com/" },
+            { "@type": "ListItem", "position": 2, "name": "About Us", "item": "https://safety-excellence.com/about-us.html" }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+
+    <!-- ============== HEADER ============== -->
+    <header id="header">
+        <nav>
+            <a href="/" class="logo">
+                <img src="images/SEG Original Logo.png" alt="Safety Excellence Group" class="logo-icon" style="height: 60px; width: auto;">
+            </a>
+
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="/industries.html">Industries ▾</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-inner">
+                            <div class="mega-menu-sidebar">
+                                <a class="mega-menu-item active" data-preview="semi" href="/industries.html#semiconductor">
+                                    <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Semiconductor
+                                </a>
+                                <a class="mega-menu-item" data-preview="dc" href="/data-centers.html">
+                                    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="20" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7" y="15" width="4" height="3" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="15" width="4" height="3" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Data Centers
+                                </a>
+                                <a class="mega-menu-item" data-preview="mfg" href="/industries.html#manufacturing">
+                                    <svg viewBox="0 0 24 24"><path d="M4 5h16M4 9h16M4 13h16M4 17h16M9 5v12M15 5v12" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Advanced Manufacturing
+                                </a>
+                                <a class="mega-menu-item" data-preview="const" href="/industries.html#construction">
+                                    <svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V10l6-4 6 4v10M8 20V14M12 20V8M16 20v-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Construction & Infrastructure
+                                </a>
+                            </div>
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-preview active" id="preview-semi">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Semiconductor</h4>
+                                        <span class="mega-tagline">Full Fab Lifecycle Support</span>
+                                        <p>SEMI S2/S8 compliance, tool install safety, and cleanroom protocols for 50+ fab projects across 5 continents.</p>
+                                        <ul>
+                                            <li>SEMI S2/S8 Compliance</li>
+                                            <li>Tool Install Safety</li>
+                                            <li>Cleanroom Protocols</li>
+                                            <li>Owner Rep Services</li>
+                                        </ul>
+                                        <a href="/industries.html#semiconductor" class="mega-menu-cta">Explore Semiconductor →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-dc">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Data Centers</h4>
+                                        <span class="mega-tagline">Safety at Hyperscale Speed</span>
+                                        <p>NFPA 70E qualified specialists protecting your timeline and people during construction and operations.</p>
+                                        <ul>
+                                            <li>Arc Flash Safety</li>
+                                            <li>LOTO Programs</li>
+                                            <li>24/7 Safety Coverage</li>
+                                            <li>Critical Infrastructure</li>
+                                        </ul>
+                                        <a href="/data-centers.html" class="mega-menu-cta">Explore Data Centers →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-mfg">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Advanced Manufacturing</h4>
+                                        <span class="mega-tagline">Reduce Incidents, Lower EMR</span>
+                                        <p>Ongoing EHS support and safety culture transformation for production facilities.</p>
+                                        <ul>
+                                            <li>Staff Augmentation</li>
+                                            <li>Program Development</li>
+                                            <li>EMR Turnaround</li>
+                                            <li>Machine Safety</li>
+                                        </ul>
+                                        <a href="/industries.html#manufacturing" class="mega-menu-cta">Explore Manufacturing →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-const">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Construction & Infrastructure</h4>
+                                        <span class="mega-tagline">Proactive Safety That Prevents Delays</span>
+                                        <p>Ground-up builds, tenant improvements, shutdowns with multi-trade coordination.</p>
+                                        <ul>
+                                            <li>Fall Protection Programs</li>
+                                            <li>Crane & Rigging</li>
+                                            <li>HASP Development</li>
+                                            <li>Subcontractor Vetting</li>
+                                        </ul>
+                                        <a href="/industries.html#construction" class="mega-menu-cta">Explore Construction →</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="/services.html">Services ▾</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-inner">
+                            <div class="mega-menu-sidebar">
+                                <a class="mega-menu-item active" data-preview="staffing" href="/services.html#staffing">
+                                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Staffing Solutions
+                                </a>
+                                <a class="mega-menu-item" data-preview="assessments" href="/services.html#assessments">
+                                    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Assessments & Audits
+                                </a>
+                                <a class="mega-menu-item" data-preview="programs" href="/services.html#programs">
+                                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Program Development
+                                </a>
+                                <a class="mega-menu-item" data-preview="vetting" href="/services.html#vetting">
+                                    <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M22 4L12 14.01l-3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    Subcontractor Vetting
+                                </a>
+                            </div>
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-preview active" id="preview-staffing">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Staffing Solutions</h4>
+                                        <span class="mega-tagline">Pre-vetted specialists, deployed fast</span>
+                                        <p>Safety Technicians to Senior Directors. Pre-vetted, certification-ready professionals for your environment.</p>
+                                        <ul>
+                                            <li>Embedded Placements</li>
+                                            <li>Project-Based Teams</li>
+                                            <li>Temp-to-Hire</li>
+                                            <li>Executive Search</li>
+                                        </ul>
+                                        <a href="/services.html#staffing" class="mega-menu-cta">Explore Staffing →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-assessments">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Assessments & Audits</h4>
+                                        <span class="mega-tagline">AI-powered insights, not shelf reports</span>
+                                        <p>AEGIS-powered assessments with actionable insights, clear priorities, and ROI projections.</p>
+                                        <ul>
+                                            <li>Risk Score Generation</li>
+                                            <li>EMR Turnaround</li>
+                                            <li>Executive Reporting</li>
+                                            <li>Gap Analysis</li>
+                                        </ul>
+                                        <a href="/services.html#assessments" class="mega-menu-cta">Explore Assessments →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-programs">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Program Development</h4>
+                                        <span class="mega-tagline">Compliant documentation, built to last</span>
+                                        <p>Site-specific procedures that integrate with your operations—not generic templates.</p>
+                                        <ul>
+                                            <li>HASP Development</li>
+                                            <li>Emergency Response</li>
+                                            <li>Training Programs</li>
+                                            <li>Job Hazard Analysis</li>
+                                        </ul>
+                                        <a href="/services.html#programs" class="mega-menu-cta">Explore Programs →</a>
+                                    </div>
+                                </div>
+                                <div class="mega-menu-preview" id="preview-vetting">
+                                    <div class="mega-menu-preview-text">
+                                        <h4>Subcontractor Vetting</h4>
+                                        <span class="mega-tagline">Know your subs before they're on site</span>
+                                        <p>AEGIS-powered analysis with actionable insights on your subcontractors' safety performance.</p>
+                                        <ul>
+                                            <li>Performance Analysis</li>
+                                            <li>Compliance Verification</li>
+                                            <li>Pre-Qualification</li>
+                                            <li>Scorecards</li>
+                                        </ul>
+                                        <a href="/services.html#vetting" class="mega-menu-cta">Explore Vetting →</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                <li><a href="/about-us.html" class="active-page">About Us</a></li>
+                <li><a href="/careers.html">Careers</a></li>
+            </ul>
+
+            <div class="nav-cta">
+                <a href="#" class="btn btn-secondary" onclick="event.preventDefault(); window.location.href='/careers.html'">Join Our Team</a>
+                <a href="#" class="btn btn-primary" onclick="openModal('bookingModal', event)">Request Support</a>
+            </div>
+
+            <button class="mobile-toggle" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="closeMobileMenu()">&times;</button>
+        <ul class="mobile-menu-links">
+            <li>
+                <a href="/industries.html">Industries</a>
+                <ul class="mobile-menu-submenu">
+                    <li><a href="/industries.html#semiconductor" onclick="closeMobileMenu()">Semiconductor</a></li>
+                    <li><a href="/data-centers.html" onclick="closeMobileMenu()">Data Centers</a></li>
+                    <li><a href="/industries.html#manufacturing" onclick="closeMobileMenu()">Advanced Manufacturing</a></li>
+                    <li><a href="/industries.html#construction" onclick="closeMobileMenu()">Construction &amp; Infrastructure</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/services.html">Services</a>
+                <ul class="mobile-menu-submenu">
+                    <li><a href="/services.html#staffing" onclick="closeMobileMenu()">Staffing Solutions</a></li>
+                    <li><a href="/services.html#assessments" onclick="closeMobileMenu()">Assessments &amp; Audits</a></li>
+                    <li><a href="/services.html#programs" onclick="closeMobileMenu()">Program Development</a></li>
+                    <li><a href="/services.html#vetting" onclick="closeMobileMenu()">Subcontractor Vetting</a></li>
+                </ul>
+            </li>
+            <li><a href="/why-seg.html" onclick="closeMobileMenu()">Why S.E.G.</a></li>
+            <li><a href="/about-us.html" onclick="closeMobileMenu()">About Us</a></li>
+            <li><a href="/careers.html" onclick="closeMobileMenu()">Careers</a></li>
+        </ul>
+        <div class="mobile-menu-cta">
+            <a href="/careers.html" class="btn btn-secondary" onclick="closeMobileMenu()">Join Our Team</a>
+            <a href="#" class="btn btn-primary" onclick="closeMobileMenu(); openModal('bookingModal', event)">Request Support</a>
+        </div>
+    </div>
+
+    <!-- ============== HERO ============== -->
+    <section class="about-hero">
+        <div class="about-hero-text">
+            <div class="about-hero-content">
+                <h1>About <span class="highlight">Safety Excellence Group</span></h1>
+                <p class="hero-subtitle">Shaping a <span class="highlight">safer tomorrow</span> through innovation, execution, and people-first culture.</p>
+                <a href="#" class="btn btn-primary" onclick="openModal('bookingModal', event)">TALK TO AN EXPERT</a>
+            </div>
+        </div>
+        <div class="about-hero-image" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============== MISSION & VISION ============== -->
+    <section class="mission-vision">
+        <div class="container">
+            <div class="mv-grid">
+                <div class="mv-block reveal reveal-left">
+                    <h2>Our Mission</h2>
+                    <p>At Safety Excellence Group, we empower a new generation of safety leaders—change agents who challenge convention, partner with organizations to drive cultural transformation, and embed safety as a core value. Our mission is to make workplaces safer, smarter, and stronger—because true safety isn't a checklist, it's a mindset.</p>
+                </div>
+                <div class="mv-block reveal reveal-right delay-1">
+                    <h2>Our Vision</h2>
+                    <p>Our vision is to transform the Environmental, Health, and Safety (EHS) landscape through innovation, technology, and a people-first mindset. We strive to create safer, healthier, and more productive work environments where safety is not just a requirement, it's a shared value and a strategic advantage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== FOUNDER'S STORY ============== -->
+    <section class="founder-section reveal">
+        <div class="founder-grid">
+            <div class="founder-image reveal reveal-left">
+                <img src="images/profile.png" alt="S.E.G. Founder">
+            </div>
+            <div class="founder-content reveal reveal-right delay-1">
+                <div class="founder-icon">
+                    <img src="images/icon.png" alt="">
+                </div>
+                <h2>Founder's <span class="white">Story</span></h2>
+                <p>I didn't start S.E.G. because it was the next logical step. I started it because when faced with a challenge, <span class="highlight">I figured it out.</span></p>
+                <a href="#how-we-support" class="btn btn-primary">FIND OUT MORE</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== HOW WE SUPPORT YOU ============== -->
+    <section class="support-section" id="how-we-support">
+        <div class="container">
+            <div class="support-header">
+                <div class="reveal reveal-left">
+                    <h2>How We<br><span class="yellow">Support You</span></h2>
+                </div>
+                <div class="right reveal reveal-right delay-1">
+                    <p>You're here to deliver something extraordinary. We help you protect who make it happen.</p>
+                </div>
+            </div>
+
+            <div class="support-grid">
+                <div class="support-card reveal">
+                    <div class="support-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2 L4 6 v6 c0 5 3.5 8.5 8 10 c4.5-1.5 8-5 8-10 V6 L12 2z"/>
+                            <circle cx="12" cy="11" r="2.5" fill="currentColor"/>
+                            <path d="M9 17 c0-2 1.5-3 3-3 s3 1 3 3" fill="none"/>
+                        </svg>
+                    </div>
+                    <h3>Staffing</h3>
+                    <p>Personalized support to build a workforce prepared for safety challenges</p>
+                </div>
+
+                <div class="support-card reveal delay-1">
+                    <div class="support-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2 L4 5 v7 c0 4.5 3.2 8 8 9 c4.8-1 8-4.5 8-9 V5 L12 2z"/>
+                            <circle cx="11" cy="11" r="3" fill="none"/>
+                            <line x1="13.5" y1="13.5" x2="16" y2="16"/>
+                        </svg>
+                    </div>
+                    <h3>EHS Auditing</h3>
+                    <p>No blind spots. No surprises.<br>Our audits give you the certainty to supercharge your operations.</p>
+                </div>
+
+                <div class="support-card reveal delay-2">
+                    <div class="support-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2 c-3 0-5.5 2.5-5.5 5.5 v3 H4 v9 h16 v-9 h-2.5 V7.5 C17.5 4.5 15 2 12 2z"/>
+                            <circle cx="12" cy="14.5" r="2.5" fill="none"/>
+                            <path d="M12 12 v-1.5 M12 17 v1.5 M9.5 14.5 H8 M16 14.5 h-1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Tailored Solutions</h3>
+                    <p>Adaptable strategies to meet the unique needs of your industry</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== WHAT SETS US APART ============== -->
+    <section class="sets-apart">
+        <div class="container">
+            <h2 class="reveal">What <span class="highlight">Sets</span> Us Apart</h2>
+            <p class="intro reveal delay-1">At Safety Excellence Group, we're not just about meeting standards—we're about setting them. Our approach is rooted in practical execution, deep industry knowledge, and a belief that safety drives innovation. We combine modern tools, data-driven insights, and a people-first mindset to deliver exceptional results for some of the most advanced industries in the world.</p>
+
+            <div class="sets-grid">
+                <div class="sets-card reveal reveal-zoom">
+                    <div class="sets-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="4" y="3" width="14" height="18" rx="1"/>
+                            <circle cx="14" cy="13" r="3.5"/>
+                            <path d="M11.5 13.5 l1.5 1.5 l3-3.5"/>
+                        </svg>
+                    </div>
+                    <h4>Zero Harm</h4>
+                </div>
+
+                <div class="sets-card reveal reveal-zoom delay-1">
+                    <div class="sets-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="1"/>
+                            <path d="M7 9 h10 M7 13 h6"/>
+                            <circle cx="16" cy="15" r="2"/>
+                        </svg>
+                    </div>
+                    <h4>Zero friction</h4>
+                </div>
+
+                <div class="sets-card reveal reveal-zoom delay-2">
+                    <div class="sets-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="1"/>
+                            <path d="M7 9 h10 M7 13 h10 M7 17 h6"/>
+                            <path d="M14 16 l2 2 l4-4"/>
+                        </svg>
+                    </div>
+                    <h4>No harm</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== QUOTE CTA ============== -->
+    <section class="quote-cta">
+        <div class="quote-cta-left">
+            <div class="quote-content reveal">
+                <div class="quote-icon">
+                    <img src="images/icon.png" alt="">
+                </div>
+                <blockquote>"Safety is not a roadblock — it's the roadmap."</blockquote>
+                <a href="#" class="btn btn-primary" onclick="openModal('bookingModal', event)">TALK TO AN EXPERT</a>
+            </div>
+        </div>
+        <div class="quote-cta-right">
+            <img src="images/officer.png" alt="">
+        </div>
+    </section>
+
+    <!-- ============== FOOTER ============== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="logo"><img src="images/Transparent Logo.png" alt="S.E.G." style="height: 75px;"></a>
+                    <p>AI-Powered. Expert-Delivered. Precision safety for advanced industries.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Industries</h4>
+                    <ul>
+                        <li><a href="/industries.html#semiconductor">Semiconductor</a></li>
+                        <li><a href="/industries.html#datacenter">Data Centers</a></li>
+                        <li><a href="/industries.html#construction">Construction</a></li>
+                        <li><a href="/industries.html#manufacturing">Manufacturing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="/services.html#staffing">Staffing Solutions</a></li>
+                        <li><a href="/services.html#assessments">Assessments &amp; Audits</a></li>
+                        <li><a href="/services.html#programs">Program Development</a></li>
+                        <li><a href="/services.html#vetting">Subcontractor Vetting</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                        <li><a href="/about-us.html">About Us</a></li>
+                        <li><a href="/careers.html">Careers</a></li>
+                        <li><a href="/#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Safety Excellence Group. All rights reserved.</p>
+                <p>Powered by <a href="https://aegisai.co/" target="_blank" style="color: var(--SEG-yellow); text-decoration: none;">AEGIS AI</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============== BOOKING MODAL ============== -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h3>Talk To An Expert</h3>
+                    <p style="color: var(--SEG-grey); font-size: 0.9rem; margin-top: 0.25rem;">Schedule 15 minutes to discuss your safety needs</p>
+                </div>
+                <button class="modal-close" onclick="closeModal('bookingModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe src="https://api.leadconnectorhq.com/widget/booking/56IkA4NNqXU4MQAnpmAh"></iframe>
+                <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== JS ============== -->
+    <script>
+        function openModal(id, event) {
+            if (event) event.preventDefault();
+            document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+            document.querySelector('.mobile-menu-overlay').classList.toggle('active');
+        }
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').classList.remove('active');
+            document.querySelector('.mobile-menu-overlay').classList.remove('active');
+        }
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Header hide on scroll
+        let lastScrollY = 0;
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            const y = window.scrollY;
+            if (y > 100) {
+                if (y > lastScrollY) header.classList.add('header-hidden');
+                else header.classList.remove('header-hidden');
+            } else {
+                header.classList.remove('header-hidden');
+            }
+            lastScrollY = y;
+        });
+
+        // Mega-menu preview hover behavior
+        document.querySelectorAll('.mega-menu').forEach(function(menu) {
+            const items = menu.querySelectorAll('.mega-menu-item');
+            const previews = menu.querySelectorAll('.mega-menu-preview');
+            items.forEach(function(item) {
+                item.addEventListener('mouseenter', function() {
+                    const preview = item.dataset.preview;
+                    items.forEach(function(i) { i.classList.remove('active'); });
+                    item.classList.add('active');
+                    previews.forEach(function(p) { p.classList.remove('active'); });
+                    const target = menu.querySelector('#preview-' + preview);
+                    if (target) target.classList.add('active');
+                });
+            });
+        });
+
+        // Scroll reveal animations
+        const revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            revealObserver.observe(el);
+        });
+
+        // Hero h1 — wrap letters for drop-in + hover (groups letters per word so words don't break)
+        (function() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+            const h1 = document.querySelector('.about-hero h1');
+            if (!h1 || h1.querySelector('.letter')) return;
+
+            function makeLetter(char, delay) {
+                const span = document.createElement('span');
+                span.className = 'letter';
+                span.textContent = char;
+                span.style.display = 'inline-block';
+                span.style.opacity = '0';
+                span.style.animation = `letterDropIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}s forwards`;
+                span.style.transition = 'transform 0.25s ease';
+                if (hasHover) {
+                    span.addEventListener('mouseenter', () => {
+                        span.style.transform = 'translateY(-4px) scale(1.12)';
+                    });
+                    span.addEventListener('mouseleave', () => {
+                        span.style.transform = 'translateY(0) scale(1)';
+                    });
+                }
+                return span;
+            }
+
+            // Group letters by word so the browser can never break mid-word.
+            function tokenizeWordsAndLetters(text, container, startCharIdx, baseDelay) {
+                const tokens = text.match(/\S+|\s+/g) || [];
+                let charIdx = startCharIdx;
+                tokens.forEach(token => {
+                    if (/^\s+$/.test(token)) {
+                        container.appendChild(document.createTextNode(' '));
+                    } else {
+                        const word = document.createElement('span');
+                        word.className = 'word-group';
+                        word.style.display = 'inline-block';
+                        word.style.whiteSpace = 'nowrap';
+                        token.split('').forEach(ch => {
+                            word.appendChild(makeLetter(ch, baseDelay + charIdx * 0.025));
+                            charIdx++;
+                        });
+                        container.appendChild(word);
+                    }
+                });
+                return charIdx;
+            }
+
+            let charOffset = 0;
+            const children = Array.from(h1.childNodes);
+            h1.innerHTML = '';
+            children.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    charOffset = tokenizeWordsAndLetters(node.textContent, h1, charOffset, 0.1);
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    const inner = node.textContent;
+                    node.textContent = '';
+                    charOffset = tokenizeWordsAndLetters(inner, node, charOffset, 0.1);
+                    h1.appendChild(node);
+                }
+            });
+        })();
+
+        // Hero subtitle — wrap each word for hover-lift (skip on touch devices)
+        (function() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+            const p = document.querySelector('.about-hero .hero-subtitle');
+            if (!p || p.querySelector('.word')) return;
+
+            function processNode(node, container) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const tokens = node.textContent.match(/\S+|\s+/g) || [];
+                    tokens.forEach(token => {
+                        if (/^\s+$/.test(token)) {
+                            container.appendChild(document.createTextNode(token));
+                        } else {
+                            const span = document.createElement('span');
+                            span.className = 'word';
+                            span.textContent = token;
+                            span.style.display = 'inline-block';
+                            span.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease, text-shadow 0.3s ease';
+                            span.style.cursor = 'default';
+                            span.addEventListener('mouseenter', () => {
+                                span.style.transform = 'translateY(-4px) scale(1.06)';
+                                span.style.color = '#FFCF00';
+                                span.style.textShadow = '0 4px 12px rgba(255, 207, 0, 0.4)';
+                            });
+                            span.addEventListener('mouseleave', () => {
+                                span.style.transform = '';
+                                span.style.color = '';
+                                span.style.textShadow = '';
+                            });
+                            container.appendChild(span);
+                        }
+                    });
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    const newEl = node.cloneNode(false);
+                    Array.from(node.childNodes).forEach(child => processNode(child, newEl));
+                    container.appendChild(newEl);
+                }
+            }
+
+            const fragment = document.createDocumentFragment();
+            Array.from(p.childNodes).forEach(node => processNode(node, fragment));
+            p.innerHTML = '';
+            p.appendChild(fragment);
+        })();
+    </script>
+
+    <script src="js/aegis-chatbot.js"></script>
+    <script src="js/aegis-call-widget.js"></script>
+</body>
+</html>

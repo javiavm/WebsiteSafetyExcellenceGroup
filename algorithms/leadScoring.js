@@ -31,7 +31,7 @@ const SCORING = {
     decisionRole: {
         'decision': 20,
         'influencer': 10,
-        'research': 5
+        'research': 0
     },
 
     industry: {
@@ -39,7 +39,7 @@ const SCORING = {
         'datacenter': 15,
         'construction': 10,
         'manufacturing': 10,
-        'other': 5
+        'other': 0
     },
 
     projectRole: {
@@ -98,25 +98,9 @@ function getFactorScore(factor, value) {
 }
 
 /**
- * Check for auto-nurture conditions
+ * Get classification based on score (strict score-based, no overrides)
  */
-function checkAutoNurture(data) {
-    const isLowBudget = data.engagement_size?.toLowerCase() === 'under40k';
-    const isExploring = data.timeline?.toLowerCase() === 'exploring';
-    return isLowBudget && isExploring;
-}
-
-/**
- * Get classification based on score
- */
-function getClassification(score, isAutoNurture = false) {
-    if (isAutoNurture) {
-        return {
-            ...CLASSIFICATION.NURTURE,
-            reason: 'Auto-nurture: Low budget + exploring timeline'
-        };
-    }
-
+function getClassification(score) {
     if (score >= CLASSIFICATION.HOT.min) {
         return { ...CLASSIFICATION.HOT };
     } else if (score >= CLASSIFICATION.WARM.min) {
@@ -186,11 +170,8 @@ function scoreClientLead(formData) {
     // Calculate total score
     const totalScore = Object.values(breakdown).reduce((sum, factor) => sum + factor.points, 0);
 
-    // Check for auto-nurture condition
-    const isAutoNurture = checkAutoNurture(data);
-
-    // Get classification
-    const classification = getClassification(totalScore, isAutoNurture);
+    // Get classification (strict score-based)
+    const classification = getClassification(totalScore);
 
     // Build result
     const result = {
@@ -215,12 +196,6 @@ function scoreClientLead(formData) {
             }
         }
     };
-
-    // Add auto-nurture flag if applicable
-    if (isAutoNurture) {
-        result.autoNurture = true;
-        result.autoNurtureReason = 'Low budget (under $40k) combined with exploring timeline';
-    }
 
     // If not qualified, override classification
     if (!validation.isQualified) {
@@ -247,10 +222,6 @@ function getScoreSummary(result) {
     for (const [factor, data] of Object.entries(result.breakdown)) {
         const factorName = factor.replace(/([A-Z])/g, ' $1').trim();
         lines.push(`  - ${factorName}: ${data.points}/${data.maxPoints} pts (${data.value || 'not provided'})`);
-    }
-
-    if (result.autoNurture) {
-        lines.push('', `⚠️ Auto-Nurture: ${result.autoNurtureReason}`);
     }
 
     if (!result.validation.isQualified) {

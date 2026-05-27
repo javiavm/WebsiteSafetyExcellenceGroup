@@ -74,47 +74,45 @@
                     </button>
                 </div>
 
-                <!-- Disclaimer (shown first time) -->
-                <div class="aegis-disclaimer" id="aegis-disclaimer" style="${disclaimerAccepted ? 'display: none;' : ''}">
-                    <div class="aegis-disclaimer-content">
-                        <strong>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFCF00" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <line x1="12" y1="8" x2="12" y2="12"/>
-                                <line x1="12" y1="16" x2="12.01" y2="16"/>
-                            </svg>
-                            Important Disclaimer
-                        </strong>
-                        <div style="max-height: 120px; overflow-y: auto; margin: 6px 0; padding: 6px; background: #fff; border-radius: 4px; font-size: 9px; line-height: 1.4;">
-                            <p style="margin-bottom: 4px;">AEGIS AI is for <strong>educational purposes only</strong>.</p>
-                            <p style="margin-bottom: 4px;"><strong>Does NOT constitute:</strong> professional safety audits, legal advice, or compliance certification.</p>
-                            <p style="margin-bottom: 4px;"><strong>No liability.</strong> Users assume all risk.</p>
-                            <p><strong>Recommendation:</strong> Engage qualified safety professionals.</p>
-                        </div>
-                        <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer; font-size: 10px; font-weight: 500; color: #132544; margin-bottom: 6px;">
-                            <input type="checkbox" id="aegis-disclaimer-checkbox" style="width: 14px; height: 14px; margin-top: 1px;">
-                            <span>I have read and agree to this disclaimer</span>
-                        </label>
-                        <button class="aegis-disclaimer-btn" onclick="AEGIS.acceptDisclaimer()">I Agree — Continue →</button>
-                    </div>
-                </div>
-
                 <!-- Messages -->
                 <div class="aegis-messages" id="aegis-messages"><div class="aegis-messages-inner" id="aegis-messages-inner"></div></div>
 
                 <!-- Quick Replies -->
                 <div class="aegis-quick-replies" id="aegis-quick-replies"></div>
 
+                <!-- Disclaimer (shown first time, sits above the input) -->
+                <div class="aegis-disclaimer" id="aegis-disclaimer" style="${disclaimerAccepted ? 'display: none;' : ''}">
+                    <div class="aegis-disclaimer-content">
+                        <p class="aegis-disclaimer-text">
+                            AEGIS AI is for <strong>educational purposes only</strong> — not a substitute for professional safety audits, legal advice, or compliance certification.
+                        </p>
+                        <label class="aegis-disclaimer-check">
+                            <input type="checkbox" id="aegis-disclaimer-checkbox">
+                            <span>I agree</span>
+                        </label>
+                        <button class="aegis-disclaimer-btn" onclick="AEGIS.acceptDisclaimer()">Continue →</button>
+                    </div>
+                </div>
+
                 <!-- Input Area -->
                 <div class="aegis-input-area">
+                    <!-- Attachment preview chip (hidden until file selected) -->
+                    <div class="aegis-attachment-preview" id="aegis-attachment-preview" style="display: none;"></div>
+
                     <div class="aegis-input-wrapper">
-                        <textarea 
-                            class="aegis-input" 
-                            id="aegis-input" 
+                        <textarea
+                            class="aegis-input"
+                            id="aegis-input"
                             placeholder="Type your message..."
                             rows="1"
                             ${!disclaimerAccepted ? 'disabled' : ''}
                         ></textarea>
+                        <input type="file" id="aegis-file-input" accept="image/*,application/pdf" style="display: none;">
+                        <button class="aegis-attach-btn" id="aegis-attach" type="button" aria-label="Attach file">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                            </svg>
+                        </button>
                         <button class="aegis-send-btn" id="aegis-send" onclick="AEGIS.sendMessage()" ${!disclaimerAccepted ? 'disabled' : ''}>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
@@ -152,6 +150,9 @@
         }
     }
 
+    // Pending attachment (in-memory only, never sent to backend as binary)
+    let pendingAttachment = null;
+
     // Set up event listeners
     function setupEventListeners() {
         const input = document.getElementById('aegis-input');
@@ -169,6 +170,22 @@
                 sendMessage();
             }
         });
+
+        // File input change handler
+        const fileInput = document.getElementById('aegis-file-input');
+        if (fileInput) {
+            fileInput.addEventListener('change', handleFileSelected);
+        }
+
+        // Attach button → open file picker
+        const attachBtn = document.getElementById('aegis-attach');
+        if (attachBtn && fileInput) {
+            attachBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                fileInput.click();
+            });
+        }
 
         // Close chat when clicking outside (all screen sizes — backdrop tap on mobile)
         document.addEventListener('click', function(e) {
@@ -211,9 +228,14 @@
 
         isOpen = !isOpen;
         widget.classList.toggle('open', isOpen);
+        document.body.classList.toggle('aegis-chat-open', isOpen);
 
         if (isOpen) {
             badge.style.display = 'none';
+            // Also close the call widget if it happens to be open
+            if (window.AegisCallWidget && typeof window.AegisCallWidget.close === 'function') {
+                window.AegisCallWidget.close();
+            }
             if (disclaimerAccepted) {
                 document.getElementById('aegis-input').focus();
             }
@@ -244,6 +266,8 @@
         document.getElementById('aegis-disclaimer').style.display = 'none';
         document.getElementById('aegis-input').disabled = false;
         document.getElementById('aegis-send').disabled = false;
+        const attachBtn = document.getElementById('aegis-attach');
+        if (attachBtn) attachBtn.disabled = false;
 
         // Update disclaimer state to show messages area
         updateDisclaimerState();
@@ -261,7 +285,7 @@
     }
 
     // Add message to chat
-    function addMessage(text, sender) {
+    function addMessage(text, sender, attachment) {
         const inner = document.getElementById('aegis-messages-inner');
 
         const messageEl = document.createElement('div');
@@ -272,10 +296,11 @@
             : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
 
         const formattedText = formatMessage(text);
+        const attachmentHtml = attachment ? renderAttachmentInBubble(attachment) : '';
 
         messageEl.innerHTML = `
             <div class="avatar">${avatarSvg}</div>
-            <div class="bubble">${formattedText}</div>
+            <div class="bubble">${attachmentHtml}${formattedText}</div>
         `;
 
         inner.appendChild(messageEl);
@@ -362,22 +387,144 @@
         document.getElementById('aegis-quick-replies').innerHTML = '';
     }
 
+    // Handle file selected from picker
+    function handleFileSelected(e) {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        // Validate type
+        const allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
+        if (!allowed.includes(file.type)) {
+            alert('Only images (JPG, PNG, GIF, WebP) and PDF files are supported.');
+            e.target.value = '';
+            return;
+        }
+
+        // Validate size (max 5MB)
+        const MAX_SIZE = 5 * 1024 * 1024;
+        if (file.size > MAX_SIZE) {
+            alert('File is too large. Maximum size is 5MB.');
+            e.target.value = '';
+            return;
+        }
+
+        pendingAttachment = {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            isImage: file.type.startsWith('image/'),
+            dataUrl: null
+        };
+
+        // For images, generate a thumbnail preview
+        if (pendingAttachment.isImage) {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                pendingAttachment.dataUrl = ev.target.result;
+                renderAttachmentPreview();
+            };
+            reader.readAsDataURL(file);
+        } else {
+            renderAttachmentPreview();
+        }
+
+        // Reset input so the same file can be picked again
+        e.target.value = '';
+    }
+
+    // Format byte size as human-readable
+    function formatBytes(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    // Render attachment preview chip above input
+    function renderAttachmentPreview() {
+        const container = document.getElementById('aegis-attachment-preview');
+        if (!container) return;
+
+        if (!pendingAttachment) {
+            container.style.display = 'none';
+            container.innerHTML = '';
+            return;
+        }
+
+        const a = pendingAttachment;
+        const thumb = a.isImage && a.dataUrl
+            ? `<img src="${a.dataUrl}" alt="" class="aegis-attach-thumb">`
+            : `<div class="aegis-attach-thumb aegis-attach-thumb-pdf">PDF</div>`;
+
+        container.innerHTML = `
+            ${thumb}
+            <div class="aegis-attach-meta">
+                <span class="aegis-attach-name">${escapeHtml(a.name)}</span>
+                <span class="aegis-attach-size">${formatBytes(a.size)}</span>
+            </div>
+            <button type="button" class="aegis-attach-remove" aria-label="Remove attachment" onclick="AEGIS.removeAttachment()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        `;
+        container.style.display = 'flex';
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function removeAttachment() {
+        pendingAttachment = null;
+        renderAttachmentPreview();
+    }
+
+    // Render attachment INSIDE a message bubble (for user's sent messages)
+    function renderAttachmentInBubble(att) {
+        if (!att) return '';
+        if (att.isImage && att.dataUrl) {
+            return `<div class="aegis-bubble-attachment"><img src="${att.dataUrl}" alt="${escapeHtml(att.name)}" class="aegis-bubble-image"></div>`;
+        }
+        return `
+            <div class="aegis-bubble-attachment aegis-bubble-file">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                <div>
+                    <div class="aegis-bubble-file-name">${escapeHtml(att.name)}</div>
+                    <div class="aegis-bubble-file-size">${formatBytes(att.size)}</div>
+                </div>
+            </div>
+        `;
+    }
+
     // Send message
     async function sendMessage(overrideText) {
         const input = document.getElementById('aegis-input');
         const message = overrideText || input.value.trim();
-        
-        if (!message || isTyping) return;
-        
+        const attachment = pendingAttachment;
+
+        if ((!message && !attachment) || isTyping) return;
+
         // Clear input
         input.value = '';
         input.style.height = 'auto';
-        
+
         // Clear quick replies
         clearQuickReplies();
-        
-        // Add user message
-        addMessage(message, 'user');
+
+        // Build effective message text (include attachment marker for backend context)
+        const messageWithAttachment = attachment
+            ? (message ? message + '\n\n[Attached: ' + attachment.name + ']' : '[Attached: ' + attachment.name + ']')
+            : message;
+
+        // Add user message (with attachment rendered in bubble)
+        addMessage(messageWithAttachment, 'user', attachment);
+
+        // Clear attachment state AFTER message is rendered
+        pendingAttachment = null;
+        renderAttachmentPreview();
         
         // Show typing indicator
         showTyping();
@@ -390,8 +537,9 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    message,
-                    sessionId
+                    message: messageWithAttachment,
+                    sessionId,
+                    attachment: attachment ? { name: attachment.name, type: attachment.type, size: attachment.size } : undefined
                 })
             });
             
@@ -736,7 +884,8 @@
         showQualificationForm,
         submitQualification,
         showBookingCalendar,
-        closeCalendarModal
+        closeCalendarModal,
+        removeAttachment
     };
 
     // Auto-initialize

@@ -67,7 +67,9 @@ app.use(cors(corsOptions));
 
 // Request body size limit to prevent DoS
 app.use(express.json({ limit: '10kb' }));
-app.use(express.static('../public'));
+
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Tool API Routes
 app.use('/api/stky', stkyRoutes);
@@ -77,7 +79,6 @@ app.use('/api/dashboard', dashboardRoutes);
 // app.use('/api/verifier', verifierRoutes); // Removed - consultant verifier disabled
 app.use('/api/metrics', metricsRoutes);
 app.use('/api/agents', agentRoutes);
-const path = require('path');
 app.use('/tools', express.static(path.join(__dirname, '../public/tools')));
 
 // Initialize Anthropic client

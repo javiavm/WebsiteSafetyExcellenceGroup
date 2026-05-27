@@ -57,6 +57,8 @@
     position: fixed;
     bottom: 24px;
     right: 24px;
+    width: 64px;
+    height: 64px;
     z-index: 9999;
     font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -69,31 +71,53 @@
 .aegis-trigger {
     width: 64px;
     height: 64px;
-    border-radius: var(--radius-full);
-    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFCF00 0%, #E6BA00 100%);
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-lg), 0 0 0 0 rgba(255, 207, 0, 0.4);
-    transition: all var(--transition-base);
+    color: var(--aegis-navy);
+    box-shadow: 0 12px 28px rgba(255, 207, 0, 0.4), 0 0 0 0 rgba(255, 207, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
-    overflow: hidden;
 }
 
 .aegis-trigger::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+    border-radius: 50%;
+    background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.15) 100%);
     opacity: 0;
     transition: opacity var(--transition-fast);
 }
 
+/* Pulse animation ring — matches call widget */
+.aegis-trigger::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #FFCF00;
+    opacity: 0.5;
+    animation: aegisChatPulse 2.4s ease-out infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes aegisChatPulse {
+    0%   { transform: scale(1);   opacity: 0.5; }
+    70%  { transform: scale(1.6); opacity: 0; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+.aegis-widget.open .aegis-trigger::after { display: none; }
+
 .aegis-trigger:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: var(--shadow-xl), 0 0 0 4px rgba(255, 207, 0, 0.2);
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 18px 36px rgba(255, 207, 0, 0.5), 0 0 0 6px rgba(255, 207, 0, 0.15);
 }
 
 .aegis-trigger:hover::before {
@@ -138,42 +162,58 @@
     display: block;
 }
 
-/* Tooltip - Positioned to the left of the button */
+/* Tooltip - Mirrors .aegis-call-tooltip exactly (only bottom differs) */
 .aegis-tooltip {
-    position: absolute;
-    right: 80px;
-    bottom: 16px;
-    transform: translateX(8px);
-    background: var(--aegis-navy);
-    color: var(--aegis-white);
-    padding: 10px 16px;
-    border-radius: var(--radius-md);
-    font-size: 13px;
-    font-weight: 500;
-    white-space: nowrap;
+    position: fixed !important;
+    top: auto !important;
+    left: auto !important;
+    right: 100px !important;
+    bottom: 38px !important;
+    background: #132544 !important;
+    color: #ffffff !important;
+    padding: 10px 18px !important;
+    border: none !important;
+    border-radius: 999px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
     opacity: 0;
     visibility: hidden;
-    transition: all var(--transition-base);
-    box-shadow: var(--shadow-lg);
-    letter-spacing: -0.01em;
-    z-index: 10;
+    transform: translateX(8px);
+    transition: all 0.25s ease !important;
+    pointer-events: none;
+    box-shadow: 0 8px 24px rgba(19, 37, 68, 0.35) !important;
+    z-index: 9998 !important;
+    margin: 0 !important;
+    letter-spacing: 0 !important;
 }
 
 .aegis-tooltip::after {
-    content: '';
-    position: absolute;
-    right: -6px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 6px solid transparent;
-    border-left-color: var(--aegis-navy);
+    content: '' !important;
+    position: absolute !important;
+    right: -6px !important;
+    top: 50% !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: 0 !important;
+    height: 0 !important;
+    transform: translateY(-50%) !important;
+    border: 6px solid transparent !important;
+    border-left-color: #132544 !important;
+    border-right: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
+.aegis-trigger:hover ~ .aegis-tooltip,
 .aegis-widget:not(.open):hover .aegis-tooltip {
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
 }
+
+.aegis-widget.open .aegis-tooltip { display: none; }
 
 /* Notification Badge */
 .aegis-badge {
@@ -206,8 +246,8 @@
     position: fixed;
     bottom: 96px;
     right: 24px;
-    width: 480px;
-    max-height: min(680px, calc(100dvh - 112px));
+    width: 420px;
+    max-height: min(540px, calc(100dvh - 180px));
     background: var(--aegis-white);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-xl);
@@ -302,10 +342,10 @@
 .aegis-header {
     background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
     color: var(--aegis-white);
-    padding: 14px 16px;
+    padding: 10px 14px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
@@ -600,13 +640,48 @@
    DISCLAIMER - Clean & Trustworthy
    ======================================== */
 .aegis-disclaimer {
-    background: linear-gradient(180deg, var(--aegis-grey-100) 0%, var(--aegis-white) 100%);
-    padding: 16px;
-    border-bottom: 2px solid var(--aegis-gold);
+    background: linear-gradient(0deg, var(--aegis-grey-100) 0%, var(--aegis-white) 100%);
+    padding: 10px 14px;
+    border-top: 2px solid var(--aegis-gold);
     animation: disclaimerEnter 0.4s ease-out;
     flex-shrink: 0;
-    max-height: 50vh;
-    overflow-y: auto;
+}
+.aegis-disclaimer-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.aegis-disclaimer-text {
+    flex: 1 1 100%;
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--aegis-grey-700);
+    margin: 0;
+}
+.aegis-disclaimer-text strong {
+    color: var(--aegis-navy);
+}
+.aegis-disclaimer-check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--aegis-navy);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.aegis-disclaimer-check input {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+}
+.aegis-disclaimer-btn {
+    margin-left: auto;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
 }
 
 @keyframes disclaimerEnter {
@@ -614,47 +689,18 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-.aegis-disclaimer-content {
-    font-size: 11px;
-    color: var(--aegis-grey-700);
-    line-height: 1.5;
-}
-
-.aegis-disclaimer-content strong {
-    color: var(--aegis-navy);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 10px;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.aegis-disclaimer-content strong svg {
-    flex-shrink: 0;
-    width: 14px;
-    height: 14px;
-}
-
 .aegis-disclaimer-btn {
-    width: 100%;
     background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
     color: var(--aegis-white);
     border: none;
-    padding: 12px 16px;
-    border-radius: var(--radius-md);
-    font-size: 13px;
-    font-weight: 600;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     transition: all var(--transition-base);
-    letter-spacing: 0.01em;
 }
-
 .aegis-disclaimer-btn:hover {
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
 }
-
 .aegis-disclaimer-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -662,19 +708,9 @@
 }
 
 @media (max-width: 576px) {
-    .aegis-disclaimer {
-        padding: 14px;
-        max-height: 45vh;
-    }
-
-    .aegis-disclaimer-content {
-        font-size: 10px;
-    }
-
-    .aegis-disclaimer-btn {
-        padding: 10px 14px;
-        font-size: 12px;
-    }
+    .aegis-disclaimer { padding: 10px 12px; }
+    .aegis-disclaimer-text { font-size: 10.5px; }
+    .aegis-disclaimer-btn { padding: 5px 10px; font-size: 10.5px; }
 }
 
 /* ========================================
@@ -682,9 +718,9 @@
    ======================================== */
 .aegis-messages {
     overflow-y: auto;
-    flex: 1 1 0;
-    min-height: 280px;
-    padding: 14px;
+    flex: 1 1 auto;
+    min-height: 240px;
+    padding: 12px;
     background: linear-gradient(180deg, var(--aegis-grey-100) 0%, var(--aegis-white) 100%);
     scroll-behavior: smooth;
     display: flex;
@@ -705,11 +741,7 @@
 }
 
 /* When disclaimer is active, reduce height */
-.aegis-chat.disclaimer-active {
-    max-height: min(720px, calc(100dvh - 112px));
-}
-
-.aegis-chat.disclaimer-active .aegis-messages,
+/* Disclaimer state — input is disabled but messages area stays visible (just empty) */
 .aegis-chat.disclaimer-active .aegis-quick-replies {
     display: none;
 }
@@ -1387,4 +1419,159 @@
 
 .aegis-message.user .bubble strong {
     color: var(--aegis-white);
+}
+
+/* ========================================
+   ATTACHMENT FEATURE (Zolutium-style)
+   ======================================== */
+
+/* Attach button (paperclip) inside input wrapper */
+.aegis-attach-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-full);
+    background: transparent;
+    border: none;
+    color: var(--aegis-grey-500);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+}
+.aegis-attach-btn svg { width: 20px; height: 20px; }
+.aegis-attach-btn:hover:not(:disabled) {
+    background: rgba(19, 37, 68, 0.06);
+    color: var(--aegis-navy);
+}
+.aegis-attach-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Attachment preview chip above the input */
+.aegis-attachment-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    margin: 0 12px 8px;
+    background: rgba(19, 37, 68, 0.04);
+    border: 1px solid rgba(19, 37, 68, 0.1);
+    border-radius: var(--radius-md);
+}
+
+.aegis-attach-thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--aegis-grey-100);
+}
+.aegis-attach-thumb-pdf {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.aegis-attach-meta {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.aegis-attach-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--aegis-navy);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.aegis-attach-size {
+    font-size: 11px;
+    color: var(--aegis-grey-500);
+}
+
+.aegis-attach-remove {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    background: transparent;
+    border: none;
+    color: var(--aegis-grey-500);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+}
+.aegis-attach-remove svg { width: 14px; height: 14px; }
+.aegis-attach-remove:hover {
+    background: rgba(239, 68, 68, 0.12);
+    color: var(--aegis-error);
+}
+
+/* Attachment shown INSIDE a user message bubble */
+.aegis-bubble-attachment {
+    margin-bottom: 8px;
+}
+.aegis-bubble-attachment:last-child {
+    margin-bottom: 0;
+}
+
+.aegis-bubble-image {
+    display: block;
+    max-width: 100%;
+    max-height: 240px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.aegis-bubble-file {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+}
+.aegis-bubble-file svg {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+.aegis-bubble-file-name {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 2px;
+    word-break: break-all;
+}
+.aegis-bubble-file-size {
+    font-size: 11px;
+    opacity: 0.75;
+}
+
+/* Bot side variant (less common, but support both) */
+.aegis-message.bot .aegis-bubble-file {
+    background: rgba(19, 37, 68, 0.05);
+}
+
+/* Respect reduced motion for trigger pulse */
+@media (prefers-reduced-motion: reduce) {
+    .aegis-trigger::after {
+        animation: none;
+        display: none;
+    }
 }

@@ -1,0 +1,831 @@
+/**
+ * AEGIS Call Widget
+ * Safety Excellence Group
+ *
+ * Floating call widget — opens a panel offering direct AEGIS AI interaction.
+ * Visually distinct from the chat widget but uses the same AEGIS palette.
+ */
+
+:root {
+    --aegis-call-navy: #132544;
+    --aegis-call-navy-light: #1a3158;
+    --aegis-call-yellow: #FFCF00;
+    --aegis-call-yellow-dark: #E6BA00;
+    --aegis-call-white: #ffffff;
+}
+
+/* ========================================
+   WIDGET CONTAINER
+   Stacked above the chat trigger (chat is at bottom:24px, 64px tall)
+   ======================================== */
+.aegis-call-widget {
+    position: fixed;
+    bottom: 124px;            /* 24px (chat bottom) + 64px (chat height) + 36px (gap — more separated) */
+    right: 24px;              /* same right edge as chat */
+    z-index: 9997;
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ========================================
+   TRIGGER BUTTON (phone icon, AEGIS colors)
+   ======================================== */
+.aegis-call-trigger {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFCF00 0%, #E6BA00 100%);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #132544;
+    box-shadow: 0 12px 28px rgba(255, 207, 0, 0.4), 0 0 0 0 rgba(255, 207, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+}
+
+.aegis-call-trigger:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 18px 36px rgba(255, 207, 0, 0.5), 0 0 0 6px rgba(255, 207, 0, 0.15);
+}
+
+.aegis-call-trigger svg {
+    width: 28px;
+    height: 28px;
+    transition: transform 0.3s ease;
+}
+
+.aegis-call-widget.open .aegis-call-trigger {
+    background: linear-gradient(135deg, var(--aegis-call-navy) 0%, var(--aegis-call-navy-light) 100%);
+    color: var(--aegis-call-white);
+}
+
+.aegis-call-widget.open .aegis-call-trigger .phone-icon { display: none; }
+.aegis-call-widget.open .aegis-call-trigger .close-icon { display: block; }
+.aegis-call-trigger .close-icon { display: none; }
+
+/* Pulse animation for trigger to draw attention */
+.aegis-call-trigger::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--aegis-call-yellow);
+    opacity: 0.5;
+    animation: aegisCallPulse 2.4s ease-out infinite;
+    z-index: -1;
+}
+
+.aegis-call-widget.open .aegis-call-trigger::after { display: none; }
+
+@keyframes aegisCallPulse {
+    0%   { transform: scale(1);   opacity: 0.5; }
+    70%  { transform: scale(1.6); opacity: 0; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Tooltip */
+.aegis-call-tooltip {
+    position: fixed;
+    right: 100px;                          /* 24 (widget right) + 64 (trigger width) + 12 (gap) */
+    bottom: 138px;                         /* aligns with call trigger center at bottom: 124+32 */
+    background: var(--aegis-call-navy);
+    color: var(--aegis-call-white);
+    padding: 10px 18px;
+    border-radius: 999px;                  /* pill shape */
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(8px);
+    transition: all 0.25s ease;
+    pointer-events: none;
+    box-shadow: 0 8px 24px rgba(19, 37, 68, 0.35);
+    z-index: 9998;
+}
+.aegis-call-tooltip::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-left-color: var(--aegis-call-navy);
+    border-right: 0;
+}
+.aegis-call-trigger:hover + .aegis-call-tooltip,
+.aegis-call-widget:not(.open):hover .aegis-call-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+.aegis-call-widget.open .aegis-call-tooltip { display: none; }
+
+/* ========================================
+   PANEL (opens above the trigger)
+   ======================================== */
+.aegis-call-panel {
+    position: fixed;
+    bottom: 200px;            /* above the call trigger (124px + 64px + 12px gap) */
+    right: 24px;
+    width: 360px;
+    max-width: calc(100vw - 32px);
+    background: var(--aegis-call-white);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(19, 37, 68, 0.25);
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.96);
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 9996;
+    border: 1px solid rgba(19, 37, 68, 0.08);
+}
+
+.aegis-call-widget.open .aegis-call-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Panel header */
+.aegis-call-header {
+    background: linear-gradient(135deg, var(--aegis-call-navy) 0%, var(--aegis-call-navy-light) 100%);
+    color: var(--aegis-call-white);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+.aegis-call-header::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(255, 207, 0, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+}
+.aegis-call-header-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--aegis-call-yellow);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(255, 207, 0, 0.25);
+    animation: callDotPulse 1.6s ease-in-out infinite;
+    flex-shrink: 0;
+}
+@keyframes callDotPulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(255, 207, 0, 0.25); }
+    50%      { box-shadow: 0 0 0 8px rgba(255, 207, 0, 0.0); }
+}
+.aegis-call-header-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    flex: 1;
+}
+.aegis-call-header-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--aegis-call-white);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+.aegis-call-header-close:hover { background: rgba(255, 255, 255, 0.22); }
+.aegis-call-header-close svg { width: 14px; height: 14px; }
+
+/* Panel body */
+.aegis-call-body {
+    padding: 28px 24px 20px;
+    text-align: center;
+    background: linear-gradient(180deg, var(--aegis-call-white) 0%, #f8f9fa 100%);
+}
+
+.aegis-call-avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--aegis-call-yellow) 0%, var(--aegis-call-yellow-dark) 100%);
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 24px rgba(255, 207, 0, 0.35);
+    position: relative;
+}
+.aegis-call-avatar img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+}
+.aegis-call-avatar::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid var(--aegis-call-yellow);
+    opacity: 0.4;
+    animation: avatarRing 2.4s ease-out infinite;
+}
+@keyframes avatarRing {
+    0%   { transform: scale(1);    opacity: 0.6; }
+    100% { transform: scale(1.18); opacity: 0;   }
+}
+
+.aegis-call-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--aegis-call-navy);
+    margin: 0 0 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.aegis-call-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(19, 37, 68, 0.08);
+    color: var(--aegis-call-navy);
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.aegis-call-description {
+    font-size: 0.875rem;
+    color: #555;
+    line-height: 1.5;
+    margin: 8px auto 20px;
+    max-width: 280px;
+}
+
+.aegis-call-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--aegis-call-white);
+    color: var(--aegis-call-navy);
+    border: 2px solid var(--aegis-call-navy);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+.aegis-call-action:hover {
+    background: var(--aegis-call-navy);
+    color: var(--aegis-call-yellow);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(19, 37, 68, 0.25);
+}
+.aegis-call-action svg {
+    width: 16px;
+    height: 16px;
+    color: var(--aegis-call-navy);
+}
+.aegis-call-action:hover svg { color: var(--aegis-call-yellow); }
+
+/* Recording status dot (pulses to indicate "live" AI agent) */
+.aegis-call-rec-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--aegis-call-navy);
+    display: inline-block;
+    flex-shrink: 0;
+    position: relative;
+}
+.aegis-call-rec-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid var(--aegis-call-navy);
+    opacity: 0.4;
+    animation: aegisRecPulse 1.6s ease-out infinite;
+}
+.aegis-call-action:hover .aegis-call-rec-dot { background: var(--aegis-call-yellow); }
+.aegis-call-action:hover .aegis-call-rec-dot::after { border-color: var(--aegis-call-yellow); }
+@keyframes aegisRecPulse {
+    0%   { transform: scale(1);   opacity: 0.6; }
+    100% { transform: scale(2);   opacity: 0;   }
+}
+@media (prefers-reduced-motion: reduce) {
+    .aegis-call-rec-dot::after { animation: none; }
+}
+
+/* Panel footer */
+.aegis-call-footer {
+    padding: 12px 16px;
+    background: var(--aegis-call-white);
+    border-top: 1px solid rgba(19, 37, 68, 0.06);
+    text-align: center;
+    font-size: 0.75rem;
+    color: #888;
+}
+.aegis-call-footer a {
+    color: var(--aegis-call-navy);
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 6px;
+}
+.aegis-call-footer a:hover { color: var(--aegis-call-yellow-dark); }
+
+/* ========================================
+   MOBILE (chat trigger is 56px on mobile)
+   ======================================== */
+@media (max-width: 768px) {
+    .aegis-call-widget {
+        right: 24px;
+        bottom: 116px;       /* 24px (chat bottom) + 56px (chat trigger height on mobile) + 36px gap */
+    }
+    .aegis-call-trigger {
+        width: 56px;
+        height: 56px;
+    }
+    .aegis-call-trigger svg {
+        width: 24px;
+        height: 24px;
+    }
+    .aegis-call-panel {
+        right: 12px;
+        left: 12px;
+        bottom: 184px;       /* above call trigger on mobile (116+56+12) */
+        width: auto;
+        max-width: none;
+    }
+    .aegis-call-tooltip { display: none; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .aegis-call-trigger::after,
+    .aegis-call-header-dot,
+    .aegis-call-avatar::after {
+        animation: none;
+    }
+}
+
+/* ========================================
+   HIDE CALL WIDGET WHEN CHAT IS OPEN
+   The chat panel covers the same area; call should not float on top of it.
+   ======================================== */
+.aegis-widget.open ~ .aegis-call-widget,
+body.aegis-chat-open .aegis-call-widget {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateX(20px);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ========================================
+   MOBILE REFINEMENTS
+   ======================================== */
+@media (max-width: 576px) {
+    .aegis-call-widget {
+        right: 16px;
+        bottom: 96px;          /* 16 (chat) + 52 (chat trigger on small) + 28 gap */
+    }
+    .aegis-call-trigger {
+        width: 52px;
+        height: 52px;
+    }
+    .aegis-call-trigger svg {
+        width: 22px;
+        height: 22px;
+    }
+    .aegis-call-panel {
+        right: 8px;
+        left: 8px;
+        bottom: 160px;
+        width: auto;
+        max-width: none;
+        border-radius: 16px;
+    }
+    .aegis-call-header { padding: 12px 14px; }
+    .aegis-call-header-title { font-size: 0.9rem; }
+    .aegis-call-body { padding: 22px 18px 16px; }
+    .aegis-call-avatar { width: 72px; height: 72px; margin-bottom: 12px; }
+    .aegis-call-avatar img { width: 46px; height: 46px; }
+    .aegis-call-name { font-size: 1rem; }
+    .aegis-call-description { font-size: 0.825rem; max-width: 100%; margin: 6px auto 16px; }
+    .aegis-call-action { padding: 10px 18px; font-size: 0.85rem; }
+    .aegis-call-footer { padding: 10px 14px; font-size: 0.7rem; }
+}
+
+/* ========================================
+   ACTIVE CALL VIEW — when call is in progress
+   ======================================== */
+.aegis-call-body-active {
+    padding: 20px 18px 16px;
+    text-align: center;
+    background: linear-gradient(180deg, var(--aegis-call-white) 0%, #f8f9fa 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 360px;
+}
+
+.aegis-call-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Animated orb that reflects call state */
+.aegis-call-orb {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--aegis-call-yellow) 0%, var(--aegis-call-yellow-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(255, 207, 0, 0.4);
+    position: relative;
+    margin-bottom: 4px;
+}
+.aegis-call-orb span {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--aegis-call-yellow);
+    opacity: 0;
+}
+
+/* Listening state — yellow rings expanding */
+.aegis-call-orb[data-state="listening"] span {
+    animation: orbWave 1.8s ease-out infinite;
+}
+.aegis-call-orb[data-state="listening"] span:nth-child(2) { animation-delay: 0.4s; }
+.aegis-call-orb[data-state="listening"] span:nth-child(3) { animation-delay: 0.8s; }
+.aegis-call-orb[data-state="listening"] span:nth-child(4) { animation-delay: 1.2s; }
+
+/* Speaking state — gentle pulse on the orb body */
+.aegis-call-orb[data-state="speaking"] {
+    animation: orbBreathe 1.2s ease-in-out infinite;
+}
+
+/* Thinking state — slow rotating subtle ring */
+.aegis-call-orb[data-state="thinking"] span:nth-child(1) {
+    opacity: 0.6;
+    animation: orbSpin 1.4s linear infinite;
+    border-color: var(--aegis-call-navy);
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
+
+/* Muted state — grayscale */
+.aegis-call-orb[data-state="muted"] {
+    filter: grayscale(0.7);
+    opacity: 0.6;
+}
+
+/* Error state */
+.aegis-call-orb[data-state="error"] {
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+}
+
+@keyframes orbWave {
+    0%   { transform: scale(1);    opacity: 0.6; }
+    100% { transform: scale(1.9);  opacity: 0;   }
+}
+@keyframes orbBreathe {
+    0%, 100% { transform: scale(1);    box-shadow: 0 8px 20px rgba(255, 207, 0, 0.4); }
+    50%      { transform: scale(1.07); box-shadow: 0 12px 28px rgba(255, 207, 0, 0.55); }
+}
+@keyframes orbSpin {
+    to { transform: rotate(360deg); }
+}
+
+.aegis-call-status-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--aegis-call-navy);
+    letter-spacing: 0.01em;
+}
+.aegis-call-timer {
+    font-size: 0.75rem;
+    color: #888;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Transcript */
+.aegis-call-transcript {
+    flex: 1;
+    overflow-y: auto;
+    text-align: left;
+    background: var(--aegis-call-white);
+    border: 1px solid rgba(19, 37, 68, 0.08);
+    border-radius: 12px;
+    padding: 10px 12px;
+    max-height: 180px;
+    min-height: 100px;
+    font-size: 0.825rem;
+    line-height: 1.4;
+    color: var(--aegis-call-navy);
+    scrollbar-width: thin;
+}
+.aegis-call-transcript-empty {
+    color: #aaa;
+    font-style: italic;
+    text-align: center;
+    padding: 24px 8px;
+    font-size: 0.8rem;
+}
+
+.aegis-call-line {
+    margin-bottom: 8px;
+}
+.aegis-call-line:last-child { margin-bottom: 0; }
+.aegis-call-line-label {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+.aegis-call-line-user .aegis-call-line-label {
+    background: rgba(19, 37, 68, 0.08);
+    color: var(--aegis-call-navy);
+}
+.aegis-call-line-bot .aegis-call-line-label {
+    background: var(--aegis-call-yellow);
+    color: var(--aegis-call-navy);
+}
+.aegis-call-line-text {
+    color: var(--aegis-call-navy);
+}
+.aegis-call-interim .aegis-call-line-text {
+    opacity: 0.6;
+    font-style: italic;
+}
+
+/* Call controls (mute + hangup) */
+.aegis-call-controls {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding-top: 4px;
+}
+.aegis-call-mute,
+.aegis-call-hangup {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+.aegis-call-mute {
+    background: rgba(19, 37, 68, 0.08);
+    color: var(--aegis-call-navy);
+}
+.aegis-call-mute:hover {
+    background: rgba(19, 37, 68, 0.16);
+}
+.aegis-call-mute.muted {
+    background: #ef4444;
+    color: white;
+}
+.aegis-call-mute svg { width: 20px; height: 20px; }
+.aegis-call-hangup {
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    color: white;
+    box-shadow: 0 8px 18px rgba(239, 68, 68, 0.4);
+}
+.aegis-call-hangup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(239, 68, 68, 0.55);
+}
+.aegis-call-hangup svg { width: 22px; height: 22px; transform: rotate(135deg); }
+
+/* Browser-not-supported note */
+.aegis-call-support {
+    font-size: 0.72rem;
+    color: #ef4444;
+    margin: 10px 0 0;
+    text-align: center;
+}
+
+/* In-call: pulse the header dot more urgently */
+.aegis-call-widget.in-call .aegis-call-header-dot {
+    background: #22c55e;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3);
+    animation: callDotPulse 1s ease-in-out infinite;
+}
+
+/* Fix: HTML hidden attribute must override display: flex */
+.aegis-call-body[hidden] { display: none !important; }
+
+/* Connecting state — three pulsing dots radiating */
+.aegis-call-orb[data-state="connecting"] {
+    background: linear-gradient(135deg, var(--aegis-call-yellow) 0%, var(--aegis-call-yellow-dark) 100%);
+}
+.aegis-call-orb[data-state="connecting"] span {
+    border-color: var(--aegis-call-yellow);
+    opacity: 0;
+    animation: orbWave 1.4s ease-out infinite;
+}
+.aegis-call-orb[data-state="connecting"] span:nth-child(2) { animation-delay: 0.35s; }
+.aegis-call-orb[data-state="connecting"] span:nth-child(3) { animation-delay: 0.70s; }
+.aegis-call-orb[data-state="connecting"] span:nth-child(4) { animation-delay: 1.05s; }
+
+/* Animated "Connecting…" dots after label */
+.aegis-call-status-label[data-state-connecting]::after {
+    content: '';
+}
+
+/* Subtle pulse of label during connecting */
+.aegis-call-orb[data-state="connecting"] + .aegis-call-status-label {
+    animation: connectingFade 1.2s ease-in-out infinite;
+}
+@keyframes connectingFade {
+    0%, 100% { opacity: 1;   }
+    50%      { opacity: 0.55; }
+}
+
+/* Typewriter cursor while bot is speaking */
+.aegis-call-typing::after {
+    content: '▎';
+    display: inline-block;
+    margin-left: 2px;
+    color: var(--aegis-call-navy);
+    animation: typingCursor 0.9s steps(2, end) infinite;
+    font-weight: 400;
+    vertical-align: baseline;
+}
+@keyframes typingCursor {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
+}
+
+/* ========================================
+   VIDEO AVATAR (Option 2 — state machine)
+   Replaces the orb when call is active.
+   ======================================== */
+.aegis-call-avatar-video {
+    position: relative;
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--aegis-call-yellow) 0%, var(--aegis-call-yellow-dark) 100%);
+    box-shadow: 0 12px 28px rgba(19, 37, 68, 0.25);
+    margin-bottom: 8px;
+}
+
+.aegis-avatar-clip {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: opacity 0.35s ease;
+}
+.aegis-avatar-clip[hidden] { display: none !important; }
+
+/* Pulsing ring AROUND the avatar (visual feedback on state) */
+.aegis-avatar-ring {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+.aegis-avatar-ring span {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--aegis-call-yellow);
+    opacity: 0;
+}
+
+/* Listening — yellow rings expanding outward */
+.aegis-avatar-ring[data-state="listening"] span {
+    animation: avatarRingExpand 1.8s ease-out infinite;
+}
+.aegis-avatar-ring[data-state="listening"] span:nth-child(2) { animation-delay: 0.6s; }
+.aegis-avatar-ring[data-state="listening"] span:nth-child(3) { animation-delay: 1.2s; }
+
+/* Connecting — same as listening but with green border */
+.aegis-avatar-ring[data-state="connecting"] span {
+    border-color: var(--aegis-call-yellow);
+    animation: avatarRingExpand 1.2s ease-out infinite;
+}
+.aegis-avatar-ring[data-state="connecting"] span:nth-child(2) { animation-delay: 0.35s; }
+.aegis-avatar-ring[data-state="connecting"] span:nth-child(3) { animation-delay: 0.70s; }
+
+/* Speaking — solid yellow border that pulses gently */
+.aegis-avatar-ring[data-state="speaking"] span:nth-child(1) {
+    border-color: var(--aegis-call-yellow);
+    opacity: 0.85;
+    animation: avatarRingBreathe 1s ease-in-out infinite;
+}
+
+/* Thinking — slow rotating navy ring */
+.aegis-avatar-ring[data-state="thinking"] span:nth-child(1) {
+    opacity: 0.9;
+    border-color: var(--aegis-call-navy);
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    animation: avatarRingSpin 1.2s linear infinite;
+}
+
+/* Muted — gray overlay on avatar */
+.aegis-call-avatar-video[data-state="muted"] .aegis-avatar-clip { filter: grayscale(0.7) brightness(0.85); }
+
+/* Error — red ring */
+.aegis-avatar-ring[data-state="error"] span:nth-child(1) {
+    border-color: #ef4444;
+    opacity: 0.9;
+    animation: avatarRingBreathe 1s ease-in-out infinite;
+}
+
+@keyframes avatarRingExpand {
+    0%   { transform: scale(1);    opacity: 0.6; }
+    100% { transform: scale(1.35); opacity: 0;   }
+}
+@keyframes avatarRingBreathe {
+    0%, 100% { transform: scale(1);    opacity: 0.85; }
+    50%      { transform: scale(1.08); opacity: 0.4;  }
+}
+@keyframes avatarRingSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Hide the old orb completely now that we use video */
+.aegis-call-orb { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+    .aegis-avatar-ring span { animation: none !important; }
+}
+
+/* ========================================
+   PROFESSIONAL TEXT REVEAL ANIMATION
+   Each word fades + slides + un-blurs as it appears
+   ======================================== */
+.aegis-call-line-bot .aegis-word-in {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(3px);
+    animation: aegisWordReveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: opacity, transform, filter;
+}
+
+@keyframes aegisWordReveal {
+    0%   { opacity: 0; transform: translateY(8px); filter: blur(3px); }
+    60%  { opacity: 0.9; filter: blur(0.5px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Subtle highlight pulse on the latest word being revealed */
+.aegis-call-line-bot .aegis-word-in:last-child {
+    background: linear-gradient(180deg, transparent 65%, rgba(255, 207, 0, 0.18) 65%);
+    background-size: 100% 200%;
+    background-position: 0 0;
+    animation: aegisWordReveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+               aegisWordHighlight 0.7s ease-out forwards;
+    padding: 0 2px;
+    margin: 0 -2px;
+    border-radius: 3px;
+}
+
+@keyframes aegisWordHighlight {
+    0%   { background-position: 0 0;     }
+    100% { background-position: 0 200%;  }
+}
+
+/* When animation completes, remove the highlight by clearing the class via animation-fill-mode */
+@media (prefers-reduced-motion: reduce) {
+    .aegis-call-line-bot .aegis-word-in {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        animation: none !important;
+        background: none !important;
+    }
+}

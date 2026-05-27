@@ -41,6 +41,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="images/SEG Favicon Original.png">
     <link rel="stylesheet" href="css/aegis-chatbot.css">
+    <link rel="stylesheet" href="css/aegis-call-widget.css">
 
     <style>
         :root {
@@ -620,18 +621,29 @@
             .differentiators-grid { grid-template-columns: 1fr; }
             .trust-grid { grid-template-columns: 1fr; }
             .testimonials-grid { grid-template-columns: 1fr; }
-            .process-timeline { flex-direction: column; gap: 2rem; align-items: center; }
-            .process-timeline::before { display: none; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .process-timeline { display: grid !important; grid-template-columns: 1fr 1fr; gap: 2.5rem 1.5rem; align-items: start; }
+            .process-timeline::before,
+            .process-timeline::after { display: none !important; }
+            .process-step { width: 100%; }
+            .process-step p { max-width: 100%; }
+            .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem 1rem; }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-links h4 { font-size: 0.95rem; margin-bottom: 0.5rem; }
+            .footer-links ul li { margin-bottom: 0.4rem; }
+            .footer-links a { font-size: 0.85rem; }
         }
 
         @media (max-width: 768px) {
             .nav-links, .nav-cta { display: none !important; }
-            .mobile-toggle { display: flex !important; width: 44px; height: 44px; align-items: center; justify-content: center; }
+            .mobile-toggle { display: flex !important; flex-direction: column; width: 44px; height: 44px; align-items: center; justify-content: center; gap: 5px; }
+            .mobile-toggle span { margin: 0 !important; }
             .mega-menu { display: none; }
             nav { padding: 0.75rem 1rem; }
             .stats-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr 1fr !important; gap: 1rem 0.75rem !important; }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-links h4 { font-size: 0.85rem !important; }
+            .footer-links a { font-size: 0.78rem !important; }
             .why-hero { padding: 8rem 0 5rem; }
             section { padding: 3.5rem 0; }
             .container { padding: 0 1.25rem; }
@@ -779,9 +791,571 @@
             .results-cta-buttons .btn { width: 100%; }
             .gap-bar-label { width: 100px; font-size: 0.75rem; }
         }
+
+        /* ========================================
+           PREMIUM ANIMATION SYSTEM (Why S.E.G.)
+           ======================================== */
+
+        /* Base reveal — cinematic fade + slide + blur-to-sharp */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            filter: blur(6px);
+            transition:
+                opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform, filter;
+        }
+        .reveal.in-view { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .reveal-left  { transform: translateX(-60px) translateY(20px); }
+        .reveal-right { transform: translateX(60px)  translateY(20px); }
+        .reveal-zoom  { transform: scale(0.88); }
+        .reveal-left.in-view, .reveal-right.in-view { transform: translateX(0) translateY(0); }
+        .reveal-zoom.in-view  { transform: scale(1); }
+
+        /* ============== HERO — Cinematic entrance ============== */
+        .why-hero {
+            position: relative;
+            overflow: hidden;
+        }
+        .why-hero h1 .highlight {
+            background: linear-gradient(120deg, var(--SEG-yellow) 0%, #ffe16b 30%, var(--SEG-yellow) 60%, #ffd633 100%);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            animation: heroShimmer 4s linear infinite;
+            display: inline-block;
+        }
+
+        /* ============== HERO OVERLINE — letter-by-letter reveal + float ============== */
+        .why-hero .overline {
+            animation: pillFloat 4s ease-in-out infinite;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .why-hero .overline .letter {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(12px) rotate(-6deg);
+            animation: letterDropIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+        /* Hover effects ONLY on devices that support real hover (desktop with mouse) */
+        @media (hover: hover) and (pointer: fine) {
+            .why-hero .overline:hover {
+                transform: scale(1.05);
+                box-shadow: 0 8px 20px rgba(255, 207, 0, 0.45);
+            }
+            .why-hero .overline .letter:hover {
+                transform: translateY(-3px) scale(1.15);
+                color: var(--SEG-blue);
+            }
+        }
+        @keyframes letterDropIn {
+            to { opacity: 1; transform: translateY(0) rotate(0deg); }
+        }
+        @keyframes pillFloat {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-4px); }
+        }
+
+        /* ============== HERO PARAGRAPH — word-by-word hover lift ============== */
+        .why-hero > .container > p .word {
+            display: inline-block;
+            transition:
+                transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                color 0.25s ease,
+                text-shadow 0.3s ease;
+            cursor: default;
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .why-hero > .container > p .word:hover {
+                transform: translateY(-4px) scale(1.06);
+                color: var(--SEG-yellow);
+                text-shadow: 0 4px 12px rgba(255, 207, 0, 0.4);
+            }
+        }
+
+        /* ============== HERO H1 — word-by-word hover lift ============== */
+        .why-hero h1 .word {
+            display: inline-block;
+            transition:
+                transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                color 0.25s ease,
+                text-shadow 0.3s ease,
+                filter 0.3s ease;
+            cursor: default;
+        }
+        @media (hover: hover) and (pointer: fine) {
+            /* Regular words (not the highlight) lift + glow yellow */
+            .why-hero h1 .word:not(.highlight):hover {
+                transform: translateY(-6px) scale(1.08);
+                color: var(--SEG-yellow);
+                text-shadow: 0 6px 18px rgba(255, 207, 0, 0.5);
+            }
+            /* The highlight (S.E.G.) keeps its shimmer but lifts + glows */
+            .why-hero h1 .highlight:hover {
+                transform: translateY(-6px) scale(1.08);
+                filter: drop-shadow(0 6px 20px rgba(255, 207, 0, 0.7));
+            }
+        }
+        @keyframes heroShimmer {
+            0%   { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        .why-hero .overline,
+        .why-hero h1,
+        .why-hero > .container > p,
+        .why-hero .hero-divider {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroEntrance 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .why-hero .overline       { animation-delay: 0.1s; }
+        .why-hero h1              { animation-delay: 0.3s; }
+        .why-hero > .container > p { animation-delay: 0.55s; }
+        .why-hero .hero-divider   { animation-delay: 0.75s; }
+        @keyframes heroEntrance {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animated grid background in hero */
+        .why-hero .hero-grid {
+            opacity: 0.06;
+            animation: gridDrift 30s linear infinite;
+        }
+        @keyframes gridDrift {
+            from { background-position: 0 0; }
+            to   { background-position: 60px 60px; }
+        }
+
+        /* Floating particles with smoother motion */
+        .why-hero .hero-particle {
+            animation: particleFloat 12s ease-in-out infinite;
+        }
+        .why-hero .hero-particle:nth-child(2) { animation-delay: -2.4s; }
+        .why-hero .hero-particle:nth-child(3) { animation-delay: -4.8s; }
+        .why-hero .hero-particle:nth-child(4) { animation-delay: -7.2s; }
+        .why-hero .hero-particle:nth-child(5) { animation-delay: -9.6s; }
+        @keyframes particleFloat {
+            0%, 100% { transform: translate(0, 0) scale(1);     opacity: 0.55; }
+            33%      { transform: translate(40px, -30px) scale(1.1); opacity: 0.75; }
+            66%      { transform: translate(-30px, 40px) scale(0.9); opacity: 0.4; }
+        }
+
+        /* ============== STATS — count up animation ============== */
+        .stats-section {
+            position: relative;
+            overflow: hidden;
+        }
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: -20%; left: 50%;
+            width: 600px; height: 600px;
+            transform: translateX(-50%);
+            background: radial-gradient(circle, rgba(255, 207, 0, 0.07) 0%, transparent 60%);
+            pointer-events: none;
+            animation: glowFloat 8s ease-in-out infinite;
+        }
+        @keyframes glowFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+            50%      { transform: translateX(-50%) translateY(-20px); opacity: 0.7; }
+        }
+        .stat-card {
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+            position: relative;
+        }
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(19, 37, 68, 0.15);
+        }
+        .stat-card .stat-number {
+            background: linear-gradient(135deg, var(--SEG-yellow) 0%, #ffd633 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            position: relative;
+        }
+        .stat-card.in-view .stat-number::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border: 2px solid var(--SEG-yellow);
+            border-radius: 50%;
+            opacity: 0;
+            animation: statRing 5s ease-out infinite;
+        }
+        /* Stagger the ring so each card pulses in sync with its heartbeat */
+        .stat-card.in-view:nth-child(1) .stat-number::after { animation-delay: 0.5s; }
+        .stat-card.in-view:nth-child(2) .stat-number::after { animation-delay: 2.0s; }
+        .stat-card.in-view:nth-child(3) .stat-number::after { animation-delay: 3.5s; }
+
+        @keyframes statRing {
+            0%   { opacity: 0.6; transform: scale(0.8); }
+            25%  { opacity: 0;   transform: scale(1.4); }
+            100% { opacity: 0;   transform: scale(1.4); }
+        }
+
+        /* ============== DIFFERENTIATORS — 3D tilt cards ============== */
+        .differentiators-section {
+            position: relative;
+            overflow: hidden;
+        }
+        .differentiators-section::before {
+            content: '';
+            position: absolute;
+            top: 0; right: -10%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(19, 37, 68, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .differentiator {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.5s ease,
+                        border-color 0.4s ease;
+            border: 1px solid transparent;
+        }
+        .differentiator::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 207, 0, 0.08), transparent);
+            transition: left 0.7s ease;
+            pointer-events: none;
+        }
+        .differentiator:hover::before { left: 150%; }
+        .differentiator:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(19, 37, 68, 0.25);
+            border-color: rgba(255, 207, 0, 0.3);
+        }
+        .differentiator-icon {
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        background 0.4s ease;
+        }
+        .differentiator:hover .differentiator-icon {
+            transform: rotate(-8deg) scale(1.15);
+        }
+        .differentiator h4 {
+            position: relative;
+            display: inline-block;
+        }
+        .differentiator h4::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -4px;
+            width: 0; height: 2px;
+            background: var(--SEG-yellow);
+            transition: width 0.4s ease;
+        }
+        .differentiator:hover h4::after { width: 100%; }
+
+        /* ============== PROCESS — animated timeline ============== */
+        .process-section {
+            position: relative;
+            overflow: hidden;
+        }
+        .process-timeline {
+            position: relative;
+        }
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 32px; left: 5%;
+            right: 5%;
+            height: 3px;
+            background: var(--SEG-grey-2);
+            z-index: 0;
+        }
+        .process-timeline::after {
+            content: '';
+            position: absolute;
+            top: 32px; left: 5%;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--SEG-yellow), #ffd633);
+            z-index: 1;
+            transition: width 2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+        }
+        .process-timeline.in-view::after { width: 90%; }
+        .process-step {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .process-step:hover {
+            transform: translateY(-6px);
+        }
+        .process-step-number {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+            position: relative;
+        }
+        .process-step:hover .process-step-number {
+            transform: scale(1.15) rotate(8deg);
+            box-shadow: 0 8px 24px rgba(255, 207, 0, 0.5);
+        }
+        .process-timeline.in-view .process-step-number {
+            animation: stepPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        .process-timeline.in-view .process-step:nth-child(1) .process-step-number { animation-delay: 0.4s; }
+        .process-timeline.in-view .process-step:nth-child(2) .process-step-number { animation-delay: 0.8s; }
+        .process-timeline.in-view .process-step:nth-child(3) .process-step-number { animation-delay: 1.2s; }
+        .process-timeline.in-view .process-step:nth-child(4) .process-step-number { animation-delay: 1.6s; }
+        @keyframes stepPop {
+            0%   { opacity: 0; transform: scale(0) rotate(-90deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        /* ============== TRUST CARDS — premium hover ============== */
+        .trust-section {
+            position: relative;
+            overflow: hidden;
+        }
+        .trust-section::before {
+            content: '';
+            position: absolute;
+            bottom: -10%; left: -5%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(255, 207, 0, 0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .trust-card {
+            position: relative;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.5s ease;
+            overflow: hidden;
+        }
+        .trust-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--SEG-yellow) 0%, #ffd633 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .trust-card:hover::after { transform: scaleX(1); }
+        .trust-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(19, 37, 68, 0.18);
+        }
+        .trust-card-icon {
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .trust-card:hover .trust-card-icon {
+            transform: rotate(-6deg) scale(1.15);
+        }
+
+        /* ============== TESTIMONIALS — quote animation ============== */
+        .testimonials-section {
+            position: relative;
+            overflow: hidden;
+        }
+        .testimonial-card {
+            position: relative;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.5s ease;
+        }
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px; left: 16px;
+            font-size: 100px;
+            font-family: Georgia, serif;
+            line-height: 1;
+            color: var(--SEG-yellow);
+            opacity: 0.15;
+            pointer-events: none;
+            font-weight: 700;
+            transition: transform 0.4s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(19, 37, 68, 0.15);
+        }
+        .testimonial-card:hover::before {
+            transform: scale(1.2) rotate(-5deg);
+        }
+        .testimonial-avatar {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .testimonial-card:hover .testimonial-avatar {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 207, 0, 0.35);
+        }
+
+        /* ============== CTA — pulse + gradient shimmer ============== */
+        .cta-section {
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(255, 207, 0, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(255, 207, 0, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            animation: ctaGlow 8s ease-in-out infinite;
+        }
+        @keyframes ctaGlow {
+            0%, 100% { opacity: 1;   transform: translateX(0); }
+            50%      { opacity: 0.7; transform: translateX(20px); }
+        }
+        .cta-section .btn-primary {
+            position: relative;
+            overflow: visible;
+        }
+        .cta-section .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: 0 0 0 0 rgba(255, 207, 0, 0.6);
+            animation: ctaPulse 2.4s ease-out infinite;
+            pointer-events: none;
+        }
+        @keyframes ctaPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(255, 207, 0, 0.55); }
+            70%  { box-shadow: 0 0 0 20px rgba(255, 207, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 207, 0, 0); }
+        }
+
+        /* ============== SCROLL PROGRESS ============== */
+        .scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--SEG-yellow) 0%, #ffe16b 100%);
+            z-index: 10001;
+            transition: width 0.1s ease-out;
+            box-shadow: 0 0 12px rgba(255, 207, 0, 0.6);
+        }
+
+        /* ============== STAGGER DELAYS ============== */
+        .reveal.delay-1 { transition-delay: 0.12s !important; }
+        .reveal.delay-2 { transition-delay: 0.24s !important; }
+        .reveal.delay-3 { transition-delay: 0.36s !important; }
+        .reveal.delay-4 { transition-delay: 0.48s !important; }
+
+        /* ============== SECTION HEADERS ============== */
+        .section-header .overline {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(255, 207, 0, 0.12);
+            border: 1px solid rgba(255, 207, 0, 0.35);
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        /* ============== ACCESSIBILITY ============== */
+        @media (prefers-reduced-motion: reduce) {
+            .reveal,
+            .reveal.in-view,
+            .why-hero .overline,
+            .why-hero h1,
+            .why-hero > .container > p,
+            .why-hero .hero-divider,
+            .why-hero h1 .highlight,
+            .why-hero .hero-grid,
+            .why-hero .hero-particle,
+            .stats-section::before,
+            .cta-section::before,
+            .cta-section .btn-primary::after,
+            .process-timeline.in-view::after,
+            .process-timeline.in-view .process-step-number {
+                opacity: 1 !important;
+                transform: none !important;
+                filter: none !important;
+                animation: none !important;
+                transition: none !important;
+            }
+        }
     </style>
+
+    <!-- SEO: JSON-LD structured data for the page -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://safety-excellence.com/#organization",
+          "name": "Safety Excellence Group",
+          "alternateName": "S.E.G.",
+          "url": "https://safety-excellence.com",
+          "logo": "https://safety-excellence.com/images/SEG Original Logo.png",
+          "slogan": "Safe. Fast. Precise.",
+          "description": "Precision safety consulting for advanced industries. 18+ years experience, 50+ semiconductor fab projects across 5 continents.",
+          "foundingDate": "2007",
+          "knowsAbout": [
+            "OSHA Compliance",
+            "SEMI S2 Compliance",
+            "NFPA 70E",
+            "Arc Flash Safety",
+            "Semiconductor Safety",
+            "Data Center Safety",
+            "Construction Safety",
+            "Manufacturing EHS",
+            "Safety Staffing",
+            "EHS Auditing"
+          ],
+          "areaServed": [
+            { "@type": "Place", "name": "United States" },
+            { "@type": "Place", "name": "Ireland" },
+            { "@type": "Place", "name": "Israel" },
+            { "@type": "Place", "name": "China" },
+            { "@type": "Place", "name": "Japan" }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://safety-excellence.com/why-seg.html#service",
+          "name": "Precision Safety Consulting",
+          "provider": { "@id": "https://safety-excellence.com/#organization" },
+          "serviceType": "Industrial Safety Consulting",
+          "areaServed": "Worldwide",
+          "audience": {
+            "@type": "BusinessAudience",
+            "audienceType": "Semiconductor Manufacturers, Data Center Builders, General Contractors, Manufacturing Facilities"
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Safety Services",
+            "itemListElement": [
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Rapid Deployment of BCSP-Certified Specialists" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pre-Vetted Safety Professionals" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AEGIS AI Safety Intelligence Platform" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Quick Response Team (QRT) Surge Capacity" } }
+            ]
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home",      "item": "https://safety-excellence.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Why S.E.G.", "item": "https://safety-excellence.com/why-seg.html" }
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
+    <!-- Scroll progress indicator -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <!-- ========================================
          HEADER
          ======================================== -->
@@ -999,6 +1573,7 @@
                     </div>
                 </li>
                 <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                <li><a href="/about-us.html">About Us</a></li>
                 <li><a href="/careers.html">Careers</a></li>
             </ul>
 
@@ -1039,6 +1614,7 @@
                 </ul>
             </li>
             <li><a href="/why-seg.html" onclick="closeMobileMenu()">Why S.E.G.</a></li>
+            <li><a href="/about-us.html" onclick="closeMobileMenu()">About Us</a></li>
             <li><a href="/careers.html" onclick="closeMobileMenu()">Careers</a></li>
         </ul>
         <div class="mobile-menu-cta">
@@ -1071,15 +1647,15 @@
     <section class="stats-section">
         <div class="container">
             <div class="stats-grid">
-                <div class="stat-card animate-on-scroll">
+                <div class="stat-card animate-on-scroll reveal reveal-zoom">
                     <div class="stat-number" data-target="18" data-suffix="+">0</div>
                     <div class="stat-label">Years in Advanced Industries</div>
                 </div>
-                <div class="stat-card animate-on-scroll delay-1">
+                <div class="stat-card animate-on-scroll reveal reveal-zoom delay-1">
                     <div class="stat-number" data-target="50" data-suffix="+">0</div>
                     <div class="stat-label">Semiconductor Fab Projects</div>
                 </div>
-                <div class="stat-card animate-on-scroll delay-2">
+                <div class="stat-card animate-on-scroll reveal reveal-zoom delay-2">
                     <div class="stat-number" data-target="5" data-suffix="">0</div>
                     <div class="stat-label">Continents Worldwide</div>
                 </div>
@@ -1092,14 +1668,14 @@
          ======================================== -->
     <section class="differentiators-section">
         <div class="container">
-            <div class="section-header animate-on-scroll">
+            <div class="section-header animate-on-scroll reveal">
                 <span class="overline">Our Edge</span>
                 <h2>What Sets Us Apart</h2>
                 <p>Four key differentiators that make us the choice for high-stakes safety operations.</p>
             </div>
 
             <div class="differentiators-grid">
-                <div class="differentiator animate-on-scroll">
+                <div class="differentiator animate-on-scroll reveal reveal-left">
                     <div class="differentiator-icon">
                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                     </div>
@@ -1109,7 +1685,7 @@
                     </div>
                 </div>
 
-                <div class="differentiator animate-on-scroll delay-1">
+                <div class="differentiator animate-on-scroll reveal reveal-left delay-1">
                     <div class="differentiator-icon">
                         <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
                     </div>
@@ -1119,7 +1695,7 @@
                     </div>
                 </div>
 
-                <div class="differentiator animate-on-scroll delay-2">
+                <div class="differentiator animate-on-scroll reveal reveal-right delay-2">
                     <div class="differentiator-icon">
                         <svg viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/></svg>
                     </div>
@@ -1129,7 +1705,7 @@
                     </div>
                 </div>
 
-                <div class="differentiator animate-on-scroll delay-3">
+                <div class="differentiator animate-on-scroll reveal reveal-right delay-3">
                     <div class="differentiator-icon">
                         <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
                     </div>
@@ -1147,13 +1723,13 @@
          ======================================== -->
     <section class="process-section">
         <div class="container">
-            <div class="section-header animate-on-scroll">
+            <div class="section-header animate-on-scroll reveal">
                 <span class="overline">How It Works</span>
                 <h2>From Request to Results</h2>
                 <p>A proven process that delivers the right professionals, fast.</p>
             </div>
 
-            <div class="process-timeline animate-on-scroll">
+            <div class="process-timeline animate-on-scroll reveal">
                 <div class="process-step">
                     <div class="process-step-number">1</div>
                     <h4>Request</h4>
@@ -1183,28 +1759,28 @@
          ======================================== -->
     <section class="trust-section">
         <div class="container">
-            <div class="section-header animate-on-scroll">
+            <div class="section-header animate-on-scroll reveal">
                 <span class="overline">Why Companies Choose Us</span>
                 <h2>Built for the Hardest Environments</h2>
                 <p>Trusted by Fortune 100 chipmakers, hyperscale data center builders, and Tier-1 contractors.</p>
             </div>
 
             <div class="trust-grid">
-                <div class="trust-card animate-on-scroll">
+                <div class="trust-card animate-on-scroll reveal reveal-zoom">
                     <div class="trust-card-icon">
                         <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                     </div>
                     <h4>Zero Compromise on Safety</h4>
                     <p>Our consultants carry BCSP certifications and site-specific training. We don't send warm bodies—we send mission-ready operators.</p>
                 </div>
-                <div class="trust-card animate-on-scroll delay-1">
+                <div class="trust-card animate-on-scroll reveal reveal-zoom delay-1">
                     <div class="trust-card-icon">
                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
                     </div>
                     <h4>Global Reach, Local Expertise</h4>
                     <p>50+ fab projects across 5 continents. We understand the standards, the cultures, and the operational realities wherever you build.</p>
                 </div>
-                <div class="trust-card animate-on-scroll delay-2">
+                <div class="trust-card animate-on-scroll reveal reveal-zoom delay-2">
                     <div class="trust-card-icon">
                         <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                     </div>
@@ -1220,13 +1796,13 @@
          ======================================== -->
     <section class="testimonials-section">
         <div class="container">
-            <div class="section-header animate-on-scroll">
+            <div class="section-header animate-on-scroll reveal">
                 <span class="overline">Client Feedback</span>
                 <h2>What Our Clients Say</h2>
             </div>
 
             <div class="testimonials-grid">
-                <div class="testimonial-card animate-on-scroll">
+                <div class="testimonial-card animate-on-scroll reveal reveal-left">
                     <p class="testimonial-text">"S.E.G. deployed NFPA 70E qualified professionals within 72 hours of our request. Their arc flash expertise was instrumental in maintaining our aggressive timeline."</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">
@@ -1238,7 +1814,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card animate-on-scroll delay-1">
+                <div class="testimonial-card animate-on-scroll reveal reveal-right delay-1">
                     <p class="testimonial-text">"S.E.G. provided exceptional SEMI S2 compliance consulting for our new fab. Their expertise and rapid deployment exceeded our expectations."</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">
@@ -1300,6 +1876,7 @@
                     <h4>Company</h4>
                     <ul>
                         <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                        <li><a href="/about-us.html">About Us</a></li>
                         <li><a href="/careers.html">Careers</a></li>
                         <li><a href="/#contact">Contact</a></li>
                     </ul>
@@ -2215,11 +2792,15 @@
                                     <input type="email" id="subScorerEmail" placeholder="you@company.com" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem;" required>
                                 </div>
                                 <div>
-                                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--SEG-blue); display: block; margin-bottom: 0.25rem;">Company Name</label>
-                                    <input type="text" id="subScorerCompany" placeholder="Your company" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem;">
+                                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--SEG-blue); display: block; margin-bottom: 0.25rem;">Your Name</label>
+                                    <input type="text" id="subScorerName" placeholder="Your name" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem;">
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary" onclick="sendSubScorerResults()" style="width: 100%;">Send Results →</button>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label style="font-size: 0.8rem; font-weight: 600; color: var(--SEG-blue); display: block; margin-bottom: 0.25rem;">Company Name</label>
+                                <input type="text" id="subScorerCompany" placeholder="Your company" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem;">
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="sendSubScorerResults()" style="width: 100%;">Send My Results →</button>
                         </div>
                     </div>
                 </div>
@@ -2291,17 +2872,123 @@
 
     <!-- Scroll Animations -->
     <script>
+        // Scroll reveal — also applies `in-view` to elements with `.reveal`
         (function() {
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelectorAll('.animate-on-scroll, .reveal').forEach(el => {
+                    el.classList.add('animated', 'in-view');
+                });
+                return;
+            }
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('animated');
+                        entry.target.classList.add('in-view');
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { rootMargin: '0px 0px -60px 0px', threshold: 0.1 });
-            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+            }, { rootMargin: '0px 0px -60px 0px', threshold: 0.12 });
+            document.querySelectorAll('.animate-on-scroll, .reveal').forEach(el => observer.observe(el));
+        })();
+
+        // Scroll progress bar
+        (function() {
+            const bar = document.getElementById('scrollProgress');
+            if (!bar) return;
+            let ticking = false;
+            function update() {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                bar.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+                ticking = false;
+            }
+            window.addEventListener('scroll', () => {
+                if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+            }, { passive: true });
+            update();
+        })();
+
+        // 3D tilt for differentiator + trust cards
+        (function() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            document.querySelectorAll('.differentiator, .trust-card, .stat-card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+                    card.style.transform = `translateY(-10px) perspective(900px) rotateX(${(-y * 3).toFixed(2)}deg) rotateY(${(x * 3).toFixed(2)}deg)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+        })();
+
+        // Wrap each letter of the hero overline in a span for staggered drop-in animation
+        (function() {
+            const overline = document.querySelector('.why-hero .overline');
+            if (!overline) return;
+            const text = overline.textContent;
+            overline.textContent = '';
+            text.split('').forEach((char, i) => {
+                const span = document.createElement('span');
+                span.className = 'letter';
+                // Preserve spaces but make them animatable
+                span.textContent = char === ' ' ? ' ' : char;
+                span.style.animationDelay = (0.3 + i * 0.04) + 's';
+                overline.appendChild(span);
+            });
+        })();
+
+        // Wrap each word of the hero paragraph in a span for hover-lift effect
+        (function() {
+            const para = document.querySelector('.why-hero > .container > p');
+            if (!para) return;
+            const text = para.textContent;
+            para.textContent = '';
+            // Split keeping whitespace separate
+            const tokens = text.match(/\S+|\s+/g) || [];
+            tokens.forEach(token => {
+                if (/^\s+$/.test(token)) {
+                    para.appendChild(document.createTextNode(token));
+                } else {
+                    const span = document.createElement('span');
+                    span.className = 'word';
+                    span.textContent = token;
+                    para.appendChild(span);
+                }
+            });
+        })();
+
+        // Wrap each word of the hero h1 in a span, preserving the .highlight span
+        (function() {
+            const h1 = document.querySelector('.why-hero h1');
+            if (!h1) return;
+            // Build a fresh structure that walks through child nodes:
+            //   - text nodes get split into word spans
+            //   - element nodes (like .highlight) get .word class added and stay intact
+            const childNodes = Array.from(h1.childNodes);
+            h1.innerHTML = '';
+            childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const tokens = node.textContent.match(/\S+|\s+/g) || [];
+                    tokens.forEach(token => {
+                        if (/^\s+$/.test(token)) {
+                            h1.appendChild(document.createTextNode(token));
+                        } else {
+                            const span = document.createElement('span');
+                            span.className = 'word';
+                            span.textContent = token;
+                            h1.appendChild(span);
+                        }
+                    });
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    // Preserve existing elements (like .highlight) and add .word so they participate in hover
+                    node.classList.add('word');
+                    h1.appendChild(node);
+                }
+            });
         })();
     </script>
 
@@ -2969,17 +3656,18 @@ ${sections}
 
         async function sendSubScorerResults() {
             const email = document.getElementById('subScorerEmail').value;
+            const name = document.getElementById('subScorerName').value || '';
             const company = document.getElementById('subScorerCompany').value || '';
             if (!email) { alert('Please enter your email address.'); return; }
             const score = parseInt(document.getElementById('subScoreValue').textContent) || 0;
             const label = document.getElementById('subScoreLabel').textContent || '';
             const flags = []; document.querySelectorAll('#subScoreFlagsList li').forEach(li => flags.push(li.textContent.trim()));
-            const payload = { form_type: 'sub_scorer', email: email, company_name: company, sub_score: score, sub_risk_label: label, lead_classification: classifySubScorerLead(score), key_findings: flags.join(' | '), source_page: 'why-seg.html', timestamp: new Date().toISOString() };
+            const payload = { form_type: 'sub_scorer', full_name: name, email: email, company_name: company, sub_score: score, sub_risk_label: label, lead_classification: classifySubScorerLead(score), key_findings: flags.join(' | '), source_page: 'why-seg.html', timestamp: new Date().toISOString() };
             const btn = document.querySelector('#subScorerEmailCapture .btn-primary'); btn.textContent = 'Sending...'; btn.disabled = true;
             try {
                 await fetch('https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/dd8498d0-c790-48af-a7e7-28de6a3a0def', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 document.getElementById('subScorerEmailCapture').innerHTML = '<div style="text-align:center;padding:0.75rem;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="margin-bottom:0.5rem;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><p style="font-weight:600;color:var(--SEG-blue);">Results sent to ' + email + '</p></div>';
-            } catch (error) { btn.textContent = 'Error — Try Again'; btn.style.background = '#ef4444'; btn.disabled = false; setTimeout(() => { btn.textContent = 'Send Results →'; btn.style.background = ''; }, 3000); }
+            } catch (error) { btn.textContent = 'Error — Try Again'; btn.style.background = '#ef4444'; btn.disabled = false; setTimeout(() => { btn.textContent = 'Send My Results →'; btn.style.background = ''; }, 3000); }
         }
 
         function resetSubScorer() {
@@ -3292,7 +3980,9 @@ ${sections}
             const gaps = [];
             gapBars.forEach(bar => { const l = bar.querySelector('.gap-bar-label')?.textContent || ''; const p = bar.querySelector('.gap-bar-value')?.textContent || ''; gaps.push(l + ': ' + p); });
 
-            const payload = { form_type: 'z10_assessment', full_name: name, email: email, assessment_score: score, assessment_rating: rating, lead_classification: classification.label, industry: selectedIndustry || 'not_specified', gap_summary: gaps.join(' | '), source_page: 'why-seg.html', timestamp: new Date().toISOString() };
+            const challengeEl = document.getElementById('challenge');
+            const biggestChallenge = challengeEl ? challengeEl.value.trim() : '';
+            const payload = { form_type: 'z10_assessment', full_name: name, email: email, assessment_score: score, assessment_rating: rating, lead_classification: classification.label, industry: selectedIndustry || 'not_specified', gap_summary: gaps.join(' | '), biggest_challenge: biggestChallenge, source_page: 'why-seg.html', timestamp: new Date().toISOString() };
 
             const btn = document.querySelector('#emailCapture .btn-primary');
             const originalText = btn.textContent;
@@ -3338,6 +4028,7 @@ ${sections}
 
     <!-- AEGIS Chatbot -->
     <script src="js/aegis-chatbot.js"></script>
+    <script src="js/aegis-call-widget.js"></script>
 
     <!-- Dropdown nav fix: open on hover, close on click outside or other nav item -->
     <script>

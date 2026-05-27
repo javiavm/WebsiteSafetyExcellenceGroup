@@ -46,6 +46,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="images/SEG Favicon Original.png">
     <link rel="stylesheet" href="css/aegis-chatbot.css">
+    <link rel="stylesheet" href="css/aegis-call-widget.css">
 
     <style>
         :root {
@@ -743,11 +744,16 @@
 
         /* Responsive */
         @media (max-width: 992px) {
-            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem 1rem; }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-links h4 { font-size: 0.95rem; margin-bottom: 0.5rem; }
+            .footer-links ul li { margin-bottom: 0.4rem; }
+            .footer-links a { font-size: 0.85rem; }
         }
         @media (max-width: 768px) {
             .nav-links, .nav-cta { display: none !important; }
-            .mobile-toggle { display: flex !important; width: 44px; height: 44px; align-items: center; justify-content: center; }
+            .mobile-toggle { display: flex !important; flex-direction: column; width: 44px; height: 44px; align-items: center; justify-content: center; gap: 5px; }
+            .mobile-toggle span { margin: 0 !important; }
             .mega-menu { display: none; }
             nav { padding: 0.75rem 1rem; }
 
@@ -772,7 +778,10 @@
             .modal-overlay { padding: 0.5rem; }
             .modal-header { padding: 1.25rem; }
             .modal-body { padding: 1.25rem; }
-            .footer-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr 1fr !important; gap: 1rem 0.75rem !important; }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-links h4 { font-size: 0.85rem !important; }
+            .footer-links a { font-size: 0.78rem !important; }
             .footer-bottom { flex-direction: column; text-align: center; gap: 0.5rem; }
         }
 
@@ -1334,9 +1343,273 @@
                 font-size: 0.75rem;
             }
         }
+
+        /* ========================================
+           PREMIUM ANIMATION SYSTEM (Careers)
+           ======================================== */
+
+        /* Base reveal — cinematic fade + slide + blur-to-sharp */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            filter: blur(6px);
+            transition:
+                opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform, filter;
+        }
+        .reveal.in-view { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .reveal-left  { transform: translateX(-60px) translateY(20px); }
+        .reveal-right { transform: translateX(60px)  translateY(20px); }
+        .reveal-zoom  { transform: scale(0.88); }
+        .reveal-left.in-view, .reveal-right.in-view { transform: translateX(0) translateY(0); }
+        .reveal-zoom.in-view  { transform: scale(1); }
+        .reveal.delay-1 { transition-delay: 0.12s !important; }
+        .reveal.delay-2 { transition-delay: 0.24s !important; }
+        .reveal.delay-3 { transition-delay: 0.36s !important; }
+
+        /* ====== HERO ====== */
+        .careers-hero { position: relative; overflow: hidden; }
+        .careers-hero h1 {
+            position: relative;
+            background: linear-gradient(120deg, var(--white) 0%, var(--white) 40%, var(--SEG-yellow) 50%, var(--white) 60%, var(--white) 100%);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            animation: heroShimmerSweep 4.5s linear infinite;
+        }
+        @keyframes heroShimmerSweep {
+            0%   { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        /* Sequential entrance */
+        .careers-hero .overline,
+        .careers-hero h1,
+        .careers-hero > .container > p,
+        .careers-hero > .container > .btn,
+        .careers-hero .hero-divider {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroEntrance 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .careers-hero .overline { animation-delay: 0.1s; }
+        .careers-hero h1 { animation-delay: 0.3s; }
+        .careers-hero > .container > p { animation-delay: 0.55s; }
+        .careers-hero > .container > .btn { animation-delay: 0.75s; }
+        .careers-hero .hero-divider { animation-delay: 0.95s; }
+        @keyframes heroEntrance {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Grid pattern drift */
+        .careers-hero .hero-grid { animation: gridDrift 30s linear infinite; }
+        @keyframes gridDrift {
+            from { background-position: 0 0; }
+            to   { background-position: 60px 60px; }
+        }
+
+        /* Floating particles */
+        .careers-hero .hero-particle { animation: particleFloat 12s ease-in-out infinite; }
+        .careers-hero .hero-particle:nth-child(2) { animation-delay: -2.4s; }
+        .careers-hero .hero-particle:nth-child(3) { animation-delay: -4.8s; }
+        .careers-hero .hero-particle:nth-child(4) { animation-delay: -7.2s; }
+        .careers-hero .hero-particle:nth-child(5) { animation-delay: -9.6s; }
+        @keyframes particleFloat {
+            0%, 100% { transform: translate(0, 0) scale(1);     opacity: 0.55; }
+            33%      { transform: translate(40px, -30px) scale(1.1); opacity: 0.75; }
+            66%      { transform: translate(-30px, 40px) scale(0.9); opacity: 0.4; }
+        }
+
+        /* Hero CTA pulse */
+        .careers-hero .btn-primary { position: relative; overflow: visible; }
+        .careers-hero .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: 0 0 0 0 rgba(255, 207, 0, 0.6);
+            animation: ctaPulse 2.4s ease-out 2s infinite;
+            pointer-events: none;
+        }
+        @keyframes ctaPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(255, 207, 0, 0.55); }
+            70%  { box-shadow: 0 0 0 18px rgba(255, 207, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 207, 0, 0); }
+        }
+
+        /* ====== Benefits + Roles section ====== */
+        .careers-content { position: relative; }
+        .benefits-section h2 {
+            position: relative;
+            display: inline-block;
+        }
+        .benefits-section h2::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -8px;
+            width: 0; height: 3px;
+            background: linear-gradient(90deg, var(--SEG-yellow) 0%, #ffd633 100%);
+            transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
+        }
+        .benefits-section.in-view h2::after { width: 70px; }
+
+        /* Candidate benefits chips — animated entrance + hover */
+        .candidate-benefit {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        background 0.3s ease,
+                        color 0.3s ease,
+                        box-shadow 0.3s ease;
+            cursor: default;
+        }
+        .candidate-benefit:hover {
+            transform: translateY(-3px) scale(1.05);
+            background: var(--SEG-yellow);
+            color: var(--SEG-blue);
+            box-shadow: 0 8px 18px rgba(255, 207, 0, 0.4);
+        }
+
+        /* Roles card — premium hover + shimmer */
+        .roles-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.5s ease;
+        }
+        .roles-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 207, 0, 0.08), transparent);
+            transition: left 0.7s ease;
+            pointer-events: none;
+        }
+        .roles-card:hover::before { left: 150%; }
+        .roles-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px rgba(19, 37, 68, 0.18);
+        }
+
+        /* Tier list items — staggered fade + lift on hover */
+        .tier-item {
+            transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+        }
+        .tier-item:hover {
+            transform: translateX(6px);
+            background: rgba(255, 207, 0, 0.06);
+            border-color: var(--SEG-yellow);
+        }
+        .roles-card.in-view .tier-item {
+            animation: tierSlide 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .roles-card.in-view .tier-item:nth-child(1) { animation-delay: 0.4s; }
+        .roles-card.in-view .tier-item:nth-child(2) { animation-delay: 0.55s; }
+        .roles-card.in-view .tier-item:nth-child(3) { animation-delay: 0.7s; }
+        .roles-card.in-view .tier-item:nth-child(4) { animation-delay: 0.85s; }
+        .roles-card.in-view .tier-item:nth-child(5) { animation-delay: 1.0s; }
+        @keyframes tierSlide {
+            0%   { opacity: 0; transform: translateX(-20px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Section header overline (visual badge) */
+        .careers-hero .overline {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(255, 207, 0, 0.14);
+            border: 1px solid rgba(255, 207, 0, 0.4);
+            border-radius: 20px;
+            color: var(--SEG-yellow);
+            font-weight: 600;
+            letter-spacing: 0.08em;
+        }
+
+        /* ====== SCROLL PROGRESS BAR ====== */
+        .scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--SEG-yellow) 0%, #ffe16b 100%);
+            z-index: 10001;
+            transition: width 0.1s ease-out;
+            box-shadow: 0 0 12px rgba(255, 207, 0, 0.6);
+        }
+
+        /* ====== ACCESSIBILITY ====== */
+        @media (prefers-reduced-motion: reduce) {
+            .reveal,
+            .reveal.in-view,
+            .careers-hero .overline,
+            .careers-hero h1,
+            .careers-hero > .container > p,
+            .careers-hero > .container > .btn,
+            .careers-hero .hero-divider,
+            .careers-hero h1,
+            .careers-hero .hero-grid,
+            .careers-hero .hero-particle,
+            .careers-hero .btn-primary::after,
+            .roles-card.in-view .tier-item,
+            .benefits-section.in-view h2::after {
+                opacity: 1 !important;
+                transform: none !important;
+                filter: none !important;
+                animation: none !important;
+                transition: none !important;
+                width: 70px !important;
+            }
+        }
     </style>
+
+    <!-- SEO: JSON-LD structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://safety-excellence.com/#organization",
+          "name": "Safety Excellence Group",
+          "url": "https://safety-excellence.com",
+          "logo": "https://safety-excellence.com/images/SEG Original Logo.png"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://safety-excellence.com/careers.html#webpage",
+          "url": "https://safety-excellence.com/careers.html",
+          "name": "Careers — Join Our Safety Network",
+          "description": "Join Safety Excellence Group's network of BCSP-certified safety professionals working with Fortune 100 chipmakers, hyperscale data centers, and Tier-1 contractors.",
+          "isPartOf": { "@id": "https://safety-excellence.com/#organization" }
+        },
+        {
+          "@type": "JobPosting",
+          "title": "Safety Professional — All Tiers",
+          "description": "Join our network of safety professionals across Director, Manager, Lead, Coordinator, and Technician roles serving advanced industries.",
+          "hiringOrganization": { "@id": "https://safety-excellence.com/#organization" },
+          "employmentType": ["FULL_TIME", "CONTRACTOR"],
+          "industry": "Safety Consulting",
+          "occupationalCategory": "Safety Engineers",
+          "qualifications": "BCSP certifications (CSP, ASP, CHST) preferred; experience in semiconductor, data center, construction, or manufacturing safety"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home",     "item": "https://safety-excellence.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Careers",  "item": "https://safety-excellence.com/careers.html" }
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
+    <!-- Scroll progress indicator -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <!-- ========================================
          HEADER
          ======================================== -->
@@ -1554,6 +1827,7 @@
                     </div>
                 </li>
                 <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                <li><a href="/about-us.html">About Us</a></li>
                 <li><a href="/careers.html">Careers</a></li>
             </ul>
 
@@ -1592,6 +1866,7 @@
                 </ul>
             </li>
             <li><a href="/why-seg.html" onclick="closeMobileMenu()">Why S.E.G.</a></li>
+            <li><a href="/about-us.html" onclick="closeMobileMenu()">About Us</a></li>
             <li><a href="/careers.html" onclick="closeMobileMenu()">Careers</a></li>
         </ul>
         <div class="mobile-menu-cta">
@@ -1621,7 +1896,7 @@
     <section class="careers-content">
         <div class="container">
             <div class="careers-grid">
-                <div class="benefits-section animate-on-scroll">
+                <div class="benefits-section animate-on-scroll reveal reveal-left">
                     <h2>Why Join Us?</h2>
                     <p style="margin-bottom: 1.5rem;">We connect top safety professionals with high-impact projects at leading companies in semiconductor, data centers, construction, and manufacturing.</p>
 
@@ -1635,7 +1910,7 @@
                     <a href="#" class="btn btn-primary" onclick="openModal('candidateModal', event)">Apply Now</a>
                 </div>
 
-                <div class="roles-card animate-on-scroll delay-2">
+                <div class="roles-card animate-on-scroll reveal reveal-right delay-2">
                     <h3>Roles We Place</h3>
                     <div class="tier-list">
                         <div class="tier-item">
@@ -1694,6 +1969,7 @@
                     <h4>Company</h4>
                     <ul>
                         <li><a href="/why-seg.html">Why S.E.G.</a></li>
+                        <li><a href="/about-us.html">About Us</a></li>
                         <li><a href="/careers.html">Careers</a></li>
                         <li><a href="/#contact">Contact</a></li>
                     </ul>
@@ -2333,11 +2609,15 @@
                                     <input type="email" id="subScorerEmail" placeholder="you@company.com" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem;" required>
                                 </div>
                                 <div>
-                                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--SEG-blue); display: block; margin-bottom: 0.25rem;">Company Name</label>
-                                    <input type="text" id="subScorerCompany" placeholder="Your company" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem;">
+                                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--SEG-blue); display: block; margin-bottom: 0.25rem;">Your Name</label>
+                                    <input type="text" id="subScorerName" placeholder="Your name" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem;">
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary" onclick="sendSubScorerResults()" style="width: 100%;">Send Results →</button>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label style="font-size: 0.8rem; font-weight: 600; color: var(--SEG-blue); display: block; margin-bottom: 0.25rem;">Company Name</label>
+                                <input type="text" id="subScorerCompany" placeholder="Your company" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem;">
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="sendSubScorerResults()" style="width: 100%;">Send My Results →</button>
                         </div>
                     </div>
                 </div>
@@ -3585,17 +3865,18 @@ ${sections}
 
         async function sendSubScorerResults() {
             const email = document.getElementById('subScorerEmail').value;
+            const name = document.getElementById('subScorerName').value || '';
             const company = document.getElementById('subScorerCompany').value || '';
             if (!email) { alert('Please enter your email address.'); return; }
             const score = parseInt(document.getElementById('subScoreValue').textContent) || 0;
             const label = document.getElementById('subScoreLabel').textContent || '';
             const flags = []; document.querySelectorAll('#subScoreFlagsList li').forEach(li => flags.push(li.textContent.trim()));
-            const payload = { form_type: 'sub_scorer', email: email, company_name: company, sub_score: score, sub_risk_label: label, lead_classification: classifySubScorerLead(score), key_findings: flags.join(' | '), source_page: 'careers.html', timestamp: new Date().toISOString() };
+            const payload = { form_type: 'sub_scorer', full_name: name, email: email, company_name: company, sub_score: score, sub_risk_label: label, lead_classification: classifySubScorerLead(score), key_findings: flags.join(' | '), source_page: 'careers.html', timestamp: new Date().toISOString() };
             const btn = document.querySelector('#subScorerEmailCapture .btn-primary'); btn.textContent = 'Sending...'; btn.disabled = true;
             try {
                 await fetch('https://services.leadconnectorhq.com/hooks/gdzuiKrnOBEej5nXBHbA/webhook-trigger/dd8498d0-c790-48af-a7e7-28de6a3a0def', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 document.getElementById('subScorerEmailCapture').innerHTML = '<div style="text-align:center;padding:0.75rem;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="margin-bottom:0.5rem;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><p style="font-weight:600;color:var(--SEG-blue);">Results sent to ' + email + '</p></div>';
-            } catch (error) { btn.textContent = 'Error — Try Again'; btn.style.background = '#ef4444'; btn.disabled = false; setTimeout(() => { btn.textContent = 'Send Results →'; btn.style.background = ''; }, 3000); }
+            } catch (error) { btn.textContent = 'Error — Try Again'; btn.style.background = '#ef4444'; btn.disabled = false; setTimeout(() => { btn.textContent = 'Send My Results →'; btn.style.background = ''; }, 3000); }
         }
 
         function resetSubScorer() {
@@ -4153,7 +4434,9 @@ ${sections}
             const gaps = [];
             gapBars.forEach(bar => { const l = bar.querySelector('.gap-bar-label')?.textContent || ''; const p = bar.querySelector('.gap-bar-value')?.textContent || ''; gaps.push(l + ': ' + p); });
 
-            const payload = { form_type: 'z10_assessment', full_name: name, email: email, assessment_score: score, assessment_rating: rating, lead_classification: classification.label, industry: selectedIndustry || 'not_specified', gap_summary: gaps.join(' | '), source_page: 'careers.html', timestamp: new Date().toISOString() };
+            const challengeEl = document.getElementById('challenge');
+            const biggestChallenge = challengeEl ? challengeEl.value.trim() : '';
+            const payload = { form_type: 'z10_assessment', full_name: name, email: email, assessment_score: score, assessment_rating: rating, lead_classification: classification.label, industry: selectedIndustry || 'not_specified', gap_summary: gaps.join(' | '), biggest_challenge: biggestChallenge, source_page: 'careers.html', timestamp: new Date().toISOString() };
 
             const btn = document.querySelector('#emailCapture .btn-primary');
             const originalText = btn.textContent;
@@ -4189,21 +4472,131 @@ ${sections}
         }
     </script>
 
-    <!-- Scroll Animations -->
+    <!-- Scroll Animations + Premium effects -->
     <script>
+    // Scroll reveal — adds `animated` AND `in-view` to elements
     (function() {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.querySelectorAll('.animate-on-scroll, .reveal').forEach(el => {
+                el.classList.add('animated', 'in-view');
+            });
+            return;
+        }
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animated');
+                    entry.target.classList.add('in-view');
                     observer.unobserve(entry.target);
                 }
             });
-        }, { rootMargin: '0px 0px -60px 0px', threshold: 0.1 });
-        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        }, { rootMargin: '0px 0px -60px 0px', threshold: 0.12 });
+        document.querySelectorAll('.animate-on-scroll, .reveal').forEach(el => observer.observe(el));
+    })();
+
+    // Scroll progress bar
+    (function() {
+        const bar = document.getElementById('scrollProgress');
+        if (!bar) return;
+        let ticking = false;
+        function update() {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            bar.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+            ticking = false;
+        }
+        window.addEventListener('scroll', () => {
+            if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+        }, { passive: true });
+        update();
+    })();
+
+    // 3D tilt on roles card
+    (function() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        document.querySelectorAll('.roles-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                card.style.transform = `translateY(-6px) perspective(900px) rotateX(${(-y * 2).toFixed(2)}deg) rotateY(${(x * 2).toFixed(2)}deg)`;
+            });
+            card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+        });
+    })();
+
+    // Hero h1 letter-by-letter (preserves text content)
+    (function() {
+        const h1 = document.querySelector('.careers-hero h1');
+        if (!h1) return;
+        // Already wrapped? skip
+        if (h1.querySelector('.letter')) return;
+        const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        const text = h1.textContent;
+        h1.textContent = '';
+        text.split('').forEach((char, i) => {
+            const span = document.createElement('span');
+            span.className = 'letter';
+            span.textContent = char === ' ' ? ' ' : char;
+            span.style.display = 'inline-block';
+            span.style.opacity = '0';
+            span.style.transform = 'translateY(12px)';
+            span.style.animation = `letterDropIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${0.3 + i * 0.04}s forwards`;
+            span.style.transition = 'transform 0.25s ease, color 0.25s ease';
+            // Hover lift per letter — desktop only
+            if (hasHover) {
+                span.addEventListener('mouseenter', () => {
+                    span.style.transform = 'translateY(-4px) scale(1.15)';
+                });
+                span.addEventListener('mouseleave', () => {
+                    span.style.transform = 'translateY(0) scale(1)';
+                });
+            }
+            h1.appendChild(span);
+        });
+    })();
+
+    // Hero paragraph — wrap each word for hover-lift
+    (function() {
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+        const para = document.querySelector('.careers-hero > .container > p');
+        if (!para) return;
+        if (para.querySelector('.word')) return;
+        const text = para.textContent;
+        para.textContent = '';
+        const tokens = text.match(/\S+|\s+/g) || [];
+        tokens.forEach(token => {
+            if (/^\s+$/.test(token)) {
+                para.appendChild(document.createTextNode(token));
+            } else {
+                const span = document.createElement('span');
+                span.className = 'word';
+                span.textContent = token;
+                span.style.display = 'inline-block';
+                span.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease, text-shadow 0.3s ease';
+                span.style.cursor = 'default';
+                span.addEventListener('mouseenter', () => {
+                    span.style.transform = 'translateY(-4px) scale(1.06)';
+                    span.style.color = '#FFCF00';
+                    span.style.textShadow = '0 4px 12px rgba(255, 207, 0, 0.4)';
+                });
+                span.addEventListener('mouseleave', () => {
+                    span.style.transform = '';
+                    span.style.color = '';
+                    span.style.textShadow = '';
+                });
+                para.appendChild(span);
+            }
+        });
     })();
     </script>
+
+    <!-- Letter drop-in keyframes (added via style for the h1 letter animation) -->
+    <style>
+        @keyframes letterDropIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 
     <!-- Auto-open modal from other pages via #apply hash -->
     <script>
@@ -4226,6 +4619,7 @@ ${sections}
 
     <!-- AEGIS Chatbot -->
     <script src="js/aegis-chatbot.js"></script>
+    <script src="js/aegis-call-widget.js"></script>
 
     <!-- Resume upload preview -->
     <script>
