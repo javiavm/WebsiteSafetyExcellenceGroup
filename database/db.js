@@ -24,6 +24,11 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
 // Enable foreign keys
 db.run('PRAGMA foreign_keys = ON');
 
+// Run every statement in order. Without this, sqlite3 may execute the CREATE INDEX
+// statements below before their CREATE TABLE has finished, which crashes the server
+// on a brand-new (empty) database such as a fresh deploy.
+db.serialize();
+
 // Create Stage 2 tables
 db.run(`CREATE TABLE IF NOT EXISTS stage2_results (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
