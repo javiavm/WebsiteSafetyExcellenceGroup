@@ -4,6 +4,11 @@
     const section = document.querySelector('.aegis-showcase');
     if (!section) return;
     const canvas = section.querySelector('.aegis-showcase__particles');
+    const previousSection = section.previousElementSibling;
+    const entryCanvas = document.createElement('canvas');
+    entryCanvas.className = 'aegis-entry-particles';
+    entryCanvas.setAttribute('aria-hidden', 'true');
+    previousSection.prepend(entryCanvas);
     const waves = section.querySelector('.aegis-showcase__waves');
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const pointer = { x: -10, y: -10 };
@@ -11,6 +16,7 @@
     let width = 1, height = 1, frame = 0, scrollProgress = 0;
     let waveFrame = 0, wavePhase = 0, ambientTime = 0, lastWaveTime = 0;
     let logoPoints, sparkSprite, floorSprite;
+    let entryRenderer, entryHeight = 0;
 
     // Focus follows the viewport center, independently of WebGL and particle visibility.
     let themeFrame = 0;
@@ -35,16 +41,16 @@
         const viewport = window.innerHeight;
         const top = section.getBoundingClientRect().top;
         // One timeline tied to position, so upward scroll retraces every particle's path.
-        scrollProgress = Math.max(0, Math.min(1, (viewport * .92 - top) / (viewport * .8)));
+        scrollProgress = Math.max(0, Math.min(1, (viewport * 1.65 - top) / (viewport * 1.53)));
     }
 
     window.addEventListener('scroll', update, { passive: true });
 
-    function shader(type, source) {
-        const s = gl.createShader(type);
-        gl.shaderSource(s, source);
-        gl.compileShader(s);
-        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error('Particle shader unavailable');
+    function shader(type, source, context = gl) {
+        const s = context.createShader(type);
+        context.shaderSource(s, source);
+        context.compileShader(s);
+        if (!context.getShaderParameter(s, context.COMPILE_STATUS)) throw new Error('Particle shader unavailable');
         return s;
     }
 
@@ -54,7 +60,8 @@
         program = gl.createProgram();
         gl.attachShader(program, shader(gl.VERTEX_SHADER, `
             attribute vec3 aPoint;
-            uniform vec2 uResolution, uCenter, uPointer;
+            uniform vec2 uResolution, uCenter, uPointer, uViewport;
+            uniform float uOffset;
             uniform float uProgress, uScale, uDpr;
             varying float vLight, vVisibility;
             void main() {
@@ -63,17 +70,18 @@
                 float travel = smoothstep(seed * .16, .82 + seed * .16, uProgress);
                 vec2 scatter = vec2(fract(sin(seed * 127.1) * 43758.5453),
                     fract(sin(seed * 311.7 + 17.0) * 96321.9123));
-                vec2 origin = (scatter * uResolution - uCenter) / uScale;
+                vec2 origin = ((scatter * 1.2 - .1) * uResolution - uCenter) / uScale;
                 p = mix(origin, p, travel);
                 p.x += sin(travel * 3.14159265) * sin(seed * 91.0) * .24;
                 p += vec2(sin(seed * 30.0 + uProgress * 4.0), cos(seed * 43.0 + uProgress * 4.0)) * .006;
                 vec2 pixel = uCenter + p * uScale;
-                float density = mix(.035, 1.0, smoothstep(.25, .95, uProgress));
+                float density = mix(.09, 1.0, smoothstep(.25, .95, uProgress));
                 vVisibility = 1.0 - smoothstep(density, density + .025, seed);
                 vec2 delta = pixel - uPointer;
                 float dist = length(delta);
                 pixel += delta / max(dist, 1.0) * 32.0 * exp(-dist * dist / 11000.0);
-                gl_Position = vec4(pixel / uResolution * vec2(2.0, -2.0) + vec2(-1.0, 1.0), 0.0, 1.0);
+                pixel.y -= uOffset;
+                gl_Position = vec4(pixel / uViewport * vec2(2.0, -2.0) + vec2(-1.0, 1.0), 0.0, 1.0);
                 vLight = .65 + .35 * pow(.5 + .5 * sin(seed * 80.0 + uProgress * 6.0), 2.0);
                 gl_PointSize = (4.0 + seed * 4.5) * uDpr;
             }
@@ -100,12 +108,13 @@
         gl.enableVertexAttribArray(attribute);
         gl.vertexAttribPointer(attribute, 3, gl.FLOAT, false, 0, 0);
         uniforms = {};
-        ['Resolution', 'Center', 'Pointer', 'Progress', 'Scale', 'Dpr'].forEach(name => {
+        ['Resolution', 'Center', 'Pointer', 'Progress', 'Scale', 'Dpr', 'Viewport', 'Offset'].forEach(name => {
             uniforms[name] = gl.getUniformLocation(program, 'u' + name);
         });
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.ONE, gl.ONE);
         count = points.length / 3;
+        initEntryRenderer(points);
         ctx = waves.getContext('2d', { desynchronized: true });
         createSprites();
         ready = true;
@@ -113,17 +122,49 @@
         update();
     }
 
+    // Two clipped views share identical coordinates and trajectories across the section boundary.
+    // Keeping the upper view inside its section places it below that section's cards and text.
+    function initEntryRenderer(points) {
+        const context = entryCanvas.getContext('webgl', { alpha: true, antialias: false, depth: false, premultipliedAlpha: true });
+        if (!context) return;
+        const entryProgram = context.createProgram();
+        gl.getAttachedShaders(program).forEach(function (source) {
+            const type = gl.getShaderParameter(source, gl.SHADER_TYPE);
+            context.attachShader(entryProgram, shader(type, gl.getShaderSource(source), context));
+        });
+        context.linkProgram(entryProgram);
+        if (!context.getProgramParameter(entryProgram, context.LINK_STATUS)) return;
+        context.useProgram(entryProgram);
+        const buffer = context.createBuffer();
+        context.bindBuffer(context.ARRAY_BUFFER, buffer);
+        context.bufferData(context.ARRAY_BUFFER, new Float32Array(points), context.STATIC_DRAW);
+        const attribute = context.getAttribLocation(entryProgram, 'aPoint');
+        context.enableVertexAttribArray(attribute);
+        context.vertexAttribPointer(attribute, 3, context.FLOAT, false, 0, 0);
+        const entryUniforms = {};
+        Object.keys(uniforms).forEach(name => { entryUniforms[name] = context.getUniformLocation(entryProgram, 'u' + name); });
+        context.enable(context.BLEND); context.blendFunc(context.ONE, context.ONE);
+        entryRenderer = { context, uniforms: entryUniforms };
+    }
+
     function resize() {
         width = section.clientWidth;
         height = section.clientHeight;
+        entryHeight = previousSection.clientHeight;
         const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
         canvas.width = Math.round(width * dpr);
         canvas.height = Math.round(height * dpr);
+        entryCanvas.width = Math.round(width * dpr);
+        entryCanvas.height = Math.round(entryHeight * dpr);
         waves.width = width;
         waves.height = height;
         if (ready) {
             gl.viewport(0, 0, canvas.width, canvas.height);
             gl.uniform1f(uniforms.Dpr, dpr);
+            if (entryRenderer) {
+                entryRenderer.context.viewport(0, 0, entryCanvas.width, entryCanvas.height);
+                entryRenderer.context.uniform1f(entryRenderer.uniforms.Dpr, dpr);
+            }
             draw();
         }
     }
@@ -143,13 +184,22 @@
         measureProgress();
         const progress = motion.matches ? 1 : scrollProgress;
         const { cx, cy, size } = layout();
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.uniform2f(uniforms.Resolution, width, height);
-        gl.uniform2f(uniforms.Center, cx, cy);
-        gl.uniform2f(uniforms.Pointer, pointer.x, pointer.y);
-        gl.uniform1f(uniforms.Progress, progress);
-        gl.uniform1f(uniforms.Scale, size);
-        gl.drawArrays(gl.POINTS, 0, count);
+        function render(context, locations, viewportHeight, offset) {
+            context.clear(context.COLOR_BUFFER_BIT);
+            context.uniform2f(locations.Resolution, width, height + entryHeight);
+            context.uniform2f(locations.Viewport, width, viewportHeight);
+            context.uniform1f(locations.Offset, offset);
+            context.uniform2f(locations.Center, cx, cy + entryHeight);
+            context.uniform2f(locations.Pointer, pointer.x, pointer.y + entryHeight);
+            context.uniform1f(locations.Progress, progress);
+            context.uniform1f(locations.Scale, size);
+            context.drawArrays(context.POINTS, 0, count);
+        }
+        render(gl, uniforms, height, entryHeight);
+        if (entryRenderer) {
+            entryCanvas.style.visibility = progress >= .999 ? 'hidden' : 'visible';
+            render(entryRenderer.context, entryRenderer.uniforms, entryHeight, 0);
+        }
         if (motion.matches) drawWaves();
         section.classList.add('is-rendered');
     }
@@ -373,12 +423,18 @@
         else window.location.href = 'aegis-demo.html';
     });
     if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (entries) {
-            visible = entries[0].isIntersecting;
+        const targets = new Map();
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => targets.set(entry.target, entry.isIntersecting));
+            visible = Array.from(targets.values()).some(Boolean);
             update();
-        }, { rootMargin: '650px 0px', threshold: [0, .05, .2] }).observe(section);
+        }, { rootMargin: '250px 0px', threshold: [0, .05, .2] });
+        observer.observe(section); observer.observe(previousSection);
     } else visible = true;
-    if ('ResizeObserver' in window) new ResizeObserver(resize).observe(section);
+    if ('ResizeObserver' in window) {
+        const observer = new ResizeObserver(resize);
+        observer.observe(section); observer.observe(previousSection);
+    }
     window.addEventListener('resize', resize);
     document.addEventListener('visibilitychange', update);
     motion.addEventListener('change', update);

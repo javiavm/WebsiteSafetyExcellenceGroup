@@ -518,6 +518,26 @@
 .aw-modal-box .aw-head { background: rgba(11, 16, 22, 0.95); }
 .aw-modal-box iframe { width: 100%; height: 100%; border: 0; background: #fff; }
 
+/* The booking embed can grow beyond the viewport as dates and forms change. */
+#aw-calendar-modal { padding: 16px; }
+#aw-calendar-modal .aw-modal-box { width: min(980px, 100%); height: auto; max-height: min(860px, calc(100dvh - 32px)); min-height: 0; }
+#aw-calendar-modal .aw-head { min-width: 0; }
+#aw-calendar-modal .aw-title { min-width: 0; }
+#aw-calendar-modal .aw-close { flex-shrink: 0; }
+#aw-calendar-modal .aw-calendar-scroll { --aw-calendar-scale: .85; height: min(calc(var(--aw-calendar-document-height, 700px) * var(--aw-calendar-scale)), calc(100dvh - 120px)); min-height: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; background: #132544; }
+#aw-calendar-modal .aw-calendar-content { position: relative; height: calc(var(--aw-calendar-document-height, 700px) * var(--aw-calendar-scale)); overflow: hidden; }
+#aw-calendar-modal .aw-calendar-scroll iframe { position: absolute; top: 0; left: 0; display: block; width: calc(100% / var(--aw-calendar-scale)); height: var(--aw-calendar-document-height, 700px); transform: scale(var(--aw-calendar-scale)); transform-origin: top left; min-height: 0; background: #132544; }
+#aw-calendar-modal .aw-calendar-scroll:focus-visible { outline: 2px solid #ffcf00; outline-offset: -2px; }
+@media (max-width: 600px) {
+    #aw-calendar-modal { padding: 8px; }
+    #aw-calendar-modal .aw-modal-box { max-height: calc(100dvh - 16px); border-radius: 14px; }
+    #aw-calendar-modal .aw-calendar-scroll { --aw-calendar-scale: .9; height: min(calc(var(--aw-calendar-document-height, 700px) * var(--aw-calendar-scale)), calc(100dvh - 100px)); }
+    #aw-calendar-modal .aw-head { padding: 12px; gap: 10px; }
+    #aw-calendar-modal .aw-head .aw-avatar { width: 36px; height: 36px; flex-shrink: 0; }
+    #aw-calendar-modal .aw-title b { font-size: 15px; line-height: 1.35; }
+    #aw-calendar-modal .aw-title span { font-size: 10px; letter-spacing: .04em; }
+}
+
 /* --------------------------------------------------------------- voice */
 .aw-voice-body {
     display: grid;

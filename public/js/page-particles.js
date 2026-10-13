@@ -31,7 +31,7 @@
         const { width, height } = layer.canvas;
         ctx.clearRect(0, 0, width, height);
         const time = motion.matches ? 0 : elapsed;
-        const approach = Math.max(0, Math.min(1, (innerHeight * .92 - showcase.getBoundingClientRect().top) / (innerHeight * .8)));
+        const approach = Math.max(0, Math.min(1, (innerHeight * 1.65 - showcase.getBoundingClientRect().top) / (innerHeight * 1.53)));
         const beforeShowcase = layer.section === showcase.previousElementSibling;
         // Sparse background points hand off to the logo as it assembles.
         const opacity = beforeShowcase ? 1 - approach : 1;

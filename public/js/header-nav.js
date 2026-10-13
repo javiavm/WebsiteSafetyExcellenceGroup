@@ -10,6 +10,55 @@
     const hover = window.matchMedia('(hover: hover)');
     const dropdowns = Array.from(header.querySelectorAll('.dropdown'));
     let returnFocus, previousOverflow = '', closeTimer = 0;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let photoTimer = 0;
+    const photoSets = new Map();
+    header.querySelectorAll('.mega-menu-preview').forEach(function (preview) {
+        const frame = preview.querySelector('.mega-menu-preview-image');
+        if (!frame) return;
+        const topic = preview.id.replace('preview-', '');
+        frame.replaceChildren();
+        const images = [1, 2, 3].map(function (number) {
+            const image = document.createElement('img');
+            image.className = 'nav-photo' + (number === 1 ? ' is-visible' : '');
+            image.alt = ''; image.width = 900; image.height = 900;
+            image.decoding = 'async';
+            image.dataset.src = '/images/navigation/' + (topic === 'vetting' && number === 1 ? 'vetting-team' : topic + '-' + number) + '.webp';
+            frame.appendChild(image);
+            return image;
+        });
+        photoSets.set(preview, { images, index: 0 });
+    });
+    function updatePhotos() {
+        clearInterval(photoTimer); photoTimer = 0;
+        const preview = header.querySelector('.dropdown.is-open .mega-menu-preview.active');
+        const set = photoSets.get(preview);
+        if (!set || !desktop.matches || document.hidden) return;
+        set.images.forEach(function (image) { if (!image.src) image.src = image.dataset.src; });
+        if (reducedMotion.matches) return;
+        photoTimer = setInterval(function () {
+            const next = (set.index + 1) % set.images.length;
+            const image = set.images[next];
+            if (!image.complete || !image.naturalWidth) return;
+            set.images[set.index].classList.remove('is-visible');
+            image.classList.add('is-visible'); set.index = next;
+        }, 5000);
+    }
+    document.addEventListener('visibilitychange', updatePhotos);
+    reducedMotion.addEventListener('change', updatePhotos);
+    window.SEGNavigation = {
+        openModal: function (id, event) {
+            if (event) event.preventDefault();
+            window.closeMobileMenu(false);
+            closeDropdowns();
+            if (document.getElementById(id) && typeof window.openModal === 'function') window.openModal(id, event);
+            else window.location.assign('/index.html?modal=' + encodeURIComponent(id));
+        }
+    };
+    const requestedModal = new URLSearchParams(location.search).get('modal');
+    if (requestedModal === 'candidateModal' || requestedModal === 'clientModal') {
+        requestAnimationFrame(function () { if (document.getElementById(requestedModal)) window.SEGNavigation.openModal(requestedModal); });
+    }
 
     function closeDropdowns() {
         clearTimeout(closeTimer);
@@ -18,6 +67,7 @@
             item.querySelector(':scope > a').setAttribute('aria-expanded', 'false');
             item.querySelector('.mega-menu').inert = true;
         });
+        updatePhotos();
     }
     function openDropdown(item) {
         if (!desktop.matches) return;
@@ -26,6 +76,7 @@
         item.classList.add('is-open');
         item.querySelector(':scope > a').setAttribute('aria-expanded', 'true');
         item.querySelector('.mega-menu').inert = false;
+        updatePhotos();
     }
     dropdowns.forEach(function (item, index) {
         const trigger = item.querySelector(':scope > a');
@@ -66,6 +117,7 @@
                     preview.classList.toggle('active', active);
                     preview.inert = !active;
                 });
+                updatePhotos();
             }
             link.addEventListener('mouseenter', selectPreview);
             link.addEventListener('focusin', selectPreview);
@@ -82,8 +134,10 @@
     });
 
     // Use the existing brand asset unchanged, including in the mobile drawer.
-    const brand = document.createElement('div');
+    const brand = document.createElement('a');
     brand.className = 'mobile-menu-brand';
+    brand.href = '/index.html';
+    brand.setAttribute('aria-label', 'Safety Excellence Group home');
     const brandImage = header.querySelector('.logo-icon').cloneNode(true);
     brandImage.removeAttribute('style');
     brand.appendChild(brandImage);

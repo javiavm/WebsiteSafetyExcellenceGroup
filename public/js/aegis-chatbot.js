@@ -547,13 +547,26 @@
         m.className = 'aw-modal';
         m.innerHTML =
             '<div class="aw-modal-back"></div>' +
-            '<div class="aw-modal-box">' +
+            '<div class="aw-modal-box" role="dialog" aria-modal="true" aria-label="Book Your Discovery Call">' +
                 '<div class="aw-head"><span class="aw-avatar" aria-hidden="true"><i></i></span>' +
                 '<div class="aw-title"><b>Book Your Discovery Call</b><span>15 minutes · No obligation</span></div>' +
                 '<button class="aw-close" type="button" aria-label="Close">' + ICONS.close + '</button></div>' +
-                '<iframe src="https://api.leadconnectorhq.com/widget/booking/56IkA4NNqXU4MQAnpmAh" scrolling="yes" frameborder="0"></iframe>' +
+                '<div class="aw-calendar-scroll" data-lenis-prevent tabindex="0" role="region" aria-label="Discovery call calendar">' +
+                    '<div class="aw-calendar-content">' +
+                    '<iframe id="aw-calendar-frame" src="https://api.leadconnectorhq.com/widget/booking/56IkA4NNqXU4MQAnpmAh" title="S.E.G. Discovery Call Calendar" scrolling="yes" frameborder="0"></iframe>' +
+                    '</div>' +
+                '</div>' +
             '</div>';
         document.body.appendChild(m);
+        var bookingFrame = $('iframe', m);
+        var bookingScroller = $('.aw-calendar-scroll', m);
+        // Follow the provider's measured document height instead of imposing blank space.
+        var bookingResize = new MutationObserver(function () {
+            var measured = parseFloat(bookingFrame.style.height);
+            if (Number.isFinite(measured) && measured > 0) bookingScroller.style.setProperty('--aw-calendar-document-height', measured + 'px');
+        });
+        bookingResize.observe(bookingFrame, { attributes: true, attributeFilter: ['style'] });
+        m.bookingResize = bookingResize;
         $('.aw-modal-back', m).addEventListener('click', closeCalendarModal);
         $('.aw-close', m).addEventListener('click', closeCalendarModal);
         document.body.style.overflow = 'hidden';
@@ -568,6 +581,7 @@
     function closeCalendarModal() {
         var m = $('#aw-calendar-modal');
         if (m) {
+            if (m.bookingResize) m.bookingResize.disconnect();
             m.remove();
             document.body.style.overflow = '';
         }

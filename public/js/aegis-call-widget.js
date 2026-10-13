@@ -44,7 +44,7 @@
         analyserIn: null, analyserOut: null, outGain: null, playAt: 0,
         sources: new Set(), live: false, muted: false, speaking: false,
         startedAt: 0, timerId: null, maxId: null, raf: null,
-        lastRole: null, lastLine: null, captions: [], captionPage: 0,
+        lastRole: null, lastLine: null,
         // fallback (Web Speech) state
         mode: null, recognition: null, listening: false, sessionId: null
     };
@@ -176,10 +176,12 @@
             canvas: $('#aw-voice-viz')
         };
         ctx2d = els.canvas.getContext('2d');
-        els.transcript.innerHTML = '<div class="aw-line"><span></span><p></p></div><nav class="aw-caption-pages" aria-label="Transcript pages"><button type="button" aria-label="Previous transcript page">Previous</button><span></span><button type="button" aria-label="Next transcript page">Next</button></nav>';
-        var captionButtons = els.transcript.querySelectorAll('button');
-        captionButtons[0].addEventListener('click', function () { S.captionPage--; renderCaptions(false); });
-        captionButtons[1].addEventListener('click', function () { S.captionPage++; renderCaptions(false); });
+        new ResizeObserver(function () {
+            var orb = $('.aw-orb', panel).getBoundingClientRect();
+            if (!orb.width || !orb.height) return;
+            var width = Math.round(orb.width / orb.height * 320);
+            if (els.canvas.width !== width) { els.canvas.width = width; setVideo(panel.classList.contains('is-open')); }
+        }).observe($('.aw-orb', panel));
 
         $('.aw-close', panel).addEventListener('click', close);
         $('.aw-hub-back', panel).addEventListener('click', function (event) { event.stopPropagation(); openMenu(); });
@@ -206,6 +208,7 @@
             var expanded = panel.classList.toggle('show-transcript');
             this.setAttribute('aria-expanded', String(expanded));
             this.setAttribute('aria-label', expanded ? 'Hide transcript' : 'Show transcript');
+            if (expanded) requestAnimationFrame(function () { els.transcript.scrollTop = els.transcript.scrollHeight; });
         });
         $('[data-voice-book]', panel).addEventListener('click', openBooking);
         $('[data-voice-chat]', panel).addEventListener('click', function (event) {
@@ -305,40 +308,17 @@
     function line(role, text, interim) {
         if (!text || !text.trim()) return;
         if (S.lastRole === role && S.lastLine && !interim) {
-            S.lastLine.text += text;
+            S.lastLine.querySelector('p').textContent += text;
         } else {
-            var el = { role: role, text: text };
-            S.captions.push(el);
+            var el = document.createElement('div');
+            el.className = 'aw-line is-' + role;
+            el.innerHTML = '<span>' + (role === 'user' ? 'You' : 'AegisAI') + '</span><p></p>';
+            el.querySelector('p').textContent = text;
+            els.transcript.appendChild(el);
             S.lastRole = role;
             S.lastLine = el;
         }
-        renderCaptions(true);
-    }
-    // Short caption pages keep every word accessible without a scrolling surface.
-    function renderCaptions(followLatest) {
-        var pages = [];
-        S.captions.forEach(function (entry) {
-            var remaining = entry.text;
-            while (remaining.length) {
-                var end = Math.min(120, remaining.length);
-                if (end < remaining.length) {
-                    var space = remaining.lastIndexOf(' ', end);
-                    if (space > 60) end = space + 1;
-                }
-                pages.push({ role: entry.role, text: remaining.slice(0, end) });
-                remaining = remaining.slice(end);
-            }
-        });
-        S.captionPage = followLatest ? Math.max(0, pages.length - 1) : Math.max(0, Math.min(S.captionPage, pages.length - 1));
-        var page = pages[S.captionPage];
-        var item = els.transcript.querySelector('.aw-line');
-        item.className = 'aw-line is-' + (page ? page.role : 'agent');
-        item.querySelector('span').textContent = page ? (page.role === 'user' ? 'You' : 'AegisAI') : '';
-        item.querySelector('p').textContent = page ? page.text : '';
-        var nav = els.transcript.querySelector('nav');
-        nav.querySelector('span').textContent = (pages.length ? S.captionPage + 1 : 0) + ' / ' + pages.length;
-        nav.querySelectorAll('button')[0].disabled = S.captionPage === 0;
-        nav.querySelectorAll('button')[1].disabled = S.captionPage >= pages.length - 1;
+        els.transcript.scrollTop = els.transcript.scrollHeight;
     }
     function tickTimer() {
         var s = Math.floor((Date.now() - S.startedAt) / 1000);
