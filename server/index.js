@@ -987,6 +987,7 @@ app.get('/api', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
+    console.log('Build commit:', (process.env.RAILWAY_GIT_COMMIT_SHA || 'local').slice(0, 7));
     console.log(`
 ╔════════════════════════════════════════════╗
 ║     SEG Backend Server                     ║
