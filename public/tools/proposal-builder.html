@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>S.E.G. — Proposal Builder</title>
+    <link rel="icon" href="/images/SEG Favicon Original.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --seg-navy: #132544;
+            --seg-yellow: #FFCF00;
+            --seg-yellow-dark: #E6BA00;
+            --seg-dark-grey: #333333;
+            --seg-grey: #BABABA;
+            --seg-grey-2: #DDDDDD;
+            --seg-light-grey: #F4F4F4;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: var(--seg-light-grey);
+            color: var(--seg-dark-grey);
+        }
+        header {
+            background: var(--seg-navy);
+            color: #fff;
+            padding: 18px 32px;
+            border-bottom: 3px solid var(--seg-yellow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header .brand { display: flex; align-items: center; gap: 14px; font-weight: 600; }
+        header .brand img { height: 40px; }
+        header a { color: var(--seg-yellow); text-decoration: none; font-size: 13px; font-weight: 500; }
+        main {
+            max-width: 960px;
+            margin: 32px auto;
+            padding: 0 24px;
+        }
+        h1 {
+            color: var(--seg-navy);
+            font-size: 26px;
+            margin: 0 0 8px;
+        }
+        .subtitle {
+            color: var(--seg-grey);
+            margin: 0 0 24px;
+            font-size: 14px;
+        }
+        .script-picker {
+            background: #fff;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(19, 37, 68, 0.05);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .script-picker label { font-weight: 600; color: var(--seg-navy); }
+        .script-picker select {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--seg-grey-2);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        form {
+            background: #fff;
+            border-radius: 8px;
+            padding: 24px 28px;
+            box-shadow: 0 1px 3px rgba(19, 37, 68, 0.05);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px 20px;
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .field.full { grid-column: 1 / -1; }
+        .field label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--seg-navy);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .field label .req { color: #dc3545; margin-left: 3px; }
+        .field input,
+        .field textarea,
+        .field select {
+            padding: 9px 12px;
+            border: 1px solid var(--seg-grey-2);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .field textarea { min-height: 80px; resize: vertical; }
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+            outline: none;
+            border-color: var(--seg-yellow);
+            box-shadow: 0 0 0 3px rgba(255, 207, 0, 0.15);
+        }
+        .section-heading {
+            grid-column: 1 / -1;
+            margin: 18px 0 4px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--seg-grey-2);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--seg-navy);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .section-heading:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+        .actions {
+            margin-top: 26px;
+            padding-top: 20px;
+            border-top: 1px solid var(--seg-grey-2);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .actions button {
+            background: var(--seg-navy);
+            color: #fff;
+            border: 0;
+            padding: 11px 24px;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .actions button:hover { background: #1a3560; }
+        .actions button.primary {
+            background: var(--seg-yellow);
+            color: var(--seg-navy);
+        }
+        .actions button.primary:hover { background: var(--seg-yellow-dark); }
+        .actions button:disabled {
+            opacity: 0.55;
+            cursor: wait;
+        }
+        .status {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+        .status.info    { background: #dbeafe; color: #1e40af; display: block; }
+        .status.success { background: #d1fae5; color: #065f46; display: block; }
+        .status.error   { background: #fee2e2; color: #991b1b; display: block; }
+        .status a { color: inherit; font-weight: 600; }
+        .ai-slots-note {
+            grid-column: 1 / -1;
+            background: rgba(255, 207, 0, 0.08);
+            border-left: 3px solid var(--seg-yellow);
+            padding: 10px 14px;
+            font-size: 12px;
+            color: var(--seg-dark-grey);
+            border-radius: 4px;
+        }
+        @media (max-width: 640px) {
+            .form-grid { grid-template-columns: 1fr; }
+            main { padding: 0 12px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <img src="/images/Transparent Logo.png" alt="S.E.G.">
+            <span>Document Builder</span>
+        </div>
+        <a href="/">← Back to site</a>
+    </header>
+
+    <main>
+        <h1>Generate a Document</h1>
+        <p class="subtitle">Fill the fields below. AI-marked fields will be polished automatically. Locked legal sections cannot be modified.</p>
+
+        <div class="script-picker">
+            <label for="script-select">Document:</label>
+            <select id="script-select"></select>
+            <span id="script-badge" style="font-size:12px;color:var(--seg-grey);"></span>
+        </div>
+
+        <form id="doc-form">
+            <div class="form-grid" id="form-fields"></div>
+            <div class="actions">
+                <button type="button" onclick="location.reload()">Reset</button>
+                <button type="submit" class="primary" id="submit-btn">Generate Document</button>
+            </div>
+            <div class="status" id="status"></div>
+        </form>
+    </main>
+
+    <script>
+        const $ = (id) => document.getElementById(id);
+        const scriptSelect = $('script-select');
+        const scriptBadge  = $('script-badge');
+        const formFields   = $('form-fields');
+        const status       = $('status');
+        let currentSchema  = null;
+
+        async function loadScripts() {
+            const res = await fetch('/api/documents/scripts');
+            const data = await res.json();
+            scriptSelect.innerHTML = '';
+            data.scripts
+                .filter(s => !s.draft)
+                .forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.name;
+                    opt.textContent = `${s.title || s.name}  (v${s.version})`;
+                    scriptSelect.appendChild(opt);
+                });
+            if (scriptSelect.value) loadSchema(scriptSelect.value);
+        }
+
+        async function loadSchema(name) {
+            formFields.innerHTML = '<em style="grid-column:1/-1;color:var(--seg-grey);">Loading schema…</em>';
+            const res = await fetch('/api/documents/scripts/' + encodeURIComponent(name));
+            const schema = await res.json();
+            if (schema.error) { formFields.innerHTML = `<div class="status error" style="display:block">${schema.error}</div>`; return; }
+            currentSchema = schema;
+            scriptBadge.textContent = `v${schema.version}${schema.approved ? ' · approved' : ' · draft'}`;
+            renderForm(schema);
+        }
+
+        function renderForm(schema) {
+            formFields.innerHTML = '';
+            // Group hint
+            const heading = document.createElement('div');
+            heading.className = 'section-heading';
+            heading.textContent = 'Client & project details';
+            formFields.appendChild(heading);
+
+            const inputs = schema.inputs || [];
+            inputs.forEach((f, idx) => {
+                const field = document.createElement('div');
+                field.className = 'field' + ((f.type === 'textarea') ? ' full' : '');
+                const label = document.createElement('label');
+                label.setAttribute('for', 'f-' + f.name);
+                label.innerHTML = f.label + (f.required ? ' <span class="req">*</span>' : '');
+                field.appendChild(label);
+
+                let el;
+                if (f.type === 'textarea') {
+                    el = document.createElement('textarea');
+                } else {
+                    el = document.createElement('input');
+                    el.type = f.type === 'number' ? 'number' : f.type === 'date' ? 'date' : 'text';
+                    if (f.type === 'number') el.step = 'any';
+                }
+                el.id = 'f-' + f.name;
+                el.name = f.name;
+                if (f.placeholder) el.placeholder = f.placeholder;
+                if (f.required) el.required = true;
+                field.appendChild(el);
+                formFields.appendChild(field);
+
+                // Insert section dividers at logical breakpoints (based on real proposal script)
+                const breaks = {
+                    'client_address': 'Personnel & Rates',
+                    'ot_multiplier':  'Financial Summary',
+                    'environment_type': 'Current State (Part A.2)',
+                    'gap_oversight_state': 'Gaps & Risks (Part A.3)',
+                    'option_good_desc':    'Pricing Options (Part A.5)',
+                    'standdown_cost_day':  'Value Context (Part A.6)',
+                    'onboarding_weeks':    'Project Timeline (Part A.7)',
+                    'invoicing_frequency': 'Terms — Invoicing (Part B)'
+                };
+                if (breaks[f.name]) {
+                    const div = document.createElement('div');
+                    div.className = 'section-heading';
+                    div.textContent = breaks[f.name];
+                    formFields.insertBefore(div, field);
+                }
+            });
+
+            // AI slots note
+            if (schema.ai_slots && schema.ai_slots.length) {
+                const note = document.createElement('div');
+                note.className = 'ai-slots-note';
+                note.innerHTML = '<strong>AI-polished fields (auto-generated):</strong> ' +
+                    schema.ai_slots.map(s => `${s.name} (max ${s.max_words} words, tone: ${s.tone})`).join(' · ');
+                formFields.appendChild(note);
+            }
+        }
+
+        function collectInputs() {
+            const data = {};
+            (currentSchema.inputs || []).forEach(f => {
+                const el = document.getElementById('f-' + f.name);
+                if (!el) return;
+                let val = el.value;
+                if (f.type === 'number') {
+                    val = val === '' ? null : parseFloat(val);
+                }
+                if (val !== '' && val !== null) data[f.name] = val;
+            });
+            return data;
+        }
+
+        function setStatus(text, kind) {
+            status.className = 'status ' + (kind || '');
+            status.innerHTML = text;
+        }
+
+        $('doc-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentSchema) return;
+            const btn = $('submit-btn');
+            btn.disabled = true;
+            setStatus('Generating document (AI is polishing sections — takes ~5-10 seconds)…', 'info');
+
+            try {
+                const res = await fetch('/api/documents/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        script: currentSchema.name,
+                        inputs: collectInputs()
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    setStatus('Error: ' + (data.error || 'unknown') + (data.details ? '<br>' + data.details.join('<br>') : ''), 'error');
+                    return;
+                }
+                if (data.id) {
+                    setStatus(`✅ Document generated (ID #${data.id}). <a href="/api/documents/view/${data.id}" target="_blank">Open in new tab →</a>`, 'success');
+                    // Auto-open in a new tab
+                    window.open('/api/documents/view/' + data.id, '_blank');
+                } else {
+                    setStatus('Generated but not persisted (check server logs).', 'info');
+                }
+            } catch (err) {
+                setStatus('Network error: ' + err.message, 'error');
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
+        scriptSelect.addEventListener('change', () => loadSchema(scriptSelect.value));
+        loadScripts();
+    </script>
+</body>
+</html>

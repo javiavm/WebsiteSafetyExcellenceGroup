@@ -115,7 +115,7 @@ Always structure your responses with:
 
 - Arc flash studies for DC electrical systems
 - LOTO procedure development for complex power systems
-- Safety staffing for DC construction projects
+- Precision Placement of safety professionals for DC construction projects
 - Contractor pre-qualification programs
 - Commissioning safety oversight
 - Safety program development for DC operations

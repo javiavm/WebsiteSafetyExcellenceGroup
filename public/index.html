@@ -9,7 +9,7 @@
          ======================================== -->
     <title>Safety Excellence Group | Semiconductor & Construction Safety Consulting</title>
     <meta name="description" content="Expert EHS consulting for semiconductor fabs, data centers & construction. 18+ years experience, 50+ fab projects across 5 continents. AEGIS AI-powered safety intelligence. Proposals in 48 hours.">
-    <meta name="keywords" content="safety consulting, EHS staffing, semiconductor safety, SEMI S2 compliance, construction safety consultant, data center safety, OSHA compliance, safety staffing agency, EHS consultant, NFPA 70E, CSP consultant, safety professional staffing">
+    <meta name="keywords" content="safety consulting, precision placement, EHS staffing, semiconductor safety, SEMI S2 compliance, construction safety consultant, data center safety, OSHA compliance, safety staffing agency, EHS consultant, NFPA 70E, CSP consultant, safety professional staffing">
     <meta name="author" content="Safety Excellence Group">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="https://safety-excellence.com/">
@@ -63,7 +63,7 @@
       "@type": "ProfessionalService",
       "name": "Safety Excellence Group",
       "alternateName": "S.E.G.",
-      "description": "Expert EHS consulting and safety staffing for semiconductor, data center, construction, and manufacturing industries. AEGIS AI-powered safety intelligence platform.",
+      "description": "Expert EHS consulting and Precision Placement of safety professionals for semiconductor, data center, construction, and manufacturing industries. AEGIS AI-powered safety intelligence platform.",
       "url": "https://safety-excellence.com",
       "logo": "https://safety-excellence.com/images/SEG Original Logo.png",
       "image": "https://safety-excellence.com/images/og-image.jpg",
@@ -89,7 +89,7 @@
       ],
       "serviceType": [
         "Safety Consulting",
-        "EHS Staffing",
+        "Precision Placement",
         "Safety Audits",
         "SEMI S2 Compliance Consulting",
         "Fractional EHS Director",
@@ -265,6 +265,7 @@
     <!-- AEGIS Chatbot Styles -->
     <link rel="stylesheet" href="css/aegis-chatbot.css">
     <link rel="stylesheet" href="css/aegis-call-widget.css">
+    <link rel="stylesheet" href="css/aegis-showcase.css">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/SEG Favicon Original.png">
@@ -2671,6 +2672,66 @@
         .carousel-viewport {
             overflow: hidden;
             border-radius: 12px;
+            position: relative;
+            touch-action: pan-y;          /* allow vertical scroll, intercept horizontal swipe */
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        .carousel-viewport img {
+            -webkit-user-drag: none;
+            user-drag: none;
+            pointer-events: none;          /* prevent native image drag-ghost during swipe */
+        }
+
+        /* Swipe hint — two subtle chevron groups (left + right) overlaid on the
+           carousel sides. Pointing outward to signal "more content this way."
+           Auto-hides on first interaction; reappears after 30s of inactivity.
+           Only shows on touch/mobile/tablet. */
+        .carousel-swipe-hint {
+            position: absolute;
+            inset: 0;
+            display: none;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 6;
+        }
+        .carousel-swipe-hint.visible { opacity: 1; }
+        .swipe-chevron-group {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+        }
+        .swipe-chevron-group.left  { left: 18px; }
+        .swipe-chevron-group.right { right: 18px; }
+        .swipe-chevron {
+            width: 32px;
+            height: 64px;
+            stroke: #fff;
+            fill: none;
+            stroke-width: 3.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0.2;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
+            animation: chevronPulse 1.6s ease-in-out infinite;
+        }
+        /* Right-pointing chevrons: animate inner→outer (rightmost lights up last) */
+        .swipe-chevron-group.right .swipe-chevron:nth-child(1) { animation-delay: 0s; }
+        .swipe-chevron-group.right .swipe-chevron:nth-child(2) { animation-delay: 0.18s; margin-left: -14px; }
+        .swipe-chevron-group.right .swipe-chevron:nth-child(3) { animation-delay: 0.36s; margin-left: -14px; }
+        /* Left-pointing chevrons: animate inner→outer (leftmost lights up last) */
+        .swipe-chevron-group.left  .swipe-chevron:nth-child(1) { animation-delay: 0.36s; }
+        .swipe-chevron-group.left  .swipe-chevron:nth-child(2) { animation-delay: 0.18s; margin-left: -14px; }
+        .swipe-chevron-group.left  .swipe-chevron:nth-child(3) { animation-delay: 0s;    margin-left: -14px; }
+        @keyframes chevronPulse {
+            0%, 100% { opacity: 0.15; }
+            50%      { opacity: 0.85; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .swipe-chevron { animation: none; opacity: 0.45; }
         }
 
         .case-study-track {
@@ -4382,6 +4443,38 @@
            RESPONSIVE
            ======================================== */
         @media (max-width: 1024px) {
+            /* Carousel: hide side arrows, show floating pill nav + swipe hint */
+            .carousel-btn-side { display: none !important; }
+            .carousel-nav > .carousel-btn { display: flex; }
+            .carousel-nav > .carousel-btn {
+                position: static;
+                transform: none;
+                width: 38px;
+                height: 38px;
+                box-shadow: none;
+                background: var(--SEG-blue);
+                border-color: var(--SEG-blue);
+                color: var(--white);
+                flex-shrink: 0;
+            }
+            .carousel-nav > .carousel-btn svg { width: 16px; height: 16px; }
+            .carousel-nav {
+                margin-top: 1.25rem;
+                gap: 0.85rem;
+                background: var(--white);
+                padding: 0.4rem 0.6rem;
+                border-radius: 999px;
+                box-shadow: 0 6px 20px rgba(19,37,68,0.12), 0 1px 3px rgba(19,37,68,0.06);
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .carousel-dots { gap: 0.45rem; padding: 0 0.25rem; }
+            .carousel-dot { width: 10px; height: 10px; }
+            .carousel-viewport { touch-action: pan-y; }
+            /* Enable swipe hint */
+            .carousel-swipe-hint { display: inline-flex; }
+
             .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
@@ -4437,15 +4530,34 @@
                 grid-template-columns: 1fr;
             }
 
-            /* Case study 1024px */
+            /* Case study 1024px — image on top, content below */
             .case-study-card {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 1.75rem;
+                padding: 2rem;
             }
-
-            /* Carousel buttons closer on tablet */
-            .carousel-prev { left: -55px; }
-            .carousel-next { right: -55px; }
+            .case-study-image { order: -1; }
+            .case-study-image img {
+                height: 260px !important;
+                border-radius: 10px !important;
+            }
+            .case-study-content h3 {
+                font-size: 1.6rem;
+                margin-bottom: 0.4rem;
+            }
+            .case-study-content .client-type {
+                font-size: 0.9rem;
+                margin-bottom: 1.1rem;
+            }
+            .case-study-content p {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+            }
+            .case-study-results {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.85rem;
+            }
+            .result-item .number { font-size: 1.75rem; }
         }
 
         @media (max-width: 768px) {
@@ -4550,15 +4662,44 @@
             /* Case study responsive */
             .case-study-card {
                 grid-template-columns: 1fr;
-                padding: 2rem;
+                padding: 1.5rem;
+                gap: 1.25rem;
             }
-
-            .case-study-image {
-                order: -1;
+            .case-study-image { order: -1; }
+            .case-study-image img {
+                height: 200px !important;
+                border-radius: 10px !important;
             }
-
+            .case-study-content h3 {
+                font-size: 1.35rem;
+                margin-bottom: 0.4rem;
+                line-height: 1.25;
+            }
+            .case-study-content .client-type {
+                font-size: 0.82rem;
+                margin-bottom: 0.85rem;
+                line-height: 1.4;
+            }
+            .case-study-content p {
+                font-size: 0.9rem;
+                line-height: 1.55;
+                margin-bottom: 1.25rem;
+            }
             .case-study-results {
                 grid-template-columns: 1fr 1fr;
+                gap: 0.7rem;
+            }
+            .result-item {
+                padding: 0.85rem 0.6rem;
+                border-radius: 8px;
+            }
+            .result-item .number {
+                font-size: 1.5rem;
+                margin-bottom: 0.25rem;
+            }
+            .result-item .label {
+                font-size: 0.7rem;
+                line-height: 1.3;
             }
 
             /* Carousel: hide side buttons, show floating nav with arrows + dots */
@@ -4756,9 +4897,22 @@
                 font-size: 0.8rem;
             }
 
-            .case-study-results {
-                grid-template-columns: 1fr;
+            .case-study-card {
+                padding: 1.25rem;
             }
+            .case-study-image img {
+                height: 175px !important;
+            }
+            .case-study-content h3 { font-size: 1.2rem; }
+            .case-study-content .client-type { font-size: 0.78rem; margin-bottom: 0.75rem; }
+            .case-study-content p { font-size: 0.85rem; margin-bottom: 1rem; }
+            .case-study-results {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.5rem;
+            }
+            .result-item { padding: 0.7rem 0.5rem; }
+            .result-item .number { font-size: 1.3rem; }
+            .result-item .label { font-size: 0.65rem; }
 
             .hero-stats-inner {
                 padding: 0 0.5rem;
@@ -5113,6 +5267,16 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="css/header-nav.css">
+    <link rel="stylesheet" href="css/home-hero.css">
+    <link rel="stylesheet" href="css/home-trust.css">
+    <link rel="stylesheet" href="css/home-testimonials.css">
+    <link rel="stylesheet" href="css/home-faq.css">
+    <link rel="stylesheet" href="css/aegis-focus-theme.css">
+    <link rel="stylesheet" href="css/page-particles.css">
+    <link rel="stylesheet" href="css/home-newsletter.css">
+    <link rel="stylesheet" href="css/home-footer.css">
+    <link rel="preload" as="image" href="images/hero/industrial-dusk.png" fetchpriority="high">
 </head>
 <body>
 
@@ -5142,32 +5306,30 @@
             
             <ul class="nav-links">
                 <li class="dropdown">
-                    <a href="/industries.html">Industries ▾</a>
+                    <a href="/industries.html">Industries <svg class="nav-chevron" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m4 6 4 4 4-4"/></svg></a>
                     <div class="mega-menu">
                         <div class="mega-menu-inner">
                             <div class="mega-menu-sidebar">
                                 <a class="mega-menu-item active" data-preview="semi" href="/industries.html#semiconductor">
-                                    <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 3v3m6-3v3M9 18v3m6-3v3M3 9h3m-3 6h3m12-6h3m-3 6h3"/></svg>
                                     Semiconductor
                                 </a>
                                 <a class="mega-menu-item" data-preview="dc" href="/industries.html#datacenter">
-                                    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="20" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7" y="15" width="4" height="3" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="15" width="4" height="3" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="5" rx="1.5"/><rect x="4" y="10" width="16" height="5" rx="1.5"/><path d="M7 5.5h.01M7 12.5h.01M10 5.5h7m-7 7h7M12 15v5m-5 0h10"/></svg>
                                     Data Centers
                                 </a>
                                 <a class="mega-menu-item" data-preview="mfg" href="/industries.html#manufacturing">
-                                    <svg viewBox="0 0 24 24"><path d="M4 5h16M4 9h16M4 13h16M4 17h16M9 5v12M15 5v12" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10l6 3V9l6 4V3h4l2 18H3Z"/><path d="M6 17h1m3 0h1m5 0h1M6 7V3h3v7"/></svg>
                                     Advanced Manufacturing
                                 </a>
                                 <a class="mega-menu-item" data-preview="const" href="/industries.html#construction">
-                                    <svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V10l6-4 6 4v10M8 20V14M12 20V8M16 20v-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a9 9 0 0 1 5-8m8 0a9 9 0 0 1 5 8M9 13V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v7M3 17h18v3H3Z"/></svg>
                                     Construction & Infrastructure
                                 </a>
                             </div>
                             <div class="mega-menu-content">
                                 <div class="mega-menu-preview active" id="preview-semi">
-                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
-                                        <svg viewBox="0 0 24 24" width="60" height="60"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="#FFCF00" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
-                                    </div>
+                                    <div class="mega-menu-preview-image"><img src="images/navigation/assessments-audits.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></div>
                                     <div class="mega-menu-preview-text">
                                         <h4>Semiconductor</h4>
                                         <span class="mega-tagline">Full Fab Lifecycle Support</span>
@@ -5184,9 +5346,7 @@
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-dc">
-                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
-                                        <svg viewBox="0 0 24 24" width="60" height="60"><rect x="2" y="3" width="20" height="6" rx="1" fill="none" stroke="#FFCF00" stroke-width="1.5"/><rect x="2" y="11" width="20" height="6" rx="1" fill="none" stroke="#FFCF00" stroke-width="1.5"/><rect x="7" y="15" width="4" height="3" rx="0.5" fill="none" stroke="#FFCF00" stroke-width="1.5"/><rect x="13" y="15" width="4" height="3" rx="0.5" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
-                                    </div>
+                                    <div class="mega-menu-preview-image"><img src="images/navigation/assessments-audits.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></div>
                                     <div class="mega-menu-preview-text">
                                         <h4>Data Centers</h4>
                                         <span class="mega-tagline">Safety at Hyperscale Speed</span>
@@ -5203,15 +5363,13 @@
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-mfg">
-                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
-                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M4 5h16M4 9h16M4 13h16M4 17h16M9 5v12M15 5v12" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
-                                    </div>
+                                    <div class="mega-menu-preview-image"><img src="images/navigation/program-development.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></div>
                                     <div class="mega-menu-preview-text">
                                         <h4>Advanced Manufacturing</h4>
                                         <span class="mega-tagline">Reduce Incidents, Lower EMR</span>
                                         <p>Ongoing EHS support and safety culture transformation for production facilities.</p>
                                         <ul>
-                                            <li>Staff Augmentation</li>
+                                            <li>Precision Placement</li>
                                             <li>Program Development</li>
                                             <li>EMR Turnaround</li>
                                             <li>Commissioning Safety</li>
@@ -5222,9 +5380,7 @@
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-const">
-                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
-                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M3 20h18M5 20V10l6-4 6 4v10M8 20V14M12 20V8M16 20v-6" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
-                                    </div>
+                                    <div class="mega-menu-preview-image"><img src="images/navigation/precision-placement.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></div>
                                     <div class="mega-menu-preview-text">
                                         <h4>Construction & Infrastructure</h4>
                                         <span class="mega-tagline">Proactive Safety That Prevents Delays</span>
@@ -5245,51 +5401,47 @@
                     </div>
                 </li>
                 <li class="dropdown">
-                    <a href="/services.html">Services ▾</a>
+                    <a href="/services.html">Services <svg class="nav-chevron" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m4 6 4 4 4-4"/></svg></a>
                     <div class="mega-menu">
                         <div class="mega-menu-inner">
                             <div class="mega-menu-sidebar">
                                 <a class="mega-menu-item active" data-preview="staffing" href="/services.html#staffing">
-                                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-                                    Staffing Solutions
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M6 21v-3a6 6 0 0 1 12 0v3M4 7a3 3 0 0 0-1 5m17-5a3 3 0 0 1 1 5M9 16l3 3 3-3"/></svg>
+                                    Precision Placement
                                 </a>
                                 <a class="mega-menu-item" data-preview="assessments" href="/services.html#assessments">
-                                    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="16" rx="2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m8 12 2 2 4-4M8 18h8"/></svg>
                                     Assessments & Audits
                                 </a>
                                 <a class="mega-menu-item" data-preview="programs" href="/services.html#programs">
-                                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6M16 13H8M16 17H8M12 17H8M8 13h8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6V3Z"/><path d="M14 3v5h4M9 12h6m-6 4h6M3 6v15"/></svg>
                                     Program Development
                                 </a>
                                 <a class="mega-menu-item" data-preview="vetting" href="/services.html#vetting">
-                                    <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M22 4L12 14.01l-3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 3v6c0 4-4 7-8 9-4-2-8-5-8-9V6l8-3Z"/><path d="m8 12 3 3 5-6"/></svg>
                                     Subcontractor Vetting
                                 </a>
                             </div>
                             <div class="mega-menu-content">
                                 <div class="mega-menu-preview active" id="preview-staffing">
-                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
-                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" fill="none" stroke="#FFCF00" stroke-width="1.5"/><circle cx="9" cy="7" r="4" fill="none" stroke="#FFCF00" stroke-width="1.5"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
-                                    </div>
+                                    <div class="mega-menu-preview-image"><img src="images/navigation/precision-placement.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></div>
                                     <div class="mega-menu-preview-text">
-                                        <h4>Staffing Solutions</h4>
-                                        <span class="mega-tagline">Pre-vetted specialists, deployed fast</span>
-                                        <p>Safety Technicians to Senior Directors. Pre-vetted, certification-ready professionals for your environment.</p>
+                                        <h4>Precision Placement</h4>
+                                        <span class="mega-tagline">The right specialist, placed exactly where it counts</span>
+                                        <p>Role-matched safety professionals, Technicians to Senior Directors, placed to your exact scope, standard and phase.</p>
                                         <ul>
                                             <li>Embedded Placements</li>
                                             <li>Project-Based Teams</li>
                                             <li>Temp-to-Hire</li>
                                             <li>Quick Response Team</li>
                                             <li>Executive Search</li>
-                                            <li>Remote Staffing</li>
+                                            <li>Remote Placement</li>
                                         </ul>
-                                        <a href="#" class="mega-menu-cta" onclick="openModal('staffingModal', event)">Explore Staffing →</a>
+                                        <a href="#" class="mega-menu-cta" onclick="openModal('staffingModal', event)">Explore Placement →</a>
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-assessments">
-                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
-                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M9 11l3 3L22 4" fill="none" stroke="#FFCF00" stroke-width="1.5"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
-                                    </div>
+                                    <div class="mega-menu-preview-image"><img src="images/navigation/assessments-audits.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></div>
                                     <div class="mega-menu-preview-text">
                                         <h4>Assessments & Audits</h4>
                                         <span class="mega-tagline">AI-powered insights, not shelf reports</span>
@@ -5306,9 +5458,7 @@
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-programs">
-                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
-                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" fill="none" stroke="#FFCF00" stroke-width="1.5"/><path d="M14 2v6h6M16 13H8M16 17H8M12 17H8M8 13h8" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
-                                    </div>
+                                    <div class="mega-menu-preview-image"><img src="images/navigation/program-development.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></div>
                                     <div class="mega-menu-preview-text">
                                         <h4>Program Development</h4>
                                         <span class="mega-tagline">Compliant documentation, built to last</span>
@@ -5325,9 +5475,7 @@
                                     </div>
                                 </div>
                                 <div class="mega-menu-preview" id="preview-vetting">
-                                    <div class="mega-menu-preview-image" style="background: linear-gradient(135deg, #132544 0%, #1a3a5c 100%);">
-                                        <svg viewBox="0 0 24 24" width="60" height="60"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" fill="none" stroke="#FFCF00" stroke-width="1.5"/><path d="M22 4L12 14.01l-3-3" fill="none" stroke="#FFCF00" stroke-width="1.5"/></svg>
-                                    </div>
+                                    <div class="mega-menu-preview-image"><img src="images/navigation/subcontractor-vetting.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></div>
                                     <div class="mega-menu-preview-text">
                                         <h4>Subcontractor Vetting</h4>
                                         <span class="mega-tagline">Know your subs before they're on site</span>
@@ -5387,7 +5535,7 @@
             <li>
                 <a href="/services.html">Services</a>
                 <ul class="mobile-menu-submenu">
-                    <li><a href="/services.html#staffing" onclick="closeMobileMenu()">Staffing Solutions</a></li>
+                    <li><a href="/services.html#staffing" onclick="closeMobileMenu()">Precision Placement</a></li>
                     <li><a href="/services.html#consulting" onclick="closeMobileMenu()">EHS Consulting</a></li>
                     <li><a href="/services.html#assessments" onclick="closeMobileMenu()">Assessments & Audits</a></li>
                     <li><a href="/services.html#programs" onclick="closeMobileMenu()">Program Development</a></li>
@@ -5412,9 +5560,8 @@
          HERO SECTION
          ======================================== -->
     <section class="hero" id="heroSection">
-        <video class="hero-video" autoplay muted loop playsinline>
-            <source src="/video/SEG.mp4" type="video/mp4">
-        </video>
+        <img class="hero-background" src="images/hero/industrial-dusk.png" alt="" width="1916" height="821" fetchpriority="high" decoding="async">
+        <div class="hero-crosshairs" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div class="hero-grid-pattern"></div>
         <div class="hero-zoom-lens" id="heroZoomLens"></div>
         <div class="hero-particles" id="heroParticles"></div>
@@ -5426,7 +5573,7 @@
                         <span>Powered by <a href="https://aegisai.co/" target="_blank" style="color: var(--SEG-yellow); text-decoration: none;">AEGIS AI</a></span>
                     </div>
                     <h1>Precision Safety for <span class="highlight">Advanced Industries</span></h1>
-                    <p class="hero-subtitle" id="heroTypewriter"></p>
+                    <p class="hero-subtitle" id="heroTypewriter">Fortune 100 chipmakers. Global data centers. Tier-1 contractors.<br> When safety can't fail, you need BCSP-Certified specialists who<br> move as fast as you do.</p>
                     <div class="hero-tagline">
                         <span>SAFE</span>
                         <span class="dot"></span>
@@ -5469,36 +5616,52 @@
     <!-- ========================================
          TRUSTED BY / SOCIAL PROOF BAR
          ======================================== -->
-    <section class="logos-section reveal">
-        <div class="container">
-            <div class="logos-content">
-                <span class="logos-label">Trusted by Fortune 100 chipmakers, global insurers, and Tier-1 contractors</span>
-                <div class="logos-marquee">
-                    <div class="logos-track">
-                        <!-- Set 1 -->
-                        <div class="logo-item"><img src="images/icons/jedunn.png" alt="JE Dunn Construction"></div>
-                        <div class="logo-item"><img src="images/icons/MURATEC.png" alt="Muratec"></div>
-                        <div class="logo-item logo-slac"><img src="images/icons/SLAC.png" alt="SLAC National Accelerator Laboratory"></div>
-                        <!-- Set 2 (duplicate for seamless loop) -->
-                        <div class="logo-item"><img src="images/icons/jedunn.png" alt="JE Dunn Construction"></div>
-                        <div class="logo-item"><img src="images/icons/MURATEC.png" alt="Muratec"></div>
-                        <div class="logo-item logo-slac"><img src="images/icons/SLAC.png" alt="SLAC National Accelerator Laboratory"></div>
-                    </div>
+    <section class="logos-section trust-showcase" id="trust-section" aria-labelledby="partners-title">
+        <div class="trust-partners">
+            <div class="trust-eyebrow">Trusted Partners</div>
+            <h2 id="partners-title">Trusted by leading industrial partners</h2>
+            <p>We collaborate with world-class organizations to advance safer, stronger<br> and more resilient workplaces.</p>
+            <div class="trust-partner-grid" aria-label="Industrial partners">
+                <div class="trust-partner-track">
+                <div class="trust-partner-group">
+                <div class="trust-partner trust-partner-muratec"><img src="images/icons/MURATEC.png" alt="Muratec" width="295" height="95" loading="lazy" decoding="async"></div>
+                <div class="trust-partner trust-partner-slac"><img src="images/icons/SLAC.png" alt="SLAC National Accelerator Laboratory" width="800" height="509" loading="lazy" decoding="async"></div>
+                <div class="trust-partner trust-partner-jedunn"><img src="images/icons/jedunn.png" alt="JE Dunn Construction" width="300" height="157" loading="lazy" decoding="async"></div>
+                </div>
+                <div class="trust-partner-group" aria-hidden="true">
+                <div class="trust-partner trust-partner-muratec"><img src="images/icons/MURATEC.png" alt="" width="295" height="95" loading="lazy" decoding="async"></div>
+                <div class="trust-partner trust-partner-slac"><img src="images/icons/SLAC.png" alt="" width="800" height="509" loading="lazy" decoding="async"></div>
+                <div class="trust-partner trust-partner-jedunn"><img src="images/icons/jedunn.png" alt="" width="300" height="157" loading="lazy" decoding="async"></div>
+                </div>
                 </div>
             </div>
-            <div class="trust-badges">
-                <div class="trust-badge">
-                    <img src="/images/icons/assp.png" alt="ASSP Member" class="badge-logo" style="height: 45px;">
-                    <span style="font-weight: 600; color: #333; font-size: 0.85rem;">ASSP Member</span>
+        </div>
+        <div class="trust-credentials" aria-labelledby="credentials-title">
+            <div class="trust-eyebrow">Professional Credentials</div>
+            <h2 id="credentials-title">Backed by recognized safety institutions</h2>
+            <div class="trust-credential-grid">
+                <div class="trust-credential trust-assp">
+                    <div class="trust-credential-logo">
+                        <img src="images/icons/assp.png" alt="ASSP" width="262" height="170" loading="lazy" decoding="async">
+                        <p class="institution-name">American Society of<br> Safety Professionals</p>
+                    </div>
+                    <div class="trust-credential-divider" aria-hidden="true"></div>
+                    <p>Member</p>
                 </div>
-                <div class="trust-badge">
-                    <img src="/images/icons/bcsp.png" alt="BCSP Certified" class="badge-logo">
+                <div class="trust-credential trust-bcsp">
+                    <div class="trust-credential-logo"><div class="trust-bcsp-wordmark"><img src="images/trust/bcsp-high-resolution.png" alt="BCSP" width="1928" height="262" loading="lazy" decoding="async"></div></div>
+                    <div class="trust-credential-divider" aria-hidden="true"></div>
+                    <p>Certified</p>
                 </div>
-                <div class="trust-badge">
-                    <img src="/images/icons/logo_semi.png" alt="SEMI Partner" class="badge-logo">
+                <div class="trust-credential trust-semi">
+                    <div class="trust-credential-logo"><img src="images/icons/logo_semi.png" alt="SEMI" width="222" height="56" loading="lazy" decoding="async"></div>
+                    <div class="trust-credential-divider" aria-hidden="true"></div>
+                    <p>Industry Standard</p>
                 </div>
-                <div class="trust-badge">
-                    <img src="/images/icons/colombia.png" alt="Columbia Southern University Partner" class="badge-logo" style="height: 55px;">
+                <div class="trust-credential trust-columbia">
+                    <div class="trust-credential-logo"><img src="images/icons/colombia.png" alt="Columbia Southern University" width="263" height="170" loading="lazy" decoding="async"></div>
+                    <div class="trust-credential-divider" aria-hidden="true"></div>
+                    <p>Education Partner</p>
                 </div>
             </div>
         </div>
@@ -5510,7 +5673,6 @@
     <section class="case-study reveal" id="case-studies">
         <div class="container">
             <div class="section-header reveal">
-                <span class="overline">Proven Results</span>
                 <h2>Real Impact, Real Numbers</h2>
                 <p>See how our consulting expertise transforms safety outcomes across industries.</p>
             </div>
@@ -5518,6 +5680,19 @@
             <!-- Case Study Carousel -->
             <div class="case-study-carousel">
                 <div class="carousel-viewport">
+                <!-- Swipe hint (mobile/tablet only) — subtle chevrons on both sides -->
+                <div class="carousel-swipe-hint" id="caseStudySwipeHint" aria-hidden="true">
+                    <span class="swipe-chevron-group left">
+                        <svg class="swipe-chevron" viewBox="0 0 32 64"><polyline points="22,8 10,32 22,56"/></svg>
+                        <svg class="swipe-chevron" viewBox="0 0 32 64"><polyline points="22,8 10,32 22,56"/></svg>
+                        <svg class="swipe-chevron" viewBox="0 0 32 64"><polyline points="22,8 10,32 22,56"/></svg>
+                    </span>
+                    <span class="swipe-chevron-group right">
+                        <svg class="swipe-chevron" viewBox="0 0 32 64"><polyline points="10,8 22,32 10,56"/></svg>
+                        <svg class="swipe-chevron" viewBox="0 0 32 64"><polyline points="10,8 22,32 10,56"/></svg>
+                        <svg class="swipe-chevron" viewBox="0 0 32 64"><polyline points="10,8 22,32 10,56"/></svg>
+                    </span>
+                </div>
                 <div class="case-study-track">
                     <!-- Case Study 1: Tesla Gigafactory -->
                     <div class="case-study-card">
@@ -5636,23 +5811,65 @@
     </section>
 
     <!-- ========================================
+         AEGIS AI PARTICLE SHOWCASE
+         ======================================== -->
+    <section class="aegis-showcase" id="aegis-ai" aria-labelledby="aegis-showcase-title">
+        <canvas class="aegis-showcase__waves" aria-hidden="true"></canvas>
+        <canvas class="aegis-showcase__particles" aria-hidden="true"></canvas>
+        <div class="aegis-showcase__fallback" aria-hidden="true">
+            <img src="images/Aegis logo-15.png" alt="" width="1193" height="1204" loading="lazy">
+        </div>
+        <div class="container">
+            <div class="aegis-showcase__content">
+                <span class="aegis-showcase__eyebrow">AEGIS AI · Safety Intelligence</span>
+                <h2 id="aegis-showcase-title">Intelligence<br>that sees<br><span>the risk ahead.</span></h2>
+                <p>Explore safety questions, industry insights,<br class="aegis-showcase__linebreak"> and your next steps with AEGIS AI — backed<br class="aegis-showcase__linebreak"> by S.E.G.'s real-world EHS expertise.</p>
+                <div class="aegis-showcase__actions">
+                    <button type="button" class="btn btn-primary" data-aegis-open>Talk to AEGIS <span aria-hidden="true">↗</span></button>
+                    <a class="btn btn-secondary" href="https://aegisai.co/" target="_blank" rel="noopener noreferrer">Explore AEGIS AI</a>
+                </div>
+                <span class="aegis-showcase__note">Human expertise. Connected intelligence.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
          TESTIMONIALS SECTION
          ======================================== -->
-    <section class="testimonials reveal" id="testimonials">
+    <section class="testimonials testimonials-showcase" id="testimonials" aria-labelledby="testimonials-title">
         <div class="container">
-            <div class="section-header reveal">
+            <div class="section-header">
                 <span class="overline">Client Results</span>
-                <h2>What Our Clients Say</h2>
+                <h2 id="testimonials-title">What Our<br>Clients Say</h2>
                 <p>From Fortune 500s to national insurers to Tier-1 contractors, here's why industry leaders choose us.</p>
             </div>
-
-            <div class="testimonials-grid">
+            <article class="testimonial-feature" aria-labelledby="testimonial-feature-title">
+                <img class="testimonial-feature__image" src="images/3%20people_300%20dpi.png" alt="Safety professionals discussing work on an industrial site" loading="lazy" decoding="async" width="1536" height="1024">
+                <div class="testimonial-feature__copy">
+                    <span class="testimonial-feature__label">Featured Testimonial</span>
+                    <h3 id="testimonial-feature-title">&ldquo;Alex is in <span>another league.</span>&rdquo;</h3>
+                    <p class="testimonial-feature__text">He combines deep technical knowledge with the ability to move a room. He doesn't just find problems — he solves them and gets people to care about solving them too. If I had ten of him, I'd change the industry.</p>
+                    <div class="testimonial-author">
+                            <div class="testimonial-avatar">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V3h10v18M15 9h4v12M3 21h18M8 6h1m2 0h1M8 10h1m2 0h1M8 14h1m2 0h1M9 21v-3h2v3M17 12h1m-1 4h1"/></svg>
+                            </div>
+                            <div class="testimonial-info">
+                                <strong>Head of Health & Safety</strong>
+                                <span>Global Fortune 500 Financial Services</span>
+                            </div>
+                        </div>
+                </div>
+                <span class="testimonial-feature__quote" aria-hidden="true">&ldquo;</span>
+            </article>
+            <div class="testimonial-carousel" role="region" aria-roledescription="carousel" aria-label="Client testimonials">
+                <button class="testimonial-carousel__arrow testimonial-carousel__arrow--previous" type="button" aria-label="Previous testimonial" data-testimonial-direction="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg></button>
+                <div class="testimonials-grid" id="testimonial-cards">
                 <div class="testimonial-card">
                     <div class="testimonial-content">
                         <p class="testimonial-text">"It was good to observe the interaction that Alex and the Project Team has with the Trade Partners workers and the communication they have with Trade Partner Supervision. You can see the culture change of continuous improvement efforts."</p>
                         <div class="testimonial-author">
                             <div class="testimonial-avatar">
-                                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V3h10v18M15 9h4v12M3 21h18M8 6h1m2 0h1M8 10h1m2 0h1M8 14h1m2 0h1M9 21v-3h2v3M17 12h1m-1 4h1"/></svg>
                             </div>
                             <div class="testimonial-info">
                                 <strong>Technical Consultant II, CDS, CHST, CRIS</strong>
@@ -5667,7 +5884,7 @@
                         <p class="testimonial-text">"I want to echo the recognition of Alex. Thanks for all your hard work and positive impact on our safety culture."</p>
                         <div class="testimonial-author">
                             <div class="testimonial-avatar">
-                                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V3h10v18M15 9h4v12M3 21h18M8 6h1m2 0h1M8 10h1m2 0h1M8 14h1m2 0h1M9 21v-3h2v3M17 12h1m-1 4h1"/></svg>
                             </div>
                             <div class="testimonial-info">
                                 <strong>Senior Vice President</strong>
@@ -5679,25 +5896,10 @@
 
                 <div class="testimonial-card">
                     <div class="testimonial-content">
-                        <p class="testimonial-text">"Alex is in another league. He combines deep technical knowledge with the ability to move a room. He doesn't just find problems — he solves them and gets people to care about solving them too. If I had ten of him, I'd change the industry."</p>
-                        <div class="testimonial-author">
-                            <div class="testimonial-avatar">
-                                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                            </div>
-                            <div class="testimonial-info">
-                                <strong>Head of Health & Safety</strong>
-                                <span>Global Fortune 500 Financial Services</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
                         <p class="testimonial-text">"I truly appreciate your professionalism throughout this process. The entire Customer Success team has expressed the same positive feedback about your work and presentation. We value your partnership and absolutely look forward to working with you again."</p>
                         <div class="testimonial-author">
                             <div class="testimonial-avatar">
-                                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V3h10v18M15 9h4v12M3 21h18M8 6h1m2 0h1M8 10h1m2 0h1M8 14h1m2 0h1M9 21v-3h2v3M17 12h1m-1 4h1"/></svg>
                             </div>
                             <div class="testimonial-info">
                                 <strong>Customer Success Manager</strong>
@@ -5706,7 +5908,15 @@
                         </div>
                     </div>
                 </div>
+                </div>
+                <button class="testimonial-carousel__arrow testimonial-carousel__arrow--next" type="button" aria-label="Next testimonial" data-testimonial-direction="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5 7 7-7 7"/></svg></button>
             </div>
+            <div class="testimonial-carousel__dots" aria-label="Choose a testimonial">
+                <button type="button" data-testimonial-index="0" aria-label="Show testimonial 1" aria-current="true"></button>
+                <button type="button" data-testimonial-index="1" aria-label="Show testimonial 2" aria-current="false"></button>
+                <button type="button" data-testimonial-index="2" aria-label="Show testimonial 3" aria-current="false"></button>
+            </div>
+            <span class="testimonial-carousel__status" role="status" aria-live="polite"></span>
         </div>
     </section>
 
@@ -5721,67 +5931,62 @@
     <!-- ========================================
          FAQ SECTION
          ======================================== -->
-    <section class="faq-section reveal" id="faq">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="overline">Common Questions</span>
-                <h2>Frequently Asked Questions</h2>
+    <section class="faq-section faq-showcase" aria-labelledby="faq-title" id="faq">
+        <img class="faq-showcase__photo" src="images/4%20people_300%20dpi.png" alt="Four safety professionals walking through an industrial facility" loading="lazy" decoding="async" width="1536" height="1024">
+        <div class="container faq-showcase__layout">
+            <div class="faq-showcase__intro">
+            <div class="section-header">
+                <h2 id="faq-title">Frequently Asked <span>Questions</span></h2>
                 <p>Quick answers about our services, process, and expertise.</p>
             </div>
 
+            <nav class="faq-showcase__links" aria-label="Explore Safety Excellence Group">
+                <a href="services.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4v5c0 5-8 9-8 9S4 17 4 12V7zM8 12l3 3 5-6"/></svg><span>Services</span></a>
+                <a href="why-seg.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="m8 12 3 3 5-6"/></svg><span>Why S.E.G.</span></a>
+                <a href="about-us.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-4a5 5 0 0 1 10 0v4M16 4a3 3 0 0 1 0 6M16 14a5 5 0 0 1 5 5v2"/></svg><span>About Us</span></a>
+            </nav>
+            <div class="faq-showcase__cta">
+                <div class="faq-showcase__cta-copy">
+                <span class="faq-showcase__cta-label">AEGIS AI &middot; Safety Intelligence</span>
+                <h3>Talk to <span>AEGIS</span></h3>
+                <p>Human expertise. Connected intelligence.</p>
+                <button type="button" class="btn btn-primary" data-faq-aegis>Talk to AEGIS <span aria-hidden="true">&rarr;</span></button>
+                </div>
+                <div class="faq-showcase__logo" aria-hidden="true">
+                    <img src="images/Aegis%20logo-15.png" alt="" width="1193" height="1204" loading="lazy">
+                    <canvas class="faq-showcase__logo-particles"></canvas>
+                </div>
+            </div>
+            </div>
             <div class="faq-grid">
                 <div class="faq-item open">
-                    <div class="faq-question" onclick="toggleFaq(this.parentElement)">
-                        What industries does Safety Excellence Group serve?
-                    </div>
-                    <div class="faq-answer">
-                        We specialize in semiconductor manufacturing, data centers, advanced manufacturing, and construction. We've completed 50+ semiconductor fab projects across 5 continents including the US, Israel, Ireland, China, and Japan.
-                    </div>
+                    <button type="button" class="faq-question" id="faq-question-1" aria-expanded="true" aria-controls="faq-answer-1"><span class="faq-number" aria-hidden="true">01</span><span>What industries does Safety Excellence Group serve?</span></button>
+                    <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-question-1">We specialize in semiconductor manufacturing, data centers, advanced manufacturing, and construction. We've completed 50+ semiconductor fab projects across 5 continents including the US, Israel, Ireland, China, and Japan.</div>
                 </div>
 
                 <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFaq(this.parentElement)">
-                        What is SEMI S2 compliance and why does it matter?
-                    </div>
-                    <div class="faq-answer">
-                        SEMI S2 is the global standard for Environmental, Health, and Safety (EHS) requirements for semiconductor manufacturing equipment. Compliance is required by major fabs (Intel, TSMC, Samsung, etc.) before equipment can be installed. We provide SEMI S2/S8 compliance consulting and audit services.
-                    </div>
+                    <button type="button" class="faq-question" id="faq-question-2" aria-expanded="false" aria-controls="faq-answer-2"><span class="faq-number" aria-hidden="true">02</span><span>What is SEMI S2 compliance and why does it matter?</span></button>
+                    <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-question-2" hidden>SEMI S2 is the global standard for Environmental, Health, and Safety (EHS) requirements for semiconductor manufacturing equipment. Compliance is required by major fabs (Intel, TSMC, Samsung, etc.) before equipment can be installed. We provide SEMI S2/S8 compliance consulting and audit services.</div>
                 </div>
 
                 <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFaq(this.parentElement)">
-                        How quickly can you deploy safety consultants?
-                    </div>
-                    <div class="faq-answer">
-                        We provide proposals within 48 hours and can deploy safety professionals on emergency timelines when needed. Our Quick Response Team (QRT) maintains surge capacity for urgent situations.
-                    </div>
+                    <button type="button" class="faq-question" id="faq-question-3" aria-expanded="false" aria-controls="faq-answer-3"><span class="faq-number" aria-hidden="true">03</span><span>How quickly can you deploy safety consultants?</span></button>
+                    <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-question-3" hidden>We provide proposals within 48 hours and can deploy safety professionals on emergency timelines when needed. Our Quick Response Team (QRT) maintains surge capacity for urgent situations.</div>
                 </div>
 
                 <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFaq(this.parentElement)">
-                        What certifications do your safety professionals hold?
-                    </div>
-                    <div class="faq-answer">
-                        Our consultants hold BCSP certifications including CSP (Certified Safety Professional), ASP (Associate Safety Professional), and CHST (Construction Health & Safety Technician). We match consultant credentials to your specific project requirements.
-                    </div>
+                    <button type="button" class="faq-question" id="faq-question-4" aria-expanded="false" aria-controls="faq-answer-4"><span class="faq-number" aria-hidden="true">04</span><span>What certifications do your safety professionals hold?</span></button>
+                    <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-question-4" hidden>Our consultants hold BCSP certifications including CSP (Certified Safety Professional), ASP (Associate Safety Professional), and CHST (Construction Health & Safety Technician). We match consultant credentials to your specific project requirements.</div>
                 </div>
 
                 <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFaq(this.parentElement)">
-                        What is AEGIS AI?
-                    </div>
-                    <div class="faq-answer">
-                        AEGIS is Safety Excellence Group's proprietary AI-powered safety intelligence platform. It provides predictive hazard identification, automated compliance monitoring, and real-time safety analytics. AEGIS is exclusive to our consultants and clients.
-                    </div>
+                    <button type="button" class="faq-question" id="faq-question-5" aria-expanded="false" aria-controls="faq-answer-5"><span class="faq-number" aria-hidden="true">05</span><span>What is AEGIS AI?</span></button>
+                    <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-question-5" hidden>AEGIS is Safety Excellence Group's proprietary AI-powered safety intelligence platform. It provides predictive hazard identification, automated compliance monitoring, and real-time safety analytics. AEGIS is exclusive to our consultants and clients.</div>
                 </div>
 
                 <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFaq(this.parentElement)">
-                        Do you work with contractors or direct clients?
-                    </div>
-                    <div class="faq-answer">
-                        Both. We support General Contractors with safety staffing through construction and equipping phases (including tool install and AMHS), Subcontractors with compliance documentation and certification alignment, and Owner organizations with owner-rep services across the full project lifecycle.
-                    </div>
+                    <button type="button" class="faq-question" id="faq-question-6" aria-expanded="false" aria-controls="faq-answer-6"><span class="faq-number" aria-hidden="true">06</span><span>Do you work with contractors or direct clients?</span></button>
+                    <div class="faq-answer" id="faq-answer-6" role="region" aria-labelledby="faq-question-6" hidden>Both. We support General Contractors with precision placement of safety professionals through construction and equipping phases (including tool install and AMHS), Subcontractors with compliance documentation and certification alignment, and Owner organizations with owner-rep services across the full project lifecycle.</div>
                 </div>
             </div>
         </div>
@@ -5790,26 +5995,33 @@
     <!-- ========================================
          NEWSLETTER
          ======================================== -->
-    <section class="newsletter reveal">
+    <section class="newsletter newsletter-showcase" id="newsletter" aria-labelledby="newsletter-title">
         <div class="container">
             <div class="newsletter-content">
-                <div class="newsletter-badge">
-                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                    <span>Newsletter</span>
+                <div class="newsletter-showcase__intro">
+                    <div class="newsletter-text">
+                        <h3 id="newsletter-title">Advanced Industries<br><span>Safety Brief</span></h3>
+                        <p>Monthly insights on semiconductor, data center, and construction safety. No spam, just expertise.</p>
+                    </div>
+                    <div class="newsletter-showcase__benefits" aria-label="Newsletter benefits">
+                        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h10l4 4v14H5zM14 3v5h5M8 12h8M8 16h8"/></svg>Monthly insights</span>
+                        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M6 16v-5h3v5M11 16V7h3v9M16 16V3h3v13"/></svg>Just expertise</span>
+                        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5zM10 21h4"/></svg>No spam</span>
+                    </div>
                 </div>
-                <div class="newsletter-text">
-                    <h3>Advanced Industries Safety Brief</h3>
-                    <p>Monthly insights on semiconductor, data center, and construction safety. No spam, just expertise.</p>
-                </div>
-                <form class="newsletter-form" id="newsletterForm" onsubmit="event.preventDefault(); submitNewsletterForm();">
-                    <input type="text" name="name" placeholder="Your name" required>
-                    <input type="text" name="company" placeholder="Company">
-                    <input type="email" name="email" placeholder="Work email" required>
-                    <button type="submit" class="btn btn-primary">Subscribe</button>
-                </form>
-                <div class="newsletter-privacy">
-                    <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
-                    <span>We respect your privacy. Unsubscribe anytime.</span>
+                <div class="newsletter-showcase__panel">
+                    <h4>Advanced Industries Safety Brief</h4>
+                    <p class="newsletter-showcase__panel-note">No spam, just expertise.</p>
+                    <form class="newsletter-form" id="newsletterForm" onsubmit="event.preventDefault(); submitNewsletterForm();">
+                        <label class="newsletter-showcase__field"><span class="newsletter-showcase__label">Your name</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 21v-3a8 8 0 0 1 16 0v3"/></svg><input type="text" name="name" placeholder="Your name" autocomplete="name" required></label>
+                        <label class="newsletter-showcase__field"><span class="newsletter-showcase__label">Company</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V3h10v18M15 9h4v12M3 21h18M8 7h4M8 11h4M8 15h4"/></svg><input type="text" name="company" placeholder="Company" autocomplete="organization"></label>
+                        <label class="newsletter-showcase__field newsletter-showcase__field--email"><span class="newsletter-showcase__label">Work email</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3zM3 6l9 7 9-7"/></svg><input type="email" name="email" placeholder="Work email" autocomplete="email" required></label>
+                        <button type="submit" class="btn btn-primary">Subscribe <span aria-hidden="true">&rarr;</span></button>
+                    </form>
+                    <div class="newsletter-privacy">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                        <span>We respect your privacy. Unsubscribe anytime.</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -5818,7 +6030,7 @@
     <!-- ========================================
          FOOTER
          ======================================== -->
-    <footer>
+    <footer id="site-footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
@@ -5826,6 +6038,14 @@
                         <img src="images/Transparent Logo.png" alt="Safety Excellence Group" class="logo-icon" style="height: 75px; width: auto;">
                     </a>
                     <p>AI-Powered. Expert-Delivered. Precision safety for semiconductor, data center, construction, and manufacturing operations.</p>
+                    <div class="footer-contact" aria-label="Contact Safety Excellence Group">
+                        <a href="https://www.linkedin.com/company/safety-excellence-group/" target="_blank" rel="noopener noreferrer" aria-label="Safety Excellence Group on LinkedIn">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 2H3.6A1.6 1.6 0 0 0 2 3.6v16.8A1.6 1.6 0 0 0 3.6 22h16.8a1.6 1.6 0 0 0 1.6-1.6V3.6A1.6 1.6 0 0 0 20.4 2ZM8 19H5V9h3ZM6.5 7.7a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4ZM19 19h-3v-5.3c0-1.3-.5-2-1.5-2S13 12.4 13 13.7V19h-3V9h3v1.3a3.3 3.3 0 0 1 2.8-1.5c2.2 0 3.2 1.4 3.2 4Z"/></svg>
+                        </a>
+                        <a href="mailto:info@safety-excellence.com" aria-label="Email info@safety-excellence.com">
+                            <svg class="footer-contact__email" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
+                        </a>
+                    </div>
                 </div>
                 
                 <div class="footer-links">
@@ -5841,7 +6061,7 @@
                 <div class="footer-links">
                     <h4>Services</h4>
                     <ul>
-                        <li><a href="/services.html#staffing">Staffing Solutions</a></li>
+                        <li><a href="/services.html#staffing">Precision Placement</a></li>
                         <li><a href="/services.html#assessments">Assessments & Audits</a></li>
                         <li><a href="/services.html#programs">Program Development</a></li>
                         <li><a href="/services.html#vetting">Subcontractor Vetting</a></li>
@@ -6467,7 +6687,7 @@
                             <label for="client-support">Type of Support Needed <span class="required">*</span></label>
                             <select id="client-support" name="support_type" required>
                                 <option value="">Select support type</option>
-                                <option value="staffing">Staffing Solutions</option>
+                                <option value="staffing">Precision Placement</option>
                                 <option value="audit">Assessments & Audits</option>
                                 <option value="program">Program Development</option>
                                 <option value="vetting">Subcontractor Vetting</option>
@@ -6760,7 +6980,7 @@
             <div class="modal-header">
                 <div>
                     <h3 id="staffingModalTitle">Get Matched in Seconds</h3>
-                    <p>Tell us about your staffing needs</p>
+                    <p>Tell us about your placement needs</p>
                 </div>
                 <button class="modal-close" onclick="closeModal('staffingModal')" aria-label="Close modal">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -7331,6 +7551,9 @@
                 });
             });
 
+            // Will be overridden when the swipe hint is enabled
+            let markInteraction = function () {};
+
             // Touch swipe
             if (viewport) {
                 let startX = 0, startY = 0, deltaX = 0, deltaY = 0, swiping = false;
@@ -7340,6 +7563,7 @@
                     startY = e.touches[0].clientY;
                     deltaX = 0; deltaY = 0;
                     swiping = true;
+                    markInteraction();
                 }, { passive: true });
                 viewport.addEventListener('touchmove', function(e) {
                     if (!swiping || !e.touches || e.touches.length !== 1) return;
@@ -7354,6 +7578,57 @@
                         else goToSlide(currentIndex - 1);
                     }
                 });
+            }
+
+            // Swipe hint — show/hide based on user interaction + inactivity timer
+            const hint = document.getElementById('caseStudySwipeHint');
+            if (hint) {
+                let hintTimer = null;
+                const INACTIVITY_MS = 30000;  // reappear after 30s without interaction
+                const INITIAL_DELAY_MS = 900; // first appearance
+                let inViewport = false;
+
+                function showHint() {
+                    if (inViewport) hint.classList.add('visible');
+                }
+                function hideHint() {
+                    hint.classList.remove('visible');
+                }
+                function scheduleHint() {
+                    if (hintTimer) clearTimeout(hintTimer);
+                    hintTimer = setTimeout(showHint, INACTIVITY_MS);
+                }
+                markInteraction = function () {
+                    hideHint();
+                    scheduleHint();
+                };
+
+                // Only run hint logic when the carousel is in viewport
+                if ('IntersectionObserver' in window) {
+                    const io = new IntersectionObserver(function (entries) {
+                        entries.forEach(function (e) {
+                            inViewport = e.isIntersecting;
+                            if (inViewport) {
+                                setTimeout(showHint, INITIAL_DELAY_MS);
+                                scheduleHint();
+                            } else {
+                                hideHint();
+                                if (hintTimer) clearTimeout(hintTimer);
+                            }
+                        });
+                    }, { threshold: 0.4 });
+                    const section = document.querySelector('.case-study-carousel');
+                    if (section) io.observe(section);
+                } else {
+                    inViewport = true;
+                    setTimeout(showHint, INITIAL_DELAY_MS);
+                    scheduleHint();
+                }
+
+                // Hide hint on any nav button click
+                prevBtns.forEach(function (b) { b.addEventListener('click', markInteraction); });
+                nextBtns.forEach(function (b) { b.addEventListener('click', markInteraction); });
+                dots.forEach(function (d) { d.addEventListener('click', markInteraction); });
             }
         })();
 
@@ -8460,9 +8735,9 @@ ${sections}
             }
         });
 
-        // Close mobile menu on window resize above 768px
+        // Close mobile menu when the desktop navigation becomes available
         window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
+            if (window.innerWidth > 1100) {
                 closeMobileMenu();
             }
         });
@@ -9125,7 +9400,15 @@ ${sections}
         }
 
         function emailResults() {
-            document.getElementById('emailCapture').style.display = 'block';
+            const cap = document.getElementById('emailCapture');
+            if (!cap) return;
+            cap.style.display = 'block';
+            // Smooth-scroll the new fields into view inside the modal and focus the first input
+            requestAnimationFrame(function () {
+                cap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const emailInput = document.getElementById('resultsEmail');
+                if (emailInput) setTimeout(function () { emailInput.focus({ preventScroll: true }); }, 450);
+            });
         }
 
         function classifyAssessmentLead(score) {
@@ -9224,76 +9507,9 @@ ${sections}
         }
     </script>
 
-    <!-- Typewriter Effect -->
-    <script>
-        (function() {
-            const el = document.getElementById('heroTypewriter');
-            if (!el) return;
 
-            const text = 'Fortune 100 chipmakers. Global data centers. Tier-1 contractors. When safety can\'t fail, you need BCSP-Certified specialists who move as fast as you do.';
-            let i = 0;
-            const speed = 30;
 
-            // Add cursor
-            const cursor = document.createElement('span');
-            cursor.className = 'typewriter-cursor';
-            el.appendChild(cursor);
 
-            function type() {
-                if (i < text.length) {
-                    el.insertBefore(document.createTextNode(text.charAt(i)), cursor);
-                    i++;
-                    setTimeout(type, speed);
-                } else {
-                    // Remove cursor after typing is done
-                    setTimeout(() => { cursor.style.display = 'none'; }, 2000);
-                }
-            }
-
-            // Start when hero is visible
-            const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    setTimeout(type, 500);
-                    observer.disconnect();
-                }
-            }, { threshold: 0.3 });
-            observer.observe(el);
-        })();
-    </script>
-
-    <!-- Mega Menu Hover Interaction -->
-    <script>
-        (function() {
-            document.querySelectorAll('.mega-menu').forEach(menu => {
-                const items = menu.querySelectorAll('.mega-menu-item');
-                const previews = menu.querySelectorAll('.mega-menu-preview');
-
-                items.forEach(item => {
-                    item.addEventListener('mouseenter', function() {
-                        const previewId = 'preview-' + this.getAttribute('data-preview');
-
-                        // Update active states
-                        items.forEach(i => i.classList.remove('active'));
-                        this.classList.add('active');
-
-                        // Show corresponding preview
-                        previews.forEach(p => {
-                            p.classList.remove('active');
-                            p.style.display = 'none';
-                        });
-
-                        const target = document.getElementById(previewId);
-                        if (target) {
-                            target.style.display = 'flex';
-                            // Trigger reflow for animation
-                            void target.offsetWidth;
-                            target.classList.add('active');
-                        }
-                    });
-                });
-            });
-        })();
-    </script>
 
     <!-- Hero Zoom Lens Effect -->
     <script>
@@ -9321,85 +9537,19 @@ ${sections}
         })();
     </script>
 
-    <!-- Header Hide/Show on Scroll -->
-    <script>
-        (function() {
-            const header = document.querySelector('header');
-            let lastScrollY = window.scrollY;
-            let ticking = false;
 
-            function updateHeader() {
-                const currentScrollY = window.scrollY;
-
-                if (currentScrollY > 100) {
-                    if (currentScrollY > lastScrollY) {
-                        // Scrolling down - hide header
-                        header.classList.add('header-hidden');
-                        header.classList.remove('header-visible');
-                    } else {
-                        // Scrolling up - show header
-                        header.classList.remove('header-hidden');
-                        header.classList.add('header-visible');
-                    }
-                } else {
-                    // At top - always show header
-                    header.classList.remove('header-hidden');
-                    header.classList.remove('header-visible');
-                }
-
-                lastScrollY = currentScrollY;
-                ticking = false;
-            }
-
-            window.addEventListener('scroll', function() {
-                if (!ticking) {
-                    window.requestAnimationFrame(updateHeader);
-                    ticking = true;
-                }
-            });
-        })();
-    </script>
 
     <!-- AEGIS AI Chatbot -->
     <script src="js/aegis-chatbot.js"></script>
+    <script src="js/aegis-showcase.js"></script>
+    <script src="js/page-particles.js"></script>
+    <script src="js/home-testimonials.js"></script>
+    <script src="js/home-faq.js"></script>
     <script src="js/aegis-call-widget.js"></script>
 
-    <!-- Dropdown nav fix: open on hover, close on click outside or other nav item -->
-    <script>
-    (function() {
-        function showMenu(menu) {
-            menu.style.opacity = '1';
-            menu.style.visibility = 'visible';
-            menu.style.transform = 'translateX(-50%) translateY(0)';
-        }
-        function hideAll() {
-            document.querySelectorAll('.nav-links .dropdown .mega-menu').forEach(function(m) {
-                m.style.opacity = '';
-                m.style.visibility = '';
-                m.style.transform = '';
-            });
-        }
-        document.querySelectorAll('.nav-links .dropdown').forEach(function(dropdown) {
-            var menu = dropdown.querySelector('.mega-menu');
-            if (!menu) return;
-            dropdown.addEventListener('mouseenter', function() { hideAll(); showMenu(menu); });
-        });
-        document.addEventListener('click', function(e) {
-            var insideDropdown = e.target.closest('.nav-links .dropdown');
-            if (!insideDropdown) {
-                hideAll();
-            } else {
-                var allDropdowns = document.querySelectorAll('.nav-links .dropdown');
-                allDropdowns.forEach(function(d) {
-                    if (d !== insideDropdown) {
-                        var m = d.querySelector('.mega-menu');
-                        if (m) { m.style.opacity = ''; m.style.visibility = ''; m.style.transform = ''; }
-                    }
-                });
-            }
-        });
-    })();
-    </script>
+
+
+    <script src="js/header-nav.js"></script>
 
     <!-- GHL External Tracking -->
     <script src="https://link.msgsndr.com/js/external-tracking.js" data-tracking-id="tk_fdb8d3e5921e4482a9d815a4d73afa6a"></script>

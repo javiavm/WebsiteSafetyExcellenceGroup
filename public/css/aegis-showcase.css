@@ -1,0 +1,99 @@
+.aegis-showcase {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 760px;
+    height: clamp(760px, 56.25vw, 1080px);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    font-family: 'SEG Poppins', 'Poppins', sans-serif;
+    background: radial-gradient(ellipse at 72% 44%, #241109 0%, #030c14 43%, #02070c 80%);
+    color: #fff;
+    scroll-margin-top: 100px;
+}
+body.aegis-showcase-active .floating-cta { opacity: 0; visibility: hidden; pointer-events: none; }
+.aegis-showcase::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(90deg, #02080dd9 0%, #02080d80 32%, transparent 60%);
+}
+.aegis-showcase__particles, .aegis-showcase__waves {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+}
+.aegis-showcase > .container { width: 100%; max-width: none; padding: 0 7.35%; }
+.aegis-showcase__content { position: relative; max-width: 550px; margin-top: 4px; }
+.aegis-showcase__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #a84b164f;
+    border-radius: 100px;
+    padding: 11px 16px;
+    color: #f6f7f8;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+}
+.aegis-showcase__eyebrow::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--SEG-yellow, #ffcf00);
+    box-shadow: 0 0 15px #ffcf0070;
+}
+.aegis-showcase h2 { margin: 26px 0 24px; font-family: inherit; font-size: clamp(52px, 4.18vw, 80px); font-weight: 700; line-height: 1.03; letter-spacing: -.045em; color: #fff; }
+.aegis-showcase h2 span { color: #ff9100; white-space: nowrap; }
+.aegis-showcase__content > p { max-width: 550px; color: #e0e1e3; font-size: clamp(17px, 1.22vw, 23px); font-weight: 400; line-height: 1.65; }
+.aegis-showcase__actions { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 34px; }
+.aegis-showcase__actions .btn { cursor: pointer; min-height: 66px; min-width: 223px; padding: 17px 26px; border-radius: 10px; font-size: 18px; font-weight: 600; justify-content: center; }
+.aegis-showcase__actions .btn-primary { background: linear-gradient(115deg, #ffbe00, #ff8500); color: #080d13; border: 1px solid #ffab00; box-shadow: 0 8px 36px #ff7c0029; }
+.aegis-showcase__actions .btn-secondary { color: #f4f5f7; border: 1px solid #8c959f; background: #030b1370; box-shadow: none; }
+.aegis-showcase__actions .btn:hover { transform: translateY(-2px); }
+.aegis-showcase__actions a:focus-visible, .aegis-showcase__actions button:focus-visible { outline: 3px solid #ff9b00; outline-offset: 5px; }
+.aegis-showcase__note { display: block; margin-top: 40px; color: #d1d4d8; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
+.aegis-showcase__fallback {
+    position: absolute;
+    left: 72%;
+    top: 44%;
+    width: min(26vw, 500px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    opacity: .85;
+    filter: drop-shadow(0 0 28px #ff8c0070);
+    z-index: -2;
+}
+.aegis-showcase__fallback img { position: absolute; width: 200%; max-width: none; left: -50%; top: -50%; }
+.aegis-showcase.is-rendered .aegis-showcase__fallback { visibility: hidden; }
+@media (max-width: 900px) {
+    .aegis-showcase { height: auto; min-height: 940px; padding: 420px 0 75px; display: block; }
+    .aegis-showcase > .container { padding: 0 24px; }
+    .aegis-showcase::after { background: linear-gradient(0deg, #03070ee6 0%, transparent 65%); }
+    .aegis-showcase__content { max-width: 580px; margin: 0 auto; text-align: center; }
+    .aegis-showcase__content > p { margin: 0 auto; }
+    .aegis-showcase__linebreak { display: none; }
+    .aegis-showcase__actions { justify-content: center; }
+    .aegis-showcase__fallback { left: 50%; top: 205px; width: 290px; }
+    .aegis-showcase h2 { font-size: clamp(38px, 7vw, 56px); margin-top: 22px; }
+    .aegis-showcase__note { margin-top: 30px; font-size: 10px; }
+}
+@media (max-width: 480px) {
+    .aegis-showcase { padding-top: 360px; }
+    .aegis-showcase__fallback { top: 180px; width: 250px; }
+    .aegis-showcase__content > p { font-size: 15px; }
+    .aegis-showcase__eyebrow { font-size: 11px; letter-spacing: .1em; }
+    .aegis-showcase__actions { gap: 12px; margin-top: 26px; }
+    .aegis-showcase__actions .btn { min-width: 0; width: 100%; min-height: 56px; font-size: 16px; }
+    .aegis-showcase__note { letter-spacing: .09em; }
+}

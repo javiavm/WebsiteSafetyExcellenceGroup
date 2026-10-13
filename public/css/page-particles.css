@@ -1,0 +1,5 @@
+body > section, body > footer, #trust-section > div { position: relative; }
+.page-particles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+body > section > .container, body > footer > .container { position: relative; z-index: 2; }
+#trust-section > div > :not(.page-particles) { position: relative; z-index: 2; }
+#aegis-ai > .container { z-index: auto; }

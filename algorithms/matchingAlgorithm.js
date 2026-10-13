@@ -2,7 +2,7 @@
  * Candidate-Client Matching Algorithm
  * Safety Excellence Group
  *
- * Matches candidates to client staffing needs based on:
+ * Matches candidates to client Precision Placement needs based on:
  * - Industry alignment
  * - Location proximity
  * - Availability vs timeline
@@ -243,7 +243,8 @@ function scoreQuality(candidate) {
 // ========================================
 
 const SUPPORT_TO_ROLE = {
-    'staff augmentation': ['entry', 'mid', 'senior', 'lead'],
+    'precision placement': ['entry', 'mid', 'senior', 'lead'],
+    'staff augmentation': ['entry', 'mid', 'senior', 'lead'], // legacy label
     'staffing': ['entry', 'mid', 'senior', 'lead'],
     'program development': ['senior', 'lead', 'manager', 'director'],
     'program management': ['lead', 'manager', 'director'],

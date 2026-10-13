@@ -1,1577 +1,751 @@
 /**
- * AEGIS Chatbot Styles
+ * AegisAI — chat + voice widget styles
  * Safety Excellence Group
  *
- * World-Class UI - Professional & Refined
- *
- * Brand Colors:
- * - Primary Navy: #132544
- * - Primary Gold: #FFCF00
+ * Design ported from the ModArch "Maia" widget (dock, glass panels, voice orb),
+ * renamed and namespaced (aw-*) so it cannot collide with page styles.
+ * Used by js/aegis-chatbot.js (chat) and js/aegis-call-widget.js (voice).
  */
 
-/* ========================================
-   CSS VARIABLES & FOUNDATIONS
-   ======================================== */
-:root {
-    --aegis-navy: #132544;
-    --aegis-navy-light: #1a3158;
-    --aegis-navy-dark: #0d1a2d;
-    --aegis-gold: #FFCF00;
-    --aegis-gold-light: #FFD633;
-    --aegis-gold-dark: #E6BA00;
-    --aegis-dark: #1a1a2e;
-    --aegis-grey-900: #212529;
-    --aegis-grey-700: #495057;
-    --aegis-grey-500: #6c757d;
-    --aegis-grey-300: #dee2e6;
-    --aegis-grey-100: #f8f9fa;
-    --aegis-white: #ffffff;
-    --aegis-success: #10b981;
-    --aegis-error: #ef4444;
-
-    /* Shadows */
-    --shadow-sm: 0 1px 2px rgba(19, 37, 68, 0.05);
-    --shadow-md: 0 4px 12px rgba(19, 37, 68, 0.1);
-    --shadow-lg: 0 12px 40px rgba(19, 37, 68, 0.15);
-    --shadow-xl: 0 20px 60px rgba(19, 37, 68, 0.2);
-    --shadow-glow: 0 0 40px rgba(255, 207, 0, 0.3);
-
-    /* Transitions */
-    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
-
-    /* Border Radius */
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 24px;
-    --radius-full: 9999px;
-}
-
-/* ========================================
-   FLOATING WIDGET CONTAINER
-   ======================================== */
-.aegis-widget {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 64px;
-    height: 64px;
-    z-index: 9999;
-    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+.aw-dock,
+.aw-panel,
+.aw-modal {
+    --aw-paper: #080c11;
+    --aw-paper-2: #0a0e13;
+    --aw-oat: #0f141a;
+    --aw-ink: #f1f3f5;
+    --aw-ink-2: #d5dbd6;
+    --aw-muted: #9aa69d;
+    --aw-muted-soft: #727f75;
+    --aw-sage: #8195b0;
+    --aw-sage-ink: #6c819f;
+    --aw-sage-btn: #4f637e;
+    --aw-clay: #c6a429;
+    --aw-line: rgba(200, 211, 226, 0.11);
+    --aw-line-strong: rgba(162, 177, 198, 0.28);
+    --aw-err-bg: rgba(143, 70, 47, 0.18);
+    --aw-err-line: rgba(224, 150, 120, 0.4);
+    --aw-err-ink: #f0b8a4;
+    --aw-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --aw-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --aw-display: 'Instrument Serif', 'Times New Roman', serif;
+    font-family: var(--aw-font);
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
-/* ========================================
-   TRIGGER BUTTON - Premium Feel
-   ======================================== */
-.aegis-trigger {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #FFCF00 0%, #E6BA00 100%);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--aegis-navy);
-    box-shadow: 0 12px 28px rgba(255, 207, 0, 0.4), 0 0 0 0 rgba(255, 207, 0, 0.4);
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    position: relative;
+:where(.aw-dock, .aw-panel, .aw-modal) * { box-sizing: border-box; }
+:where(.aw-dock, .aw-panel, .aw-modal) button {
+    font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer;
 }
 
-.aegis-trigger::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.15) 100%);
-    opacity: 0;
-    transition: opacity var(--transition-fast);
-}
-
-/* Pulse animation ring — matches call widget */
-.aegis-trigger::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: #FFCF00;
-    opacity: 0.5;
-    animation: aegisChatPulse 2.4s ease-out infinite;
-    z-index: -1;
-    pointer-events: none;
-}
-
-@keyframes aegisChatPulse {
-    0%   { transform: scale(1);   opacity: 0.5; }
-    70%  { transform: scale(1.6); opacity: 0; }
-    100% { transform: scale(1.6); opacity: 0; }
-}
-
-.aegis-widget.open .aegis-trigger::after { display: none; }
-
-.aegis-trigger:hover {
-    transform: translateY(-3px) scale(1.04);
-    box-shadow: 0 18px 36px rgba(255, 207, 0, 0.5), 0 0 0 6px rgba(255, 207, 0, 0.15);
-}
-
-.aegis-trigger:hover::before {
-    opacity: 1;
-}
-
-.aegis-trigger:active {
-    transform: translateY(0) scale(0.98);
-}
-
-.aegis-trigger svg {
-    width: 28px;
-    height: 28px;
-    fill: var(--aegis-gold);
-    transition: all var(--transition-base);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-
-.aegis-trigger img.chat-icon {
-    width: 44px;
-    height: 44px;
-    object-fit: contain;
-    transition: all var(--transition-base);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-
-.aegis-trigger .close-icon {
-    display: none;
-    stroke: var(--aegis-white);
-    fill: none;
-}
-
-.aegis-widget.open .aegis-trigger {
-    background: linear-gradient(135deg, var(--aegis-grey-700) 0%, var(--aegis-grey-900) 100%);
-}
-
-.aegis-widget.open .aegis-trigger .chat-icon {
-    display: none;
-}
-
-.aegis-widget.open .aegis-trigger .close-icon {
-    display: block;
-}
-
-/* Tooltip - Mirrors .aegis-call-tooltip exactly (only bottom differs) */
-.aegis-tooltip {
-    position: fixed !important;
-    top: auto !important;
-    left: auto !important;
-    right: 100px !important;
-    bottom: 38px !important;
-    background: #132544 !important;
-    color: #ffffff !important;
-    padding: 10px 18px !important;
-    border: none !important;
-    border-radius: 999px !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    line-height: 1.2 !important;
-    white-space: nowrap !important;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(8px);
-    transition: all 0.25s ease !important;
-    pointer-events: none;
-    box-shadow: 0 8px 24px rgba(19, 37, 68, 0.35) !important;
-    z-index: 9998 !important;
-    margin: 0 !important;
-    letter-spacing: 0 !important;
-}
-
-.aegis-tooltip::after {
-    content: '' !important;
-    position: absolute !important;
-    right: -6px !important;
-    top: 50% !important;
-    bottom: auto !important;
-    left: auto !important;
-    width: 0 !important;
-    height: 0 !important;
-    transform: translateY(-50%) !important;
-    border: 6px solid transparent !important;
-    border-left-color: #132544 !important;
-    border-right: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-}
-
-.aegis-trigger:hover ~ .aegis-tooltip,
-.aegis-widget:not(.open):hover .aegis-tooltip {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
-}
-
-.aegis-widget.open .aegis-tooltip { display: none; }
-
-/* Notification Badge */
-.aegis-badge {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    width: 22px;
-    height: 22px;
-    background: linear-gradient(135deg, var(--aegis-gold) 0%, var(--aegis-gold-dark) 100%);
-    color: var(--aegis-navy);
-    border-radius: var(--radius-full);
-    font-size: 11px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(255, 207, 0, 0.4);
-    animation: badgePulse 2s ease-in-out infinite;
-}
-
-@keyframes badgePulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(255, 207, 0, 0.4); }
-    50% { transform: scale(1.1); box-shadow: 0 4px 16px rgba(255, 207, 0, 0.6); }
-}
-
-/* ========================================
-   CHAT WINDOW - Elevated Design
-   ======================================== */
-.aegis-chat {
+/* ---------------------------------------------------------------- dock */
+.aw-dock {
     position: fixed;
-    bottom: 96px;
-    right: 24px;
-    width: 420px;
-    max-height: min(540px, calc(100dvh - 180px));
-    background: var(--aegis-white);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
-    display: flex;
-    flex-direction: column;
+    right: clamp(1rem, 2.4vw, 2rem);
+    bottom: clamp(1rem, 2.4vw, 2rem);
+    z-index: 9990;
+    display: grid;
+    gap: 0.7rem;
+    justify-items: end;
+}
+
+.aw-dock-btn {
+    position: relative;
+    isolation: isolate;
+    width: 58px;
+    height: 58px;
+    border-radius: 99px;
+    display: grid;
+    place-items: center;
+    color: #f7f4ee;
+    border: 1px solid rgba(174, 189, 209, 0.22);
+    box-shadow: 0 14px 38px rgba(6, 11, 19, 0.4), 0 0 0 5px rgba(73, 97, 130, 0.05);
+    transition: transform 0.45s var(--aw-ease);
+}
+.aw-dock-btn:hover { transform: translateY(-4px) scale(1.04); }
+.aw-dock-btn svg { width: 23px; height: 23px; }
+.aw-dock-btn[data-aw="voice"] {
+    order: 1;
+    color: #fefcf2;
+    background: radial-gradient(circle at 34% 28%, #debf50 0, #c3a22a 48%, #89711d 100%);
+}
+.aw-dock-btn[data-aw="chat"] {
+    order: 2;
+    background: radial-gradient(circle at 34% 28%, #768ba8 0, #4f637e 48%, #323f52 100%);
+}
+.aw-dock-btn::before {
+    content: '';
+    position: absolute;
+    inset: -7px;
+    z-index: -1;
+    border: 1px solid rgba(103, 127, 161, 0.24);
+    border-radius: inherit;
+    animation: awDockPulse 3.2s ease-out infinite;
+}
+.aw-dock-btn::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 10px;
+    height: 10px;
+    border: 2px solid rgba(17, 26, 38, 0.72);
+    border-radius: 50%;
+    background: #89cf82;
+    box-shadow: 0 0 10px rgba(137, 207, 130, 0.75);
+}
+.aw-dock-btn.is-offline::after { background: #8a8f8b; box-shadow: none; }
+@keyframes awDockPulse {
+    0% { opacity: 0.52; transform: scale(0.9); }
+    70%, 100% { opacity: 0; transform: scale(1.28); }
+}
+.aw-dock-tip {
+    position: absolute;
+    right: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%) translateX(8px);
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    background: var(--aw-ink);
+    color: var(--aw-paper);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s, transform 0.45s var(--aw-ease);
+}
+.aw-dock-btn:hover .aw-dock-tip { opacity: 1; transform: translateY(-50%) translateX(0); }
+.aw-dock.is-panel-open .aw-dock-btn { opacity: 0.0; pointer-events: none; transform: scale(0.8); }
+@media (min-width: 761px) {
+    .aw-dock.is-panel-open .aw-dock-btn { opacity: 1; pointer-events: auto; transform: none; }
+}
+
+/* --------------------------------------------------------------- panel */
+.aw-panel {
+    position: fixed;
+    right: clamp(0.75rem, 2.4vw, 2rem);
+    bottom: calc(clamp(1rem, 2.4vw, 2rem) + 142px);
+    z-index: 9991;
+    width: min(400px, calc(100vw - 1.5rem));
+    max-height: min(660px, calc(100svh - 190px));
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-content: start;
+    min-height: 0;
+    isolation: isolate;
+    border: 1px solid rgba(149, 163, 183, 0.3);
+    border-radius: 20px;
+    background: rgba(8, 12, 17, 0.975);
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5), 0 0 64px rgba(73, 96, 129, 0.11), inset 0 1px rgba(255, 255, 255, 0.025);
+    color: var(--aw-ink);
     overflow: hidden;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px) scale(0.95);
-    transition: opacity var(--transition-slow), visibility var(--transition-slow), transform var(--transition-slow);
-    z-index: 9998;
-    border: 1px solid rgba(19, 37, 68, 0.08);
+    transform: translateY(24px) scale(0.96);
+    pointer-events: none;
+    transition: opacity 0.45s var(--aw-ease), transform 0.55s var(--aw-ease), visibility 0s linear 0.55s;
 }
-
-.aegis-widget.open .aegis-chat {
+.aw-panel.is-open {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0) scale(1);
+    transform: none;
+    pointer-events: auto;
+    transition: opacity 0.45s var(--aw-ease), transform 0.55s var(--aw-ease), visibility 0s;
 }
-
-/* Mobile / Tablet: bottom sheet (not full screen) */
-@media (max-width: 768px) {
-    .aegis-chat {
-        width: 100%;
-        max-height: 85dvh;
-        top: auto;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        border-radius: 18px 18px 0 0;
-        border: none;
-        border-top: 1px solid rgba(19, 37, 68, 0.12);
-        z-index: 10000;
-        padding-top: 0;
-    }
-
-    /* Drag handle indicator at top */
-    .aegis-chat::before {
-        content: '';
-        display: block;
-        width: 40px;
-        height: 4px;
-        background: rgba(19, 37, 68, 0.2);
-        border-radius: 99px;
-        margin: 10px auto 0;
-        flex-shrink: 0;
-    }
-
-    /* Dim backdrop behind the sheet */
-    .aegis-widget.open::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.45);
-        z-index: 9999;
-        animation: aegisBackdropIn 0.25s ease;
-    }
-
-    @keyframes aegisBackdropIn {
-        from { opacity: 0; }
-        to   { opacity: 1; }
-    }
-
-    .aegis-messages {
-        max-height: none;
-    }
-
-    .aegis-widget.open .aegis-trigger,
-    .aegis-widget.open .aegis-badge,
-    .aegis-widget.open .aegis-tooltip {
-        display: none !important;
-    }
-
-    .aegis-trigger {
-        width: 56px;
-        height: 56px;
-    }
-
-    .aegis-tooltip {
-        display: none;
-    }
-
-    /* Hide status badge on mobile to free up header space */
-    .aegis-status {
-        display: none;
-    }
-}
-
-/* ========================================
-   CHAT HEADER - Sleek & Professional
-   ======================================== */
-.aegis-header {
-    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
-    color: var(--aegis-white);
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.aegis-header::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255, 207, 0, 0.1) 0%, transparent 70%);
-    pointer-events: none;
-}
-
-@media (max-width: 768px) {
-    .aegis-header {
-        padding: 12px 14px;
-        padding-top: max(14px, env(safe-area-inset-top, 14px));
-        gap: 8px;
-    }
-}
-
-.aegis-avatar {
-    width: 46px;
-    height: 46px;
-    background: linear-gradient(135deg, var(--aegis-gold) 0%, var(--aegis-gold-dark) 100%);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(255, 207, 0, 0.3);
-    position: relative;
-}
-
-.aegis-avatar svg {
-    width: 24px;
-    height: 24px;
-    stroke: var(--aegis-navy);
-    fill: none;
-    stroke-width: 2.5;
-}
-
-/* Close button in header (mobile only) */
-.aegis-header-close {
-    display: none;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-fast);
-    margin-left: 8px;
-}
-
-.aegis-header-close:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.aegis-header-close svg {
-    width: 20px;
-    height: 20px;
-    stroke: var(--aegis-white);
-}
-
-@media (max-width: 768px) {
-    .aegis-header-close {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 2px;
-        background: rgba(255, 255, 255, 0.18);
-        border: 1.5px solid rgba(255, 255, 255, 0.3);
-        border-radius: var(--radius-md);
-        padding: 8px 12px;
-        min-width: 56px;
-        min-height: 48px;
-    }
-
-    .aegis-header-close svg {
-        width: 22px;
-        height: 22px;
-    }
-
-    .aegis-header-close::after {
-        content: 'Cerrar';
-        font-size: 9px;
-        font-weight: 600;
-        color: rgba(255, 255, 255, 0.85);
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        line-height: 1;
-    }
-
-    .aegis-header-close:active {
-        background: rgba(255, 255, 255, 0.3);
-        transform: scale(0.95);
-    }
-}
-
-.aegis-header-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.aegis-header-info h4 {
-    font-size: 17px;
-    font-weight: 700;
-    margin: 0;
-    color: var(--aegis-white);
-    letter-spacing: -0.02em;
-}
-
-.aegis-header-info p {
-    font-size: 12px;
-    margin: 3px 0 0 0;
-    opacity: 0.8;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-}
-
-.aegis-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--aegis-success);
-    background: rgba(16, 185, 129, 0.15);
-    padding: 5px 10px;
-    border-radius: var(--radius-full);
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-}
-
-.aegis-status::before {
-    content: '';
-    width: 7px;
-    height: 7px;
-    background: var(--aegis-success);
-    border-radius: var(--radius-full);
-    animation: statusPulse 2s ease-in-out infinite;
-    transition: background 0.3s ease;
-}
-
-/* Offline state */
-.aegis-status.offline {
-    color: var(--aegis-grey-500);
-    background: rgba(108, 117, 125, 0.15);
-}
-
-.aegis-status.offline::before {
-    background: var(--aegis-grey-500);
-    animation: none;
-}
-
-@keyframes statusPulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(0.9); }
-}
-
-/* ========================================
-   WELCOME SCREEN - Impact & Elegance
-   ======================================== */
-.aegis-welcome {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(160deg, var(--aegis-navy) 0%, var(--aegis-navy-dark) 50%, var(--aegis-navy) 100%);
-    padding: 32px;
-    position: relative;
-    overflow: hidden;
-}
-
-.aegis-welcome::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background:
-        radial-gradient(ellipse at 20% 20%, rgba(255, 207, 0, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(255, 207, 0, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-}
-
-.aegis-welcome::after {
-    content: '';
-    position: absolute;
-    top: -100px;
-    right: -100px;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(255, 207, 0, 0.1) 0%, transparent 60%);
-    pointer-events: none;
-}
-
-.aegis-welcome-card {
-    background: var(--aegis-white);
-    border-radius: var(--radius-xl);
-    padding: 40px 32px;
-    text-align: center;
-    box-shadow: var(--shadow-xl), var(--shadow-glow);
-    max-width: 320px;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-    animation: welcomeCardEnter 0.6s var(--transition-bounce);
-}
-
-@keyframes welcomeCardEnter {
-    from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.aegis-welcome-text {
-    margin-bottom: 32px;
-}
-
-.aegis-welcome-line1 {
-    display: block;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--aegis-navy);
-    margin-bottom: 12px;
-    letter-spacing: 0.02em;
-}
-
-.aegis-welcome-line2 {
-    display: block;
-    font-size: 22px;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--aegis-gold) 0%, var(--aegis-gold-dark) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: 0.08em;
-    text-shadow: 0 2px 20px rgba(255, 207, 0, 0.3);
-}
-
-.aegis-welcome-btn {
-    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
-    color: var(--aegis-white);
-    border: none;
-    padding: 16px 40px;
-    border-radius: var(--radius-md);
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--transition-base);
-    width: 100%;
-    letter-spacing: 0.02em;
-    position: relative;
-    overflow: hidden;
-}
-
-.aegis-welcome-btn::before {
+.aw-panel > * { min-width: 0; position: relative; z-index: 1; }
+.aw-panel::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
-    opacity: 0;
-    transition: opacity var(--transition-fast);
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 18% 15%, rgba(101, 126, 161, 0.1), transparent 34%), linear-gradient(135deg, rgba(255, 255, 255, 0.018), transparent 48%);
+}
+.aw-panel > .aw-network {
+    position: absolute;
+    z-index: 0;
+    top: -5%;
+    right: -16%;
+    width: 108%;
+    height: 66%;
+    object-fit: cover;
+    opacity: 0.15;
+    filter: grayscale(1) sepia(1) hue-rotate(170deg) saturate(1.6) contrast(1.15);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    -webkit-mask-image: radial-gradient(ellipse at 72% 40%, #000 0 24%, rgba(0, 0, 0, 0.76) 44%, transparent 76%);
+    mask-image: radial-gradient(ellipse at 72% 40%, #000 0 24%, rgba(0, 0, 0, 0.76) 44%, transparent 76%);
 }
 
-.aegis-welcome-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
-
-.aegis-welcome-btn:hover::before {
-    opacity: 1;
-}
-
-.aegis-welcome-btn:active {
-    transform: translateY(0);
-}
-
-/* ========================================
-   DISCLAIMER - Clean & Trustworthy
-   ======================================== */
-.aegis-disclaimer {
-    background: linear-gradient(0deg, var(--aegis-grey-100) 0%, var(--aegis-white) 100%);
-    padding: 10px 14px;
-    border-top: 2px solid var(--aegis-gold);
-    animation: disclaimerEnter 0.4s ease-out;
-    flex-shrink: 0;
-}
-.aegis-disclaimer-content {
+.aw-head {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 0.85rem;
+    padding: 0.95rem 1.1rem;
+    border-bottom: 1px solid rgba(162, 177, 198, 0.14);
+    background: rgba(11, 16, 22, 0.82);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
 }
-.aegis-disclaimer-text {
-    flex: 1 1 100%;
-    font-size: 11px;
-    line-height: 1.4;
-    color: var(--aegis-grey-700);
-    margin: 0;
-}
-.aegis-disclaimer-text strong {
-    color: var(--aegis-navy);
-}
-.aegis-disclaimer-check {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--aegis-navy);
-    cursor: pointer;
-    flex-shrink: 0;
-}
-.aegis-disclaimer-check input {
-    width: 14px;
-    height: 14px;
-    margin: 0;
-}
-.aegis-disclaimer-btn {
-    margin-left: auto;
-    padding: 6px 12px;
-    font-size: 11px;
-    font-weight: 600;
-}
-
-@keyframes disclaimerEnter {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.aegis-disclaimer-btn {
-    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
-    color: var(--aegis-white);
-    border: none;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all var(--transition-base);
-}
-.aegis-disclaimer-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-.aegis-disclaimer-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
-
-@media (max-width: 576px) {
-    .aegis-disclaimer { padding: 10px 12px; }
-    .aegis-disclaimer-text { font-size: 10.5px; }
-    .aegis-disclaimer-btn { padding: 5px 10px; font-size: 10.5px; }
-}
-
-/* ========================================
-   MESSAGES AREA - Refined Conversation
-   ======================================== */
-.aegis-messages {
-    overflow-y: auto;
-    flex: 1 1 auto;
-    min-height: 240px;
-    padding: 12px;
-    background: linear-gradient(180deg, var(--aegis-grey-100) 0%, var(--aegis-white) 100%);
-    scroll-behavior: smooth;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Spacer pushes messages to bottom when content is short */
-.aegis-messages::before {
-    content: '';
-    flex: 1 1 auto;
-}
-
-.aegis-messages-inner {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex-shrink: 0;
-}
-
-/* When disclaimer is active, reduce height */
-/* Disclaimer state — input is disabled but messages area stays visible (just empty) */
-.aegis-chat.disclaimer-active .aegis-quick-replies {
-    display: none;
-}
-
-@media (max-width: 576px) {
-    .aegis-messages {
-        padding: 12px;
-    }
-    .aegis-messages-inner {
-        gap: 8px;
-    }
-}
-
-/* Custom Scrollbar */
-.aegis-messages::-webkit-scrollbar {
-    width: 5px;
-}
-
-.aegis-messages::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.aegis-messages::-webkit-scrollbar-thumb {
-    background: var(--aegis-grey-300);
-    border-radius: var(--radius-full);
-}
-
-.aegis-messages::-webkit-scrollbar-thumb:hover {
-    background: var(--aegis-grey-500);
-}
-
-/* Message Bubbles */
-.aegis-message {
-    display: flex;
-    gap: 12px;
-    max-width: 88%;
-    animation: messageEnter 0.4s var(--transition-bounce);
-}
-
-@keyframes messageEnter {
-    from {
-        opacity: 0;
-        transform: translateY(16px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.aegis-message.bot {
-    align-self: flex-start;
-}
-
-.aegis-message.user {
-    align-self: flex-end;
-    flex-direction: row-reverse;
-}
-
-.aegis-message .avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: transform var(--transition-fast);
-}
-
-.aegis-message:hover .avatar {
-    transform: scale(1.05);
-}
-
-.aegis-message.bot .avatar {
-    background: linear-gradient(135deg, var(--aegis-gold) 0%, var(--aegis-gold-dark) 100%);
-    box-shadow: var(--shadow-sm);
-}
-
-.aegis-message.bot .avatar img {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-}
-
-.aegis-message.bot .avatar svg {
-    width: 16px;
-    height: 16px;
-    stroke: var(--aegis-gold);
-    fill: none;
-    stroke-width: 2;
-}
-
-.aegis-message.user .avatar {
-    background: linear-gradient(135deg, var(--aegis-grey-100) 0%, var(--aegis-grey-300) 100%);
-}
-
-.aegis-message.user .avatar svg {
-    width: 16px;
-    height: 16px;
-    stroke: var(--aegis-grey-700);
-    fill: none;
-    stroke-width: 2;
-}
-
-.aegis-message .bubble {
-    padding: 10px 14px;
-    border-radius: var(--radius-lg);
-    font-size: 13px;
-    line-height: 1.5;
-    letter-spacing: -0.01em;
+.aw-avatar {
     position: relative;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    width: 38px;
+    height: 38px;
+    flex: none;
+    border-radius: 99px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(222, 230, 242, 0.5);
+    background: radial-gradient(circle at 36% 30%, #b1bfd2 0, #6d82a0 25%, #3e526d 66%, #212d3d 100%);
+    box-shadow: 0 0 0 5px rgba(95, 120, 155, 0.07), 0 0 25px rgba(95, 125, 168, 0.24);
 }
-
-.aegis-message.bot .bubble {
-    background: var(--aegis-white);
-    color: var(--aegis-grey-900);
-    border-bottom-left-radius: 4px;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(19, 37, 68, 0.06);
+.aw-avatar::before, .aw-avatar::after {
+    content: '';
+    position: absolute;
+    border: 1px solid rgba(123, 144, 174, 0.2);
+    border-radius: 50%;
+    pointer-events: none;
 }
-
-.aegis-message.user .bubble {
-    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
-    color: var(--aegis-white);
-    border-bottom-right-radius: 4px;
-    box-shadow: var(--shadow-md);
-}
-
-/* Typing Indicator */
-.aegis-typing {
-    display: flex;
-    gap: 5px;
-    padding: 16px 20px;
-    background: var(--aegis-white);
-    border-radius: var(--radius-lg);
-    border-bottom-left-radius: 4px;
-    width: fit-content;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(19, 37, 68, 0.06);
-}
-
-.aegis-typing span {
+.aw-avatar::before { inset: -6px; }
+.aw-avatar::after { inset: -11px; opacity: 0.55; }
+.aw-avatar i {
     width: 8px;
     height: 8px;
-    background: var(--aegis-grey-300);
-    border-radius: var(--radius-full);
-    animation: typingDot 1.4s ease-in-out infinite;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(213, 230, 255, 0.75);
 }
-
-.aegis-typing span:nth-child(2) { animation-delay: 0.15s; }
-.aegis-typing span:nth-child(3) { animation-delay: 0.3s; }
-
-@keyframes typingDot {
-    0%, 60%, 100% {
-        transform: translateY(0);
-        background: var(--aegis-grey-300);
-    }
-    30% {
-        transform: translateY(-6px);
-        background: var(--aegis-navy);
-    }
+.aw-avatar.is-clay {
+    background: radial-gradient(circle at 36% 30%, #f3d97e 0, #c8a62c 34%, #8a721a 72%, #463b13 100%);
+    box-shadow: 0 0 0 5px rgba(198, 163, 39, 0.08), 0 0 25px rgba(198, 165, 43, 0.22);
 }
-
-/* ========================================
-   QUICK REPLIES - Polished Actions
-   ======================================== */
-.aegis-quick-replies {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 0 16px;
-    flex-shrink: 0;
-    animation: quickRepliesEnter 0.4s ease-out 0.2s both;
-}
-
-.aegis-quick-replies:not(:empty) {
-    padding-bottom: 12px;
-}
-
-@keyframes quickRepliesEnter {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.aegis-quick-btn {
-    background: var(--aegis-white);
-    border: 1.5px solid var(--aegis-navy);
-    color: var(--aegis-navy);
-    padding: 8px 14px;
-    border-radius: var(--radius-full);
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    letter-spacing: -0.01em;
-}
-
-.aegis-quick-btn:hover {
-    background: var(--aegis-navy);
-    color: var(--aegis-white);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-.aegis-quick-btn:active {
-    transform: translateY(0);
-}
-
-/* ========================================
-   INPUT AREA - Premium Input Experience
-   ======================================== */
-.aegis-input-area {
-    padding: 8px 12px;
-    background: var(--aegis-white);
-    border-top: 1px solid var(--aegis-grey-300);
-    flex-shrink: 0;
-}
-
-.aegis-input-wrapper {
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-    background: var(--aegis-grey-100);
-    border-radius: var(--radius-lg);
-    padding: 6px 6px 6px 14px;
-    transition: all var(--transition-fast);
-    border: 2px solid transparent;
-}
-
-.aegis-input-wrapper:focus-within {
-    background: var(--aegis-white);
-    border-color: var(--aegis-navy);
-    box-shadow: 0 0 0 4px rgba(19, 37, 68, 0.08);
-}
-
-.aegis-input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    padding: 6px 0;
-    font-size: 14px;
-    font-family: inherit;
-    resize: none;
-    max-height: 100px;
-    outline: none;
-    color: var(--aegis-grey-900);
-    line-height: 1.5;
-    letter-spacing: -0.01em;
-}
-
-.aegis-input::placeholder {
-    color: var(--aegis-grey-500);
-}
-
-@media (max-width: 576px) {
-    .aegis-input-area {
-        padding: 8px 10px;
-        padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
-    }
-
-    .aegis-input-wrapper {
-        padding: 4px 4px 4px 12px;
-    }
-
-    .aegis-input {
-        font-size: 16px; /* Prevents zoom on iOS */
-    }
-}
-
-.aegis-send-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: var(--radius-md);
-    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--transition-fast);
-    flex-shrink: 0;
-}
-
-.aegis-send-btn:hover:not(:disabled) {
-    transform: scale(1.05);
-    box-shadow: var(--shadow-md);
-}
-
-.aegis-send-btn:active:not(:disabled) {
-    transform: scale(0.95);
-}
-
-.aegis-send-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-.aegis-send-btn svg {
-    width: 18px;
-    height: 18px;
-    stroke: var(--aegis-white);
-    fill: none;
-    stroke-width: 2;
-}
-
-/* ========================================
-   QUALIFICATION FORM - Professional Forms
-   ======================================== */
-.aegis-qual-form {
-    padding: 24px;
-    background: linear-gradient(180deg, var(--aegis-grey-100) 0%, var(--aegis-white) 100%);
-    border-radius: var(--radius-lg);
-    margin: 8px 0;
-    border: 1px solid rgba(19, 37, 68, 0.08);
-    animation: formEnter 0.4s ease-out;
-}
-
-@keyframes formEnter {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.aegis-qual-form h5 {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--aegis-navy);
-    margin: 0 0 4px 0;
-    letter-spacing: -0.02em;
-}
-
-.aegis-form-group {
-    margin-bottom: 16px;
-}
-
-.aegis-form-group label {
+.aw-title { flex: 1; min-width: 0; }
+.aw-title b {
     display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--aegis-grey-700);
-    margin-bottom: 6px;
-    letter-spacing: 0.02em;
+    font-size: 16px;
+    font-weight: 500;
+    color: #f2f4f6;
+}
+.aw-title span {
+    display: block;
+    font-size: 11px;
+    color: var(--aw-sage-ink);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
-
-.aegis-form-group select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid var(--aegis-grey-300);
-    border-radius: var(--radius-md);
-    font-size: 14px;
-    font-family: inherit;
-    background: var(--aegis-white);
-    cursor: pointer;
-    outline: none;
-    transition: all var(--transition-fast);
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23495057' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    color: var(--aegis-grey-900);
+.aw-title span.is-offline { color: var(--aw-muted-soft); }
+.aw-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 99px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(169, 182, 200, 0.24);
+    background: rgba(8, 10, 14, 0.42);
+    color: #9ca79f;
+    transition: all 0.35s var(--aw-ease);
 }
+.aw-close:hover { border-color: rgba(129, 151, 181, 0.58); background: rgba(75, 95, 124, 0.28); color: #fff; }
+.aw-close svg { width: 14px; height: 14px; }
 
-.aegis-form-group select:focus {
-    border-color: var(--aegis-navy);
-    box-shadow: 0 0 0 4px rgba(19, 37, 68, 0.08);
-}
-
-.aegis-qual-input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid var(--aegis-grey-300);
-    border-radius: var(--radius-md);
-    font-size: 14px;
-    font-family: inherit;
-    background: var(--aegis-white);
-    outline: none;
-    transition: all var(--transition-fast);
-    color: var(--aegis-grey-900);
-}
-
-.aegis-qual-input:focus {
-    border-color: var(--aegis-navy);
-    box-shadow: 0 0 0 4px rgba(19, 37, 68, 0.08);
-}
-
-.aegis-qual-input::placeholder {
-    color: var(--aegis-grey-500);
-}
-
-.aegis-qual-submit {
-    width: 100%;
-    background: linear-gradient(135deg, var(--aegis-gold) 0%, var(--aegis-gold-dark) 100%);
-    color: var(--aegis-navy);
-    border: none;
-    padding: 14px 20px;
-    border-radius: var(--radius-md);
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all var(--transition-base);
-    margin-top: 8px;
-    letter-spacing: 0.01em;
-}
-
-.aegis-qual-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md), var(--shadow-glow);
-}
-
-.aegis-qual-submit:active {
-    transform: translateY(0);
-}
-
-/* ========================================
-   LEAD FORM - Trust Building
-   ======================================== */
-.aegis-lead-form {
-    padding: 24px;
-    background: linear-gradient(180deg, var(--aegis-grey-100) 0%, var(--aegis-white) 100%);
-    border-radius: var(--radius-lg);
-    margin: 10px 20px;
-    border: 1px solid rgba(19, 37, 68, 0.08);
-    animation: formEnter 0.4s ease-out;
-}
-
-.aegis-lead-form h5 {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--aegis-navy);
-    margin: 0 0 16px 0;
-    letter-spacing: -0.02em;
-}
-
-.aegis-lead-form input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid var(--aegis-grey-300);
-    border-radius: var(--radius-md);
-    font-size: 14px;
-    font-family: inherit;
-    margin-bottom: 12px;
-    outline: none;
-    transition: all var(--transition-fast);
-    color: var(--aegis-grey-900);
-}
-
-.aegis-lead-form input:focus {
-    border-color: var(--aegis-navy);
-    box-shadow: 0 0 0 4px rgba(19, 37, 68, 0.08);
-}
-
-.aegis-lead-form input::placeholder {
-    color: var(--aegis-grey-500);
-}
-
-.aegis-lead-form button {
-    width: 100%;
-    background: linear-gradient(135deg, var(--aegis-gold) 0%, var(--aegis-gold-dark) 100%);
-    color: var(--aegis-navy);
-    border: none;
-    padding: 14px 20px;
-    border-radius: var(--radius-md);
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all var(--transition-base);
-    letter-spacing: 0.01em;
-}
-
-.aegis-lead-form button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md), var(--shadow-glow);
-}
-
-/* ========================================
-   CALENDAR MODAL - Seamless Booking
-   ======================================== */
-.aegis-calendar-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 99999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: modalFadeIn 0.3s ease-out;
-}
-
-@keyframes modalFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.aegis-calendar-modal-backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(13, 26, 45, 0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-.aegis-calendar-modal-content {
-    position: relative;
-    width: 94%;
-    max-width: 600px;
-    height: 90vh;
-    max-height: 800px;
-    background: var(--aegis-white);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    animation: modalSlideUp 0.4s var(--transition-bounce);
-}
-
-@keyframes modalSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.aegis-calendar-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 24px;
-    background: linear-gradient(135deg, var(--aegis-navy) 0%, var(--aegis-navy-light) 100%);
-    color: var(--aegis-white);
-}
-
-.aegis-calendar-modal-header h3 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-}
-
-.aegis-calendar-modal-close {
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.aegis-calendar-modal-close:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
-}
-
-.aegis-calendar-modal-close svg {
-    width: 20px;
-    height: 20px;
-    stroke: var(--aegis-white);
-}
-
-.aegis-calendar-modal-body {
-    flex: 1;
+/* ---------------------------------------------------------------- chat */
+.aw-log {
+    padding: 1.1rem;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.aegis-calendar-modal-body iframe {
-    display: block;
-    min-height: 700px;
-}
-
-/* Mobile Calendar Modal */
-@media (max-width: 576px) {
-    .aegis-calendar-modal-content {
-        width: 100%;
-        height: 100%;
-        max-height: none;
-        border-radius: 0;
-    }
-
-    .aegis-calendar-modal-header {
-        padding: 16px 20px;
-    }
-}
-
-/* ========================================
-   FOOTER - Subtle Branding
-   ======================================== */
-.aegis-footer {
-    text-align: center;
-    padding: 6px 12px;
-    font-size: 10px;
-    color: var(--aegis-grey-500);
-    background: var(--aegis-white);
-    border-top: 1px solid var(--aegis-grey-300);
-    letter-spacing: 0.01em;
-    flex-shrink: 0;
-}
-
-.aegis-footer a {
-    color: var(--aegis-navy);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color var(--transition-fast);
-}
-
-.aegis-footer a:hover {
-    color: var(--aegis-gold-dark);
-}
-
-@media (max-width: 576px) {
-    .aegis-footer {
-        padding: 8px 14px;
-        font-size: 9px;
-    }
-}
-
-/* ========================================
-   UTILITIES & ENHANCEMENTS
-   ======================================== */
-
-/* Focus visible for accessibility (scoped to widget) */
-.aegis-widget *:focus-visible {
-    outline: 2px solid var(--aegis-gold);
-    outline-offset: 2px;
-}
-
-.aegis-input:focus-visible,
-.aegis-input:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-/* Selection styling (scoped to widget) */
-.aegis-widget ::selection {
-    background: var(--aegis-gold);
-    color: var(--aegis-navy);
-}
-
-/* Smooth scrolling for the whole widget */
-.aegis-widget * {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.8rem;
+    align-content: start;
     scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(109, 130, 159, 0.42) transparent;
+}
+.aw-msg {
+    max-width: 88%;
+    padding: 0.78rem 1rem;
+    border-radius: 14px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    animation: awMsgIn 0.45s var(--aw-ease) both;
+}
+@keyframes awMsgIn { from { opacity: 0; transform: translateY(10px); } }
+.aw-msg.is-bot {
+    justify-self: start;
+    background: rgba(13, 18, 24, 0.84);
+    border: 1px solid rgba(151, 169, 193, 0.17);
+    border-bottom-left-radius: 4px;
+    color: var(--aw-ink-2);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+.aw-msg.is-user {
+    justify-self: end;
+    background: linear-gradient(135deg, #4f637e, #36475f);
+    color: #f7f4ee;
+    border-bottom-right-radius: 4px;
+}
+.aw-msg.is-err {
+    justify-self: start;
+    background: var(--aw-err-bg);
+    border: 1px solid var(--aw-err-line);
+    color: var(--aw-err-ink);
+}
+.aw-msg p + p { margin-top: 0.55em; }
+.aw-msg ul { margin: 0.5em 0 0; padding: 0; list-style: none; display: grid; gap: 0.25em; }
+.aw-msg li { position: relative; padding-left: 1em; }
+.aw-msg li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 5px;
+    height: 5px;
+    border-radius: 99px;
+    background: var(--aw-sage);
+}
+.aw-msg a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.aw-msg strong { font-weight: 600; color: #fff; }
+.aw-typing { display: inline-flex; gap: 4px; align-items: center; padding: 0.3em 0; }
+.aw-typing i {
+    width: 6px;
+    height: 6px;
+    border-radius: 99px;
+    background: var(--aw-sage);
+    animation: awTyping 1.3s infinite;
+}
+.aw-typing i:nth-child(2) { animation-delay: 0.16s; }
+.aw-typing i:nth-child(3) { animation-delay: 0.32s; }
+@keyframes awTyping {
+    0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-4px); }
 }
 
-/* Link styling in messages */
-.aegis-message .bubble a {
-    color: var(--aegis-gold-dark);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-}
-
-.aegis-message.user .bubble a {
-    color: var(--aegis-gold-light);
-}
-
-/* Strong text in messages */
-.aegis-message .bubble strong {
-    font-weight: 600;
-    color: var(--aegis-navy);
-}
-
-.aegis-message.user .bubble strong {
-    color: var(--aegis-white);
-}
-
-/* ========================================
-   ATTACHMENT FEATURE (Zolutium-style)
-   ======================================== */
-
-/* Attach button (paperclip) inside input wrapper */
-.aegis-attach-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: var(--radius-full);
-    background: transparent;
-    border: none;
-    color: var(--aegis-grey-500);
-    cursor: pointer;
+.aw-attach-img { display: block; max-width: 100%; max-height: 160px; border-radius: 8px; margin-bottom: 0.45rem; }
+.aw-attach-file {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all var(--transition-fast);
+    gap: 0.5rem;
+    margin-bottom: 0.45rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.22);
+    font-size: 12px;
 }
-.aegis-attach-btn svg { width: 20px; height: 20px; }
-.aegis-attach-btn:hover:not(:disabled) {
-    background: rgba(19, 37, 68, 0.06);
-    color: var(--aegis-navy);
-}
-.aegis-attach-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
+.aw-attach-file svg { width: 18px; height: 18px; flex: none; }
+.aw-attach-file small { display: block; opacity: 0.7; }
 
-/* Attachment preview chip above the input */
-.aegis-attachment-preview {
+.aw-foot { background: rgba(8, 10, 14, 0.52); }
+.aw-quick {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
-    margin: 0 12px 8px;
-    background: rgba(19, 37, 68, 0.04);
-    border: 1px solid rgba(19, 37, 68, 0.1);
-    border-radius: var(--radius-md);
+    gap: 0.4rem;
+    padding: 0.7rem 1.1rem 0.7rem;
+    overflow-x: auto;
+    scrollbar-width: none;
 }
+.aw-quick:empty { display: none; }
+.aw-quick::-webkit-scrollbar { display: none; }
+.aw-quick button {
+    flex: none;
+    padding: 0.42rem 0.85rem;
+    border: 1px solid rgba(153, 170, 193, 0.22);
+    border-radius: 99px;
+    background: rgba(10, 14, 19, 0.76);
+    font-size: 12px;
+    color: var(--aw-muted);
+    white-space: nowrap;
+    transition: all 0.35s var(--aw-ease);
+}
+.aw-quick button:hover { border-color: #6c819f; background: rgba(69, 88, 115, 0.42); color: #f7f4ee; }
 
-.aegis-attach-thumb {
-    width: 36px;
-    height: 36px;
+.aw-chip {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 1.1rem 0.6rem;
+    padding: 0.45rem 0.6rem;
+    border: 1px solid var(--aw-line-strong);
+    border-radius: 10px;
+    background: rgba(5, 7, 11, 0.8);
+    font-size: 12px;
+}
+.aw-chip.is-on { display: flex; }
+.aw-chip img, .aw-chip .aw-chip-pdf {
+    width: 34px;
+    height: 34px;
     border-radius: 6px;
     object-fit: cover;
-    flex-shrink: 0;
-    background: var(--aegis-grey-100);
-}
-.aegis-attach-thumb-pdf {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    color: white;
+    display: grid;
+    place-items: center;
+    background: var(--aw-sage-btn);
     font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    font-weight: 600;
 }
+.aw-chip-meta { flex: 1; min-width: 0; }
+.aw-chip-meta b { display: block; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.aw-chip-meta span { color: var(--aw-muted); }
+.aw-chip button { color: var(--aw-muted); display: grid; }
+.aw-chip button:hover { color: #fff; }
+.aw-chip button svg { width: 14px; height: 14px; }
 
-.aegis-attach-meta {
+.aw-form {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-end;
+    padding: 0.85rem 1.1rem 1.1rem;
+    border-top: 1px solid rgba(162, 177, 198, 0.14);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+}
+.aw-input {
     flex: 1;
     min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+    min-height: 44px;
+    max-height: 120px;
+    padding: 0.68rem 0.95rem;
+    border: 1px solid rgba(118, 141, 173, 0.48);
+    border-radius: 12px;
+    background: rgba(5, 7, 11, 0.8);
+    color: var(--aw-ink);
+    font: inherit;
+    font-size: 14.5px;
+    line-height: 1.5;
+    resize: none;
 }
-.aegis-attach-name {
-    font-size: 13px;
+.aw-input::placeholder { color: var(--aw-muted-soft); }
+.aw-input:focus { outline: none; border-color: #7f93b0; box-shadow: 0 0 0 3px rgba(101, 126, 161, 0.11); }
+.aw-input:disabled { opacity: 0.5; }
+.aw-attach, .aw-send {
+    width: 44px;
+    height: 44px;
+    flex: none;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    transition: all 0.35s var(--aw-ease);
+}
+.aw-attach { border: 1px solid var(--aw-line-strong); color: var(--aw-muted); }
+.aw-attach:hover { color: #fff; background: rgba(69, 88, 115, 0.3); }
+.aw-send {
+    background: linear-gradient(145deg, #637792, #42546e);
+    color: #f7f4ee;
+    box-shadow: 0 8px 22px rgba(54, 75, 105, 0.26);
+}
+.aw-send:hover:not(:disabled) { transform: translateY(-2px); }
+.aw-send:disabled, .aw-attach:disabled { opacity: 0.4; cursor: not-allowed; }
+.aw-attach svg, .aw-send svg { width: 18px; height: 18px; }
+
+.aw-disclaimer {
+    margin: 0 1.1rem 0.8rem;
+    padding: 0.85rem 0.95rem;
+    border: 1px solid var(--aw-line-strong);
+    border-radius: 12px;
+    background: rgba(5, 7, 11, 0.8);
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--aw-ink-2);
+}
+.aw-disclaimer label { display: flex; align-items: center; gap: 0.5rem; margin: 0.6rem 0; cursor: pointer; }
+.aw-disclaimer input { accent-color: var(--aw-sage-btn); width: 16px; height: 16px; }
+.aw-btn {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 99px;
+    background: linear-gradient(110deg, #c6a429, #b69623);
+    color: #fffdf4;
+    font-size: 13.5px;
     font-weight: 500;
-    color: var(--aegis-navy);
-    white-space: nowrap;
+    box-shadow: 0 12px 30px rgba(170, 139, 28, 0.2);
+    transition: transform 0.35s var(--aw-ease), box-shadow 0.35s;
+}
+.aw-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(170, 139, 28, 0.3); }
+.aw-btn.is-sage { background: linear-gradient(145deg, #637792, #42546e); box-shadow: 0 8px 22px rgba(54, 75, 105, 0.26); }
+
+/* qualification + lead forms (inside the chat log) */
+.aw-card {
+    justify-self: stretch;
+    display: grid;
+    gap: 0.65rem;
+    padding: 1rem;
+    border: 1px solid rgba(139, 158, 184, 0.3);
+    border-radius: 14px;
+    background: rgba(4, 8, 13, 0.94);
+    animation: awMsgIn 0.45s var(--aw-ease) both;
+}
+.aw-card h5 { margin: 0; font-size: 14px; font-weight: 600; color: #fff; }
+.aw-card p { margin: 0; font-size: 12px; color: var(--aw-muted); }
+.aw-card label { display: grid; gap: 0.3rem; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--aw-sage-ink); }
+.aw-card input, .aw-card select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid rgba(118, 141, 173, 0.4);
+    border-radius: 10px;
+    background: rgba(8, 12, 17, 0.9);
+    color: var(--aw-ink);
+    font: inherit;
+    font-size: 13.5px;
+    letter-spacing: 0;
+    text-transform: none;
+}
+.aw-card input:focus, .aw-card select:focus { outline: none; border-color: #7f93b0; }
+.aw-card select option { background: #0a0e13; color: #f1f3f5; }
+
+/* booking modal */
+.aw-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: grid;
+    place-items: center;
+    padding: clamp(0.6rem, 3vw, 2rem);
+}
+.aw-modal-back { position: absolute; inset: 0; background: rgba(4, 6, 8, 0.7); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.aw-modal-box {
+    position: relative;
+    width: min(560px, 100%);
+    height: min(720px, 92svh);
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    border: 1px solid rgba(149, 163, 183, 0.3);
+    border-radius: 20px;
+    background: #0a0e13;
     overflow: hidden;
-    text-overflow: ellipsis;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
 }
-.aegis-attach-size {
-    font-size: 11px;
-    color: var(--aegis-grey-500);
-}
+.aw-modal-box .aw-head { background: rgba(11, 16, 22, 0.95); }
+.aw-modal-box iframe { width: 100%; height: 100%; border: 0; background: #fff; }
 
-.aegis-attach-remove {
-    width: 24px;
-    height: 24px;
-    border-radius: var(--radius-full);
-    background: transparent;
-    border: none;
-    color: var(--aegis-grey-500);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all var(--transition-fast);
+/* --------------------------------------------------------------- voice */
+.aw-voice-body {
+    display: grid;
+    gap: 0.9rem;
+    padding: 1.2rem;
+    justify-items: center;
+    text-align: center;
+    align-content: start;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(109, 130, 159, 0.42) transparent;
 }
-.aegis-attach-remove svg { width: 14px; height: 14px; }
-.aegis-attach-remove:hover {
-    background: rgba(239, 68, 68, 0.12);
-    color: var(--aegis-error);
+.aw-orb {
+    position: relative;
+    width: clamp(170px, 42vw, 210px);
+    height: clamp(170px, 42vw, 210px);
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(151, 166, 186, 0.17), 0 0 48px rgba(79, 105, 141, 0.13);
 }
-
-/* Attachment shown INSIDE a user message bubble */
-.aegis-bubble-attachment {
-    margin-bottom: 8px;
-}
-.aegis-bubble-attachment:last-child {
-    margin-bottom: 0;
-}
-
-.aegis-bubble-image {
-    display: block;
-    max-width: 100%;
-    max-height: 240px;
-    border-radius: 10px;
+.aw-orb video {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
     object-fit: cover;
+    opacity: 0.92;
+    filter: grayscale(1) sepia(1) hue-rotate(170deg) saturate(1.3) contrast(1.2) brightness(0.8);
+    transition: filter 0.6s ease, transform 0.25s var(--aw-ease);
 }
-
-.aegis-bubble-file {
+.aw-panel.is-listening .aw-orb video { filter: grayscale(1) sepia(1) hue-rotate(170deg) saturate(1.8) contrast(1.25) brightness(0.95); }
+.aw-orb::before, .aw-orb::after { content: ''; position: absolute; border-radius: 50%; pointer-events: none; z-index: 3; }
+.aw-orb::before {
+    inset: 7%;
+    border: 1px solid rgba(103, 127, 161, 0.22);
+    background: repeating-radial-gradient(circle, transparent 0 28px, rgba(180, 195, 216, 0.1) 29px, transparent 30px 52px);
+    animation: awOrbBreath 4s ease-in-out infinite;
+}
+.aw-orb::after { inset: 23%; background: radial-gradient(circle, rgba(98, 125, 163, 0.2), transparent 67%); filter: blur(9px); }
+.aw-orb canvas { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; }
+@keyframes awOrbBreath { 0%, 100% { opacity: 0.5; transform: scale(0.94); } 50% { opacity: 1; transform: scale(1.04); } }
+.aw-voice-status { display: grid; gap: 0.3rem; }
+.aw-voice-status b { font-family: var(--aw-display); font-size: 2rem; font-weight: 400; color: var(--aw-ink); line-height: 1.1; }
+.aw-voice-status span { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--aw-sage-ink); }
+.aw-timer { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--aw-muted); letter-spacing: 0.1em; }
+.aw-transcript {
+    width: 100%;
+    min-height: 56px;
+    max-height: 118px;
+    overflow-y: auto;
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+    text-align: left;
+    padding: 0.8rem 0.9rem;
+    border: 1px solid rgba(139, 158, 184, 0.3);
+    border-radius: 12px;
+    background: rgba(4, 8, 13, 0.94);
+    color: #edeff2;
+    font-size: 14px;
+    line-height: 1.5;
+    overscroll-behavior: contain;
+}
+.aw-transcript:empty { display: none; }
+.aw-panel.is-live .aw-transcript { min-height: 86px; max-height: 108px; border-color: rgba(122, 145, 178, 0.52); box-shadow: inset 3px 0 #637792; }
+.aw-panel.is-live .aw-transcript:empty { display: grid; min-height: 56px; }
+.aw-panel.is-live .aw-transcript:empty::before {
+    content: 'Live transcript will appear here';
+    align-self: center;
+    color: rgba(204, 210, 219, 0.52);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-align: center;
+}
+.aw-panel.is-live .aw-hint { display: none; }
+.aw-line { display: grid; gap: 0.12rem; }
+.aw-line span { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #8394ac; }
+.aw-line.is-agent span { color: #e0bf46; }
+.aw-line p { margin: 0; font-size: 15px; line-height: 1.5; color: #e2e4e8; }
+.aw-line p.is-interim { opacity: 0.6; }
+.aw-hint { font-size: 11.5px; color: var(--aw-muted); max-width: 32ch; line-height: 1.6; margin: 0; }
+.aw-voice-err {
+    width: 100%;
+    font-size: 12.5px;
+    line-height: 1.5;
+    text-align: left;
+    padding: 0.7rem 0.9rem;
+    border-radius: 10px;
+    background: var(--aw-err-bg);
+    border: 1px solid var(--aw-err-line);
+    color: var(--aw-err-ink);
+}
+.aw-voice-err:empty { display: none; }
+.aw-controls {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
+    gap: 0.6rem;
+    padding: 0.9rem 1.2rem 1.2rem;
+    border-top: 1px solid rgba(162, 177, 198, 0.14);
+    background: rgba(8, 10, 14, 0.52);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
 }
-.aegis-bubble-file svg {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-    opacity: 0.9;
+.aw-controls .aw-btn { flex: 1; }
+.aw-controls .aw-btn.is-hangup { background: linear-gradient(110deg, #a8403a, #8a2f2b); box-shadow: 0 12px 30px rgba(140, 50, 44, 0.25); }
+.aw-ctl {
+    width: 46px;
+    height: 46px;
+    flex: none;
+    border-radius: 99px;
+    border: 1px solid rgba(162, 177, 198, 0.28);
+    display: grid;
+    place-items: center;
+    color: var(--aw-muted);
+    transition: all 0.35s var(--aw-ease);
 }
-.aegis-bubble-file-name {
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1.2;
-    margin-bottom: 2px;
-    word-break: break-all;
-}
-.aegis-bubble-file-size {
-    font-size: 11px;
-    opacity: 0.75;
-}
+.aw-ctl:hover { background: var(--aw-oat); color: #fff; }
+.aw-ctl.is-muted { background: var(--aw-err-bg); border-color: var(--aw-err-line); color: var(--aw-err-ink); }
+.aw-ctl svg { width: 18px; height: 18px; }
+.aw-voice-foot { text-align: center; font-size: 11px; color: var(--aw-muted-soft); padding: 0 1.2rem 0.9rem; }
+.aw-voice-foot a { color: var(--aw-sage); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
-/* Bot side variant (less common, but support both) */
-.aegis-message.bot .aegis-bubble-file {
-    background: rgba(19, 37, 68, 0.05);
-}
-
-/* Respect reduced motion for trigger pulse */
-@media (prefers-reduced-motion: reduce) {
-    .aegis-trigger::after {
-        animation: none;
-        display: none;
+/* ------------------------------------------------------------- mobile */
+@media (max-width: 560px) {
+    .aw-panel {
+        right: 0.75rem;
+        left: 0.75rem;
+        width: auto;
+        bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+        max-height: calc(100svh - 1.5rem - env(safe-area-inset-top, 0px));
     }
+    .aw-log { min-height: 0; }
+    .aw-input { font-size: 16px; } /* prevents iOS zoom-on-focus */
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .aw-dock-btn::before, .aw-orb::before { animation: none; }
+    .aw-panel, .aw-msg, .aw-card { transition: none; animation: none; }
+}
+
+/* Guard against host-page global tag rules (p/h* sizes, fonts) leaking into the widget */
+:where(.aw-panel, .aw-modal) p { font-size: inherit; line-height: inherit; }
+.aw-msg p { margin: 0; }
+.aw-msg p + p { margin-top: 0.55em; }
+.aw-card h5 { font-family: inherit; }
+.aw-card h5 { line-height: 1.3; text-transform: none; letter-spacing: 0; }
+.aw-line p { font-size: 15px; line-height: 1.5; }
+.aw-hint { font-size: 11.5px; line-height: 1.6; }
+.aw-card p { font-size: 12px; line-height: 1.5; }
+.aw-disclaimer { font-size: 12.5px; }
+
+/* ===== SEG brand theme: navy #132544 + gold #FFCF00 (matches the website) ===== */
+.aw-dock, .aw-panel, .aw-modal {
+    --aw-paper: #0a1830;
+    --aw-paper-2: #0d1c38;
+    --aw-oat: #132544;
+    --aw-sage: #FFCF00;
+    --aw-sage-ink: #FFCF00;
+    --aw-sage-btn: #1f3d75;
+    --aw-line: rgba(160, 185, 230, 0.14);
+    --aw-line-strong: rgba(160, 185, 230, 0.3);
+}
+.aw-panel {
+    background: rgba(10, 22, 44, 0.975);
+    border-color: rgba(120, 155, 215, 0.32);
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5), 0 0 64px rgba(255, 207, 0, 0.07), inset 0 1px rgba(255, 255, 255, 0.04);
+}
+.aw-panel::before { background: radial-gradient(circle at 18% 15%, rgba(255, 207, 0, 0.08), transparent 34%), linear-gradient(135deg, rgba(255, 255, 255, 0.02), transparent 48%); }
+.aw-head { background: rgba(19, 37, 68, 0.9); border-bottom-color: rgba(160, 185, 230, 0.16); }
+.aw-avatar, .aw-avatar.is-clay {
+    border-color: rgba(255, 233, 150, 0.6);
+    background: radial-gradient(circle at 36% 30%, #fff1a8 0, #FFCF00 30%, #c99a00 68%, #5a4300 100%);
+    box-shadow: 0 0 0 5px rgba(255, 207, 0, 0.07), 0 0 25px rgba(255, 207, 0, 0.25);
+}
+.aw-avatar::before, .aw-avatar::after { border-color: rgba(255, 207, 0, 0.22); }
+.aw-avatar i { border-color: #132544; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+.aw-title span { color: #FFCF00; }
+.aw-title span.is-offline { color: var(--aw-muted-soft); }
+.aw-close { background: rgba(8, 16, 34, 0.5); border-color: rgba(160, 185, 230, 0.28); color: #a9b8d4; }
+.aw-close:hover { background: rgba(255, 207, 0, 0.18); border-color: #FFCF00; color: #fff; }
+.aw-panel > .aw-network { opacity: 0.2; }
+
+/* dock */
+.aw-dock-btn { border-color: rgba(160, 185, 230, 0.3); box-shadow: 0 14px 38px rgba(6, 14, 30, 0.45), 0 0 0 5px rgba(19, 37, 68, 0.12); }
+.aw-dock-btn[data-aw="chat"] { color: #fff; background: radial-gradient(circle at 34% 28%, #3a64ad 0, #1f3d75 48%, #132544 100%); }
+.aw-dock-btn[data-aw="voice"] { color: #132544; background: radial-gradient(circle at 34% 28%, #ffe36b 0, #FFCF00 48%, #c99a00 100%); }
+.aw-dock-btn::before { border-color: rgba(255, 207, 0, 0.3); }
+.aw-dock-btn::after { border-color: #132544; }
+
+/* bubbles, chips, inputs */
+.aw-msg.is-bot { background: rgba(19, 37, 68, 0.78); border-color: rgba(150, 178, 225, 0.2); }
+.aw-msg.is-user { background: linear-gradient(135deg, #2a52a0, #1a3a72); color: #fff; }
+.aw-msg li::before { background: #FFCF00; }
+.aw-msg strong { color: #fff; }
+.aw-typing i { background: #FFCF00; }
+.aw-foot, .aw-controls { background: rgba(8, 18, 38, 0.6); }
+.aw-quick button { background: rgba(19, 37, 68, 0.8); border-color: rgba(150, 178, 225, 0.28); color: #c3cfe6; }
+.aw-quick button:hover { border-color: #FFCF00; background: rgba(255, 207, 0, 0.14); color: #fff; }
+.aw-input { background: rgba(6, 14, 30, 0.85); border-color: rgba(120, 155, 215, 0.45); }
+.aw-input:focus { border-color: #FFCF00; box-shadow: 0 0 0 3px rgba(255, 207, 0, 0.14); }
+.aw-attach:hover { background: rgba(255, 207, 0, 0.14); border-color: #FFCF00; color: #fff; }
+.aw-send, .aw-btn.is-sage { background: linear-gradient(145deg, #FFD633, #E6B800); color: #132544; box-shadow: 0 8px 22px rgba(255, 207, 0, 0.22); }
+.aw-btn { background: linear-gradient(110deg, #FFD633, #E6B800); color: #132544; box-shadow: 0 12px 30px rgba(255, 207, 0, 0.2); }
+.aw-btn:hover { box-shadow: 0 14px 34px rgba(255, 207, 0, 0.32); }
+.aw-controls .aw-btn.is-hangup { background: linear-gradient(110deg, #d24a42, #a8322c); color: #fff; box-shadow: 0 12px 30px rgba(168, 50, 44, 0.3); }
+.aw-disclaimer, .aw-chip, .aw-card { background: rgba(6, 14, 30, 0.9); border-color: rgba(130, 165, 215, 0.3); }
+.aw-card label { color: #FFCF00; }
+.aw-card input, .aw-card select { background: rgba(10, 22, 44, 0.95); border-color: rgba(120, 155, 215, 0.4); }
+.aw-card input:focus, .aw-card select:focus { border-color: #FFCF00; }
+.aw-card select option { background: #0d1c38; }
+.aw-chip .aw-chip-pdf { background: #1f3d75; }
+
+/* voice */
+.aw-orb { box-shadow: 0 0 0 1px rgba(160, 185, 230, 0.2), 0 0 48px rgba(255, 207, 0, 0.1); }
+.aw-orb::before { border-color: rgba(160, 185, 230, 0.22); }
+.aw-orb::after { background: radial-gradient(circle, rgba(255, 207, 0, 0.18), transparent 67%); }
+.aw-transcript { background: rgba(6, 14, 30, 0.94); border-color: rgba(130, 165, 215, 0.3); }
+.aw-panel.is-live .aw-transcript { border-color: rgba(255, 207, 0, 0.45); box-shadow: inset 3px 0 #FFCF00; }
+.aw-line span { color: #8fb0e6; }
+.aw-line.is-agent span { color: #FFCF00; }
+.aw-voice-foot a { color: #FFCF00; }
+.aw-ctl { border-color: rgba(160, 185, 230, 0.3); }
+.aw-ctl:hover { background: rgba(255, 207, 0, 0.14); }
+.aw-modal-box { background: #0d1c38; border-color: rgba(120, 155, 215, 0.35); }
+.aw-orb video { filter: grayscale(1) sepia(1) hue-rotate(175deg) saturate(1.5) contrast(1.3) brightness(0.62); opacity: 0.95; }
+.aw-panel.is-listening .aw-orb video { filter: grayscale(1) sepia(1) hue-rotate(175deg) saturate(1.8) contrast(1.3) brightness(0.8); }

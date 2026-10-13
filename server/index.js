@@ -38,6 +38,7 @@ const dashboardRoutes = require('./routes/dashboard');
 // const verifierRoutes = require('./routes/verifier'); // Removed - consultant verifier disabled
 const metricsRoutes = require('./routes/metrics');
 const agentRoutes = require('./routes/agents');
+const documentsRoutes = require('./routes/documents');
 
 // Auth & Billing Routes (Phase 3)
 const { initAuthRoutes } = require('./routes/auth');
@@ -79,6 +80,7 @@ app.use('/api/dashboard', dashboardRoutes);
 // app.use('/api/verifier', verifierRoutes); // Removed - consultant verifier disabled
 app.use('/api/metrics', metricsRoutes);
 app.use('/api/agents', agentRoutes);
+app.use('/api/documents', documentsRoutes);
 app.use('/tools', express.static(path.join(__dirname, '../public/tools')));
 
 // Initialize Anthropic client
@@ -109,8 +111,8 @@ const AEGIS_SYSTEM_PROMPT = `You are AEGIS, the AI safety assistant for Safety E
 - The booking calendar is built into this chat - don't send them elsewhere
 
 ## EXAMPLES OF GOOD VS BAD:
-BAD: "Great question! Safety Excellence Group offers a range of services including staffing solutions, assessments and audits, program development, and subcontractor vetting. We've been serving the industry for 18+ years..."
-GOOD: "We offer staffing, audits, program development, and subcontractor vetting. What's your biggest safety challenge right now?"
+BAD: "Great question! Safety Excellence Group offers a range of services including Precision Placement, assessments and audits, program development, and subcontractor vetting. We've been serving the industry for 18+ years..."
+GOOD: "We offer Precision Placement, audits, program development, and subcontractor vetting. What's your biggest safety challenge right now?"
 
 BAD: "[Book your discovery call here](https://calendly.com/...)"
 GOOD: "I can help you schedule that now. Click '📅 Book a discovery call' below to pick a time."
@@ -166,7 +168,8 @@ You have knowledge of these safety standards. Always cite the specific standard 
 
 ## SEG QUICK FACTS:
 - 18+ years, 50+ fabs, 5 continents
-- Services: Staffing, Audits, Program Development, Subcontractor Vetting
+- Services: Precision Placement, Audits, Program Development, Subcontractor Vetting
+- Precision Placement = we don't fill seats: we place the right pre-vetted, certification-ready safety professional (Technician to Director) against the project's exact scope, standard, and phase. Never call SEG a staffing agency; say "Precision Placement".
 - Industries: Semiconductor, Data Center, Construction, Manufacturing
 - 48-hour proposals, certified experts (CSP, ASP, CHST)
 
@@ -202,7 +205,7 @@ app.post('/api/chat', async (req, res) => {
 
         // Call Claude API
         const response = await anthropic.messages.create({
-            model: 'claude-sonnet-4-20250514',
+            model: 'claude-sonnet-4-6',
             max_tokens: 1024,
             system: AEGIS_SYSTEM_PROMPT,
             messages: history
@@ -244,6 +247,76 @@ app.post('/api/chat', async (req, res) => {
             error: 'Something went wrong. Please try again.',
             details: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
+    }
+});
+
+// AEGIS realtime voice (Gemini Live) — issues a short-lived, single-use token so the
+// browser can open the audio socket without ever seeing GEMINI_API_KEY.
+const VOICE_PROMPT_ADDENDUM = `
+
+## VOICE CALL MODE:
+- You are speaking out loud in a live phone-style call. Keep every reply to 1-3 short spoken sentences.
+- Open with: "Hi, I'm AegisAI, Safety Excellence Group's AI safety intelligence agent. Do you have any questions I can help you with today?"
+- Never read URLs, markdown, or emojis aloud.
+- To book a discovery call, tell the caller to tap "Book a demo" at the bottom of this call window or use the chat button.
+- Phone: 469.988.4777.`;
+
+const voiceRateLimit = new Map();
+
+app.post('/api/voice-token', async (req, res) => {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        return res.status(503).json({ error: 'voice_not_configured' });
+    }
+
+    // Basic abuse guard: 20 tokens per minute per IP
+    const ip = req.ip;
+    const now = Date.now();
+    const hits = (voiceRateLimit.get(ip) || []).filter(t => now - t < 60000);
+    if (hits.length >= 20) {
+        return res.status(429).json({ error: 'Too many calls. Please wait a minute.' });
+    }
+    hits.push(now);
+    voiceRateLimit.set(ip, hits);
+
+    const model = process.env.GEMINI_LIVE_MODEL || 'gemini-3.1-flash-live-preview';
+    const voice = process.env.GEMINI_VOICE || 'Charon';
+
+    try {
+        const r = await fetch('https://generativelanguage.googleapis.com/v1alpha/auth_tokens', {
+            method: 'POST',
+            headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                uses: 1,
+                expireTime: new Date(now + 15 * 60000).toISOString(),
+                newSessionExpireTime: new Date(now + 2 * 60000).toISOString(),
+                bidiGenerateContentSetup: {
+                    model: `models/${model}`,
+                    generationConfig: {
+                        responseModalities: ['AUDIO'],
+                        temperature: 0.8,
+                        thinkingConfig: { thinkingLevel: 'low' },
+                        speechConfig: {
+                            languageCode: 'en-US',
+                            voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } }
+                        }
+                    },
+                    systemInstruction: { parts: [{ text: AEGIS_SYSTEM_PROMPT + VOICE_PROMPT_ADDENDUM }] },
+                    inputAudioTranscription: {},
+                    outputAudioTranscription: {},
+                    realtimeInputConfig: { automaticActivityDetection: {} }
+                }
+            })
+        });
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok || !data.name) {
+            console.error('[voice-token]', r.status, JSON.stringify(data).slice(0, 300));
+            return res.status(502).json({ error: 'voice_unavailable' });
+        }
+        res.json({ token: data.name, expiresInMs: 15 * 60000 });
+    } catch (err) {
+        console.error('[voice-token]', err.message);
+        res.status(502).json({ error: 'voice_unavailable' });
     }
 });
 

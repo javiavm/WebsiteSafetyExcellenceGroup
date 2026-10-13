@@ -113,6 +113,32 @@ db.run(`CREATE TABLE IF NOT EXISTS user_sessions (
 db.run(`CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)`);
 db.run(`CREATE INDEX IF NOT EXISTS idx_user_sessions_token ON user_sessions(token)`);
 
+// Document Generation Engine (Track 1.0) — serialized to guarantee CREATE TABLE
+// completes before CREATE INDEX statements reference it.
+db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS documents_generated (
+        id              INTEGER PRIMARY KEY AUTOINCREMENT,
+        script_name     TEXT    NOT NULL,
+        script_version  TEXT    NOT NULL,
+        inputs_json     TEXT    NOT NULL,
+        ai_outputs_json TEXT,
+        output_format   TEXT    NOT NULL,
+        output_body     TEXT,
+        output_sha256   TEXT,
+        template_sha256 TEXT,
+        generated_by    TEXT,
+        generated_for   TEXT,
+        status          TEXT    NOT NULL DEFAULT 'draft',
+        error_message   TEXT,
+        created_at      DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`, (err) => {
+        if (err) { console.error('documents_generated table create error:', err.message); return; }
+        db.run(`CREATE INDEX IF NOT EXISTS idx_docs_script  ON documents_generated(script_name)`);
+        db.run(`CREATE INDEX IF NOT EXISTS idx_docs_status  ON documents_generated(status)`);
+        db.run(`CREATE INDEX IF NOT EXISTS idx_docs_created ON documents_generated(created_at)`);
+    });
+});
+
 /**
  * Initialize database with schema
  */
@@ -534,6 +560,46 @@ function createOpportunity(clientId, matchCount) {
 }
 
 // ========================================
+// DOCUMENT GENERATION OPERATIONS (Track 1.0)
+// ========================================
+
+async function insertGeneratedDocument(doc) {
+    const sql = `
+        INSERT INTO documents_generated (
+            script_name, script_version, inputs_json, ai_outputs_json,
+            output_format, output_body, output_sha256, template_sha256,
+            generated_by, generated_for, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    const params = [
+        doc.script_name,
+        doc.script_version,
+        JSON.stringify(doc.inputs || {}),
+        JSON.stringify(doc.ai_outputs || {}),
+        doc.output_format,
+        doc.output_body,
+        doc.output_sha256,
+        doc.template_sha256,
+        doc.generated_by || null,
+        doc.generated_for || null,
+        doc.status || 'draft'
+    ];
+    return run(sql, params);
+}
+
+async function getGeneratedDocumentById(id) {
+    return get('SELECT * FROM documents_generated WHERE id = ?', [id]);
+}
+
+async function listGeneratedDocuments(limit = 50) {
+    return all(
+        'SELECT id, script_name, script_version, generated_by, generated_for, status, created_at ' +
+        'FROM documents_generated ORDER BY created_at DESC LIMIT ?',
+        [limit]
+    );
+}
+
+// ========================================
 // EXPORTS
 // ========================================
 
@@ -587,5 +653,10 @@ module.exports = {
     saveStage2Results,
     getValidStage2,
     hasPendingStage2,
-    createOpportunity
+    createOpportunity,
+
+    // Document generation operations (Track 1.0)
+    insertGeneratedDocument,
+    getGeneratedDocumentById,
+    listGeneratedDocuments
 };

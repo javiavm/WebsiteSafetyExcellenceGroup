@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{DOC_TITLE}}</title>
+    <link rel="icon" href="/images/SEG Favicon Original.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --seg-navy: #132544;
+            --seg-yellow: #FFCF00;
+            --seg-yellow-dark: #E6BA00;
+            --seg-dark-grey: #333333;
+            --seg-grey: #BABABA;
+            --seg-grey-2: #DDDDDD;
+            --seg-light-grey: #F4F4F4;
+        }
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 400;
+            color: var(--seg-dark-grey);
+            background: var(--seg-light-grey);
+            line-height: 1.55;
+            font-size: 15px;
+        }
+        .doc-page {
+            max-width: 850px;
+            margin: 24px auto;
+            background: #fff;
+            box-shadow: 0 2px 20px rgba(19, 37, 68, 0.08);
+        }
+        /* HEADER — brand strip */
+        .doc-header {
+            background: var(--seg-navy);
+            color: #fff;
+            padding: 28px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border-bottom: 4px solid var(--seg-yellow);
+        }
+        .doc-header .brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .doc-header .brand img {
+            height: 56px;
+            width: auto;
+        }
+        .doc-header .brand-text .name {
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            font-size: 15px;
+            line-height: 1.2;
+        }
+        .doc-header .brand-text .tagline {
+            font-size: 12px;
+            font-weight: 400;
+            opacity: 0.75;
+            margin-top: 2px;
+        }
+        .doc-header .doc-meta {
+            text-align: right;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .doc-header .doc-meta .doc-id {
+            color: var(--seg-yellow);
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        /* BODY */
+        .doc-body {
+            padding: 40px 48px 20px;
+        }
+        .doc-body h1 {
+            font-size: 26px;
+            color: var(--seg-navy);
+            font-weight: 700;
+            margin: 30px 0 14px;
+            line-height: 1.2;
+        }
+        .doc-body h2 {
+            font-size: 19px;
+            color: var(--seg-navy);
+            font-weight: 700;
+            margin: 26px 0 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--seg-yellow);
+            display: inline-block;
+        }
+        .doc-body h3 {
+            font-size: 15px;
+            color: var(--seg-navy);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin: 22px 0 8px;
+        }
+        .doc-body p { margin: 0 0 12px; }
+        .doc-body strong { color: var(--seg-navy); }
+        .doc-body ul, .doc-body ol { padding-left: 22px; margin: 0 0 12px; }
+        .doc-body li { margin-bottom: 4px; }
+        .doc-body hr {
+            border: 0;
+            border-top: 1px solid var(--seg-grey-2);
+            margin: 24px 0;
+        }
+        /* Tables */
+        .doc-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 20px;
+            font-size: 13px;
+        }
+        .doc-body thead {
+            background: var(--seg-navy);
+            color: #fff;
+        }
+        .doc-body th {
+            text-align: left;
+            padding: 10px 12px;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .doc-body td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--seg-grey-2);
+            vertical-align: top;
+        }
+        .doc-body tbody tr:nth-child(even) { background: #fafafa; }
+        .doc-body tbody tr.row-highlight {
+            background: rgba(255, 207, 0, 0.12);
+        }
+        /* Locked sections styling — subtle marker */
+        .doc-body .locked-section {
+            background: #fafafa;
+            border-left: 3px solid var(--seg-yellow);
+            padding: 14px 18px;
+            margin: 18px 0;
+            font-size: 13px;
+        }
+        /* Signature block */
+        .doc-body .signature-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 30px 0 10px;
+            padding-top: 20px;
+            border-top: 1px solid var(--seg-grey-2);
+        }
+        .doc-body .signature-block .party h4 {
+            color: var(--seg-navy);
+            margin: 0 0 12px;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+        }
+        .doc-body .signature-block .sig-line {
+            border-bottom: 1px solid var(--seg-dark-grey);
+            height: 32px;
+            margin-bottom: 4px;
+        }
+        .doc-body .signature-block .sig-label {
+            font-size: 11px;
+            color: var(--seg-dark-grey);
+            opacity: 0.7;
+        }
+        /* FOOTER */
+        .doc-footer {
+            background: var(--seg-navy);
+            color: #fff;
+            padding: 20px 48px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .doc-footer .contact {
+            opacity: 0.85;
+        }
+        .doc-footer .disclaimer {
+            font-size: 10px;
+            opacity: 0.55;
+            font-style: italic;
+        }
+        /* Print action bar (hidden in print) */
+        .print-bar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--seg-grey-2);
+            padding: 10px 16px;
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .print-bar button {
+            background: var(--seg-navy);
+            color: #fff;
+            border: 0;
+            padding: 8px 18px;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .print-bar button:hover { background: #1a3560; }
+        .print-bar button.primary {
+            background: var(--seg-yellow);
+            color: var(--seg-navy);
+        }
+        .print-bar button.primary:hover { background: var(--seg-yellow-dark); }
+        /* Print */
+        @media print {
+            body { background: #fff; }
+            .doc-page { box-shadow: none; margin: 0; max-width: none; }
+            .print-bar { display: none !important; }
+            .doc-header, .doc-footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .doc-body h2, .doc-body thead, .doc-body tbody tr:nth-child(even), .doc-body tbody tr.row-highlight { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-bar">
+        <button onclick="window.print()" class="primary">Download / Print PDF</button>
+    </div>
+    <div class="doc-page">
+        <header class="doc-header">
+            <div class="brand">
+                <img src="/images/Transparent Logo.png" alt="Safety Excellence Group">
+            </div>
+            <div class="doc-meta">
+                <div class="doc-id">{{DOC_TYPE_LABEL}}</div>
+                <div>Document ID: {{DOC_ID}}</div>
+                <div>Date: {{DOC_DATE}}</div>
+            </div>
+        </header>
+        <main class="doc-body">
+{{DOC_BODY}}
+        </main>
+        <footer class="doc-footer">
+            <div class="contact">
+                Safety Excellence Group &nbsp;|&nbsp; 809 N Kentucky St, Suite A, McKinney, TX 75069<br>
+                (469) 988-4777 &nbsp;|&nbsp; agomez@safety-excellence.com &nbsp;|&nbsp; safety-excellence.com
+            </div>
+            <div class="disclaimer">GOAR Holdings, LLC dba Safety Excellence Group</div>
+        </footer>
+    </div>
+</body>
+</html>

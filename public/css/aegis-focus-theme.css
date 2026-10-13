@@ -1,0 +1,49 @@
+/* Temporary page palette while the AEGIS section occupies the viewport center. */
+body, body > section, #trust-section .trust-partners, #trust-section .trust-credentials,
+#testimonials .testimonial-card, #faq .faq-grid, #faq .faq-answer {
+    transition: background-color .4s ease, color .4s ease, border-color .4s ease;
+}
+body.aegis-focus-mode { background-color: #030910; color: #edf2f8; color-scheme: dark; }
+body.aegis-focus-mode > section:not(#heroSection):not(#aegis-ai) { background: #07121e; color: #edf2f8; }
+body.aegis-focus-mode #trust-section .trust-partners,
+body.aegis-focus-mode #trust-section .trust-credentials { background: #07121e; border-color: #263748; }
+body.aegis-focus-mode #trust-section .trust-credential { background: #101e2d; border-color: #2b3a4d; }
+body.aegis-focus-mode #trust-section h2,
+body.aegis-focus-mode #trust-section .trust-eyebrow,
+body.aegis-focus-mode #trust-section .institution-name,
+body.aegis-focus-mode #trust-section .trust-credential > p,
+body.aegis-focus-mode #testimonials .section-header h2,
+body.aegis-focus-mode #testimonials .testimonial-info strong,
+body.aegis-focus-mode #faq h2,
+body.aegis-focus-mode #faq .faq-question,
+body.aegis-focus-mode #faq .faq-question::after,
+body.aegis-focus-mode #faq .faq-showcase__links a,
+body.aegis-focus-mode #case-studies .section-header h2 { color: #edf2f8; }
+body.aegis-focus-mode #trust-section .trust-partners > p,
+body.aegis-focus-mode #testimonials .section-header p,
+body.aegis-focus-mode #testimonials .testimonial-text,
+body.aegis-focus-mode #faq .section-header p,
+body.aegis-focus-mode #faq .faq-answer,
+body.aegis-focus-mode #faq .faq-item.open .faq-answer,
+body.aegis-focus-mode #case-studies .section-header p { color: #bbc9db; }
+body.aegis-focus-mode #trust-section .trust-partner img,
+body.aegis-focus-mode #trust-section .trust-credential-logo img { filter: grayscale(1) brightness(0) invert(.9); }
+body.aegis-focus-mode #testimonials::before,
+body.aegis-focus-mode #faq::before { background: none; }
+body.aegis-focus-mode #testimonials .testimonial-card,
+body.aegis-focus-mode #faq .faq-grid { background: #101e2d; border-color: #29394c; }
+body.aegis-focus-mode #testimonials .testimonial-author,
+body.aegis-focus-mode #faq .faq-item { border-color: #29394c; }
+body.aegis-focus-mode #testimonials .testimonial-info span { color: #aebed4; }
+body.aegis-focus-mode #testimonials .testimonial-carousel__arrow { background: #142638; border-color: #3b5066; color: #edf2f8; }
+body.aegis-focus-mode #faq .faq-answer,
+body.aegis-focus-mode #faq .faq-item.open .faq-answer { background: #192b3c; }
+body.aegis-focus-mode #faq .faq-number { background: #382619; }
+body.aegis-focus-mode #faq .faq-showcase__photo { opacity: .22; }
+body.aegis-focus-mode #faq h2 span { color: #ff8500; }
+body.aegis-focus-mode #testimonials .overline,
+body.aegis-focus-mode #faq .overline { background: #211c16; }
+@media (prefers-reduced-motion: reduce) {
+    body, body > section, #trust-section .trust-partners, #trust-section .trust-credentials,
+    #testimonials .testimonial-card, #faq .faq-grid, #faq .faq-answer { transition: none; }
+}

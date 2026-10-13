@@ -1,894 +1,664 @@
 /**
- * AEGIS AI Chatbot
+ * AegisAI — chat widget
  * Safety Excellence Group
  *
- * Frontend chatbot widget that connects to Claude API via backend server.
+ * UI/behaviour ported from the ModArch "Maia" chatbot (dock + glass panel,
+ * markdown bubbles, quick-reply chips, auto-growing input). The brain is still
+ * SEG's own /api/chat (Claude) — answers, booking flow and lead capture are unchanged.
  */
 
 // Load reCAPTCHA helper (auto-injects captcha tokens into all /api/forms/ requests)
-(function() {
+(function () {
     var s = document.createElement('script');
     s.src = '/js/recaptcha-helper.js';
     s.async = true;
     document.head.appendChild(s);
 })();
 
-(function() {
+(function () {
     'use strict';
 
-    // Configuration
-    const CONFIG = {
-        apiUrl: `${window.location.origin}/api`, // Auto-detect based on current domain
-        botName: 'AEGIS',
+    var CONFIG = {
+        apiUrl: window.location.origin + '/api',
+        botName: 'AegisAI',
         botTagline: 'AI Safety Assistant',
-        welcomeMessage: "Hi! 👋 I'm AEGIS, S.E.G.'s AI safety assistant. I can answer questions about OSHA regulations, SEMI S2 compliance, our services, or connect you with our team.\n\nHow can I help you today?",
+        welcomeMessage: "Hi! I'm **AegisAI**, S.E.G.'s AI safety assistant. I can answer questions about OSHA regulations, SEMI S2 compliance, our services, or connect you with our team.\n\nHow can I help you today?",
         quickReplies: [
-            "What services do you offer?",
-            "📅 Book a discovery call",
-            "I have a safety question"
+            'What services do you offer?',
+            '📅 Book a discovery call',
+            'I have a safety question'
         ]
     };
 
-    // Session management
-    let sessionId = sessionStorage.getItem('aegis_session') || generateSessionId();
+    var ICONS = {
+        chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9 9 0 0 1-4.2-1L3 20l1.1-4.4A8.4 8.4 0 0 1 3 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5Z"/></svg>',
+        close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+        send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/></svg>',
+        clip: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>',
+        file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>'
+    };
+
+    // ---- session / state --------------------------------------------------
+    var sessionId = sessionStorage.getItem('aegis_session') || ('aegis_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9));
     sessionStorage.setItem('aegis_session', sessionId);
 
-    // State
-    let isOpen = false;
-    let welcomeShown = sessionStorage.getItem('aegis_welcome') === 'true';
-    let disclaimerAccepted = sessionStorage.getItem('aegis_disclaimer') === 'true';
-    let conversationHistory = [];
-    let isTyping = false;
-    let isOnline = false;
-    let statusCheckInterval = null;
+    var disclaimerAccepted = sessionStorage.getItem('aegis_disclaimer') === 'true';
+    var conversationHistory = [];
+    var isOpen = false;
+    var isTyping = false;
+    var pendingAttachment = null;
+    var panel, log, quick, input, sendBtn, attachBtn, chip, stateEl, dockBtn, disclaimerEl, brandFrame = 0, brandTime = 0;
+    var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
-    // Generate unique session ID
-    function generateSessionId() {
-        return 'aegis_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    }
+    var $ = function (s, root) { return (root || document).querySelector(s); };
 
-    // Create and inject chatbot HTML
-    function createChatbotHTML() {
-        const widget = document.createElement('div');
-        widget.className = 'aegis-widget';
-        widget.id = 'aegis-widget';
-
-        widget.innerHTML = `
-            <!-- Chat Window -->
-            <div class="aegis-chat${disclaimerAccepted ? '' : ' disclaimer-active'}" id="aegis-chat">
-                <!-- Header -->
-                <div class="aegis-header">
-                    <div class="aegis-avatar">
-                        <img src="/images/Aegis logo-15.png" alt="AEGIS" style="width: 32px; height: 32px; object-fit: contain;">
-                    </div>
-                    <div class="aegis-header-info">
-                        <h4>${CONFIG.botName}</h4>
-                        <p>${CONFIG.botTagline}</p>
-                    </div>
-                    <span class="aegis-status offline" id="aegis-status">Offline</span>
-                    <button class="aegis-header-close" onclick="AEGIS.toggle()" aria-label="Close chat">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"/>
-                            <line x1="6" y1="6" x2="18" y2="18"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Messages -->
-                <div class="aegis-messages" id="aegis-messages"><div class="aegis-messages-inner" id="aegis-messages-inner"></div></div>
-
-                <!-- Quick Replies -->
-                <div class="aegis-quick-replies" id="aegis-quick-replies"></div>
-
-                <!-- Disclaimer (shown first time, sits above the input) -->
-                <div class="aegis-disclaimer" id="aegis-disclaimer" style="${disclaimerAccepted ? 'display: none;' : ''}">
-                    <div class="aegis-disclaimer-content">
-                        <p class="aegis-disclaimer-text">
-                            AEGIS AI is for <strong>educational purposes only</strong> — not a substitute for professional safety audits, legal advice, or compliance certification.
-                        </p>
-                        <label class="aegis-disclaimer-check">
-                            <input type="checkbox" id="aegis-disclaimer-checkbox">
-                            <span>I agree</span>
-                        </label>
-                        <button class="aegis-disclaimer-btn" onclick="AEGIS.acceptDisclaimer()">Continue →</button>
-                    </div>
-                </div>
-
-                <!-- Input Area -->
-                <div class="aegis-input-area">
-                    <!-- Attachment preview chip (hidden until file selected) -->
-                    <div class="aegis-attachment-preview" id="aegis-attachment-preview" style="display: none;"></div>
-
-                    <div class="aegis-input-wrapper">
-                        <textarea
-                            class="aegis-input"
-                            id="aegis-input"
-                            placeholder="Type your message..."
-                            rows="1"
-                            ${!disclaimerAccepted ? 'disabled' : ''}
-                        ></textarea>
-                        <input type="file" id="aegis-file-input" accept="image/*,application/pdf" style="display: none;">
-                        <button class="aegis-attach-btn" id="aegis-attach" type="button" aria-label="Attach file">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-                            </svg>
-                        </button>
-                        <button class="aegis-send-btn" id="aegis-send" onclick="AEGIS.sendMessage()" ${!disclaimerAccepted ? 'disabled' : ''}>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Footer -->
-                <div class="aegis-footer">
-                    Powered by <a href="https://aegisai.co" target="_blank">AEGISAI, LLC</a>
-                </div>
-            </div>
-
-            <!-- Trigger Button -->
-            <div class="aegis-tooltip">Chat with AEGIS AI</div>
-            <button class="aegis-trigger" onclick="AEGIS.toggle()">
-                <img class="chat-icon" src="/images/Aegis logo-15.png" alt="AEGIS AI">
-                <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"/>
-                    <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-            </button>
-            <span class="aegis-badge" id="aegis-badge">1</span>
-        `;
-
-        document.body.appendChild(widget);
-
-        // Set up event listeners
-        setupEventListeners();
-
-        // Show welcome message if disclaimer already accepted
-        if (disclaimerAccepted) {
-            showWelcomeMessage();
-        }
-    }
-
-    // Pending attachment (in-memory only, never sent to backend as binary)
-    let pendingAttachment = null;
-
-    // Set up event listeners
-    function setupEventListeners() {
-        const input = document.getElementById('aegis-input');
-
-        // Auto-resize textarea
-        input.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    function esc(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
         });
+    }
 
-        // Send on Enter (but allow Shift+Enter for new line)
-        input.addEventListener('keydown', function(e) {
+    // ---- markdown-lite (from ModArch) ------------------------------------
+    function inline(s) {
+        return s
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    }
+    function md(text) {
+        return esc(text).split(/\n{2,}/).map(function (block) {
+            var lines = block.split('\n');
+            if (lines.every(function (l) { return /^\s*[-•*]\s+/.test(l); })) {
+                return '<ul>' + lines.map(function (l) { return '<li>' + inline(l.replace(/^\s*[-•*]\s+/, '')) + '</li>'; }).join('') + '</ul>';
+            }
+            return '<p>' + lines.map(inline).join('<br>') + '</p>';
+        }).join('');
+    }
+
+    // ---- shared dock / fonts ---------------------------------------------
+    function ensureFonts() {
+        if (document.getElementById('aw-fonts')) return;
+        var l = document.createElement('link');
+        l.id = 'aw-fonts';
+        l.rel = 'stylesheet';
+        l.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif&display=swap';
+        document.head.appendChild(l);
+    }
+    function ensureDock() {
+        var d = $('.aw-dock');
+        if (!d) {
+            d = document.createElement('div');
+            d.className = 'aw-dock';
+            document.body.appendChild(d);
+        }
+        return d;
+    }
+    function syncDock() {
+        var d = $('.aw-dock');
+        if (!d) return;
+        d.classList.toggle('is-panel-open', !!$('.aw-panel.is-open'));
+    }
+
+    // ---- build ------------------------------------------------------------
+    function build() {
+        if ($('#aw-chat-panel')) return;
+        ensureFonts();
+        var dock = ensureDock();
+
+        // Chat is accessed through the shared AegisAI assistance menu.
+        panel = document.createElement('div');
+        panel.className = 'aw-panel';
+        panel.id = 'aw-chat-panel';
+        panel.setAttribute('role', 'dialog');
+        panel.setAttribute('aria-label', 'Chat with AegisAI');
+        panel.innerHTML =
+            
+            '<div class="aw-head">' +
+                '<span class="aw-avatar aw-chat-avatar" aria-hidden="true"><img class="aw-brand-image" src="/images/Aegis%20logo-15.png" alt=""></span>' +
+                '<div class="aw-title"><b>' + CONFIG.botName + '</b><span><span class="aw-chat-tagline">' + CONFIG.botTagline + ' &middot; </span><span id="aw-chat-state" class="is-offline">Offline</span></span></div>' +
+                '<button class="aw-hub-back" type="button" aria-label="Back to AegisAI menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m14 5-7 7 7 7"/></svg></button>' +
+                '<button class="aw-close" type="button" aria-label="Close chat">' + ICONS.close + '</button>' +
+            '</div>' +
+            '<div class="aw-log" id="aw-log" data-lenis-prevent></div>' +
+            '<div class="aw-foot">' +
+                '<div class="aw-quick" id="aw-quick"></div>' +
+                '<div class="aw-disclaimer" id="aw-disclaimer"' + (disclaimerAccepted ? ' hidden' : '') + '>' +
+                    'AegisAI is for <strong>educational purposes only</strong> — not a substitute for professional safety audits, legal advice, or compliance certification.' +
+                    '<label><input type="checkbox" id="aw-disclaimer-check"> I agree</label>' +
+                    '<button class="aw-btn is-sage" type="button" id="aw-disclaimer-btn">Continue →</button>' +
+                '</div>' +
+                '<div class="aw-chip" id="aw-chip"></div>' +
+                '<form class="aw-form" id="aw-form">' +
+                    '<textarea class="aw-input" id="aw-input" rows="1" placeholder="Type your message…" aria-label="Message"' + (disclaimerAccepted ? '' : ' disabled') + '></textarea>' +
+                    '<input type="file" id="aw-file" accept="image/*,application/pdf" hidden>' +
+                    '<button class="aw-attach" id="aw-attach" type="button" aria-label="Attach file"' + (disclaimerAccepted ? '' : ' disabled') + '>' + ICONS.clip + '</button>' +
+                    '<button class="aw-send" id="aw-send" type="submit" aria-label="Send"' + (disclaimerAccepted ? '' : ' disabled') + '>' + ICONS.send + '</button>' +
+                '</form>' +
+            '</div>';
+        document.body.appendChild(panel);
+
+        log = $('#aw-log');
+        quick = $('#aw-quick');
+        input = $('#aw-input');
+        sendBtn = $('#aw-send');
+        attachBtn = $('#aw-attach');
+        chip = $('#aw-chip');
+        stateEl = $('#aw-chat-state');
+        disclaimerEl = $('#aw-disclaimer');
+
+        $('.aw-close', panel).addEventListener('click', close);
+        $('.aw-hub-back', panel).addEventListener('click', function (event) { event.stopPropagation(); if (window.AegisCallWidget) window.AegisCallWidget.openMenu(); });
+        $('#aw-disclaimer-btn').addEventListener('click', acceptDisclaimer);
+        $('#aw-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            sendMessage();
+        });
+        input.addEventListener('input', function () {
+            input.style.height = 'auto';
+            input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+        });
+        input.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
             }
         });
-
-        // File input change handler
-        const fileInput = document.getElementById('aegis-file-input');
-        if (fileInput) {
-            fileInput.addEventListener('change', handleFileSelected);
-        }
-
-        // Attach button → open file picker
-        const attachBtn = document.getElementById('aegis-attach');
-        if (attachBtn && fileInput) {
-            attachBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                fileInput.click();
+        attachBtn.addEventListener('click', function () { $('#aw-file').click(); });
+        $('#aw-file').addEventListener('change', handleFileSelected);
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && isOpen) close();
+        });
+        // Click outside the widget minimizes it (composedPath survives nodes removed during the click)
+        document.addEventListener('click', function (e) {
+            if (!isOpen) return;
+            var path = e.composedPath ? e.composedPath() : [];
+            var inside = path.some(function (n) {
+                return n === panel || (n.classList && (n.classList.contains('aw-dock') || n.classList.contains('aw-modal')));
             });
-        }
-
-        // Close chat when clicking outside (all screen sizes — backdrop tap on mobile)
-        document.addEventListener('click', function(e) {
-            const widget = document.getElementById('aegis-widget');
-            const chat = document.getElementById('aegis-chat');
-            const trigger = widget.querySelector('.aegis-trigger');
-
-            if (isOpen && !chat.contains(e.target) && !trigger.contains(e.target)) {
-                toggle();
-            }
+            if (!inside) close();
         });
 
-        // Update disclaimer-active class based on disclaimer visibility
-        updateDisclaimerState();
-
-        // Track header visibility to adjust chat top position
-        setupHeaderTracking();
-    }
-
-    // Header tracking removed - chat uses fixed max-height via CSS
-    function setupHeaderTracking() {
-        // No-op: widget size is now stable via CSS max-height
-    }
-
-    // Update disclaimer active state
-    function updateDisclaimerState() {
-        const chat = document.getElementById('aegis-chat');
-        const disclaimer = document.getElementById('aegis-disclaimer');
-        if (disclaimer && disclaimer.style.display !== 'none') {
-            chat.classList.add('disclaimer-active');
-        } else {
-            chat.classList.remove('disclaimer-active');
-        }
-    }
-
-    // Toggle chat window
-    function toggle() {
-        const widget = document.getElementById('aegis-widget');
-        const badge = document.getElementById('aegis-badge');
-
-        isOpen = !isOpen;
-        widget.classList.toggle('open', isOpen);
-        document.body.classList.toggle('aegis-chat-open', isOpen);
-
-        if (isOpen) {
-            badge.style.display = 'none';
-            // Also close the call widget if it happens to be open
-            if (window.AegisCallWidget && typeof window.AegisCallWidget.close === 'function') {
-                window.AegisCallWidget.close();
-            }
-            if (disclaimerAccepted) {
-                document.getElementById('aegis-input').focus();
-            }
-            updateDisclaimerState();
-        }
-    }
-
-    // Show disclaimer (after welcome screen)
-    function showDisclaimer() {
-        welcomeShown = true;
-        sessionStorage.setItem('aegis_welcome', 'true');
-
-        document.getElementById('aegis-welcome').style.display = 'none';
-        document.getElementById('aegis-disclaimer').style.display = 'block';
-    }
-
-    // Accept disclaimer
-    function acceptDisclaimer() {
-        const checkbox = document.getElementById('aegis-disclaimer-checkbox');
-        if (!checkbox || !checkbox.checked) {
-            alert('Please check the box to confirm you have read and agree to the disclaimer.');
-            return;
-        }
-
-        disclaimerAccepted = true;
-        sessionStorage.setItem('aegis_disclaimer', 'true');
-
-        document.getElementById('aegis-disclaimer').style.display = 'none';
-        document.getElementById('aegis-input').disabled = false;
-        document.getElementById('aegis-send').disabled = false;
-        const attachBtn = document.getElementById('aegis-attach');
-        if (attachBtn) attachBtn.disabled = false;
-
-        // Update disclaimer state to show messages area
-        updateDisclaimerState();
-
         showWelcomeMessage();
-        document.getElementById('aegis-input').focus();
+        document.addEventListener('aegis-brand-ready', updateBrand);
+        document.addEventListener('visibilitychange', function () { setVideo(isOpen); });
+        reducedMotion.addEventListener('change', function () { setVideo(isOpen); });
+        updateBrand();
+        checkStatus();
+        setInterval(checkStatus, 30000);
     }
 
-    // Show welcome message
-    function showWelcomeMessage() {
-        if (conversationHistory.length === 0) {
-            addMessage(CONFIG.welcomeMessage, 'bot');
-            showQuickReplies(CONFIG.quickReplies);
+    // ---- open / close -----------------------------------------------------
+    function updateBrand() {
+        if (!window.AegisCallWidget) return;
+        var url = window.AegisCallWidget.getBrandLogo();
+        panel.querySelectorAll('.aw-brand-image').forEach(function (image) { image.src = url; });
+        setVideo(isOpen);
+    }
+    function animateBrand(time) {
+        brandFrame = 0;
+        if (!isOpen || document.hidden || !panel.classList.contains('is-welcome')) return;
+        var canvas = $('#aw-chat-brand', panel);
+        if (canvas && window.AegisCallWidget && (!brandTime || time - brandTime >= 1000 / 24)) {
+            brandTime = time;
+            window.AegisCallWidget.renderBrand(canvas, time);
+        }
+        if (!reducedMotion.matches) brandFrame = requestAnimationFrame(animateBrand);
+    }
+    function setVideo(active) {
+        if (brandFrame) cancelAnimationFrame(brandFrame);
+        brandFrame = 0; brandTime = 0;
+        if (active && !document.hidden && panel.classList.contains('is-welcome')) {
+            if (reducedMotion.matches) animateBrand(0);
+            else brandFrame = requestAnimationFrame(animateBrand);
         }
     }
+    function open() {
+        if (!panel) return;
+        if (window.AegisCallWidget && window.AegisCallWidget.close) window.AegisCallWidget.close();
+        isOpen = true;
+        panel.classList.add('is-open');
+        setVideo(true);
+        syncDock();
+        if (disclaimerAccepted) setTimeout(function () { input.focus(); }, 320);
+        scrollDown();
+    }
+    function close() {
+        if (!panel) return;
+        isOpen = false;
+        panel.classList.remove('is-open');
+        setVideo(false);
+        syncDock();
+    }
+    function toggle() { isOpen ? close() : open(); }
 
-    // Add message to chat
+    // ---- messages ---------------------------------------------------------
+    function scrollDown() {
+        if (log) log.scrollTop = log.scrollHeight;
+    }
     function addMessage(text, sender, attachment) {
-        const inner = document.getElementById('aegis-messages-inner');
-
-        const messageEl = document.createElement('div');
-        messageEl.className = `aegis-message ${sender}`;
-
-        const avatarSvg = sender === 'bot'
-            ? '<img src="/images/Aegis logo-15.png" alt="AEGIS" style="width: 24px; height: 24px; object-fit: contain;">'
-            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
-
-        const formattedText = formatMessage(text);
-        const attachmentHtml = attachment ? renderAttachmentInBubble(attachment) : '';
-
-        messageEl.innerHTML = `
-            <div class="avatar">${avatarSvg}</div>
-            <div class="bubble">${attachmentHtml}${formattedText}</div>
-        `;
-
-        inner.appendChild(messageEl);
-        const scroller = document.getElementById('aegis-messages');
-        scroller.scrollTop = scroller.scrollHeight;
-
-        conversationHistory.push({ sender, text });
+        var el = document.createElement('div');
+        el.className = 'aw-msg is-' + (sender === 'bot' ? 'bot' : 'user');
+        var att = attachment ? attachmentHtml(attachment) : '';
+        el.innerHTML = (sender === 'bot' ? '<span class="aw-message-avatar" aria-hidden="true"><img class="aw-brand-image" src="' + (window.AegisCallWidget ? window.AegisCallWidget.getBrandLogo() : '/images/Aegis%20logo-15.png') + '" alt=""></span>' : '') + att + md(text);
+        log.appendChild(el);
+        scrollDown();
+        conversationHistory.push({ sender: sender, text: text });
+        return el;
     }
-
-    // Format message text
-    function formatMessage(text) {
-        return text
-            .replace(/\n/g, '<br>')
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/🔹/g, '<span style="color: #FFCF00;">🔹</span>')
-            .replace(/⚡/g, '<span style="color: #FFCF00;">⚡</span>')
-            .replace(/✅/g, '<span style="color: #22c55e;">✅</span>');
+    function attachmentHtml(a) {
+        if (a.isImage && a.dataUrl) {
+            return '<img class="aw-attach-img" src="' + a.dataUrl + '" alt="' + esc(a.name) + '">';
+        }
+        return '<div class="aw-attach-file">' + ICONS.file + '<div>' + esc(a.name) + '<small>' + formatBytes(a.size) + '</small></div></div>';
     }
-
-    // Show typing indicator
     function showTyping() {
         isTyping = true;
-        const inner = document.getElementById('aegis-messages-inner');
-
-        const typingEl = document.createElement('div');
-        typingEl.className = 'aegis-message bot';
-        typingEl.id = 'aegis-typing';
-
-        typingEl.innerHTML = `
-            <div class="avatar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-            </div>
-            <div class="aegis-typing">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        `;
-
-        inner.appendChild(typingEl);
-        const scroller = document.getElementById('aegis-messages');
-        scroller.scrollTop = scroller.scrollHeight;
+        var el = document.createElement('div');
+        el.className = 'aw-msg is-bot';
+        el.id = 'aw-typing';
+        el.innerHTML = '<span class="aw-typing"><i></i><i></i><i></i></span>';
+        log.appendChild(el);
+        setState('Typing…');
+        scrollDown();
     }
-
-    // Hide typing indicator
     function hideTyping() {
         isTyping = false;
-        const typingEl = document.getElementById('aegis-typing');
-        if (typingEl) {
-            typingEl.remove();
-        }
+        var el = $('#aw-typing');
+        if (el) el.remove();
+    }
+    function setState(text, offline) {
+        if (!stateEl) return;
+        stateEl.textContent = text;
+        stateEl.classList.toggle('is-offline', !!offline);
+    }
+    function setOnline(online) {
+        setState(online ? 'Online' : 'Offline', !online);
+        if (dockBtn) dockBtn.classList.toggle('is-offline', !online);
     }
 
-    // Show quick replies
     function showQuickReplies(replies) {
-        const container = document.getElementById('aegis-quick-replies');
-        container.innerHTML = '';
-        
-        replies.forEach(reply => {
-            const btn = document.createElement('button');
-            btn.className = 'aegis-quick-btn';
-            btn.textContent = reply;
-            btn.onclick = (e) => {
-                e.stopPropagation(); // Prevent click from bubbling to document close handler
-                container.innerHTML = '';
-                
-                // Handle special actions
-                if (reply.includes('Book') || reply.includes('discovery call')) {
+        quick.innerHTML = '';
+        replies.forEach(function (reply) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.textContent = reply;
+            b.addEventListener('click', function () {
+                quick.innerHTML = '';
+                if (reply.indexOf('Book') !== -1 || reply.indexOf('discovery call') !== -1 ||
+                    reply.indexOf('scope my needs') !== -1 || reply.indexOf('Help me') !== -1) {
                     showQualificationForm();
-                } else if (reply.includes('scope my needs') || reply.includes('Help me')) {
-                    showQualificationForm();
+                } else if (reply === 'Keep chatting') {
+                    input.focus();
                 } else {
                     sendMessage(reply);
                 }
-            };
-            container.appendChild(btn);
+            });
+            quick.appendChild(b);
         });
     }
+    function clearQuickReplies() { quick.innerHTML = ''; }
 
-    // Clear quick replies
-    function clearQuickReplies() {
-        document.getElementById('aegis-quick-replies').innerHTML = '';
-    }
-
-    // Handle file selected from picker
-    function handleFileSelected(e) {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-
-        // Validate type
-        const allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
-        if (!allowed.includes(file.type)) {
-            alert('Only images (JPG, PNG, GIF, WebP) and PDF files are supported.');
-            e.target.value = '';
-            return;
-        }
-
-        // Validate size (max 5MB)
-        const MAX_SIZE = 5 * 1024 * 1024;
-        if (file.size > MAX_SIZE) {
-            alert('File is too large. Maximum size is 5MB.');
-            e.target.value = '';
-            return;
-        }
-
-        pendingAttachment = {
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            isImage: file.type.startsWith('image/'),
-            dataUrl: null
+    function showWelcomeMessage() {
+        if (conversationHistory.length !== 0) return;
+        panel.classList.add('is-welcome');
+        var welcome = document.createElement('div'); welcome.className = 'aw-chat-welcome';
+        var paragraphs = CONFIG.welcomeMessage.split('\n\n');
+        welcome.innerHTML = '<canvas id="aw-chat-brand" width="480" height="320" aria-hidden="true"></canvas>' +
+            '<h3>' + esc(paragraphs[1]) + '</h3><div class="aw-chat-welcome-copy">' + md(paragraphs[0]) + '</div>' +
+            '<div class="aw-chat-shortcuts"><button type="button" data-shortcut="safety">Safety questions</button>' +
+            '<button type="button" data-shortcut="standards">OSHA &amp; SEMI S2</button>' +
+            '<button type="button" data-shortcut="booking">Book a call</button>' +
+            '<button type="button" data-shortcut="services">Our services</button></div>';
+        log.appendChild(welcome);
+        var shortcutIcons = {
+            safety: '<path d="m12 3 8 4v5c0 5-8 9-8 9S4 17 4 12V7zM8 12l3 3 5-6"/>',
+            standards: '<path d="M5 3h10l4 4v14H5zM14 3v5h5M8 12h8M8 16h8"/>',
+            booking: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 2v6M17 2v6M3 11h18M7 15h2m4 0h2"/>',
+            services: '<circle cx="9" cy="7" r="3"/><path d="M3 21v-4a5 5 0 0 1 10 0v4M16 4a3 3 0 0 1 0 6M16 14a5 5 0 0 1 5 5v2"/>'
         };
-
-        // For images, generate a thumbnail preview
-        if (pendingAttachment.isImage) {
-            const reader = new FileReader();
-            reader.onload = function(ev) {
-                pendingAttachment.dataUrl = ev.target.result;
-                renderAttachmentPreview();
-            };
-            reader.readAsDataURL(file);
-        } else {
-            renderAttachmentPreview();
+        conversationHistory.push({ sender: 'bot', text: CONFIG.welcomeMessage });
+        welcome.querySelectorAll('button').forEach(function (button) {
+            button.insertAdjacentHTML('afterbegin', '<svg viewBox="0 0 24 24" aria-hidden="true">' + shortcutIcons[button.dataset.shortcut] + '</svg>');
+            button.addEventListener('click', function () {
+                if (!disclaimerAccepted) { showDisclaimer(); $('#aw-disclaimer-check').focus(); return; }
+                if (button.dataset.shortcut === 'booking') {
+                    leaveWelcome(); showQualificationForm(); return;
+                }
+                var messages = { safety: 'I have a safety question', standards: 'What is SEMI S2 compliance and why does it matter?', services: 'What services do you offer?' };
+                sendMessage(messages[button.dataset.shortcut]);
+            });
+        });
+    }
+    function leaveWelcome() {
+        panel.classList.remove('is-welcome');
+        var welcome = $('.aw-chat-welcome', panel); if (welcome) welcome.remove();
+        setVideo(false);
+    }
+    function showDisclaimer() {
+        if (disclaimerEl) disclaimerEl.hidden = false;
+    }
+    function acceptDisclaimer() {
+        var cb = $('#aw-disclaimer-check');
+        if (!cb || !cb.checked) {
+            cb.focus();
+            disclaimerEl.style.outline = '1px solid #d18455';
+            return;
         }
-
-        // Reset input so the same file can be picked again
-        e.target.value = '';
+        disclaimerAccepted = true;
+        sessionStorage.setItem('aegis_disclaimer', 'true');
+        disclaimerEl.hidden = true;
+        input.disabled = false;
+        sendBtn.disabled = false;
+        attachBtn.disabled = false;
+        showWelcomeMessage();
+        input.focus();
     }
 
-    // Format byte size as human-readable
+    // ---- attachments ------------------------------------------------------
     function formatBytes(bytes) {
         if (bytes < 1024) return bytes + ' B';
         if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
         return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
     }
-
-    // Render attachment preview chip above input
-    function renderAttachmentPreview() {
-        const container = document.getElementById('aegis-attachment-preview');
-        if (!container) return;
-
-        if (!pendingAttachment) {
-            container.style.display = 'none';
-            container.innerHTML = '';
+    function notice(text) {
+        var el = document.createElement('div');
+        el.className = 'aw-msg is-err';
+        el.textContent = text;
+        log.appendChild(el);
+        scrollDown();
+    }
+    function handleFileSelected(e) {
+        var file = e.target.files && e.target.files[0];
+        if (!file) return;
+        var allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
+        if (allowed.indexOf(file.type) === -1) {
+            notice('Only images (JPG, PNG, GIF, WebP) and PDF files are supported.');
+            e.target.value = '';
             return;
         }
-
-        const a = pendingAttachment;
-        const thumb = a.isImage && a.dataUrl
-            ? `<img src="${a.dataUrl}" alt="" class="aegis-attach-thumb">`
-            : `<div class="aegis-attach-thumb aegis-attach-thumb-pdf">PDF</div>`;
-
-        container.innerHTML = `
-            ${thumb}
-            <div class="aegis-attach-meta">
-                <span class="aegis-attach-name">${escapeHtml(a.name)}</span>
-                <span class="aegis-attach-size">${formatBytes(a.size)}</span>
-            </div>
-            <button type="button" class="aegis-attach-remove" aria-label="Remove attachment" onclick="AEGIS.removeAttachment()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <line x1="18" y1="6" x2="6" y2="18"/>
-                    <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-            </button>
-        `;
-        container.style.display = 'flex';
+        if (file.size > 5 * 1024 * 1024) {
+            notice('File is too large. Maximum size is 5MB.');
+            e.target.value = '';
+            return;
+        }
+        pendingAttachment = { name: file.name, type: file.type, size: file.size, isImage: file.type.indexOf('image/') === 0, dataUrl: null };
+        if (pendingAttachment.isImage) {
+            var reader = new FileReader();
+            reader.onload = function (ev) {
+                pendingAttachment.dataUrl = ev.target.result;
+                renderChip();
+            };
+            reader.readAsDataURL(file);
+        } else {
+            renderChip();
+        }
+        e.target.value = '';
     }
-
-    function escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
+    function renderChip() {
+        if (!pendingAttachment) {
+            chip.classList.remove('is-on');
+            chip.innerHTML = '';
+            return;
+        }
+        var a = pendingAttachment;
+        var thumb = a.isImage && a.dataUrl ? '<img src="' + a.dataUrl + '" alt="">' : '<span class="aw-chip-pdf">PDF</span>';
+        chip.innerHTML = thumb + '<div class="aw-chip-meta"><b>' + esc(a.name) + '</b><span>' + formatBytes(a.size) + '</span></div>' +
+            '<button type="button" aria-label="Remove attachment">' + ICONS.close + '</button>';
+        $('button', chip).addEventListener('click', removeAttachment);
+        chip.classList.add('is-on');
     }
-
     function removeAttachment() {
         pendingAttachment = null;
-        renderAttachmentPreview();
+        renderChip();
     }
 
-    // Render attachment INSIDE a message bubble (for user's sent messages)
-    function renderAttachmentInBubble(att) {
-        if (!att) return '';
-        if (att.isImage && att.dataUrl) {
-            return `<div class="aegis-bubble-attachment"><img src="${att.dataUrl}" alt="${escapeHtml(att.name)}" class="aegis-bubble-image"></div>`;
-        }
-        return `
-            <div class="aegis-bubble-attachment aegis-bubble-file">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-                <div>
-                    <div class="aegis-bubble-file-name">${escapeHtml(att.name)}</div>
-                    <div class="aegis-bubble-file-size">${formatBytes(att.size)}</div>
-                </div>
-            </div>
-        `;
-    }
-
-    // Send message
+    // ---- send -------------------------------------------------------------
     async function sendMessage(overrideText) {
-        const input = document.getElementById('aegis-input');
-        const message = overrideText || input.value.trim();
-        const attachment = pendingAttachment;
+        var message = overrideText || input.value.trim();
+        var attachment = pendingAttachment;
+        if ((!message && !attachment) || isTyping || !disclaimerAccepted) return;
 
-        if ((!message && !attachment) || isTyping) return;
-
-        // Clear input
         input.value = '';
         input.style.height = 'auto';
-
-        // Clear quick replies
         clearQuickReplies();
+        leaveWelcome();
 
-        // Build effective message text (include attachment marker for backend context)
-        const messageWithAttachment = attachment
+        var withAttachment = attachment
             ? (message ? message + '\n\n[Attached: ' + attachment.name + ']' : '[Attached: ' + attachment.name + ']')
             : message;
 
-        // Add user message (with attachment rendered in bubble)
-        addMessage(messageWithAttachment, 'user', attachment);
-
-        // Clear attachment state AFTER message is rendered
+        addMessage(withAttachment, 'user', attachment);
         pendingAttachment = null;
-        renderAttachmentPreview();
-        
-        // Show typing indicator
+        renderChip();
         showTyping();
-        
+
         try {
-            // Call backend API
-            const response = await fetch(`${CONFIG.apiUrl}/chat`, {
+            var response = await fetch(CONFIG.apiUrl + '/chat', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    message: messageWithAttachment,
-                    sessionId,
+                    message: withAttachment,
+                    sessionId: sessionId,
                     attachment: attachment ? { name: attachment.name, type: attachment.type, size: attachment.size } : undefined
                 })
             });
-            
-            if (!response.ok) {
-                throw new Error('API request failed');
-            }
-            
-            const data = await response.json();
-            
-            // Hide typing and show response
+            if (!response.ok) throw new Error('API request failed');
+            var data = await response.json();
             hideTyping();
-            addMessage(data.message, 'bot');
+            var reply = addMessage(data.message, 'bot');
+            addContextActions(reply, message, data.message);
             setOnline(true);
-
-            // Check if we should show lead capture form
             checkForLeadCapture(message, data.message);
-
         } catch (error) {
-            console.error('AEGIS Error:', error);
+            console.error('AegisAI Error:', error);
             hideTyping();
             setOnline(false);
-            addMessage("I'm having trouble connecting right now. Please try again, or call us directly at 469.988.4777.", 'bot');
+            var el = addMessage("I'm having trouble connecting right now. Please try again, or call us directly at **469.988.4777**.", 'bot');
+            el.className = 'aw-msg is-err';
         }
     }
 
-    // Check if we should show lead capture
+    function addContextActions(reply, question, answer) {
+        var text = (question + ' ' + answer).toLowerCase();
+        if (/semi\s*s[28]|osha/.test(text)) {
+            var resource = document.createElement('a'); resource.className = 'aw-context-resource';
+            resource.href = '/services.html#assessments';
+            resource.innerHTML = ICONS.file + '<span><strong>Assessments &amp; Audits</strong><small>Safety standards and compliance</small></span>';
+            reply.appendChild(resource);
+        }
+        if (/\b(book|schedule|discovery call)\b/.test(text)) {
+            var booking = document.createElement('button'); booking.type = 'button'; booking.className = 'aw-context-resource';
+            booking.textContent = 'Book Your Discovery Call'; booking.addEventListener('click', showBookingCalendar);
+            reply.appendChild(booking);
+        }
+        scrollDown();
+    }
+
     function checkForLeadCapture(userMessage, botResponse) {
-        const leadTriggers = [
-            'proposal', 'quote', 'pricing', 'cost', 'contact', 'call',
-            'reach out', 'talk to someone', 'schedule', 'book'
-        ];
-        
-        const combined = (userMessage + ' ' + botResponse).toLowerCase();
-        const shouldCapture = leadTriggers.some(trigger => combined.includes(trigger));
-        
-        if (shouldCapture && !document.getElementById('aegis-lead-form') && !document.getElementById('aegis-qual-form')) {
-            setTimeout(() => {
-                showQuickReplies([
-                    "📅 Book a discovery call",
-                    "📋 Help me scope my needs",
-                    "Keep chatting"
-                ]);
+        var triggers = ['proposal', 'quote', 'pricing', 'cost', 'contact', 'call', 'reach out', 'talk to someone', 'schedule', 'book'];
+        var combined = ((userMessage || '') + ' ' + botResponse).toLowerCase();
+        var should = triggers.some(function (t) { return combined.indexOf(t) !== -1; });
+        if (should && !$('#aw-lead-form') && !$('#aw-qual-form')) {
+            setTimeout(function () {
+                showQuickReplies(['📅 Book a discovery call', '📋 Help me scope my needs', 'Keep chatting']);
             }, 500);
         }
     }
 
-    // Show qualification form with dropdowns
+    // ---- qualification / booking / lead (unchanged flow) ------------------
     function showQualificationForm() {
-        const inner = document.getElementById('aegis-messages-inner');
-        const scroller = document.getElementById('aegis-messages');
         clearQuickReplies();
+        var old = $('#aw-qual-form');
+        if (old) old.remove();
 
-        // Remove existing form if present
-        const existingForm = document.getElementById('aegis-qual-form');
-        if (existingForm) existingForm.remove();
-
-        const formEl = document.createElement('div');
-        formEl.id = 'aegis-qual-form';
-        formEl.className = 'aegis-qual-form';
-
-        formEl.innerHTML = `
-            <h5>📋 Quick Qualification</h5>
-            <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Help us prepare for your discovery call:</p>
-
-            <div class="aegis-form-group">
-                <label>Company Name</label>
-                <input type="text" id="qual-company" placeholder="Enter your company name..." class="aegis-qual-input">
-            </div>
-
-            <div class="aegis-form-group">
-                <label>Industry</label>
-                <select id="qual-industry">
-                    <option value="">Select industry...</option>
-                    <option value="semiconductor">Semiconductor</option>
-                    <option value="datacenter">Data Center</option>
-                    <option value="construction">Construction</option>
-                    <option value="manufacturing">Manufacturing</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-
-            <div class="aegis-form-group">
-                <label>What do you need?</label>
-                <select id="qual-service">
-                    <option value="">Select service...</option>
-                    <option value="staffing">Staffing Solutions</option>
-                    <option value="audits">Assessments & Audits</option>
-                    <option value="program">Program Development</option>
-                    <option value="vetting">Subcontractor Vetting</option>
-                    <option value="not-sure">Not Sure Yet</option>
-                </select>
-            </div>
-
-            <div class="aegis-form-group">
-                <label>Timeline</label>
-                <select id="qual-timeline">
-                    <option value="">Select timeline...</option>
-                    <option value="asap">ASAP (within 2 weeks)</option>
-                    <option value="1-3months">1-3 months</option>
-                    <option value="3-6months">3-6 months</option>
-                    <option value="planning">6+ months / Planning</option>
-                </select>
-            </div>
-
-            <button onclick="AEGIS.submitQualification()" class="aegis-qual-submit">
-                📅 Book My Discovery Call
-            </button>
-        `;
-
-        inner.appendChild(formEl);
-        scroller.scrollTop = scroller.scrollHeight;
+        var f = document.createElement('div');
+        f.id = 'aw-qual-form';
+        f.className = 'aw-card';
+        f.innerHTML =
+            '<h5>📋 Quick Qualification</h5>' +
+            '<p>Help us prepare for your discovery call:</p>' +
+            '<label>Company Name<input type="text" id="qual-company" placeholder="Enter your company name..."></label>' +
+            '<label>Industry<select id="qual-industry"><option value="">Select industry...</option>' +
+                '<option value="semiconductor">Semiconductor</option><option value="datacenter">Data Center</option>' +
+                '<option value="construction">Construction</option><option value="manufacturing">Manufacturing</option>' +
+                '<option value="other">Other</option></select></label>' +
+            '<label>What do you need?<select id="qual-service"><option value="">Select service...</option>' +
+                '<option value="staffing">Precision Placement</option><option value="audits">Assessments &amp; Audits</option>' +
+                '<option value="program">Program Development</option><option value="vetting">Subcontractor Vetting</option>' +
+                '<option value="not-sure">Not Sure Yet</option></select></label>' +
+            '<label>Timeline<select id="qual-timeline"><option value="">Select timeline...</option>' +
+                '<option value="asap">ASAP (within 2 weeks)</option><option value="1-3months">1-3 months</option>' +
+                '<option value="3-6months">3-6 months</option><option value="planning">6+ months / Planning</option></select></label>' +
+            '<button type="button" class="aw-btn" id="aw-qual-submit">📅 Book My Discovery Call</button>';
+        log.appendChild(f);
+        $('#aw-qual-submit').addEventListener('click', submitQualification);
+        scrollDown();
     }
 
-    // Submit qualification and show booking calendar
-    async function submitQualification() {
-        const company = document.getElementById('qual-company').value.trim();
-        const industry = document.getElementById('qual-industry').value;
-        const service = document.getElementById('qual-service').value;
-        const timeline = document.getElementById('qual-timeline').value;
-
+    function submitQualification() {
+        var company = $('#qual-company').value.trim();
+        var industry = $('#qual-industry').value;
+        var service = $('#qual-service').value;
+        var timeline = $('#qual-timeline').value;
         if (!company || !industry || !service || !timeline) {
-            alert('Please fill out all fields to continue.');
+            var btn = $('#aw-qual-submit');
+            btn.textContent = 'Please fill out all fields';
+            setTimeout(function () { btn.textContent = '📅 Book My Discovery Call'; }, 2200);
             return;
         }
+        $('#aw-qual-form').remove();
 
-        // Remove the form
-        const form = document.getElementById('aegis-qual-form');
-        if (form) form.remove();
+        var industryLabels = { semiconductor: 'Semiconductor', datacenter: 'Data Center', construction: 'Construction', manufacturing: 'Manufacturing', other: 'Other' };
+        var serviceLabels = { staffing: 'Precision Placement', audits: 'Assessments & Audits', program: 'Program Development', vetting: 'Subcontractor Vetting', 'not-sure': 'Not Sure Yet' };
+        var timelineLabels = { asap: 'ASAP', '1-3months': '1-3 months', '3-6months': '3-6 months', planning: '6+ months' };
 
-        // Show user's selections as a message
-        const industryLabels = { semiconductor: 'Semiconductor', datacenter: 'Data Center', construction: 'Construction', manufacturing: 'Manufacturing', other: 'Other' };
-        const serviceLabels = { staffing: 'Staffing Solutions', audits: 'Assessments & Audits', program: 'Program Development', vetting: 'Subcontractor Vetting', 'not-sure': 'Not Sure Yet' };
-        const timelineLabels = { asap: 'ASAP', '1-3months': '1-3 months', '3-6months': '3-6 months', planning: '6+ months' };
+        addMessage('Company: ' + company + '\nIndustry: ' + industryLabels[industry] + '\nService: ' + serviceLabels[service] + '\nTimeline: ' + timelineLabels[timeline], 'user');
+        window.aegisQualData = { company: company, industry: industry, service: service, timeline: timeline };
 
-        addMessage(`Company: ${company}\nIndustry: ${industryLabels[industry]}\nService: ${serviceLabels[service]}\nTimeline: ${timelineLabels[timeline]}`, 'user');
-
-        // Store qualification data
-        window.aegisQualData = { company, industry, service, timeline };
-        
-        // Show bot response and calendar
-        setTimeout(() => {
-            addMessage("Perfect! 🎯 Pick a time that works for you:", 'bot');
-            
-            setTimeout(() => {
-                showBookingCalendar();
-            }, 500);
+        setTimeout(function () {
+            addMessage('Perfect! 🎯 Pick a time that works for you:', 'bot');
+            setTimeout(showBookingCalendar, 500);
         }, 500);
     }
 
-    // Show GHL booking calendar in modal overlay
     function showBookingCalendar() {
-        // Remove existing modal if present
-        const existingModal = document.getElementById('aegis-calendar-modal');
-        if (existingModal) existingModal.remove();
-
-        // Create modal overlay
-        const modalEl = document.createElement('div');
-        modalEl.id = 'aegis-calendar-modal';
-        modalEl.className = 'aegis-calendar-modal';
-
-        modalEl.innerHTML = `
-            <div class="aegis-calendar-modal-backdrop" onclick="AEGIS.closeCalendarModal()"></div>
-            <div class="aegis-calendar-modal-content">
-                <div class="aegis-calendar-modal-header">
-                    <h3>📅 Book Your Discovery Call</h3>
-                    <button class="aegis-calendar-modal-close" onclick="AEGIS.closeCalendarModal()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"/>
-                            <line x1="6" y1="6" x2="18" y2="18"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="aegis-calendar-modal-body">
-                    <iframe
-                        src="https://api.leadconnectorhq.com/widget/booking/56IkA4NNqXU4MQAnpmAh"
-                        style="width: 100%; height: 100%; border: none;"
-                        scrolling="yes"
-                        frameborder="0"
-                    ></iframe>
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(modalEl);
-
-        // Prevent body scroll when modal is open
+        closeCalendarModal();
+        var m = document.createElement('div');
+        m.id = 'aw-calendar-modal';
+        m.className = 'aw-modal';
+        m.innerHTML =
+            '<div class="aw-modal-back"></div>' +
+            '<div class="aw-modal-box">' +
+                '<div class="aw-head"><span class="aw-avatar" aria-hidden="true"><i></i></span>' +
+                '<div class="aw-title"><b>Book Your Discovery Call</b><span>15 minutes · No obligation</span></div>' +
+                '<button class="aw-close" type="button" aria-label="Close">' + ICONS.close + '</button></div>' +
+                '<iframe src="https://api.leadconnectorhq.com/widget/booking/56IkA4NNqXU4MQAnpmAh" scrolling="yes" frameborder="0"></iframe>' +
+            '</div>';
+        document.body.appendChild(m);
+        $('.aw-modal-back', m).addEventListener('click', closeCalendarModal);
+        $('.aw-close', m).addEventListener('click', closeCalendarModal);
         document.body.style.overflow = 'hidden';
 
-        // Load GHL script if not already loaded
         if (!document.getElementById('ghl-form-script')) {
-            const script = document.createElement('script');
-            script.id = 'ghl-form-script';
-            script.src = 'https://link.msgsndr.com/js/form_embed.js';
-            script.type = 'text/javascript';
-            document.body.appendChild(script);
+            var s = document.createElement('script');
+            s.id = 'ghl-form-script';
+            s.src = 'https://link.msgsndr.com/js/form_embed.js';
+            document.body.appendChild(s);
         }
     }
-
-    // Close calendar modal
     function closeCalendarModal() {
-        const modal = document.getElementById('aegis-calendar-modal');
-        if (modal) {
-            modal.remove();
+        var m = $('#aw-calendar-modal');
+        if (m) {
+            m.remove();
             document.body.style.overflow = '';
         }
     }
 
-    // Show lead capture form
     function showLeadForm() {
-        const inner = document.getElementById('aegis-messages-inner');
-        const scroller = document.getElementById('aegis-messages');
-
-        // Remove existing form if present
-        const existingForm = document.getElementById('aegis-lead-form');
-        if (existingForm) existingForm.remove();
-
-        const formEl = document.createElement('div');
-        formEl.id = 'aegis-lead-form';
-        formEl.className = 'aegis-lead-form';
-
-        formEl.innerHTML = `
-            <h5>📅 Book Your Discovery Call</h5>
-            <input type="text" id="lead-name" placeholder="Your name *" required>
-            <input type="email" id="lead-email" placeholder="Email address *" required>
-            <input type="tel" id="lead-phone" placeholder="Phone number *" required>
-            <input type="text" id="lead-company" placeholder="Company name">
-            <button onclick="AEGIS.submitLead()">Schedule My Call →</button>
-        `;
-
-        inner.appendChild(formEl);
-        scroller.scrollTop = scroller.scrollHeight;
+        var old = $('#aw-lead-form');
+        if (old) old.remove();
+        var f = document.createElement('div');
+        f.id = 'aw-lead-form';
+        f.className = 'aw-card';
+        f.innerHTML =
+            '<h5>📅 Book Your Discovery Call</h5>' +
+            '<input type="text" id="lead-name" placeholder="Your name *" required>' +
+            '<input type="email" id="lead-email" placeholder="Email address *" required>' +
+            '<input type="tel" id="lead-phone" placeholder="Phone number *" required>' +
+            '<input type="text" id="lead-company" placeholder="Company name">' +
+            '<button type="button" class="aw-btn" id="aw-lead-submit">Schedule My Call →</button>';
+        log.appendChild(f);
+        $('#aw-lead-submit').addEventListener('click', submitLead);
+        scrollDown();
     }
-
-    // Submit lead
     async function submitLead() {
-        const name = document.getElementById('lead-name').value.trim();
-        const email = document.getElementById('lead-email').value.trim();
-        const phone = document.getElementById('lead-phone').value.trim();
-        const company = document.getElementById('lead-company').value.trim();
-        
+        var name = $('#lead-name').value.trim();
+        var email = $('#lead-email').value.trim();
+        var phone = $('#lead-phone').value.trim();
+        var company = $('#lead-company').value.trim();
         if (!name || !email || !phone) {
-            alert('Please enter your name, email, and phone number.');
+            notice('Please enter your name, email, and phone number.');
             return;
         }
-        
-        // Get qualification data if available
-        const qualData = window.aegisQualData || {};
-        
+        var q = window.aegisQualData || {};
         try {
-            await fetch(`${CONFIG.apiUrl}/lead`, {
+            await fetch(CONFIG.apiUrl + '/lead', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    name,
-                    email,
-                    phone,
-                    company,
-                    industry: qualData.industry,
-                    service: qualData.service,
-                    timeline: qualData.timeline,
-                    conversationHistory,
-                    sessionId
+                    name: name, email: email, phone: phone, company: company,
+                    industry: q.industry, service: q.service, timeline: q.timeline,
+                    conversationHistory: conversationHistory, sessionId: sessionId
                 })
             });
-            
-            // Remove form and show confirmation
-            const form = document.getElementById('aegis-lead-form');
-            form.remove();
-            
-            addMessage(`Thanks ${name}! 🎉\n\nYou're all set! Our team will reach out within 2 hours to schedule your discovery call.\n\nWe'll come prepared to discuss your specific needs. Talk soon!`, 'bot');
-            
+            $('#aw-lead-form').remove();
+            addMessage('Thanks ' + name + '! 🎉\n\nYou\'re all set! Our team will reach out within 2 hours to schedule your discovery call.\n\nWe\'ll come prepared to discuss your specific needs. Talk soon!', 'bot');
         } catch (error) {
             console.error('Lead submission error:', error);
-            addMessage("There was an issue submitting your info. Please call us directly at 469.988.4777 or email info@safety-excellence.com.", 'bot');
+            var el = addMessage('There was an issue submitting your info. Please call us directly at **469.988.4777** or email info@safety-excellence.com.', 'bot');
+            el.className = 'aw-msg is-err';
         }
     }
 
-    // Check API connectivity status
+    // ---- status -----------------------------------------------------------
     async function checkStatus() {
-        const statusEl = document.getElementById('aegis-status');
-        if (!statusEl) return;
-
         try {
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 5000);
-            const res = await fetch(`${CONFIG.apiUrl}/chat`, {
+            var controller = new AbortController();
+            var t = setTimeout(function () { controller.abort(); }, 5000);
+            await fetch(CONFIG.apiUrl + '/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: '', sessionId: 'ping' }),
                 signal: controller.signal
             });
-            clearTimeout(timeout);
-            // Any response (even 400) means server is reachable
-            setOnline(true);
+            clearTimeout(t);
+            setOnline(true); // any response (even 400) means the server is reachable
         } catch (e) {
             setOnline(false);
         }
     }
 
-    // Update online/offline state
-    function setOnline(online) {
-        isOnline = online;
-        const statusEl = document.getElementById('aegis-status');
-        if (!statusEl) return;
-
-        if (online) {
-            statusEl.textContent = 'Online';
-            statusEl.classList.remove('offline');
-        } else {
-            statusEl.textContent = 'Offline';
-            statusEl.classList.add('offline');
-        }
-    }
-
-    // Initialize
+    // ---- init / public API -----------------------------------------------
     function init() {
-        // Wait for DOM
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                createChatbotHTML();
-                checkStatus();
-                statusCheckInterval = setInterval(checkStatus, 30000);
-            });
-        } else {
-            createChatbotHTML();
-            checkStatus();
-            statusCheckInterval = setInterval(checkStatus, 30000);
-        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+        else build();
     }
 
-    // Expose public API
     window.AEGIS = {
-        init,
-        toggle,
-        showDisclaimer,
-        acceptDisclaimer,
-        sendMessage,
-        showLeadForm,
-        submitLead,
-        showQualificationForm,
-        submitQualification,
-        showBookingCalendar,
-        closeCalendarModal,
-        removeAttachment
+        init: init,
+        toggle: toggle,
+        open: open,
+        close: close,
+        showDisclaimer: showDisclaimer,
+        acceptDisclaimer: acceptDisclaimer,
+        sendMessage: sendMessage,
+        showLeadForm: showLeadForm,
+        submitLead: submitLead,
+        showQualificationForm: showQualificationForm,
+        submitQualification: submitQualification,
+        showBookingCalendar: showBookingCalendar,
+        closeCalendarModal: closeCalendarModal,
+        removeAttachment: removeAttachment
     };
 
-    // Auto-initialize
     init();
-
 })();
